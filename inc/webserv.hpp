@@ -8,6 +8,8 @@
 #include <map>
 #include <fstream>
 #include <sstream>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
