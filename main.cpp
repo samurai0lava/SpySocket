@@ -1,8 +1,13 @@
 #include "inc/webserv.hpp"
 
-int main()
+int main(int ac, char **av)
 {
-    // Initialize the web server
-    std::cout << GREEN << "Check..." << RESET << std::endl;
+    if (ac != 2)
+    {
+        std::cerr << "Usage: " << av[0] << " <config_file>" << std::endl;
+        return 1;
+    }
+    
+
     return 0;
 }
