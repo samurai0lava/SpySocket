@@ -18,4 +18,13 @@
 #define RESET "\033[0m"
 
 
+class Webserv {
+
+    private:
+
+
+    public:
+    
+};
+
 #endif 
