@@ -92,8 +92,50 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 
 // first need to get the header field until "\r\n\r\n"
 // split the header fields by \r\n
-// hash table split the key by the value (:)"std::unordered_map" Faster O(1)
+// hash table split the key by the value (:)
 // then we parse the info is it valid or not
 // whitespace problem
 // but how ?
 // hmmmmmmmm
+
+std::string ParsingRequest::get_header_fields(const std::string &request)
+{
+	size_t pos = request.find("\r\n");
+	if (pos == std::string::npos)
+	{
+		std::cerr << "Invalid request format: No start line found." << std::endl;
+		return "";
+	}
+	pos += request.find("\r\n\r\n");
+	if(pos == std::string::npos)
+	{
+		std::cerr << "There is no header" << std::endl;
+		return "";
+	}
+	std::string header = request.substr(0, pos);
+	return header;
+}
+
+std::map<std::string, std::string> ParsingRequest::split_header(const std::string &request)
+{
+
+	//but first lets have a split into lines ended by \r\n 
+	//then split by the key : value 
+	//find the " ; " and have the key and value sperated
+	//then return the map
+
+
+	
+
+	
+
+
+
+
+
+
+
+
+
+
+}
