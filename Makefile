@@ -16,11 +16,16 @@ PURPLE = \033[0;35m
 RESET = \033[0m
 
 all: $(NAME)
+
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 
 %.o: %.cpp
 	$(CC) $(FLAGS) -c $< -o $@
+
+run: $(NAME)
+	@echo "$(GREEN)Running $(NAME)...$(RESET)"
+	@./$(NAME) 
 
 clean:
 	rm -f $(OBJS)
@@ -30,5 +35,5 @@ fclean: clean
 
 re: fclean all	
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re run
 .SECONDARY: $(OBJS)
