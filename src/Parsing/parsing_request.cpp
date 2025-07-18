@@ -74,7 +74,7 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 		std::cerr << "Invalid HTTP version: " << version << std::endl;
 		return false;
 	}
-	//i guess this too 
+	//i guess this too (handle more cases)
 	return true;
 }
 
@@ -92,7 +92,8 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 
 // first need to get the header field until "\r\n\r\n"
 // split the header fields by \r\n
-// hash table split the key by the value (:)
-// then we parse the info is it valid or not 
-// but how
+// hash table split the key by the value (:)"std::unordered_map" Faster O(1)
+// then we parse the info is it valid or not
+// whitespace problem
+// but how ?
 // hmmmmmmmm

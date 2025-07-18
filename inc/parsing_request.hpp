@@ -30,6 +30,8 @@ class ParsingRequest
         bool checkURI(const std::map<std::string, std::string>& start_line);
         bool checkVersion(const std::map<std::string, std::string>& start_line);
 
+        
+
         std::map<std::string, std::string> getStartLine() const { return start_line; }
         std::map<std::string, std::string> getHeaders() const { return headers; }
 
