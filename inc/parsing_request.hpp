@@ -16,24 +16,22 @@ class ParsingRequest
         // std::string request_version;
         std::map<std::string, std::string> start_line;
         std::map<std::string, std::string> headers;
-        std::string body;
 
     public:
-        std::string get_start_line(const std::string &request);
-        std::map<std::string, std::string> split_start_line(const std::string &start_line);
+        std::string get_start_line(const std::string& request);
+        std::map<std::string, std::string> split_start_line(const std::string& start_line);
 
 
 
         // std::string getMethod() const { return request_method; }
         // std::string getURI() const { return request_uri; }
         // std::string getVersion() const { return request_version; }
-        bool checkMethod(const std::map<std::string, std::string> &start_line);
-        bool checkURI(const std::map<std::string, std::string> &start_line);
-        bool checkVersion(const std::map<std::string, std::string> &start_line);
+        bool checkMethod(const std::map<std::string, std::string>& start_line);
+        bool checkURI(const std::map<std::string, std::string>& start_line);
+        bool checkVersion(const std::map<std::string, std::string>& start_line);
 
         std::map<std::string, std::string> getStartLine() const { return start_line; }
         std::map<std::string, std::string> getHeaders() const { return headers; }
-        std::string getBody() const { return body; }
 
 };
 
