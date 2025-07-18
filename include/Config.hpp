@@ -21,6 +21,7 @@ class Config
 		std::string		_configPath; 
 		ConfigStruct _conf; 
         Config(const Config&);
+        std::map<std::string, ConfigStruct> _cluster;
         void _parseServerBlock(std::string serverBlock);
         void _createConfigStruct(std::string server); 
     public:
@@ -29,6 +30,7 @@ class Config
         void StartToSet(std::string configPath);
         void _checkBrackets(std::string buffer);
         void setConfigPath(std::string configPath);
+        void printCluster() const;
         class FileOpenException : public std::exception
 		{
 			public:

@@ -18,6 +18,7 @@ class SingleServerConfig
 {
 	private:
 		ConfigStruct *_conf;
+		bool cbbsSet;
 		void _parseKeyValue(std::string);
 		void _setVariables(std::string config);
 		void _handleLocation(std::string line);
@@ -25,6 +26,27 @@ class SingleServerConfig
 		LocationStruct _fillLocationStruct(std::string block);
 	public:
 		SingleServerConfig(std::string server, ConfigStruct *conf);
+		class NoListenException : public std::exception
+		{
+			public:
+				virtual const char* what() const throw();
+		};
+		class DublicateRootException : public std::exception 
+		{
+			public : 
+				virtual const char * what () const throw ();
+		};
+		class InvalidPathException: public std::exception
+		{
+			public:
+				virtual const char * what () const throw ();
+		};
+		class DuplicateServerNameException: public std::exception
+		{
+			public :
+				virtual const char * what () const throw ();
+		};
+		
 };
 void printConfigStruct(const ConfigStruct &conf);
                      

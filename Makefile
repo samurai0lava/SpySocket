@@ -1,6 +1,6 @@
-SRC =  main.cpp Config.cpp singleserver.cpp print.cpp
-NAME = web
-CC = c++  -std=c++98
+SRC =  src/main.cpp src/Config.cpp src/singleserver.cpp
+NAME = webserv
+CC = c++  -std=c++98 -Wall -Wextra -Werror
 
 all: $(NAME)
 
