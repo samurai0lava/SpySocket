@@ -1,4 +1,4 @@
-#include "Config.hpp"
+#include "../include/Config.hpp"
 
 
 void Config::_parseServerBlock(std::string serverBlock)
@@ -7,22 +7,18 @@ void Config::_parseServerBlock(std::string serverBlock)
 	std::string buffer;
 	std::stringstream serverStream;
 	serverStream << serverBlock;
-	bool serverFound = false;
 	while(serverStream.good())
 	{
 		buffer.clear();
 		std::getline(serverStream, buffer);
-		// std::cout<<"line : "<<buffer<<std::endl;
 		if (buffer.length() == 0)
 			continue ;
 		size_t start = buffer.find_first_not_of("\n\r\t\f\v ");
-		// std::cout<<"start : "<<start<<std::endl;
 		if (start == std::string::npos)
 		{
 			continue ;
 		}
 		size_t end = buffer.find_first_of(";");
-		// std::cout<<"the end : "<<end<<std::endl;
 		if (end == std::string::npos)
 		{
 			end = buffer.find_last_not_of("\n\r\t\f\v ");
@@ -48,18 +44,16 @@ void Config::_createConfigStruct(std::string server)
 {
 	ConfigStruct tmp;
 	tmp.serverName = "";
-	tmp.root = "";
+	tmp.root = "";  
 	tmp.autoIndex = false;
 	if (server.find("server_name") == std::string::npos)
-	{
-		std::cout<<"Throwing exception..."<<std::endl;
-		return ;
-	}
+		throw std::runtime_error("Missing server_name in server configuration");
 	std::string serverName = server.substr(server.find("server_name"));
 	serverName = serverName.substr(serverName.find_first_of(" ") + 1);
 	serverName = serverName.substr(0, serverName.find_first_of("\n"));
 	ConfigStruct confStruct = tmp;
 	SingleServerConfig temp(server, &confStruct);
+	this->_cluster.insert(std::make_pair<std::string, ConfigStruct>(serverName, confStruct));
 
 }
 
@@ -94,7 +88,6 @@ void Config::_checkBrackets(std::string all)
 	std::string buffer;
 	std::stringstream streamBuffer;
 	streamBuffer << all;
-	int i = 0;
 	std::stringstream serverStream;
 	while(streamBuffer.good())
 	{
@@ -102,7 +95,6 @@ void Config::_checkBrackets(std::string all)
 		if(buffer.length() == 0)
 			continue;
 		serverStream << buffer << std::endl;
-		// std::cout<<"hello : "<<serverStream.str()<<std::endl;
 		if(buffer.find("server {") != std::string::npos )
 		{
 			if(openServer == true)
@@ -140,6 +132,8 @@ void Config::_checkBrackets(std::string all)
 			{
 				openServer = false;
 				this->_parseServerBlock(serverStream.str());
+				serverStream.clear();
+				serverStream.str(std::string());
 				buffer.clear();
 			}
 		}
@@ -159,6 +153,55 @@ void Config::_checkBrackets(std::string all)
 void Config::setConfigPath(std::string configPath)
 {
     this->_configPath = configPath;
+}
+
+void Config::printCluster() const {
+	for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it) {
+		const std::string &serverName = it->first;
+		const ConfigStruct &conf = it->second;
+
+		std::cout << "Server: " << serverName << std::endl;
+		std::cout << "\tHost: " << conf.host << std::endl;
+		std::cout << "\tRoot: " << conf.root << std::endl;
+		std::cout << "\tIndex Page: " << conf.indexPage << std::endl;
+		std::cout << "\tAutoIndex: " << (conf.autoIndex ? "true" : "false") << std::endl;
+		std::cout << "\tClient Max Body Size: " << conf.clientMaxBodySize << std::endl;
+
+		std::cout << "\tListen Ports: ";
+		for (size_t i = 0; i < conf.listen.size(); ++i)
+			std::cout << conf.listen[i] << " ";
+		std::cout << std::endl;
+
+		std::cout << "\tError Pages:" << std::endl;
+		for (size_t i = 0; i < conf.errorPage.size(); ++i)
+			std::cout << "\t\t" << conf.errorPage[i].first << " => " << conf.errorPage[i].second << std::endl;
+
+		std::cout << "\tLocation blocks:" << std::endl;
+		for (size_t i = 0; i < conf.location.size(); ++i) {
+			std::cout << "\t\tLocation: " << conf.location[i].first << std::endl;
+			const LocationStruct &loc = conf.location[i].second;
+			std::cout << "\t\t\tRoot: " << loc.root << std::endl;
+			std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
+			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
+			std::cout << "\t\t\tReturn: " << loc._return << std::endl;
+
+			std::cout << "\t\t\tAllowed Methods: ";
+			for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
+				std::cout << *mit << " ";
+			std::cout << std::endl;
+
+			std::cout << "\t\t\tCGI Paths: ";
+			for (size_t j = 0; j < loc.cgi_path.size(); ++j)
+				std::cout << loc.cgi_path[j] << " ";
+			std::cout << std::endl;
+
+			std::cout << "\t\t\tCGI Extensions: ";
+			for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
+				std::cout << loc.cgi_ext[j] << " ";
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+	}
 }
 
 

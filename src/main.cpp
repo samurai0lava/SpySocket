@@ -1,5 +1,5 @@
-#include "singleserver.hpp"
-#include "Config.hpp"
+#include "../include/singleserver.hpp"
+#include "../include/Config.hpp"
 
 static std::string parseArgv(int argc, char **argv)
 {
@@ -20,7 +20,6 @@ static std::string parseArgv(int argc, char **argv)
 		std::cout << "Please use webserv with config file only as follows:" << std::endl  << "./webserv <config_filename.conf>" << std::endl;
 		exit(1);
 	}
-	// std::cout<<"name of the file : "<< sArgv <<std::endl;
 	return (sArgv);
 }
 int main(int argc,char **argv)
@@ -29,6 +28,9 @@ int main(int argc,char **argv)
     try
 	{
 		config->StartToSet(parseArgv(argc, argv));
+		config->printCluster();
+
+
 	}
 	catch (std::exception &e)
 	{
@@ -36,9 +38,6 @@ int main(int argc,char **argv)
 			delete config;
 			return (EXIT_FAILURE);
 	}
-    // std::cout<<"lol"<<std::endl;
-	// After the switch block
-// 
-
+	delete config;
 }
 

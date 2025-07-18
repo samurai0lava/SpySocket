@@ -11,3 +11,4 @@ index (http, server, location)
 autoindex (http, server, location)
 deny (http, server, location, limit_except)
 allow (http, server, location, limit_except)
+-------------------

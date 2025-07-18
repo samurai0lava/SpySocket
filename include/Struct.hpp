@@ -6,6 +6,7 @@
 #include <iostream>
 #include <vector>
 #define WHITESPACE "\n\r\t\f\v "
+#define DECIMAL "0123456789"
 enum
 {
 	listen_,
