@@ -1,5 +1,7 @@
 #include "../../inc/webserv.hpp"
 #include <sstream>
+#include <algorithm>
+#include <cctype>
 
 // parsing request messages
 
@@ -74,7 +76,7 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 		std::cerr << "Invalid HTTP version: " << version << std::endl;
 		return false;
 	}
-	//i guess this too (handle more cases)
+	// i guess this too (handle more cases)
 	return true;
 }
 
@@ -84,10 +86,10 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 // Header fields to handle :
 //-------------------------------------
 // Host : localhost::8080
-// --Content-Length-- used in POST methode to tell how much u have to read from the body 
+// --Content-Length-- used in POST methode to tell how much u have to read from the body
 // (Must used if the tramsfer encoding its not chunked)
 // --Transfer-Encoding : chunked-- ovverides the content lenght if used together
-// --Connection : keep alive or close-- in HTTP/1.1 is by default is keep alive 
+// --Connection : keep alive or close-- in HTTP/1.1 is by default is keep alive
 //-------------------------------------
 
 // first need to get the header field until "\r\n\r\n"
@@ -100,42 +102,68 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 
 std::string ParsingRequest::get_header_fields(const std::string &request)
 {
-	size_t pos = request.find("\r\n");
-	if (pos == std::string::npos)
+	size_t start_line_end = request.find("\r\n");
+	if (start_line_end == std::string::npos)
 	{
 		std::cerr << "Invalid request format: No start line found." << std::endl;
 		return "";
 	}
-	pos += request.find("\r\n\r\n");
-	if(pos == std::string::npos)
+	size_t headers_end = request.find("\r\n\r\n");
+	if (headers_end == std::string::npos)
 	{
-		std::cerr << "There is no header" << std::endl;
+		std::cerr << "Invalid request format: No end of headers found." << std::endl;
 		return "";
 	}
-	std::string header = request.substr(0, pos);
-	return header;
+	size_t headers_start = start_line_end + 2;
+	if (headers_start >= headers_end)
+	{
+		return "";
+	}
+
+	std::string headers = request.substr(headers_start, headers_end - headers_start);
+	return headers;
 }
 
-std::map<std::string, std::string> ParsingRequest::split_header(const std::string &request)
+std::map<std::string, std::string> ParsingRequest::split_header(const std::string &headers)
 {
-
-	//but first lets have a split into lines ended by \r\n 
-	//then split by the key : value 
-	//find the " ; " and have the key and value sperated
-	//then return the map
-
-
+	std::map<std::string, std::string> header_map;
 	
-
+	// Split headers into individual lines
+	std::istringstream stream(headers);
+	std::string line;
 	
-
-
-
-
-
-
-
-
-
-
+	while (std::getline(stream, line))
+	{
+		// Remove \r if present (handles \r\n line endings)
+		if (!line.empty() && line[line.length() - 1] == '\r')
+			line.erase(line.length() - 1);
+			
+		// Skip empty lines
+		if (line.empty())
+			continue;
+			
+		// Find the colon separator
+		size_t colon_pos = line.find(':');
+		if (colon_pos == std::string::npos)
+		{
+			std::cerr << "Invalid header format: " << line << std::endl;
+			continue;
+		}
+		
+		// Extract key and value
+		std::string key = line.substr(0, colon_pos);
+		std::string value = line.substr(colon_pos + 1);
+		
+		// Trim whitespace from key and value
+		// Remove leading/trailing spaces
+		key.erase(0, key.find_first_not_of(" \t"));
+		key.erase(key.find_last_not_of(" \t") + 1);
+		value.erase(0, value.find_first_not_of(" \t"));
+		value.erase(value.find_last_not_of(" \t") + 1);
+		
+		// Convert key to lowercase for case-insensitive comparison
+		std::transform(key.begin(), key.end(), key.begin(), ::tolower);	
+		header_map[key] = value;
+	}
+	return header_map;
 }
