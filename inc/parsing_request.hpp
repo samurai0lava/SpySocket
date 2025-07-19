@@ -19,8 +19,8 @@ public:
     std::string get_start_line(const std::string &request);
     std::map<std::string, std::string> split_start_line(const std::string &start_line);
     std::string get_header_fields(const std::string &request);
-    std::map<std::string, std::string> split_header(const std::string &request);
-
+    std::map<std::string, std::string> split_header(const std::string &headers);
+    std::map<std::string, std::string> handle_request(const std::string &request);
     // std::string getMethod() const { return request_method; }
     // std::string getURI() const { return request_uri; }
     // std::string getVersion() const { return request_version; }
