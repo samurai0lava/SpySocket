@@ -40,6 +40,7 @@ private:
 
     int connection_status; // 0 for closed, 1 for keep-alive
     int content_lenght_exists; // 0 for no content length, 1 for exists
+    int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
 
 
 
@@ -55,6 +56,11 @@ public:
 
     std::map<std::string, std::string> getStartLine() const { return start_line; }
     std::map<std::string, std::string> getHeaders() const { return headers; }
+    bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
+    bool checkContentLength(const std::map<std::string, std::string>& headers);
+    bool checkConnection(const std::map<std::string, std::string>& headers);
+    bool checkContentType(const std::map<std::string, std::string>& headers);
+    bool checkHost(const std::map<std::string, std::string>& headers);
 };
 
 void printMap(const std::map<std::string, std::string>& m);
