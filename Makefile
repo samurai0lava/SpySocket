@@ -1,4 +1,4 @@
-SRC =  src/main.cpp src/Config.cpp src/singleserver.cpp
+SRC =  src/main.cpp src/Config.cpp src/singleserver.cpp src/server.cpp
 NAME = webserv
 CC = c++  -std=c++98 -Wall -Wextra -Werror
 

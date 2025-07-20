@@ -53,7 +53,7 @@ struct ConfigStruct
     std::string								indexPage;
 	bool									autoIndex;
 	size_t									clientMaxBodySize;
-	int listen;
+	std::vector<unsigned short> listen;
 	// std::vector<std::pair<std::string, unsigned short> > listen;
 	std::vector<std::pair<std::string,LocationStruct> > location;
 	std::vector<std::pair<std::string,std::string> > errorPage;

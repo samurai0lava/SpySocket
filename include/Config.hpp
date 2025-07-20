@@ -60,7 +60,7 @@ class Config
 
 };
 
-static std::string parseArgv(int argc, char **argv);
+std::string parseArgv(int argc, char **argv);
 
 
 #endif
