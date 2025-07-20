@@ -167,9 +167,9 @@ void Config::printCluster() const {
 		std::cout << "\tAutoIndex: " << (conf.autoIndex ? "true" : "false") << std::endl;
 		std::cout << "\tClient Max Body Size: " << conf.clientMaxBodySize << std::endl;
 
-		std::cout << "\tListen Ports: ";
-		for (size_t i = 0; i < conf.listen.size(); ++i)
-			std::cout << conf.listen[i] << " ";
+		// std::cout << "\tListen Ports: ";
+		// for (size_t i = 0; i < conf.listen.size(); ++i)
+		// 	std::cout << conf.listen[i] << " ";
 		std::cout << std::endl;
 
 		std::cout << "\tError Pages:" << std::endl;

@@ -22,22 +22,22 @@ static std::string parseArgv(int argc, char **argv)
 	}
 	return (sArgv);
 }
-int main(int argc,char **argv)
-{
-    Config *config = new Config();
-    try
-	{
-		config->StartToSet(parseArgv(argc, argv));
-		config->printCluster();
+// int main(int argc,char **argv)
+// {
+//     Config *config = new Config();
+//     try
+// 	{
+// 		config->StartToSet(parseArgv(argc, argv));
+// 		config->printCluster();
 
 
-	}
-	catch (std::exception &e)
-	{
-			std::cout << e.what() << std::endl;
-			delete config;
-			return (EXIT_FAILURE);
-	}
-	delete config;
-}
+// 	}
+// 	catch (std::exception &e)
+// 	{
+// 			std::cout << e.what() << std::endl;
+// 			delete config;
+// 			return (EXIT_FAILURE);
+// 	}
+// 	delete config;
+// }
 

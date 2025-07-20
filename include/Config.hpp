@@ -21,10 +21,10 @@ class Config
 		std::string		_configPath; 
 		ConfigStruct _conf; 
         Config(const Config&);
-        std::map<std::string, ConfigStruct> _cluster;
         void _parseServerBlock(std::string serverBlock);
         void _createConfigStruct(std::string server); 
     public:
+        std::map<std::string, ConfigStruct> _cluster;
         Config();
         ~Config();
         void StartToSet(std::string configPath);
@@ -59,5 +59,8 @@ class Config
 
 
 };
+
+static std::string parseArgv(int argc, char **argv);
+
 
 #endif
