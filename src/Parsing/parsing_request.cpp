@@ -48,36 +48,91 @@ std::map<std::string, std::string> ParsingRequest::split_start_line(const std::s
 bool ParsingRequest::checkMethod(const std::map<std::string, std::string> &start_line)
 {
 	const std::string &method = start_line.at("method");
+	if (method.empty())
+	{
+		throw BadRequestException("400 Bad Request: HTTP method cannot be empty");
+	}
+	
 	if (method == "GET" || method == "POST" ||
 		method == "DELETE" || method == "HEAD")
 	{
 		return true;
 	}
-	return false;
+	else if (method == "PUT" || method == "PATCH" ||
+			 method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
+	{
+		throw NotImplementedException("501 Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
+	}
+	else
+	{
+		connection_status = 0;
+		throw BadRequestException("400 Bad Request: Invalid HTTP method: '" + method + "'");
+	}
 }
 
 bool ParsingRequest::checkURI(const std::map<std::string, std::string> &start_line)
 {
 	const std::string &uri = start_line.at("uri");
-	if (uri.empty() || uri[0] != '/')
+	
+	if (uri.empty())
 	{
-		std::cerr << "Invalid URI: " << uri << std::endl;
-		return false;
+		connection_status = 0;
+		throw BadRequestException("400 Bad Request: URI cannot be empty");
 	}
-	// need more cases to handle im sure
+	if (uri[0] != '/')
+	{
+		connection_status = 0;
+		throw BadRequestException("400 Bad Request: URI must start with '/' - got: '" + uri + "'");
+	}
+	
+	// RFC 7230 recommends 8000 characters limit
+	if (uri.length() > 8000)
+	{
+		connection_status = 0;
+		throw BadRequestException("400 Bad Request: URI too long (exceeds 8000 characters)");
+	}
+	for (size_t i = 0; i < uri.length(); ++i)
+	{
+		char c = uri[i];
+		// spaces and control characters
+		if (c < 32 || c == 127)
+		{
+			connection_status = 0;
+			throw BadRequestException("400 Bad Request: URI contains invalid control characters");
+		}
+		if (c == ' ')
+		{
+			connection_status = 0;
+			throw BadRequestException("400 Bad Request: URI contains unencoded spaces");
+		}
+	}
 	return true;
 }
 
 bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &start_line)
 {
 	const std::string &version = start_line.at("version");
-	if (version != "HTTP/1.0" && version != "HTTP/1.1")
+
+	if (version.empty())
 	{
-		std::cerr << "Invalid HTTP version: " << version << std::endl;
-		return false;
+		connection_status = 0;
+		throw BadRequestException("400 Bad Request: HTTP version cannot be empty");
 	}
-	// i guess this too (handle more cases)
-	return true;
+	if (version == "HTTP/1.0" || version == "HTTP/1.1")
+	{
+		return true;
+	}
+	else if (version == "HTTP/2" || version == "HTTP/2.0" || 
+			 version == "HTTP/3" || version == "HTTP/3.0")
+	{
+		throw NotImplementedException("HTTP version '" + version + "' is not supported by this server");
+	}
+	else
+	{
+		throw BadRequestException("400 Bad Request: Invalid HTTP version format: '" + version + "'");
+	}
+	return false;
+
 }
 
 // Now lets check for the header fields
@@ -134,17 +189,19 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 	while (std::getline(stream, line))
 	{
 		if (!line.empty() && line[line.length() - 1] == '\r')
-			line.erase(line.length() - 1);			
+			line.erase(line.length() - 1);
+			
 		if (line.empty())
 			continue;
+			
 		size_t colon_pos = line.find(':');
 		if (colon_pos == std::string::npos)
 		{
-			std::cerr << "Invalid header format: " << line << std::endl;
-			continue;
+			throw BadRequestException("400 Bad Request: Invalid header format - missing colon in line: '" + line + "'");
 		}
 		std::string key = line.substr(0, colon_pos);
 		std::string value = line.substr(colon_pos + 1);
+		
 		key.erase(0, key.find_first_not_of(" \t"));
 		key.erase(key.find_last_not_of(" \t") + 1);
 		value.erase(0, value.find_first_not_of(" \t"));
@@ -154,5 +211,53 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 	}
 	return header_map;
 }
+
+//check the trannfer encoding
+
+//check the content length
+//check the connection status
+//check the content type
+//check the host
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+std::map<std::string, std::string> ParsingRequest::handle_request(const std::string &request)
+{
+	std::map<std::string, std::string> parsed_request;
+	
+	std::string start_line_str = get_start_line(request);
+	if (start_line_str.empty())
+	{
+		throw BadRequestException("400 Bad Request: No start line found in request");
+	}
+	
+	parsed_request = split_start_line(start_line_str);
+	checkMethod(parsed_request);
+	checkURI(parsed_request);
+	checkVersion(parsed_request);
+	
+	std::string headers_str = get_header_fields(request);
+	if (headers_str.empty())
+	{
+		throw BadRequestException("400 Bad Request: No headers found in request");
+	}
+	headers = split_header(headers_str);
+	return parsed_request;
+}
+
+
+
 
 
