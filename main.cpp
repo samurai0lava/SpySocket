@@ -29,8 +29,8 @@ int main()
 		"{\"name\":\"Updated User\",\"age\":25}";
 
 	// Real-world POST request example (form submission or API call)
-	std::string request_dummy2 = "PosT /api/users HTTP/1.1\r\n"
-		"Host: localhost:8080\r\n"
+	std::string request_dummy2 = "POST /api/users HTTP/1.1\r\n"
+		"Host :        localhost\r\n"
 		"User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\r\n"
 		"Accept: application/json, text/plain, */*\r\n"
 		"Accept-Language: en-US,en;q=0.9,fr;q=0.8\r\n"
@@ -51,9 +51,9 @@ int main()
 	
 	try {
 		parsed_request = request.handle_request(request_dummy2);
-		std::cout << "Parsed Request Start Line:" << std::endl;
+		std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
 		printMap(parsed_request);
-		std::cout << "Parsed Request Headers:" << std::endl;
+		std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
 		printMap(request.getHeaders());
 	}
 	catch (const std::exception& e)
@@ -64,9 +64,9 @@ int main()
 	try
 	{
 		parsed_request = request.handle_request(request_valid);
-		std::cout << "Parsed Request Start Line:" << std::endl;
+		std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
 		printMap(parsed_request);
-		std::cout << "Parsed Request Headers:" << std::endl;
+		std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
 		printMap(request.getHeaders());
 	}
 	catch (const std::exception& e)
@@ -75,9 +75,10 @@ int main()
 	}
 	try {
 		parsed_request = request.handle_request(request_not_implemented);
-		std::cout << "Parsed Request Start Line:" << std::endl;
+		std::cout << std::endl;
+		std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
 		printMap(parsed_request);
-		std::cout << "Parsed Request Headers:" << std::endl;
+		std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
 		printMap(request.getHeaders());
 	}
 	catch (const std::exception& e)

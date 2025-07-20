@@ -197,13 +197,43 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 		size_t colon_pos = line.find(':');
 		if (colon_pos == std::string::npos)
 		{
+			connection_status = 0;
 			throw BadRequestException("400 Bad Request: Invalid header format - missing colon in line: '" + line + "'");
 		}
+		
 		std::string key = line.substr(0, colon_pos);
 		std::string value = line.substr(colon_pos + 1);
 		
-		key.erase(0, key.find_first_not_of(" \t"));
-		key.erase(key.find_last_not_of(" \t") + 1);
+		if (!key.empty() && (key[key.length() - 1] == ' ' || key[key.length() - 1] == '\t'))
+		{
+			connection_status = 0;
+			throw BadRequestException("400 Bad Request: Invalid header name - trailing whitespace not allowed: '" + key + "'");
+		}
+		if (!key.empty() && (key[0] == ' ' || key[0] == '\t'))
+		{
+			connection_status = 0;
+			throw BadRequestException("400 Bad Request: Invalid header name - leading whitespace not allowed: '" + key + "'");
+		}
+		
+		// (must be tokens per RFC 7230)
+		for (size_t i = 0; i < key.length(); ++i)
+		{
+			char c = key[i];
+			if (c < 33 || c > 126 || c == '(' || c == ')' || c == '<' || c == '>' || 
+				c == '@' || c == ',' || c == ';' || c == ':' || c == '\\' || 
+				c == '"' || c == '/' || c == '[' || c == ']' || c == '?' || 
+				c == '=' || c == '{' || c == '}')
+			{
+				connection_status = 0;
+				throw BadRequestException("400 Bad Request: Invalid character in header name: '" + std::string(1, c) + "'");
+			}
+		}
+		if (key.empty())
+		{
+			connection_status = 0;
+			throw BadRequestException("Empty header name not allowed");
+		}
+		
 		value.erase(0, value.find_first_not_of(" \t"));
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);	
@@ -212,7 +242,7 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 	return header_map;
 }
 
-//check the trannfer encoding
+//check the transfer encoding
 
 //check the content length
 //check the connection status
