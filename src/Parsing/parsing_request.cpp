@@ -50,7 +50,8 @@ bool ParsingRequest::checkMethod(const std::map<std::string, std::string> &start
 	const std::string &method = start_line.at("method");
 	if (method.empty())
 	{
-		throw BadRequestException("400 Bad Request: HTTP method cannot be empty");
+		logError(400, "Bad Request: HTTP method cannot be empty");
+		return false;
 	}
 	
 	if (method == "GET" || method == "POST" ||
@@ -61,13 +62,17 @@ bool ParsingRequest::checkMethod(const std::map<std::string, std::string> &start
 	else if (method == "PUT" || method == "PATCH" ||
 			 method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
 	{
-		throw NotImplementedException("501 Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
+		connection_status = 0;
+		logError(501, "Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
+		return false;
 	}
 	else
 	{
 		connection_status = 0;
-		throw BadRequestException("400 Bad Request: Invalid HTTP method: '" + method + "'");
+		logError(400, "Bad Request: Invalid HTTP method: '" + method + "'");
+		return false;
 	}
+	return false;
 }
 
 bool ParsingRequest::checkURI(const std::map<std::string, std::string> &start_line)
@@ -77,19 +82,22 @@ bool ParsingRequest::checkURI(const std::map<std::string, std::string> &start_li
 	if (uri.empty())
 	{
 		connection_status = 0;
-		throw BadRequestException("400 Bad Request: URI cannot be empty");
+		logError(400, "Bad Request: URI cannot be empty");
+		return false;
 	}
 	if (uri[0] != '/')
 	{
 		connection_status = 0;
-		throw BadRequestException("400 Bad Request: URI must start with '/' - got: '" + uri + "'");
+		logError(400, "Bad Request: URI must start with '/' - got: '" + uri + "'");
+		return false;
 	}
 	
 	// RFC 7230 recommends 8000 characters limit
 	if (uri.length() > 8000)
 	{
 		connection_status = 0;
-		throw BadRequestException("400 Bad Request: URI too long (exceeds 8000 characters)");
+		logError(400, "Bad Request: URI too long (exceeds 8000 characters)");
+		return false;
 	}
 	for (size_t i = 0; i < uri.length(); ++i)
 	{
@@ -98,12 +106,14 @@ bool ParsingRequest::checkURI(const std::map<std::string, std::string> &start_li
 		if (c < 32 || c == 127)
 		{
 			connection_status = 0;
-			throw BadRequestException("400 Bad Request: URI contains invalid control characters");
+			logError(400, "Bad Request: URI contains invalid control characters");
+			return false;
 		}
 		if (c == ' ')
 		{
 			connection_status = 0;
-			throw BadRequestException("400 Bad Request: URI contains unencoded spaces");
+			logError(400, "Bad Request: URI contains unencoded spaces");
+			return false;
 		}
 	}
 	return true;
@@ -116,23 +126,14 @@ bool ParsingRequest::checkVersion(const std::map<std::string, std::string> &star
 	if (version.empty())
 	{
 		connection_status = 0;
-		throw BadRequestException("400 Bad Request: HTTP version cannot be empty");
+		logError(400, "Bad Request: HTTP version cannot be empty");
+		return false;
 	}
 	if (version == "HTTP/1.0" || version == "HTTP/1.1")
 	{
 		return true;
 	}
-	else if (version == "HTTP/2" || version == "HTTP/2.0" || 
-			 version == "HTTP/3" || version == "HTTP/3.0")
-	{
-		throw NotImplementedException("HTTP version '" + version + "' is not supported by this server");
-	}
-	else
-	{
-		throw BadRequestException("400 Bad Request: Invalid HTTP version format: '" + version + "'");
-	}
 	return false;
-
 }
 
 // Now lets check for the header fields
@@ -198,7 +199,7 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 		if (colon_pos == std::string::npos)
 		{
 			connection_status = 0;
-			throw BadRequestException("400 Bad Request: Invalid header format - missing colon in line: '" + line + "'");
+			logError(400, "Bad Request: Invalid header format - no colon found in line: '" + line + "'");
 		}
 		
 		std::string key = line.substr(0, colon_pos);
@@ -207,12 +208,12 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 		if (!key.empty() && (key[key.length() - 1] == ' ' || key[key.length() - 1] == '\t'))
 		{
 			connection_status = 0;
-			throw BadRequestException("400 Bad Request: Invalid header name - trailing whitespace not allowed: '" + key + "'");
+			logError(400, "Bad Request: Invalid header name - trailing whitespace not allowed: '" + key + "'");
 		}
 		if (!key.empty() && (key[0] == ' ' || key[0] == '\t'))
 		{
 			connection_status = 0;
-			throw BadRequestException("400 Bad Request: Invalid header name - leading whitespace not allowed: '" + key + "'");
+			logError(400, "Bad Request: Invalid header name - leading whitespace not allowed: '" + key + "'");
 		}
 		
 		// (must be tokens per RFC 7230)
@@ -225,13 +226,13 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 				c == '=' || c == '{' || c == '}')
 			{
 				connection_status = 0;
-				throw BadRequestException("400 Bad Request: Invalid character in header name: '" + std::string(1, c) + "'");
+				logError(400, "Bad Request: Invalid character in header name: '" + std::string(1, c) + "'");
 			}
 		}
 		if (key.empty())
 		{
 			connection_status = 0;
-			throw BadRequestException("400 Bad Request: Empty header name not allowed");
+			logError(400, "Bad Request: Empty header name not allowed");
 		}
 		
 		value.erase(0, value.find_first_not_of(" \t"));
@@ -253,21 +254,92 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
 {
 	//check the Transfer Encodue value
-	//if is other than chanked return a NotImplementedException
+	//if is other than chunked return a NotImplementedException
 	//and if its chunked set the transfer encoding exists and its chunked
 	
+
 }
 
+bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &headers)
+{
+	//check the Connection value
+	//if exists set the connection status to 1
+	//if not exists set the connection status to 0
+	// default is keep-alive for HTTP/1.1
+	if (headers.find("connection") != headers.end())
+	{
+		std::string connection_value = headers.at("connection");
+		if (connection_value == "keep-alive")
+		{
+			connection_status = 1;
+			return true;
+		}
+		else if (connection_value == "close")
+		{
+			connection_status = 0;
+			return true;
+		}
+		else
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Invalid Connection header value - must be 'keep-alive' or 'close'");
+			return false;
+		}
+	}
+	connection_status = 1;
+	return true;
+}
 
-
-
-
-
-
-
-
-
-
+bool ParsingRequest::checkContentLength(const std::map<std::string, std::string> &headers)
+{
+	//check the Content Length value
+	//if exists set the content length exists to 1
+	//if not exists set the content length exists to 0
+	if (headers.find("content-length") != headers.end())
+	{
+		content_lenght_exists = 1;
+		std::string content_length_str = headers.at("content-length");
+		if (content_length_str.empty())
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Content-Length header cannot be empty");
+			return false;
+		}
+		for (size_t i = 0; i < content_length_str.length(); ++i)
+		{
+			if (!isdigit(content_length_str[i]))
+			{
+				connection_status = 0;
+				logError(400, "Bad Request: Content-Length header must be a valid integer - got: '" + content_length_str + "'");
+				return false;
+			}
+		}
+		int content_length;
+		std::istringstream iss(content_length_str);
+		iss >> content_length;
+		if (iss.fail() || !iss.eof())
+		{  
+			connection_status = 0;
+			logError(400, "Bad Request: Content-Length header must be a valid integer - got: '" + content_length_str + "'");
+			return false;
+		}
+		if (content_length < 0)
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Content-Length header cannot be negative - got: '" + content_length_str + "'");
+			return false;
+		}
+		if (content_length > 8000)
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Content-Length header exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'");
+			return false;
+		}
+		return true;
+	}
+	content_lenght_exists = 0;
+	return false;
+}
 
 std::map<std::string, std::string> ParsingRequest::handle_request(const std::string &request)
 {
@@ -276,24 +348,26 @@ std::map<std::string, std::string> ParsingRequest::handle_request(const std::str
 	std::string start_line_str = get_start_line(request);
 	if (start_line_str.empty())
 	{
-		throw BadRequestException("400 Bad Request: No start line found in request");
+		logError(400, "Bad Request: No start line found in request");
 	}
 	
 	parsed_request = split_start_line(start_line_str);
-	checkMethod(parsed_request);
-	checkURI(parsed_request);
-	checkVersion(parsed_request);
-	
+	if(checkURI(parsed_request) == false || checkMethod(parsed_request) == false || checkVersion(parsed_request) == false)
+	{
+		parsed_request.clear();
+		return parsed_request;
+	}
 	std::string headers_str = get_header_fields(request);
 	if (headers_str.empty())
 	{
-		throw BadRequestException("400 Bad Request: No headers found in request");
+		logError(400, "Bad Request: No headers found in request");
 	}
 	headers = split_header(headers_str);
+	if(checkConnection(headers) == false)
+	{
+		headers.clear();
+		return headers;
+	}
 	return parsed_request;
 }
-
-
-
-
 
