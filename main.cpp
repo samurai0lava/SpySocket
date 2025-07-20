@@ -3,7 +3,6 @@
 int main()
 {
 
-	// Invalid request with typo (should trigger BadRequestException)
 	std::string request_dummy = "GeT /index.html HTTP/1.1\r\n"
 		"Host: localhost:8080\r\n"
 		"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\r\n"
@@ -12,7 +11,6 @@ int main()
 		"Accept-Encoding: gzip, deflate\r\n"
 		"Connection: keep-alive\r\n\r\n";
 
-	// Valid GET request
 	std::string request_valid = "GET /index.html HTTP/1.1\r\n"
 		"Host: localhost:8080\r\n"
 		"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\r\n"
@@ -21,14 +19,12 @@ int main()
 		"Accept-Encoding: gzip, deflate\r\n"
 		"Connection: keep-alive\r\n\r\n";
 
-	// Not implemented method (should trigger NotImplementedException)
 	std::string request_not_implemented = "PUT /api/users HTTP/1.1\r\n"
 		"Host: localhost:8080\r\n"
 		"Content-Type: application/json\r\n"
 		"Content-Length: 45\r\n\r\n"
 		"{\"name\":\"Updated User\",\"age\":25}";
 
-	// Real-world POST request example (form submission or API call)
 	std::string request_dummy2 = "POST /api/users HTTP/1.1\r\n"
 		"Host :        localhost\r\n"
 		"User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36\r\n"
@@ -85,5 +81,6 @@ int main()
 	{
 		std::cerr << e.what() << '\n';
 	}
+	return 0;
 
 }

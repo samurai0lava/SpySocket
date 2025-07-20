@@ -231,7 +231,7 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 		if (key.empty())
 		{
 			connection_status = 0;
-			throw BadRequestException("Empty header name not allowed");
+			throw BadRequestException("400 Bad Request: Empty header name not allowed");
 		}
 		
 		value.erase(0, value.find_first_not_of(" \t"));
@@ -250,7 +250,13 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 //check the host
 
 
-
+bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
+{
+	//check the Transfer Encodue value
+	//if is other than chanked return a NotImplementedException
+	//and if its chunked set the transfer encoding exists and its chunked
+	
+}
 
 
 
