@@ -128,42 +128,31 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 {
 	std::map<std::string, std::string> header_map;
 	
-	// Split headers into individual lines
 	std::istringstream stream(headers);
 	std::string line;
 	
 	while (std::getline(stream, line))
 	{
-		// Remove \r if present (handles \r\n line endings)
 		if (!line.empty() && line[line.length() - 1] == '\r')
-			line.erase(line.length() - 1);
-			
-		// Skip empty lines
+			line.erase(line.length() - 1);			
 		if (line.empty())
 			continue;
-			
-		// Find the colon separator
 		size_t colon_pos = line.find(':');
 		if (colon_pos == std::string::npos)
 		{
 			std::cerr << "Invalid header format: " << line << std::endl;
 			continue;
 		}
-		
-		// Extract key and value
 		std::string key = line.substr(0, colon_pos);
 		std::string value = line.substr(colon_pos + 1);
-		
-		// Trim whitespace from key and value
-		// Remove leading/trailing spaces
 		key.erase(0, key.find_first_not_of(" \t"));
 		key.erase(key.find_last_not_of(" \t") + 1);
 		value.erase(0, value.find_first_not_of(" \t"));
 		value.erase(value.find_last_not_of(" \t") + 1);
-		
-		// Convert key to lowercase for case-insensitive comparison
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);	
 		header_map[key] = value;
 	}
 	return header_map;
 }
+
+

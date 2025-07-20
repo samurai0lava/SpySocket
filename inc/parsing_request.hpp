@@ -13,7 +13,7 @@ private:
     // std::string request_uri;
     // std::string request_version;
     std::map<std::string, std::string> start_line;
-    std::map<std::string, std::string> headers;
+    std::map<std::string, std::string> headers;    
 
 public:
     std::string get_start_line(const std::string &request);
