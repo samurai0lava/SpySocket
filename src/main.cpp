@@ -1,7 +1,7 @@
 #include "../include/singleserver.hpp"
 #include "../include/Config.hpp"
 
-static std::string parseArgv(int argc, char **argv)
+std::string parseArgv(int argc, char **argv)
 {
 	std::string defaultConfPath ="file.conf";
 	if (argc == 1)
@@ -22,6 +22,8 @@ static std::string parseArgv(int argc, char **argv)
 	}
 	return (sArgv);
 }
+
+
 // int main(int argc,char **argv)
 // {
 //     Config *config = new Config();
