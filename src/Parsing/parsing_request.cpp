@@ -253,14 +253,29 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 //check the transfer encoding
 
 
-// bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
-// {
-// 	//check the Transfer Encodue value
-// 	//if is other than chunked return a NotImplementedException
-// 	//and if its chunked set the transfer encoding exists and its chunked
-	
-
-// }
+bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
+{
+	//check the Transfer Encodue value
+	//if is other than chunked return a NotImplementedException
+	//and if its chunked set the transfer encoding exists and its chunked
+	if (headers.find("transfer-encoding") != headers.end())
+	{
+		transfer_encoding_exists = 1;
+		std::string transfer_value;
+		if (transfer_value == "gzip" || transfer_value == "deflate" || transfer_value == "compress")
+		{
+			logError(501, "Not Implemented: HTTP Tranfer-Encoding value not supported");
+			return false;
+		}
+		else
+		{
+			logError(400, "Bad Request: HTTP Tranfer-Encoding value does not exist");
+			return false;
+		}
+	}
+	transfer_encoding_exists = 0;
+	return (true);
+}
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &headers)
 {
