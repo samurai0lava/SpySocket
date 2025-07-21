@@ -253,29 +253,29 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 //check the transfer encoding
 
 
-bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
-{
-	//check the Transfer Encodue value
-	//if is other than chunked return a NotImplementedException
-	//and if its chunked set the transfer encoding exists and its chunked
-	if (headers.find("transfer-encoding") != headers.end())
-	{
-		transfer_encoding_exists = 1;
-		std::string transfer_value;
-		if (transfer_value == "gzip" || transfer_value == "deflate" || transfer_value == "compress")
-		{
-			logError(501, "Not Implemented: HTTP Tranfer-Encoding value not supported");
-			return false;
-		}
-		else
-		{
-			logError(400, "Bad Request: HTTP Tranfer-Encoding value does not exist");
-			return false;
-		}
-	}
-	transfer_encoding_exists = 0;
-	return (true);
-}
+// bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
+// {
+// 	//check the Transfer Encodue value
+// 	//if is other than chunked return a NotImplementedException
+// 	//and if its chunked set the transfer encoding exists and its chunked
+// 	if (headers.find("transfer-encoding") != headers.end())
+// 	{
+// 		transfer_encoding_exists = 1;
+// 		std::string transfer_value;
+// 		if (transfer_value == "gzip" || transfer_value == "deflate" || transfer_value == "compress")
+// 		{
+// 			logError(501, "Not Implemented: HTTP Tranfer-Encoding value not supported");
+// 			return false;
+// 		}
+// 		else
+// 		{
+// 			logError(400, "Bad Request: HTTP Tranfer-Encoding value does not exist");
+// 			return false;
+// 		}
+// 	}
+// 	transfer_encoding_exists = 0;
+// 	return (true);
+// }
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &headers)
 {
@@ -403,4 +403,159 @@ bool ParsingRequest::handle_request(const std::string &request)
 	
 	return true;
 }
+
+// // NGINX-style incremental parsing implementation
+// ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
+// {
+// 	buffer.append(data, len);
+	
+// 	// State machine loop
+// 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
+// 	{
+// 		switch (current_state)
+// 		{
+// 			case PARSE_START_LINE:
+// 				if (!parse_start_line())
+// 					return PARSE_AGAIN; // Need more data
+// 				current_state = PARSE_HEADERS;
+// 				break;
+				
+// 			case PARSE_HEADERS:
+// 				if (!parse_headers())
+// 					return PARSE_AGAIN; // Need more data
+// 				// Check if we need to parse body
+// 				if (content_lenght_exists && expected_body_length > 0)
+// 					current_state = PARSE_BODY;
+// 				else
+// 					current_state = PARSE_COMPLETE;
+// 				break;
+				
+// 			case PARSE_BODY:
+// 				if (!parse_body())
+// 					return PARSE_AGAIN; // Need more data
+// 				current_state = PARSE_COMPLETE;
+// 				break;
+				
+// 			default:
+// 				break;
+// 		}
+// 	}
+	
+// 	if (current_state == PARSE_ERROR)
+// 		return PARSE_ERROR_400;
+	
+// 	return PARSE_OK;
+// }
+
+// bool ParsingRequest::parse_start_line()
+// {
+// 	size_t crlf_pos;
+// 	if (!find_crlf(crlf_pos))
+// 		return false; // Need more data
+	
+// 	// Extract start line
+// 	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
+// 	buffer_pos = crlf_pos + 2; // Skip CRLF
+	
+// 	// Parse start line
+// 	start_line = split_start_line(start_line_str);
+	
+// 	// Validate start line
+// 	try {
+// 		if (!checkMethod(start_line) || !checkURI(start_line) || !checkVersion(start_line))
+// 		{
+// 			current_state = PARSE_ERROR;
+// 			return false;
+// 		}
+// 	} catch (...) {
+// 		current_state = PARSE_ERROR;
+// 		return false;
+// 	}
+	
+// 	return true;
+// }
+
+// bool ParsingRequest::parse_headers()
+// {
+// 	std::string headers_str;
+	
+// 	// Find end of headers (double CRLF)
+// 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
+// 	if (double_crlf == std::string::npos)
+// 		return false; // Need more data
+	
+// 	// Extract headers
+// 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
+// 	buffer_pos = double_crlf + 4; // Skip double CRLF
+	
+// 	// Parse headers
+// 	headers = split_header(headers_str);
+	
+// 	// Validate headers
+// 	try {
+// 		if (!checkHost(headers) || !checkConnection(headers))
+// 		{
+// 			current_state = PARSE_ERROR;
+// 			return false;
+// 		}
+		
+// 		// Check content length for body parsing
+// 		if (checkContentLength(headers) && content_lenght_exists)
+// 		{
+// 			std::string content_length_str = headers.at("content-length");
+// 			std::istringstream iss(content_length_str);
+// 			iss >> expected_body_length;
+// 		}
+// 	} catch (...) {
+// 		current_state = PARSE_ERROR;
+// 		return false;
+// 	}
+	
+// 	return true;
+// }
+
+// bool ParsingRequest::parse_body()
+// {
+// 	size_t available = buffer.length() - buffer_pos;
+// 	if (available < expected_body_length)
+// 		return false;
+// 	body_content = buffer.substr(buffer_pos, expected_body_length);
+// 	buffer_pos += expected_body_length;
+	
+// 	return true;
+// }
+
+// bool ParsingRequest::find_crlf(size_t& pos)
+// {
+// 	pos = buffer.find("\r\n", buffer_pos);
+// 	return (pos != std::string::npos);
+// }
+
+// ParsingRequest::ParseResult ParsingRequest::get_parse_status() const
+// {
+// 	switch (current_state)
+// 	{
+// 		case PARSE_COMPLETE:
+// 			return PARSE_OK;
+// 		case PARSE_ERROR:
+// 			return PARSE_ERROR_400;
+// 		default:
+// 			return PARSE_AGAIN;
+// 	}
+// }
+
+// void ParsingRequest::reset()
+// {
+// 	current_state = PARSE_START_LINE;
+// 	buffer.clear();
+// 	buffer_pos = 0;
+// 	expected_body_length = 0;
+// 	body_content.clear();
+// 	start_line.clear();
+// 	headers.clear();
+// 	connection_status = 1;
+// 	content_lenght_exists = 0;
+// 	transfer_encoding_exists = 0;
+// 	host_exists = 0;
+// }
 
