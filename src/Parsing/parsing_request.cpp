@@ -62,7 +62,7 @@ bool ParsingRequest::checkMethod(const std::map<std::string, std::string> &start
 	else if (method == "PUT" || method == "PATCH" ||
 			 method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
 	{
-		connection_status = 0;
+		connection_status = 1;
 		logError(501, "Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
 		return false;
 	}
@@ -238,27 +238,29 @@ std::map<std::string, std::string> ParsingRequest::split_header(const std::strin
 		value.erase(0, value.find_first_not_of(" \t"));
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);	
+		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 		header_map[key] = value;
 	}
 	return header_map;
 }
 
+
+//check the content length (DOONE)
+//check the connection status (DOONE)
+//check the host (DOONE)
+
+//check the content type
 //check the transfer encoding
 
-//check the content length
-//check the connection status
-//check the content type
-//check the host
 
-
-bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
-{
-	//check the Transfer Encodue value
-	//if is other than chunked return a NotImplementedException
-	//and if its chunked set the transfer encoding exists and its chunked
+// bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string> &headers)
+// {
+// 	//check the Transfer Encodue value
+// 	//if is other than chunked return a NotImplementedException
+// 	//and if its chunked set the transfer encoding exists and its chunked
 	
 
-}
+// }
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &headers)
 {
@@ -338,36 +340,52 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		return true;
 	}
 	content_lenght_exists = 0;
+	return true;
+}
+
+bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers)
+{
+	if (headers.find("host") != headers.end())
+	{
+		host_exists = 1;
+		return true;
+	}
+	host_exists = 0;
+	connection_status = 0;
+	logError(400, "Bad Request: Host header is missing");
 	return false;
 }
 
-std::map<std::string, std::string> ParsingRequest::handle_request(const std::string &request)
+bool ParsingRequest::handle_request(const std::string &request)
 {
-	std::map<std::string, std::string> parsed_request;
-	
 	std::string start_line_str = get_start_line(request);
 	if (start_line_str.empty())
 	{
 		logError(400, "Bad Request: No start line found in request");
+		return false; 
 	}
 	
-	parsed_request = split_start_line(start_line_str);
-	if(checkURI(parsed_request) == false || checkMethod(parsed_request) == false || checkVersion(parsed_request) == false)
+	start_line = split_start_line(start_line_str);
+	if(checkURI(start_line) == false || checkMethod(start_line) == false || checkVersion(start_line) == false)
 	{
-		parsed_request.clear();
-		return parsed_request;
+		start_line.clear();
+		return false; 
 	}
+	
 	std::string headers_str = get_header_fields(request);
 	if (headers_str.empty())
 	{
 		logError(400, "Bad Request: No headers found in request");
+		return false; 
 	}
+	
 	headers = split_header(headers_str);
-	if(checkConnection(headers) == false)
+	if(checkConnection(headers) == false || checkHost(headers) == false || checkContentLength(headers) == false)
 	{
-		headers.clear();
-		return headers;
+		headers.clear(); 
+		return false; 
 	}
-	return parsed_request;
+	
+	return true;
 }
 
