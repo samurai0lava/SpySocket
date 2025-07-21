@@ -40,6 +40,7 @@ private:
     int connection_status; // 0 for closed, 1 for keep-alive
     int content_lenght_exists; // 0 for no content length, 1 for exists
     int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
+    int host_exists; // 0 for no host, 1 for exists
 
 
 
@@ -49,7 +50,7 @@ public:
     std::map<std::string, std::string> split_start_line(const std::string& start_line);
     std::string get_header_fields(const std::string& request);
     std::map<std::string, std::string> split_header(const std::string& headers);
-    std::map<std::string, std::string> handle_request(const std::string& request);
+    bool handle_request(const std::string& request);
     bool checkMethod(const std::map<std::string, std::string>& start_line);
     bool checkURI(const std::map<std::string, std::string>& start_line);
     bool checkVersion(const std::map<std::string, std::string>& start_line);
@@ -59,6 +60,7 @@ public:
     int getConnectionStatus() const { return connection_status; }
     int getContentLengthExists() const { return content_lenght_exists; }
     int getTransferEncodingExists() const { return transfer_encoding_exists; }
+    int getHostExists() const { return host_exists; }
     bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
     bool checkContentLength(const std::map<std::string, std::string>& headers);
     bool checkConnection(const std::map<std::string, std::string>& headers);

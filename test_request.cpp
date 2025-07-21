@@ -1,10 +1,32 @@
 #include "inc/webserv.hpp"
 
+void test_request(std::string request, ParsingRequest &parsingRequest)
+{
+    if (parsingRequest.handle_request(request))
+    {
+        std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
+        std::map<std::string, std::string> start_line = parsingRequest.getStartLine();
+        printMap(start_line);
+        std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
+        std::map<std::string, std::string> headers = parsingRequest.getHeaders();
+        printMap(headers);
+    }
+
+}
+
+void print_status(ParsingRequest &parsingRequest)
+{
+    std::cout << YELLOW "Connection Status: " RESET << parsingRequest.getConnectionStatus() << std::endl;
+    std::cout << YELLOW "Content Length Exists: " RESET << parsingRequest.getContentLengthExists() << std::endl;
+    std::cout << YELLOW "Transfer Encoding Exists: " RESET << parsingRequest.getTransferEncodingExists() << std::endl;
+    std::cout << YELLOW "Host Exists: " RESET << parsingRequest.getHostExists() << std::endl;
+}
+
 int main()
 {
 
     std::string request_dummy = "GET /index.html HTTP/1.1\r\n"
-        "Host: localhost:8080\r\n"
+        // "HOST: LOCALHOST:8080\r\n"
         "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3\r\n"
         "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n"
         "Accept-Language: en-US,en;q=0.5\r\n"
@@ -43,45 +65,20 @@ int main()
         "{\"name\":\"John Doe\",\"email\":\"john@example.com\",\"password\":\"secretpass123\"}";
 
     ParsingRequest request;
-    std::map<std::string, std::string> parsed_request;
 
-
-    parsed_request = request.handle_request(request_dummy);
-    if (!(parsed_request.empty()))
-    {
-        std::cout << BLUE "Parsed Request Start Line: 2" RESET << std::endl;
-        printMap(parsed_request);
-        std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
-        printMap(request.getHeaders());
-    }
-
-    parsed_request = request.handle_request(request_valid);
-    if (!(parsed_request.empty()))
-    {
-        std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
-        printMap(parsed_request);
-        std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
-        printMap(request.getHeaders());
-    }    
-    
-    parsed_request = request.handle_request(request_not_implemented);
-    if (!(parsed_request.empty()))
-    {
-        std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
-        printMap(parsed_request);
-        std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
-        printMap(request.getHeaders());
-    }
-
-    parsed_request = request.handle_request(request_dummy2);
-    if (!(parsed_request.empty()))
-    {
-        std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
-        printMap(parsed_request);
-        std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
-        printMap(request.getHeaders());
-    }
-
+    test_request(request_dummy, request);
+    std::cout << std::endl;
+    print_status(request);
+    std::cout << std::endl;
+    test_request(request_valid, request);
+    std::cout << std::endl;
+    print_status(request);
+    std::cout << std::endl;
+    test_request(request_not_implemented, request);
+    std::cout << std::endl;
+    print_status(request);
+    std::cout << std::endl;
+    test_request(request_dummy2, request);
+    print_status(request);
     return 0;
-
 }
