@@ -84,16 +84,6 @@ public:
     bool is_complete() const { return current_state == PARSE_COMPLETE; }
     void reset(); // Reset parser state for new request
     
-    // Legacy methods (for compatibility)
-    std::string get_start_line(const std::string& request);
-    std::map<std::string, std::string> split_start_line(const std::string& start_line);
-    std::string get_header_fields(const std::string& request);
-    std::map<std::string, std::string> split_header(const std::string& headers);
-    bool handle_request(const std::string& request);
-    bool checkMethod(const std::map<std::string, std::string>& start_line);
-    bool checkURI(const std::map<std::string, std::string>& start_line);
-    bool checkVersion(const std::map<std::string, std::string>& start_line);
-
     std::map<std::string, std::string> getStartLine() const { return start_line; }
     std::map<std::string, std::string> getHeaders() const { return headers; }
     std::string getBody() const { return body_content; }

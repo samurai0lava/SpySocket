@@ -1,9 +1,11 @@
 #include "../../inc/webserv.hpp"
 
 
-// NGINX-style incremental parsing implementation
+// NGINX-style incremental parsing implementation (like wtfffff)
 
 
+
+// Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
 	buffer.append(data, len);
@@ -15,14 +17,14 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 		{
 			case PARSE_START_LINE:
 				if (!parse_start_line())
-					return PARSE_AGAIN; // Need more data
-				current_state = PARSE_HEADERS;
+					return PARSE_AGAIN; // Need more data because the start line is not complete
+				current_state = PARSE_HEADERS; // Move to headers parsing
 				break;
 				
 			case PARSE_HEADERS:
 				if (!parse_headers())
-					return PARSE_AGAIN; // Need more data
-				// Check if we need to parse body
+					return PARSE_AGAIN; // Need more data because headers are not complete
+				// Check if we need to parse body 
 				if (content_lenght_exists && expected_body_length > 0)
 					current_state = PARSE_BODY;
 				else
@@ -31,7 +33,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 				
 			case PARSE_BODY:
 				if (!parse_body())
-					return PARSE_AGAIN; // Need more data
+					return PARSE_AGAIN; // Need more data because body is not complete
 				current_state = PARSE_COMPLETE;
 				break;
 				
@@ -55,25 +57,92 @@ bool ParsingRequest::parse_start_line()
 	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
 	buffer_pos = crlf_pos + 2;
 
-	std::map<std::string, std::string> parsed_start_line;
+	// Parse start line directly (integrate split_start_line logic)
 	std::istringstream ss(start_line_str);
 	std::string method, uri, version;
 
 	ss >> method >> uri >> version;
 
-	parsed_start_line["method"] = method;
-	parsed_start_line["uri"] = uri;
-	parsed_start_line["version"] = version;
+	start_line["method"] = method;
+	start_line["uri"] = uri;
+	start_line["version"] = version;
+
+	// Validate method directly (needs a separate method bool checkMethod(const std::string& method))
+	if (method.empty())
+	{
+		logError(400, "Bad Request: HTTP method cannot be empty");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+
+	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
+	{
+		connection_status = 1;
+		logError(501, "Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: Invalid HTTP method: '" + method + "'");
+		current_state = PARSE_ERROR;
+		return false;
+	}
 	
-	start_line = parsed_start_line;
-	
-	try {
-		if (!checkMethod(start_line) || !checkURI(start_line) || !checkVersion(start_line))
+	// Validate URI directly (needs a separate method bool checkURI(const std::string& uri))
+	if (uri.empty())
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: URI cannot be empty");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	if (uri[0] != '/')
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: URI must start with '/' - got: '" + uri + "'");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	if (uri.length() > 8000)
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: URI too long (exceeds 8000 characters)");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	for (size_t i = 0; i < uri.length(); ++i)
+	{
+		char c = uri[i];
+		if (c < 32 || c == 127)
 		{
+			connection_status = 0;
+			logError(400, "Bad Request: URI contains invalid control characters");
 			current_state = PARSE_ERROR;
 			return false;
 		}
-	} catch (...) {
+		if (c == ' ')
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: URI contains unencoded spaces");
+			current_state = PARSE_ERROR;
+			return false;
+		}
+	}
+	
+	// Validate version directly (need a separate method bool checkVersion(const std::string& version))
+	if (version.empty())
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: HTTP version cannot be empty");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	if (version != "HTTP/1.0" && version != "HTTP/1.1")
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: Invalid HTTP version: '" + version + "'");
 		current_state = PARSE_ERROR;
 		return false;
 	}
@@ -85,7 +154,6 @@ bool ParsingRequest::parse_headers()
 {
 	std::string headers_str;
 	
-	// Find end of headers (double CRLF)
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 		return false; // Need more data
@@ -93,7 +161,6 @@ bool ParsingRequest::parse_headers()
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
 	buffer_pos = double_crlf + 4; // Skip double CRLF
 
-	// Parse headers
 	std::map<std::string, std::string> header_map;
 	std::istringstream stream(headers_str);
 	std::string line;
@@ -193,6 +260,7 @@ bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &h
 	//if exists set the connection status to 1
 	//if not exists set the connection status to 0
 	// default is keep-alive for HTTP/1.1
+
 	if (headers.find("connection") != headers.end())
 	{
 		std::string connection_value = headers.at("connection");
@@ -222,6 +290,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 	//check the Content Length value
 	//if exists set the content length exists to 1
 	//if not exists set the content length exists to 0
+
 	if (headers.find("content-length") != headers.end())
 	{
 		content_lenght_exists = 1;
@@ -268,6 +337,8 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 	return true;
 }
 
+// i guess its need mor edge cases to handle
+//too look after
 bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("host") != headers.end())
@@ -281,137 +352,7 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 	return false;
 }
 
-
-
-bool ParsingRequest::parse_start_line()
-{
-	size_t crlf_pos;
-	if (!find_crlf(crlf_pos))
-		return false;
-
-	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
-	buffer_pos = crlf_pos + 2;
-	start_line = split_start_line(start_line_str);
-	try {
-		if (!checkMethod(start_line) || !checkURI(start_line) || !checkVersion(start_line))
-		{
-			current_state = PARSE_ERROR;
-			return false;
-		}
-	} catch (...) {
-		current_state = PARSE_ERROR;
-		return false;
-	}
-	
-	return true;
-}
-
-bool ParsingRequest::parse_headers()
-{
-	std::string headers_str;
-	
-	// Find end of headers (double CRLF)
-	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
-	if (double_crlf == std::string::npos)
-		return false; // Need more data
-
-	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
-	buffer_pos = double_crlf + 4; // Skip double CRLF
-
-	// Parse headers directly
-	std::map<std::string, std::string> header_map;
-	std::istringstream stream(headers_str);
-	std::string line;
-	
-	while (std::getline(stream, line))
-	{
-		if (!line.empty() && line[line.length() - 1] == '\r')
-			line.erase(line.length() - 1);
-			
-		if (line.empty())
-			continue;
-			
-		size_t colon_pos = line.find(':');
-		if (colon_pos == std::string::npos)
-		{
-			connection_status = 0;
-			logError(400, "Bad Request: Invalid header format - no colon found in line: '" + line + "'");
-			current_state = PARSE_ERROR;
-			return false;
-		}
-		
-		std::string key = line.substr(0, colon_pos);
-		std::string value = line.substr(colon_pos + 1);
-		
-		if (!key.empty() && (key[key.length() - 1] == ' ' || key[key.length() - 1] == '\t'))
-		{
-			connection_status = 0;
-			logError(400, "Bad Request: Invalid header name - trailing whitespace not allowed: '" + key + "'");
-			current_state = PARSE_ERROR;
-			return false;
-		}
-		if (!key.empty() && (key[0] == ' ' || key[0] == '\t'))
-		{
-			connection_status = 0;
-			logError(400, "Bad Request: Invalid header name - leading whitespace not allowed: '" + key + "'");
-			current_state = PARSE_ERROR;
-			return false;
-		}
-		
-		// Validate header name characters (must be tokens per RFC 7230)
-		for (size_t i = 0; i < key.length(); ++i)
-		{
-			char c = key[i];
-			if (c < 33 || c > 126 || c == '(' || c == ')' || c == '<' || c == '>' || 
-				c == '@' || c == ',' || c == ';' || c == ':' || c == '\\' || 
-				c == '"' || c == '/' || c == '[' || c == ']' || c == '?' || 
-				c == '=' || c == '{' || c == '}')
-			{
-				connection_status = 0;
-				logError(400, "Bad Request: Invalid character in header name: '" + std::string(1, c) + "'");
-				current_state = PARSE_ERROR;
-				return false;
-			}
-		}
-		if (key.empty())
-		{
-			connection_status = 0;
-			logError(400, "Bad Request: Empty header name not allowed");
-			current_state = PARSE_ERROR;
-			return false;
-		}
-		
-		value.erase(0, value.find_first_not_of(" \t"));
-		value.erase(value.find_last_not_of(" \t") + 1);
-		std::transform(key.begin(), key.end(), key.begin(), ::tolower);	
-		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		header_map[key] = value;
-	}
-	
-	headers = header_map;
-
-	try {
-		if (!checkHost(headers) || !checkConnection(headers))
-		{
-			current_state = PARSE_ERROR;
-			return false;
-		}
-		
-		// Check content length for body parsing
-		if (checkContentLength(headers) && content_lenght_exists)
-		{
-			std::string content_length_str = headers.at("content-length");
-			std::istringstream iss(content_length_str);
-			iss >> expected_body_length;
-		}
-	} catch (...) {
-		current_state = PARSE_ERROR;
-		return false;
-	}
-	
-	return true;
-}
-
+//parsing body if available
 bool ParsingRequest::parse_body()
 {
 	size_t available = buffer.length() - buffer_pos;
@@ -423,37 +364,5 @@ bool ParsingRequest::parse_body()
 	return true;
 }
 
-bool ParsingRequest::find_crlf(size_t& pos)
-{
-	pos = buffer.find("\r\n", buffer_pos);
-	return (pos != std::string::npos);
-}
 
-ParsingRequest::ParseResult ParsingRequest::get_parse_status() const
-{
-	switch (current_state)
-	{
-		case PARSE_COMPLETE:
-			return PARSE_OK;
-		case PARSE_ERROR:
-			return PARSE_ERROR_400;
-		default:
-			return PARSE_AGAIN;
-	}
-}
-
-void ParsingRequest::reset()
-{
-	current_state = PARSE_START_LINE;
-	buffer.clear();
-	buffer_pos = 0;
-	expected_body_length = 0;
-	body_content.clear();
-	start_line.clear();
-	headers.clear();
-	connection_status = 1;
-	content_lenght_exists = 0;
-	transfer_encoding_exists = 0;
-	host_exists = 0;
-}
 
