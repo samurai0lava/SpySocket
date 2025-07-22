@@ -6,52 +6,6 @@
 // void simulate_network_chunks();
 
 // int main() {
-//     std::cout << BLUE "🚀 Webserv HTTP Parser Testing" RESET << std::endl;
-    
-//     // Test 1: Legacy parsing (all data at once)
-//     test_legacy_parsing();
-    
-//     std::cout << std::endl;
-    
-//     // Test 2: NGINX-style incremental parsing
-//     test_incremental_parsing();
-    
-//     std::cout << std::endl;
-    
-//     // Test 3: Simulate real network conditions
-//     simulate_network_chunks();
-    
-//     return 0;
-// }
-
-// void test_legacy_parsing() {
-//     std::cout << BLUE "=== Test 1: Legacy Parsing (Complete Request) ===" RESET << std::endl;
-    
-//     std::string complete_request = 
-//         "POST /api/users HTTP/1.1\r\n"
-//         "Host: localhost:8080\r\n"
-//         "Content-Length: 27\r\n"
-//         "Content-Type: application/json\r\n"
-//         "Connection: keep-alive\r\n"
-//         "\r\n"
-//         "{\"name\":\"John\",\"age\":30}";
-    
-//     ParsingRequest parser;
-    
-//     if (parser.handle_request(complete_request)) {
-//         std::cout << GREEN "✅ Legacy parsing successful!" RESET << std::endl;
-        
-//         std::map<std::string, std::string> start_line = parser.getStartLine();
-//         std::map<std::string, std::string> headers = parser.getHeaders();
-        
-//         std::cout << "Method: " << start_line["method"] << std::endl;
-//         std::cout << "URI: " << start_line["uri"] << std::endl;
-//         std::cout << "Version: " << start_line["version"] << std::endl;
-//         std::cout << "Headers count: " << headers.size() << std::endl;
-//     } else {
-//         std::cout << RED "❌ Legacy parsing failed!" RESET << std::endl;
-//     }
-// }
 
 // void test_incremental_parsing() {
 //     std::cout << BLUE "=== Test 2: Incremental Parsing (NGINX-style) ===" RESET << std::endl;

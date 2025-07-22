@@ -1,18 +1,18 @@
 #include "inc/webserv.hpp"
 
-void test_request(std::string request, ParsingRequest& parsingRequest)
-{
-    if (parsingRequest.handle_request(request))
-    {
-        std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
-        std::map<std::string, std::string> start_line = parsingRequest.getStartLine();
-        printMap(start_line);
-        std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
-        std::map<std::string, std::string> headers = parsingRequest.getHeaders();
-        printMap(headers);
-    }
+// void test_request(std::string request, ParsingRequest& parsingRequest)
+// {
+//     if (parsingRequest.handle_request(request))
+//     {
+//         std::cout << BLUE "Parsed Request Start Line:" RESET << std::endl;
+//         std::map<std::string, std::string> start_line = parsingRequest.getStartLine();
+//         printMap(start_line);
+//         std::cout << BLUE "Parsed Request Headers:" RESET << std::endl;
+//         std::map<std::string, std::string> headers = parsingRequest.getHeaders();
+//         printMap(headers);
+//     }
 
-}
+// }
 
 void print_status(ParsingRequest& parsingRequest)
 {
@@ -85,24 +85,5 @@ int main()
         "\r\n";
 
 
-    ParsingRequest request;
-
-    test_request(request_dummy, request);
-    std::cout << std::endl;
-    print_status(request);
-    std::cout << std::endl;
-    test_request(request_valid, request);
-    std::cout << std::endl;
-    print_status(request);
-    std::cout << std::endl;
-    test_request(request_not_implemented, request);
-    std::cout << std::endl;
-    print_status(request);
-    std::cout << std::endl;
-    test_request(request_dummy2, request);
-    print_status(request);
-    std::cout << std::endl;
-    test_request(request_post, request);
-    print_status(request);
     return 0;
 }
