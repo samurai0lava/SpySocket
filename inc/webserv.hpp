@@ -10,6 +10,9 @@
 #include <sstream>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <sstream>
+#include <algorithm>
+#include <cctype>
 #include "Methods.hpp"
 #include "parsing_request.hpp"
 
