@@ -6,30 +6,9 @@
 #include <map>
 #include <exception>
 
-// class BadRequestException : public std::exception
-// {
-//     private:
-//         std::string message;
-//     public:
-//         BadRequestException(const std::string& msg) : message(msg) {}
-//         virtual const char* what() const throw() { return message.c_str(); }
-//         virtual ~BadRequestException() throw() {}
-// };
-
-// class NotImplementedException : public std::exception
-// {
-//     private:
-//         std::string message;
-//     public:
-//         NotImplementedException(const std::string& msg) : message(msg) {}
-//         virtual const char* what() const throw() { return message.c_str(); }
-//         virtual ~NotImplementedException() throw() {}
-// };
-
 
 class ParsingRequest
 {
-    // Parsing states
     enum ParseState {
         PARSE_START_LINE,
         PARSE_HEADERS,
@@ -38,7 +17,7 @@ class ParsingRequest
         PARSE_ERROR
     };
 
-private:
+protected:
     // std::string request_method;
     // std::string request_uri;
     // std::string request_version;
@@ -50,28 +29,26 @@ private:
     int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
     int host_exists; // 0 for no host, 1 for exists
     
-    // State machine variables
-    ParseState current_state;
+    // State machine 
+    ParseState current_state; 
     std::string buffer; // Accumulates incoming data
     size_t buffer_pos; // Current position in buffer
-    size_t expected_body_length;
-    std::string body_content;
-    
-    // Internal parsing methods
+    size_t expected_body_length; // From the Content-Length header value
+    std::string body_content; // Parsed body content if available
+
     bool parse_start_line();
     bool parse_headers();
     bool parse_body();
     bool find_crlf(size_t& pos);
-    bool has_complete_line();
+    // bool has_complete_line();
 
 public:
-    // Constructor
     ParsingRequest() : connection_status(1), content_lenght_exists(0), 
                       transfer_encoding_exists(0), host_exists(0),
                       current_state(PARSE_START_LINE), buffer_pos(0), 
                       expected_body_length(0) {}
     
-    // NGINX-style incremental parsing
+    // bitch ass NGINX-style incremental parsing
     enum ParseResult {
         PARSE_OK,        // Parsing successful
         PARSE_AGAIN,     // Need more data
@@ -92,9 +69,12 @@ public:
     int getTransferEncodingExists() const { return transfer_encoding_exists; }
     int getHostExists() const { return host_exists; }
     bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
+    bool checkURI(const std::string& uri);
+    bool checkVersion(const std::string& verion);
     bool checkContentLength(const std::map<std::string, std::string>& headers);
     bool checkConnection(const std::map<std::string, std::string>& headers);
     bool checkContentType(const std::map<std::string, std::string>& headers);
+    bool checkMethod(const std::string& method);
     bool checkHost(const std::map<std::string, std::string>& headers);
 };
 

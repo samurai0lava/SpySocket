@@ -5,92 +5,8 @@
 
 
 
-// Feed data to the parser 
-ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
+bool ParsingRequest::checkURI(const std::string& uri)
 {
-	buffer.append(data, len);
-	
-	// State machine loop
-	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
-	{
-		switch (current_state)
-		{
-			case PARSE_START_LINE:
-				if (!parse_start_line())
-					return PARSE_AGAIN; // Need more data because the start line is not complete
-				current_state = PARSE_HEADERS; // Move to headers parsing
-				break;
-				
-			case PARSE_HEADERS:
-				if (!parse_headers())
-					return PARSE_AGAIN; // Need more data because headers are not complete
-				// Check if we need to parse body 
-				if (content_lenght_exists && expected_body_length > 0)
-					current_state = PARSE_BODY;
-				else
-					current_state = PARSE_COMPLETE;
-				break;
-				
-			case PARSE_BODY:
-				if (!parse_body())
-					return PARSE_AGAIN; // Need more data because body is not complete
-				current_state = PARSE_COMPLETE;
-				break;
-				
-			default:
-				break;
-		}
-	}
-	
-	if (current_state == PARSE_ERROR)
-		return PARSE_ERROR_400;
-	
-	return PARSE_OK;
-}
-
-bool ParsingRequest::parse_start_line()
-{
-	size_t crlf_pos;
-	if (!find_crlf(crlf_pos))
-		return false;
-
-	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
-	buffer_pos = crlf_pos + 2;
-
-	// Parse start line directly (integrate split_start_line logic)
-	std::istringstream ss(start_line_str);
-	std::string method, uri, version;
-
-	ss >> method >> uri >> version;
-
-	start_line["method"] = method;
-	start_line["uri"] = uri;
-	start_line["version"] = version;
-
-	// Validate method directly (needs a separate method bool checkMethod(const std::string& method))
-	if (method.empty())
-	{
-		logError(400, "Bad Request: HTTP method cannot be empty");
-		current_state = PARSE_ERROR;
-		return false;
-	}
-
-	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
-	{
-		connection_status = 1;
-		logError(501, "Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
-		current_state = PARSE_ERROR;
-		return false;
-	}
-	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
-	{
-		connection_status = 0;
-		logError(400, "Bad Request: Invalid HTTP method: '" + method + "'");
-		current_state = PARSE_ERROR;
-		return false;
-	}
-	
-	// Validate URI directly (needs a separate method bool checkURI(const std::string& uri))
 	if (uri.empty())
 	{
 		connection_status = 0;
@@ -130,8 +46,11 @@ bool ParsingRequest::parse_start_line()
 			return false;
 		}
 	}
-	
-	// Validate version directly (need a separate method bool checkVersion(const std::string& version))
+
+	return true;
+}
+bool ParsingRequest::checkVersion(const std::string& version)
+{
 	if (version.empty())
 	{
 		connection_status = 0;
@@ -146,14 +65,82 @@ bool ParsingRequest::parse_start_line()
 		current_state = PARSE_ERROR;
 		return false;
 	}
-	
+	return true;
+}
+
+bool ParsingRequest::checkMethod(const std::string& method)
+{
+	if (method.empty())
+	{
+		logError(400, "Bad Request: HTTP method cannot be empty");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+
+	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
+	{
+		connection_status = 1;
+		logError(501, "Not Implemented: HTTP method '" + method + "' is not implemented by our webserver :(");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
+	{
+		connection_status = 0;
+		logError(400, "Bad Request: Invalid HTTP method: '" + method + "'");
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	return true;
+}
+
+
+bool ParsingRequest::parse_start_line()
+{
+	size_t crlf_pos;
+	if (!find_crlf(crlf_pos))
+		return false;
+
+	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
+	buffer_pos = crlf_pos + 2;
+
+	// Parse start line directly
+	std::istringstream ss(start_line_str);
+	std::string method, uri, version;
+
+	ss >> method >> uri >> version;
+
+	start_line["method"] = method;
+	start_line["uri"] = uri;
+	start_line["version"] = version;
+
+	// Validate method directly (needs a separate method bool checkMethod(const std::string& method)) wili wili lkhar
+	if (!checkMethod(method))
+	{
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	// Validate URI directly (needs a separate method bool checkURI(const std::string& uri)) sf done l3zz
+	if (!checkURI(uri))
+	{
+		current_state = PARSE_ERROR;
+		return false;
+	}
+
+	// Validate version directly (need a separate method bool checkVersion(const std::string& version)) hta hya done l3zz
+	if (!checkVersion(version))
+	{
+		current_state = PARSE_ERROR;
+		return false;
+	}
+
 	return true;
 }
 
 bool ParsingRequest::parse_headers()
 {
 	std::string headers_str;
-	
+
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 		return false; // Need more data
@@ -164,15 +151,15 @@ bool ParsingRequest::parse_headers()
 	std::map<std::string, std::string> header_map;
 	std::istringstream stream(headers_str);
 	std::string line;
-	
+
 	while (std::getline(stream, line))
 	{
 		if (!line.empty() && line[line.length() - 1] == '\r')
 			line.erase(line.length() - 1);
-			
+
 		if (line.empty())
 			continue;
-			
+
 		size_t colon_pos = line.find(':');
 		if (colon_pos == std::string::npos)
 		{
@@ -181,10 +168,10 @@ bool ParsingRequest::parse_headers()
 			current_state = PARSE_ERROR;
 			return false;
 		}
-		
+
 		std::string key = line.substr(0, colon_pos);
 		std::string value = line.substr(colon_pos + 1);
-		
+
 		if (!key.empty() && (key[key.length() - 1] == ' ' || key[key.length() - 1] == '\t'))
 		{
 			connection_status = 0;
@@ -199,14 +186,14 @@ bool ParsingRequest::parse_headers()
 			current_state = PARSE_ERROR;
 			return false;
 		}
-		
+
 		// Validate header name characters (must be tokens per RFC 7230)
 		for (size_t i = 0; i < key.length(); ++i)
 		{
 			char c = key[i];
-			if (c < 33 || c > 126 || c == '(' || c == ')' || c == '<' || c == '>' || 
-				c == '@' || c == ',' || c == ';' || c == ':' || c == '\\' || 
-				c == '"' || c == '/' || c == '[' || c == ']' || c == '?' || 
+			if (c < 33 || c > 126 || c == '(' || c == ')' || c == '<' || c == '>' ||
+				c == '@' || c == ',' || c == ';' || c == ':' || c == '\\' ||
+				c == '"' || c == '/' || c == '[' || c == ']' || c == '?' ||
 				c == '=' || c == '{' || c == '}')
 			{
 				connection_status = 0;
@@ -222,14 +209,14 @@ bool ParsingRequest::parse_headers()
 			current_state = PARSE_ERROR;
 			return false;
 		}
-		
+
 		value.erase(0, value.find_first_not_of(" \t"));
 		value.erase(value.find_last_not_of(" \t") + 1);
-		std::transform(key.begin(), key.end(), key.begin(), ::tolower);	
+		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
 		header_map[key] = value;
 	}
-	
+
 	headers = header_map;
 
 	try {
@@ -238,7 +225,7 @@ bool ParsingRequest::parse_headers()
 			current_state = PARSE_ERROR;
 			return false;
 		}
-		
+
 		// Check content length for body parsing
 		if (checkContentLength(headers) && content_lenght_exists)
 		{
@@ -246,15 +233,16 @@ bool ParsingRequest::parse_headers()
 			std::istringstream iss(content_length_str);
 			iss >> expected_body_length;
 		}
-	} catch (...) {
+	}
+	catch (...) {
 		current_state = PARSE_ERROR;
 		return false;
 	}
-	
+
 	return true;
 }
 
-bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &headers)
+bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& headers)
 {
 	//check the Connection value
 	//if exists set the connection status to 1
@@ -285,7 +273,7 @@ bool ParsingRequest::checkConnection(const std::map<std::string, std::string> &h
 	return true;
 }
 
-bool ParsingRequest::checkContentLength(const std::map<std::string, std::string> &headers)
+bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>& headers)
 {
 	//check the Content Length value
 	//if exists set the content length exists to 1
@@ -314,7 +302,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		std::istringstream iss(content_length_str);
 		iss >> content_length;
 		if (iss.fail() || !iss.eof())
-		{  
+		{
 			connection_status = 0;
 			logError(400, "Bad Request: Content-Length header must be a valid integer - got: '" + content_length_str + "'");
 			return false;
@@ -360,9 +348,50 @@ bool ParsingRequest::parse_body()
 		return false;
 	body_content = buffer.substr(buffer_pos, expected_body_length);
 	buffer_pos += expected_body_length;
-	
+
 	return true;
 }
 
 
+// Feed data to the parser 
+ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
+{
+	buffer.append(data, len);
 
+	// State machine loop
+	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
+	{
+		switch (current_state)
+		{
+		case PARSE_START_LINE:
+			if (!parse_start_line())
+				return PARSE_AGAIN; // Need more data because the start line is not complete
+			current_state = PARSE_HEADERS; // Move to headers parsing
+			break;
+
+		case PARSE_HEADERS:
+			if (!parse_headers())
+				return PARSE_AGAIN; // Need more data because headers are not complete
+			// Check if we need to parse body 
+			if (content_lenght_exists && expected_body_length > 0)
+				current_state = PARSE_BODY;
+			else
+				current_state = PARSE_COMPLETE;
+			break;
+
+		case PARSE_BODY:
+			if (!parse_body())
+				return PARSE_AGAIN; // Need more data because body is not complete
+			current_state = PARSE_COMPLETE;
+			break;
+
+		default:
+			break;
+		}
+	}
+
+	if (current_state == PARSE_ERROR)
+		return PARSE_ERROR_400;
+
+	return PARSE_OK;
+}
