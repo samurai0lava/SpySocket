@@ -2,7 +2,7 @@ CC = c++
 
 FLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = test_request.cpp src/Parsing/parsing_request.cpp src/Parsing/utils/utils.cpp
+SRCS = main.cpp src/Parsing/parsing_request.cpp src/Parsing/utils/utils.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
