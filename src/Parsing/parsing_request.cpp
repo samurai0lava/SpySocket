@@ -217,7 +217,8 @@ bool ParsingRequest::parse_headers()
 	headers = header_map;
 
 	try {
-		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers))
+		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || 
+			!checkTransferEncoding(headers))
 		{
 			current_state = PARSE_ERROR;
 			return false;
@@ -338,8 +339,31 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 	return false;
 }
 
-bool checkTransferEncoding(const std::map<std::string, std::string>& headers)
+bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string>& headers)
 {
+	if (headers.find("transfer-encoding") != headers.end())
+	{
+		std::string transfer_encoding_value = headers.at("transfer-encoding");
+		transfer_encoding_exists = 1;
+		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")
+		{
+			logError(501, "Not Implemented: Transfer-Encoding '" + transfer_encoding_value + "' is not implemented by our webserver :(");
+			return false;
+		}
+		else if (transfer_encoding_value != "chunked")
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Invalid Transfer-Encoding header value - must be 'chunked'");
+			return false;
+		}
+	}
+	else
+	{
+		transfer_encoding_exists = 0;
+		return true;
+	}
+	return true;
+}
 
 
 }
