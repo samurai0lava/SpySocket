@@ -7,7 +7,7 @@ void simulate_network_chunks() {
     std::string full_request = 
         "POST /submit HTTP/1.1\r\n"
         "Host: example.com\r\n"
-        "Content-Length: 13\r\n"
+        "Content-Length: l\r\n"
         "Content-Type: text/plain\r\n"
         "\r\n"
         "Hello, World!";
@@ -23,7 +23,7 @@ void simulate_network_chunks() {
         ParsingRequest::ParseResult result = parser.feed_data(&single_byte, 1);
         
         // Only print status every 10 bytes to avoid spam
-        if (i % 10 == 0 || result != ParsingRequest::PARSE_AGAIN) {
+        // if (i % 10 == 0 || result != ParsingRequest::PARSE_AGAIN) {
             std::cout << "Byte " << i << ": ";
             switch (result) {
                 case ParsingRequest::PARSE_OK:
@@ -33,12 +33,17 @@ void simulate_network_chunks() {
                     std::cout << BLUE "Continue..." RESET << std::endl;
                     break;
                 case ParsingRequest::PARSE_ERROR_400:
-                    std::cout << RED "Error 400" RESET << std::endl;
+                    std::cout << RED "Error 400 - stopping test" RESET << std::endl;
                     return;
                 case ParsingRequest::PARSE_ERROR_501:
-                    std::cout << RED "Error 501" RESET << std::endl;
+                    std::cout << RED "Error 501 - stopping test" RESET << std::endl;
                     return;
-            }
+            // }
+        }
+        
+        // Stop immediately if there's an error, even if we didn't print it
+        if (result == ParsingRequest::PARSE_ERROR_400 || result == ParsingRequest::PARSE_ERROR_501) {
+            return;
         }
         
         if (parser.is_complete()) {
@@ -72,7 +77,7 @@ int main() {
     
     // Simulate data arriving in chunks
     std::vector<std::string> chunks;
-    chunks.push_back("GET /api/data HTTP/1.1\r\n");
+    chunks.push_back("GET /api/data HTTP/11\r\n");
     chunks.push_back("Host: localhost:8080\r\n");
     chunks.push_back("User-Agent: TestClient/1.0\r\n");
     chunks.push_back("Accept: application/json\r\n");
@@ -95,11 +100,11 @@ int main() {
                 std::cout << BLUE "🔄 Need more data..." RESET << std::endl;
                 break;
             case ParsingRequest::PARSE_ERROR_400:
-                std::cout << RED "❌ Bad Request (400)" RESET << std::endl;
-                return 1;
+                std::cout << RED "❌ Bad Request (400) - stopping this test" RESET << std::endl;
+                goto next_test; // Jump to next test
             case ParsingRequest::PARSE_ERROR_501:
-                std::cout << RED "❌ Not Implemented (501)" RESET << std::endl;
-                return 1;
+                std::cout << RED "❌ Not Implemented (501) - stopping this test" RESET << std::endl;
+                goto next_test; // Jump to next test
         }
         
         if (parser.is_complete()) {
@@ -119,6 +124,9 @@ int main() {
             break;
         }
     }
+    
+next_test:
+    std::cout << std::endl; // Add some spacing
     simulate_network_chunks(); // Test the byte-by-byte parsing simulation
     return 0;
 }

@@ -114,23 +114,20 @@ bool ParsingRequest::parse_start_line()
 	start_line["uri"] = uri;
 	start_line["version"] = version;
 
-	// Validate method directly (needs a separate method bool checkMethod(const std::string& method)) wili wili lkhar
+	// Validate method directly
 	if (!checkMethod(method))
 	{
-		current_state = PARSE_ERROR;
 		return false;
 	}
-	// Validate URI directly (needs a separate method bool checkURI(const std::string& uri)) sf done l3zz
+	// Validate URI directly
 	if (!checkURI(uri))
 	{
-		current_state = PARSE_ERROR;
 		return false;
 	}
 
-	// Validate version directly (need a separate method bool checkVersion(const std::string& version)) hta hya done l3zz
+	// Validate version directly
 	if (!checkVersion(version))
 	{
-		current_state = PARSE_ERROR;
 		return false;
 	}
 
@@ -365,13 +362,21 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 		{
 		case PARSE_START_LINE:
 			if (!parse_start_line())
+			{
+				if (current_state == PARSE_ERROR)
+					break; // Exit the while loop, error will be handled below
 				return PARSE_AGAIN; // Need more data because the start line is not complete
+			}
 			current_state = PARSE_HEADERS; // Move to headers parsing
 			break;
 
 		case PARSE_HEADERS:
 			if (!parse_headers())
+			{
+				if (current_state == PARSE_ERROR)
+					break; // Exit the while loop, error will be handled below
 				return PARSE_AGAIN; // Need more data because headers are not complete
+			}
 			// Check if we need to parse body 
 			if (content_lenght_exists && expected_body_length > 0)
 				current_state = PARSE_BODY;
@@ -381,7 +386,11 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 		case PARSE_BODY:
 			if (!parse_body())
+			{
+				if (current_state == PARSE_ERROR)
+					break; // Exit the while loop, error will be handled below
 				return PARSE_AGAIN; // Need more data because body is not complete
+			}
 			current_state = PARSE_COMPLETE;
 			break;
 
