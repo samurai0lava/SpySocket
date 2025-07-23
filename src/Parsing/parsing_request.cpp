@@ -217,19 +217,20 @@ bool ParsingRequest::parse_headers()
 	headers = header_map;
 
 	try {
-		if (!checkHost(headers) || !checkConnection(headers))
+		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers))
 		{
 			current_state = PARSE_ERROR;
 			return false;
 		}
 
 		// Check content length for body parsing
-		if (checkContentLength(headers) && content_lenght_exists)
+		if (content_lenght_exists)
 		{
 			std::string content_length_str = headers.at("content-length");
 			std::istringstream iss(content_length_str);
 			iss >> expected_body_length;
 		}
+		
 	}
 	catch (...) {
 		current_state = PARSE_ERROR;
@@ -337,6 +338,12 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 	return false;
 }
 
+bool checkTransferEncoding(const std::map<std::string, std::string>& headers)
+{
+
+
+}
+
 //parsing body if available
 bool ParsingRequest::parse_body()
 {
@@ -364,20 +371,19 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			if (!parse_start_line())
 			{
 				if (current_state == PARSE_ERROR)
-					break; // Exit the while loop, error will be handled below
-				return PARSE_AGAIN; // Need more data because the start line is not complete
+					break;
+				return PARSE_AGAIN;
 			}
-			current_state = PARSE_HEADERS; // Move to headers parsing
+			current_state = PARSE_HEADERS;
 			break;
 
 		case PARSE_HEADERS:
 			if (!parse_headers())
 			{
 				if (current_state == PARSE_ERROR)
-					break; // Exit the while loop, error will be handled below
-				return PARSE_AGAIN; // Need more data because headers are not complete
+					break;
+				return PARSE_AGAIN;
 			}
-			// Check if we need to parse body 
 			if (content_lenght_exists && expected_body_length > 0)
 				current_state = PARSE_BODY;
 			else
@@ -388,8 +394,8 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)
-					break; // Exit the while loop, error will be handled below
-				return PARSE_AGAIN; // Need more data because body is not complete
+					break;
+				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;
 			break;
