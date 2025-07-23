@@ -7,7 +7,9 @@ void simulate_network_chunks() {
     std::string full_request = 
         "POST /submit HTTP/1.1\r\n"
         "Host: example.com\r\n"
-        "Content-Length: l\r\n"
+        "Content-Length: 13\r\n"
+        "Connection: keep-alive\r\n"
+        "akndd: andhdhd\r\n"
         "Content-Type: text/plain\r\n"
         "\r\n"
         "Hello, World!";
@@ -22,8 +24,7 @@ void simulate_network_chunks() {
         
         ParsingRequest::ParseResult result = parser.feed_data(&single_byte, 1);
         
-        // Only print status every 10 bytes to avoid spam
-        // if (i % 10 == 0 || result != ParsingRequest::PARSE_AGAIN) {
+        if (i % 10 == 0 || result != ParsingRequest::PARSE_AGAIN) {
             std::cout << "Byte " << i << ": ";
             switch (result) {
                 case ParsingRequest::PARSE_OK:
@@ -38,7 +39,7 @@ void simulate_network_chunks() {
                 case ParsingRequest::PARSE_ERROR_501:
                     std::cout << RED "Error 501 - stopping test" RESET << std::endl;
                     return;
-            // }
+            }
         }
         
         // Stop immediately if there's an error, even if we didn't print it
