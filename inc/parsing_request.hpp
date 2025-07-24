@@ -21,7 +21,7 @@ protected:
     // std::string request_method;
     // std::string request_uri;
     // std::string request_version;
-    std::map<std::string, std::string> start_line;
+    std::map<std::string, std::string> start_line; // vector
     std::map<std::string, std::string> headers;
 
     int connection_status; // 0 for closed, 1 for keep-alive
@@ -53,7 +53,7 @@ public:
         PARSE_OK,        // Parsing successful
         PARSE_AGAIN,     // Need more data
         PARSE_ERROR_400, // Bad request
-        PARSE_ERROR_501  // Not implemented
+        PARSE_ERROR_501  // Not implemented 
     };
     
     ParseResult feed_data(const char* data, size_t len);
