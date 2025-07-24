@@ -1,6 +1,28 @@
 #include "../include/Config.hpp"
 
 
+std::string parseArgv(int argc, char** argv)
+{
+	std::string defaultConfPath = "file.conf";
+	if (argc == 1)
+	{
+		return (defaultConfPath);
+	}
+	else if (argc > 2)
+	{
+		std::cout << "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>" << std::endl;
+		exit(1);
+	}
+	std::string sArgv = argv[1];
+	std::string ending = ".conf";
+	if ((argv[1] + sArgv.find_last_of(".")) != ending)
+	{
+		std::cout << "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>" << std::endl;
+		exit(1);
+	}
+	return (sArgv);
+}
+
 void Config::_parseServerBlock(std::string serverBlock)
 {
 	std::string server;
@@ -53,7 +75,7 @@ void Config::_createConfigStruct(std::string server)
 	serverName = serverName.substr(0, serverName.find_first_of("\n"));
 	ConfigStruct confStruct = tmp;
 	SingleServerConfig temp(server, &confStruct);
-	this->_cluster.insert(std::make_pair<std::string, ConfigStruct>(serverName, confStruct));
+	this->_cluster.insert(std::make_pair(serverName, confStruct));
 
 }
 

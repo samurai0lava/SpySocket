@@ -2,29 +2,26 @@ CC = c++
 
 FLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = main.cpp src/Parsing/parsing_request.cpp src/Parsing/utils/utils.cpp
+SRCS = main.cpp src/Parsing/parsing_request.cpp src/Config.cpp src/server.cpp src/singleserver.cpp src/Parsing/utils/utils.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
 NAME = webserv
-CC = c++  -std=c++98 -Wall -Wextra -Werror
+
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 
-$(NAME): $(SRC)
-	$(CC) $(SRC) -o $(NAME)
-
-run: $(NAME)
-	@echo "$(GREEN)Running $(NAME)...$(RESET)"
-	@./$(NAME) 
+%.o: %.cpp
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -rf $(NAME)
+	rm -rf	 $(OBJS)
 
 fclean: clean
+	rm -rf $(NAME)
 
 re: fclean all	
 
