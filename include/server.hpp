@@ -1,3 +1,7 @@
+#ifndef SERVER_HPP
+# define SERVER_HPP
+
+
 #pragma once
 #include <sys/epoll.h>
 #include <iostream>
@@ -20,3 +24,8 @@ public :
     std::map<std::string, ConfigStruct> configStruct;
 
 };
+
+void getServersFds(Config *configFile, Servers &serv);
+void epollFds(Servers& serv);
+
+#endif
