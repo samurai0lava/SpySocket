@@ -95,16 +95,16 @@ int main() {
         
         switch (result) {
             case ParsingRequest::PARSE_OK:
-                std::cout << GREEN "✅ Parsing complete!" RESET << std::endl;
+                std::cout << GREEN "Parsing complete!" RESET << std::endl;
                 break;
             case ParsingRequest::PARSE_AGAIN:
-                std::cout << BLUE "🔄 Need more data..." RESET << std::endl;
+                std::cout << BLUE "Need more data..." RESET << std::endl;
                 break;
             case ParsingRequest::PARSE_ERROR_400:
-                std::cout << RED "❌ Bad Request (400) - stopping this test" RESET << std::endl;
+                std::cout << RED "Bad Request (400) - stopping this test" RESET << std::endl;
                 goto next_test; // Jump to next test
             case ParsingRequest::PARSE_ERROR_501:
-                std::cout << RED "❌ Not Implemented (501) - stopping this test" RESET << std::endl;
+                std::cout << RED "Not Implemented (501) - stopping this test" RESET << std::endl;
                 goto next_test; // Jump to next test
         }
         
