@@ -198,7 +198,8 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		header_map[key] = value;
+		if(key == "content-length" || key == "transfer-encoding" || key == "host" || key == "connection" || key == "user-agent" || key == "authorization" || key == "content-type")
+			header_map[key] = value;
 	}
 
 	headers = header_map;
@@ -325,7 +326,6 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 	return false;
 }
 
-
 bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("transfer-encoding") != headers.end())
@@ -352,7 +352,7 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 	return true;
 }
 
-//parsing body if available
+//parsing body if available // CAses
 bool ParsingRequest::parse_body()
 {
 	size_t available = buffer.length() - buffer_pos;
@@ -414,7 +414,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 	if (current_state == PARSE_ERROR)
 		return PARSE_ERROR_400;
-
 	return PARSE_OK;
 }
 

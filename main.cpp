@@ -6,8 +6,8 @@ void simulate_network_chunks() {
     // Simulate very small chunks (like real network packets)
     std::string full_request = 
         "POST /submit HTTP/1.1\r\n"
-        "Host: example.com\r\n"
-        "Content-Length: 13\r\n"
+        "HOST: example.com\r\n"
+        "Content-Length: 3\r\n"
         "Connection: keep-alive\r\n"
         "akndd: andhdhd\r\n"
         "Content-Type: text/plain\r\n"
@@ -42,7 +42,6 @@ void simulate_network_chunks() {
             }
         }
         
-        // Stop immediately if there's an error, even if we didn't print it
         if (result == ParsingRequest::PARSE_ERROR_400 || result == ParsingRequest::PARSE_ERROR_501) {
             return;
         }
@@ -77,10 +76,11 @@ int main()
 {
     // Simulate data arriving in chunks
     std::vector<std::string> chunks;
-    chunks.push_back("GET /api/data HTTP/11\r\n");
+    chunks.push_back("GET /api/data HTTP/1.1\r\n");
     chunks.push_back("Host: localhost:8080\r\n");
     chunks.push_back("User-Agent: TestClient/1.0\r\n");
     chunks.push_back("Accept: application/json\r\n");
+    chunks.push_back("dndjjd adjd\r\n");
     chunks.push_back("Connection: close\r\n");
     chunks.push_back("\r\n");
     
