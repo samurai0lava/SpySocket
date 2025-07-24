@@ -73,9 +73,8 @@ void simulate_network_chunks() {
 }
 
 
-int main() {
-
-    
+int main()
+{
     // Simulate data arriving in chunks
     std::vector<std::string> chunks;
     chunks.push_back("GET /api/data HTTP/11\r\n");

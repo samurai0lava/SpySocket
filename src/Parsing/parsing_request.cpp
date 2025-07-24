@@ -217,7 +217,7 @@ bool ParsingRequest::parse_headers()
 			std::istringstream iss(content_length_str);
 			iss >> expected_body_length;
 		}
-		
+
 	}
 	catch (...) {
 		current_state = PARSE_ERROR;
@@ -418,3 +418,27 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	return PARSE_OK;
 }
 
+
+
+
+//Host
+//Content Length
+//Tranfer encoding 
+// Connection
+//Content Type // respond
+// expect
+//User agent
+// Authorization
+// cookies
+
+// | Header | Required | Purpose                            |
+// | ------------------ - | -------------------------- | ---------------------------------- |
+// | `Host` | ✅ Yes | Domain name of the request         |
+// | `Content-Length` | ✅ If body | Length of the request body         |
+// | `Transfer-Encoding` | ❌ Skip or reject `chunked` | Alternate body encoding            |
+// | `Connection` | Optional | Controls connection persistence    |
+// | `Content-Type` | ✅ If body | MIME type of the body              |
+// | `Expect` | Optional | Expect 100 - continue                |
+// | `User-Agent` | Optional | Client info                        |
+// | `Authorization` | Optional | Used for auth                      |
+// | Others | ❌ Ignore | Not needed for basic functionality |
