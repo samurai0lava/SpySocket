@@ -115,21 +115,8 @@ bool ParsingRequest::parse_start_line()
 	start_line["version"] = version;
 
 	// Validate method directly
-	if (!checkMethod(method))
-	{
+	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
 		return false;
-	}
-	// Validate URI directly
-	if (!checkURI(uri))
-	{
-		return false;
-	}
-
-	// Validate version directly
-	if (!checkVersion(version))
-	{
-		return false;
-	}
 
 	return true;
 }
@@ -217,8 +204,7 @@ bool ParsingRequest::parse_headers()
 	headers = header_map;
 
 	try {
-		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || 
-			!checkTransferEncoding(headers))
+		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers))
 		{
 			current_state = PARSE_ERROR;
 			return false;
@@ -339,6 +325,7 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 	return false;
 }
 
+
 bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("transfer-encoding") != headers.end())
@@ -365,9 +352,6 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 	return true;
 }
 
-
-}
-
 //parsing body if available
 bool ParsingRequest::parse_body()
 {
@@ -386,7 +370,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 {
 	buffer.append(data, len);
 
-	// State machine loop
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		switch (current_state)
@@ -434,3 +417,4 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 	return PARSE_OK;
 }
+
