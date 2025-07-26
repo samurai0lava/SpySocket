@@ -15,6 +15,8 @@
 #include <fcntl.h>
 #include <algorithm>
 
+#define READ_SIZE 1024
+
 using namespace std;
 
 class Servers
@@ -22,6 +24,8 @@ class Servers
 public :
     vector<int> serversFd;
     std::map<std::string, ConfigStruct> configStruct;
+    char buffer[READ_SIZE];
+    size_t bufferLength;
 
 };
 

@@ -124,11 +124,14 @@ void epollFds(Servers &serv)
             else
             {
                 // Handle client socket
-                char buffer[1024] = {0};
-                ssize_t bytes = read(fd, buffer, sizeof(buffer) - 1);
-                if (bytes <= 0)
+                // serv.buffer;
+                memset(serv.buffer, 0, READ_SIZE) ;
+                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL);
+                // char buffer[1024] = {0};
+                // ssize_t bytes = read(fd, buffer, sizeof(buffer) - 1);
+                if (serv.bufferLength <= 0)
                 {
-                    if (bytes == 0)
+                    if (serv.bufferLength == 0)
                         std::cout << "Client disconnected.\n";
                     else
                         cerr << "Error occured while reading sent data!\n";
@@ -138,7 +141,7 @@ void epollFds(Servers &serv)
                 }
                 
                 //Request
-                std::cout << "Received: " << buffer << std::endl;
+                std::cout << "Received: " << serv.buffer << std::endl;
                 // Response
                 // write(fd, http_response, strlen(http_response));
             }
