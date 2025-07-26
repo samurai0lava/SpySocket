@@ -53,7 +53,7 @@ void Config::_createConfigStruct(std::string server)
 	serverName = serverName.substr(0, serverName.find_first_of("\n"));
 	ConfigStruct confStruct = tmp;
 	SingleServerConfig temp(server, &confStruct);
-	this->_cluster.insert(std::make_pair<std::string, ConfigStruct>(serverName, confStruct));
+	this->_cluster.insert(std::pair<std::string, ConfigStruct>(serverName, confStruct));
 
 }
 

@@ -18,5 +18,6 @@ class Servers
 public :
     vector<int> serversFd;
     std::map<std::string, ConfigStruct> configStruct;
-
+    //add buffer size and the whole buffer
+    //read -> recv
 };

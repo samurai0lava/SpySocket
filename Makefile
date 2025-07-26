@@ -1,6 +1,8 @@
-SRC =  src/main.cpp src/Config.cpp src/singleserver.cpp src/server.cpp
+SRC =  src/main.cpp src/Config.cpp src/singleserver.cpp src/server.cpp\
+	POST/main.cpp
 NAME = webserv
-CC = c++  -std=c++98 -Wall -Wextra -Werror
+CC = c++  
+#-std=c++98 -Wall -Wextra -Werror
 
 all: $(NAME)
 
