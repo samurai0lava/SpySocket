@@ -207,7 +207,7 @@ void SingleServerConfig::_handleLocation(std::string block)
             blockStream << line << std::endl;
     }
     LocationStruct tmp = this->_fillLocationStruct(blockStream.str());
-    this->_conf->location.push_back(std::pair(key, tmp));
+    this->_conf->location.push_back(std::make_pair(key, tmp));
 
 }
 void SingleServerConfig::_handleErrorPage(std::string line)

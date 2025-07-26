@@ -6,11 +6,7 @@ Content-Length: 49
 Accept: application/json
 Connection: keep-alive
 
-
-
-
 {
   "username": "hiba",
   "password": "secret123"
 }
-

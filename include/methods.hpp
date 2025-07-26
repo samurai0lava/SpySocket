@@ -2,6 +2,7 @@
 #include "server.hpp"
 #include <vector>
 #include <string>
+#include "../inc/webserv.hpp"
 
 class Error
 {
@@ -28,3 +29,4 @@ public:
     // void fillImportantFields();
 };
 
+void handleMethod(int fd, ParsingRequest* parser);

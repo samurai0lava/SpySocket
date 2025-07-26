@@ -1,3 +1,7 @@
+#ifndef SERVER_HPP
+# define SERVER_HPP
+
+
 #pragma once
 #include <sys/epoll.h>
 #include <iostream>
@@ -11,13 +15,35 @@
 #include <fcntl.h>
 #include <algorithm>
 
+#define READ_SIZE 1024
+
 using namespace std;
 
 class Servers
 {
-public :
+public:
+    char buffer[READ_SIZE];
+    size_t bufferLength;
+    Servers() : bufferLength(0) {
+        memset(buffer, 0, READ_SIZE);
+    }
+    // ~Servers() {
+    //     for (vector<int>::iterator it = serversFd.begin(); it != serversFd.end(); ++it) {
+    //         close(*it);
+    //     }
+    // }
+    char* getBuffer() {
+        return buffer;
+    }
+    size_t getBufferLength() const {
+        return bufferLength;
+    }
     vector<int> serversFd;
     std::map<std::string, ConfigStruct> configStruct;
-    //add buffer size and the whole buffer
-    //read -> recv
+
 };
+
+void getServersFds(Config* configFile, Servers& serv);
+void epollFds(Servers& serv);
+
+#endif
