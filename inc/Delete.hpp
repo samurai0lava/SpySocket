@@ -26,6 +26,8 @@ class DeleteMethode : public ParsingRequest
         ~DeleteMethode(){}
         bool CheckFile(const std::string& uri);
         bool PerformDelete(const std::string& uri);
+        std::string generate_resp(void);
+        std::string generate_error_resp(int error_code, const std::string& message);
 };
 
 
