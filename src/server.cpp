@@ -169,10 +169,7 @@ void epollFds(Servers &serv)
                 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    std::cout << "Request parsed successfully on fd " << fd << std::endl;
-                    // std::cout << "Received: " << serv.buffer << std::endl;
-                    // printMap(parser->getStartLine());
-                    // printMap(parser->getHeaders());
+                    printRequestInfo(*parser, fd);
 
                     //send response----------------------------------------
                     // Response sending logic
