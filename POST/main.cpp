@@ -1,4 +1,5 @@
 #include "../include/methods.hpp"
+#include "../inc/webserv.hpp"
 
 // THAT'S A PRETTY BASIC PARSING ASSUMING NOTHING IN THE REQUEST IS MALFORMED
 
@@ -109,46 +110,58 @@ void routingFunc(Post &req, Config *config)
     }
 }
 
+void handleMethod(int fd, ParsingRequest* parser)
+{
+    cout << "--> Sent FD : " << fd << endl;
+    cout << "************\n";
+    for(auto it = parser->getStartLine().begin(); it != parser->getStartLine().end(); it++)
+        cout << (*it).first << endl;
+}
+
 int main(int argc, char **argv)
 {
     Config *config = new Config();
     config->StartToSet(parseArgv(argc, argv));
 
-    string line;
-    fstream requestFile("request.txt", ios::in);
-    Post req;
-    string key, value;
-    size_t pos;
-    if (!requestFile.is_open())
-    {
-        cerr << "Failed to open file 'request.txt'" << endl;
-        return 1;
-    }
-    int endOfHead = 0;
-    getline(requestFile, line); // retrieve the first line : POST /api/login HTTP/1.1
-    vector<string> firstLine = split(line, ' ');
-    req.path = firstLine.at(1);
+    Servers serv;
+    getServersFds(config, serv);
+    epollFds(serv);
 
-    while (getline(requestFile, line))
-    {
-        if (line == "") // keep in mind that getline removes the \n
-        {
-            endOfHead = 1;
-            continue;
-        }
-        if (!endOfHead)
-        {
-            pos = line.find(':');
-            key = line.substr(0, pos);
-            value = line.substr(pos + 2); // move past the ':' and the space
+    // string line;
+    // fstream requestFile("request.txt", ios::in);
+    // Post req;
+    // string key, value;
+    // size_t pos;
+    // if (!requestFile.is_open())
+    // {
+    //     cerr << "Failed to open file 'request.txt'" << endl;
+    //     return 1;
+    // }
+    // int endOfHead = 0;
+    // getline(requestFile, line); // retrieve the first line : POST /api/login HTTP/1.1
+    // vector<string> firstLine = split(line, ' ');
+    // req.path = firstLine.at(1);
 
-            req.header.insert(pair<string, string>{key, value});
-        }
-        else
-            req.body.append(line + "\n");
-    }
-    requestFile.close();
-    fillFields(req);
-    routingFunc(req, config);
+    // while (getline(requestFile, line))
+    // {
+    //     if (line == "") // keep in mind that getline removes the \n
+    //     {
+    //         endOfHead = 1;
+    //         continue;
+    //     }
+    //     if (!endOfHead)
+    //     {
+    //         pos = line.find(':');
+    //         key = line.substr(0, pos);
+    //         value = line.substr(pos + 2); // move past the ':' and the space
+
+    //         req.header.insert(pair<string, string>{key, value});
+    //     }
+    //     else
+    //         req.body.append(line + "\n");
+    // }
+    // requestFile.close();
+    // fillFields(req);
+    // routingFunc(req, config);
     return 0;
 }
