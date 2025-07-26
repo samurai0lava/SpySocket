@@ -80,5 +80,7 @@ public:
 
 void printMap(const std::map<std::string, std::string>& m);
 void logError(int status, const std::string& error_message);
+void printRequestInfo(const ParsingRequest& request, int fd);
+
 
 #endif
