@@ -1,4 +1,5 @@
 #include "../include/server.hpp"
+#include "../inc/webserv.hpp"
 
 void getServersFds(Config *configFile, Servers &serv)
 {
@@ -50,12 +51,13 @@ const char *http_response =
     "\r\n"
     "Hello, World!";
 
+
 void epollFds(Servers &serv)
 {
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
         throw runtime_error("Error creating epoll!");
-
+        
     struct epoll_event event;
     for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
     {
@@ -78,13 +80,15 @@ void epollFds(Servers &serv)
     }
 
     struct epoll_event events[10];
+    std::map<int, ParsingRequest*> clientParsers;  // Map client FD to parser instance
+
 
     while (true)
     {
         int nfds = epoll_wait(epollFd, events, 10, -1);
         if (nfds == -1)
         {
-            cerr << "Error occured in epoll wait!\n";
+            std::cerr << "Error occured in epoll wait!" << std::endl;
             break;
         }
 
@@ -99,13 +103,13 @@ void epollFds(Servers &serv)
                 int client_fd = accept(fd, NULL, NULL);
                 if (client_fd == -1)
                 {
-                    cerr << "Error accepting client's connection!\n";
+                    std::cerr << "Error accepting client's connection!" << std::endl;
                     continue;
                 }
 
                 if (setNonBlocking(client_fd) == -1)
                 {
-                    cerr << "Cannot set client to non blocking!\n";
+                    std::cerr << "Cannot set client to non blocking!\n";
                     close(client_fd);
                     continue;
                 }
@@ -115,20 +119,18 @@ void epollFds(Servers &serv)
 
                 if (epoll_ctl(epollFd, EPOLL_CTL_ADD, client_fd, &event) == -1)
                 {
-                    cerr << "Error adding client to epoll!\n";
+                    std::cerr << "Error adding client to epoll!" << std::endl;
                     close(client_fd);
                 }
-
-                std::cout << "New client connected on FD " << client_fd << std::endl;
+                else
+                {
+                    clientParsers[client_fd] = new ParsingRequest();
+                    std::cout << "New client connected on FD " << client_fd << std::endl;
+                }
             }
             else
             {
-                // Handle client socket
-                // serv.buffer;
-                memset(serv.buffer, 0, READ_SIZE) ;
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL);
-                // char buffer[1024] = {0};
-                // ssize_t bytes = read(fd, buffer, sizeof(buffer) - 1);
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
@@ -136,17 +138,75 @@ void epollFds(Servers &serv)
                     else
                         cerr << "Error occured while reading sent data!\n";
 
+                    if (clientParsers.find(fd) != clientParsers.end())
+                    {
+                        delete clientParsers[fd];
+                        clientParsers.erase(fd);
+                    }
                     close(fd);
                     continue;
                 }
                 
-                //Request
-                std::cout << "Received: " << serv.buffer << std::endl;
-                // Response
-                // write(fd, http_response, strlen(http_response));
+                // Get the parser for this specific client
+                ParsingRequest* parser = NULL;
+                if (clientParsers.find(fd) != clientParsers.end())
+                {
+                    parser = clientParsers[fd];
+                }
+                else
+                {
+                    cerr << "No parser found for client FD " << fd << std::endl;
+                    close(fd);
+                    continue;
+                }
+                ParsingRequest::ParseResult result = parser->feed_data(serv.buffer, serv.bufferLength);
+                
+                if (result == ParsingRequest::PARSE_OK)
+                {
+                    std::cout << "Request parsed successfully on fd " << fd << std::endl;
+                    std::cout << "Received: " << serv.buffer << std::endl;
+                    printMap(parser->getStartLine());
+                    printMap(parser->getHeaders());
+                    //send response----------------------------------------
+                    // Response sending logic
+                    // In a real server, you would generate a response based on the request so we the methode implemented would handle it
+                    //handleMethod(fd, parser);
+                    //handle methode logic will be check the method from the start line and assign the correct methode and response
+                    
+                    parser->reset();
+                }
+                else if (result == ParsingRequest::PARSE_AGAIN)
+                {
+                    std::cout << "Need more data for complete request on fd " << fd << std::endl;
+                }
+                else if (result == ParsingRequest::PARSE_ERROR_400)
+                {
+                    std::cout << "Bad Request (400) on fd " << fd << std::endl;
+                    //---> send the error response 400
+                    delete clientParsers[fd];
+                    clientParsers.erase(fd);
+                    close(fd);
+                    continue;
+                }
+                else if (result == ParsingRequest::PARSE_ERROR_501)
+                {
+                    std::cout << "Not Implemented (501) on fd " << fd << std::endl;
+                    // ---> send the error response 501
+                    delete clientParsers[fd];
+                    clientParsers.erase(fd);
+                    close(fd);
+                    continue;
+                }
             }
         }
     }
+
+    // Clean up all parsers
+    for (std::map<int, ParsingRequest*>::iterator it = clientParsers.begin(); 
+         it != clientParsers.end(); ++it) {
+        delete it->second;
+    }
+    clientParsers.clear();
 
     close(epollFd);
 }
