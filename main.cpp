@@ -143,12 +143,12 @@ int main(int argc, char** argv)
         // config->printCluster();
         Servers serv;
         getServersFds(config, serv);
+        cout << "-------------------------\n";
+        cout << serv.bufferLength << endl;
+        cout << "-------------------------\n";
+        cout << serv.buffer << endl;
         epollFds(serv);
 
-        // cout << "-------------------------\n";
-        // cout << serv.bufferLength << endl;
-        // cout << "-------------------------\n";
-        // cout << serv.buffer << endl;
         // for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
         //     cout << *it << endl;
     }
