@@ -207,7 +207,7 @@ void SingleServerConfig::_handleLocation(std::string block)
             blockStream << line << std::endl;
     }
     LocationStruct tmp = this->_fillLocationStruct(blockStream.str());
-    this->_conf->location.push_back(std::make_pair(key, tmp));
+    this->_conf->location.push_back(std::pair(key, tmp));
 
 }
 void SingleServerConfig::_handleErrorPage(std::string line)
@@ -229,7 +229,7 @@ void SingleServerConfig::_handleErrorPage(std::string line)
         throw std::runtime_error("Duplicate error_page entry found.");
     }
 
-	this->_conf->errorPage.push_back(std::make_pair<std::string, std::string>(key, value));
+	this->_conf->errorPage.push_back(std::pair<std::string, std::string>(key, value));
 
 }
 std::string locationVariables1[] =

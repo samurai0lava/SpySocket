@@ -109,7 +109,7 @@ void epollFds(Servers &serv)
                     close(client_fd);
                     continue;
                 }
-
+                //Edge triggered so we only get one notification when there's something (should read all the data sent at once)
                 event.events = EPOLLIN | EPOLLET;
                 event.data.fd = client_fd;
 
@@ -148,25 +148,25 @@ void epollFds(Servers &serv)
     close(epollFd);
 }
 
-int main(int argc, char **argv)
-{
+// int main(int argc, char **argv)
+// {
 
-    Config *config = new Config();
-    try
-    {
-        config->StartToSet(parseArgv(argc, argv));
-        // config->printCluster();
-        Servers serv;
-        getServersFds(config, serv);
-        epollFds(serv);
-        // for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
-        //     cout << *it << endl;
-    }
-    catch (std::exception &e)
-    {
-        std::cout << e.what() << std::endl;
-        delete config;
-        return (EXIT_FAILURE);
-    }
-    delete config;
-}
+//     Config *config = new Config();
+//     try
+//     {
+//         config->StartToSet(parseArgv(argc, argv));
+//         // config->printCluster();
+//         Servers serv;
+//         getServersFds(config, serv);
+//         epollFds(serv);
+//         // for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
+//         //     cout << *it << endl;
+//     }
+//     catch (std::exception &e)
+//     {
+//         std::cout << e.what() << std::endl;
+//         delete config;
+//         return (EXIT_FAILURE);
+//     }
+//     delete config;
+// }
