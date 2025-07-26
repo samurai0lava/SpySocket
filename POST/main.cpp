@@ -32,64 +32,44 @@ std::vector<std::string> split(const std::string &str, char delimiter)
 }
 
 
-//THIS METHOD IS NOT IT (NOT SO ACCURATE) 
-// int findClosest(vector<string> locations, string path)
-// {
-//     int index = -1;
-//     int max = INT_MAX;
-//     int comp = 0;
-//     int near = 0;
-
-//     for(auto it = locations.begin(); it != locations.end(); it++)
-//     {
-//         index++;
-//         comp = abs(strcmp(path.c_str(), (*it).c_str()));
-//         cout << "First : " << path << " Second : " << *it << "\n" << "Comparaison result : " << comp << " Max : " << max << endl;
-//         if(comp < max)
-//         {
-//             max = comp;
-//             near = index;
-//         }
-//     }
-//     return near;
-// }
-
-string findClosest(vector<string> locations, string path)
+string findClosest(vector<string> &locations, string &path)
 {
-    int matchedChars = 0;
-    int closestIndex = 0;
-    int comp = 0;
-    int temp = -1;
-    vector<string> potentialMatches;
+    int bestIndex = -1;
+    size_t bestLength = 0;
 
-    for(auto it = locations.begin(); it != locations.end(); it++)
+    for (size_t i = 0; i < locations.size(); ++i)
     {
-        if((*it).length() <= path.length())
-            potentialMatches.push_back(*it);
-    }
+        string loc = locations[i];
+        // cout << "Location : " << loc << endl;
 
-    for(auto it = potentialMatches.begin(); it != potentialMatches.end(); it++)
-    {
-        temp++;
-        matchedChars = 0;
-        cout << "----> " << *it << endl;
-        for(int i = 0; i < path.length(); i++)
+        if (path.compare(0, loc.length(), loc) == 0)
         {
-            if((*it)[i] != path[i])
-                break;
-            matchedChars++;
-        }
-        cout << "Matched count : " << matchedChars << endl;
-        cout << "Comp count : " << comp << endl;
+            // cout << loc << " is available in " << path << endl;
 
-        if(matchedChars > comp)
-        {
-            closestIndex = temp;
-            comp = matchedChars;
+            // Make sure the next char is '/' or nothing (to avoid /cgi-bin matching /cgi-binary)
+
+            // cout << "Path length : " << path.length() << " Location length : " << loc.length() << endl;
+            
+            if (path.length() == loc.length() || path[loc.length()] == '/' || loc[loc.length() - 1] == '/')
+            {
+                if (loc.length() > bestLength)
+                {
+                    bestIndex = i; //0
+                    bestLength = loc.length(); //1
+                }
+            }
         }
     }
-    return potentialMatches.at(closestIndex);
-}   
+    if(bestIndex == -1)
+    {
+        //needs modifications later i'll just print the response
+        cout << "No matching location found!! 404\n";
+        return "null";
+    }
+
+    return locations.at(bestIndex);
+}
+
 
 string trimLocation(string path, string foundLocation)
 {
@@ -100,18 +80,33 @@ void routingFunc(Post &req, Config *config)
 {
     auto configMap = config->_cluster;
     vector<string> locations;
-    for(auto it = configMap.begin(); it != configMap.end(); it++)
+    for (auto it = configMap.begin(); it != configMap.end(); it++)
     {
-        for(auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
+        for (auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
         {
             locations.push_back((*i).first);
         }
     }
-    string index = findClosest(locations, req.path);
-    cout << index << endl;
-    //we'll trim the path so we'll search for the file in the location
-    // string file = trimLocation(req.path, locations.at(index));
-    // cout << file << endl;
+
+    string closestLocation = findClosest(locations, req.path);
+    //needs modification later
+    if(closestLocation == "null")
+        return;
+    cout << closestLocation << endl;
+    
+    for(auto it = (*config->_cluster.begin()).second.location.begin(); it != (*config->_cluster.begin()).second.location.end(); it++)
+    {
+        if((*it).first == closestLocation)
+        {
+            if((*it).second.allowedMethods.find("POST") == (*it).second.allowedMethods.end())
+                cout << req.notFound() << endl; //response 404 should be returned later
+            else
+            {
+                //check the size of the request body if it matches client_body_size_max in conf file if no return 413 ig if yes proceed with it
+                //
+            }
+        }
+    }
 }
 
 int main(int argc, char **argv)

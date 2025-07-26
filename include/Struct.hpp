@@ -32,6 +32,7 @@ enum
     cgi_path,
 	cgi_ext
 };
+
 struct LocationStruct
 {
 	bool autoIndex;
@@ -40,10 +41,10 @@ struct LocationStruct
 	std::string indexPage;
     std::string _return;
 	std::vector<std::string> cgi_path;
-	std::vector<std::string> cgi_ext;	
-	// std::vector<std::pair<std::string,std::string> > cgi_path;
-	// std::vector<std::pair<std::string,std::string> > cgi_ext;
+	std::vector<std::string> cgi_ext;
 };
+
+// config->_cluster
 
 struct ConfigStruct
 {
@@ -55,7 +56,7 @@ struct ConfigStruct
 	size_t									clientMaxBodySize;
 	std::vector<unsigned short> listen;
 	// std::vector<std::pair<std::string, unsigned short> > listen;
-	std::vector<std::pair<std::string,LocationStruct> > location;
+	std::vector<std::pair<std::string,LocationStruct> > location; //switch to map maybe?
 	std::vector<std::pair<std::string,std::string> > errorPage;
 };
 
