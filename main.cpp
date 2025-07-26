@@ -144,6 +144,11 @@ int main(int argc, char** argv)
         Servers serv;
         getServersFds(config, serv);
         epollFds(serv);
+
+        // cout << "-------------------------\n";
+        // cout << serv.bufferLength << endl;
+        // cout << "-------------------------\n";
+        // cout << serv.buffer << endl;
         // for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
         //     cout << *it << endl;
     }
