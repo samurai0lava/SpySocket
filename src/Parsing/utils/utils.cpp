@@ -46,3 +46,20 @@ void ParsingRequest::reset()
     transfer_encoding_exists = 0;
     host_exists = 0;
 }
+
+void printRequestInfo(const ParsingRequest& request, int fd)
+{
+    std::cout << GREEN "Request parsed successfully on fd " RESET << fd << std::endl;
+    std::cout << "Received: " << std::endl;
+    printMap(request.getStartLine());
+    printMap(request.getHeaders());
+    std::cout << "Body: " << request.getBody() << std::endl;
+    std::cout << "----------------------------------------------" << std::endl;
+    std::cout << BLUE "Host exists: " RESET << (request.getHostExists() ? "Yes" : "No") << std::endl;
+    std::cout << BLUE "Content-Length exists: " RESET << (request.getContentLengthExists() ? "Yes" : "No") << std::endl;
+    std::cout << BLUE "Transfer-Encoding exists: " RESET << (request.getTransferEncodingExists() ? "Yes" : "No") << std::endl;
+    std::cout << BLUE "Connection status: " RESET << (request.getConnectionStatus() ? "Keep-Alive" : "Closed") << std::endl;
+    std::cout << "----------------------------------------------" << std::endl;
+
+
+} 
