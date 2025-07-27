@@ -198,7 +198,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "content-length" || key == "transfer-encoding" || key == "host" || key == "connection" || key == "user-agent" || key == "authorization" || key == "content-type")
+		if(key == "content-length" || key == "transfer-encoding" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
 			header_map[key] = value;
 	}
 
@@ -227,6 +227,35 @@ bool ParsingRequest::parse_headers()
 
 	return true;
 }
+
+
+bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
+{
+	if (headers.find("content-type") != headers.end())
+	{
+		std::string content_type = headers.at("content-type");
+		if (content_type.empty())
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Content-Type header cannot be empty");
+			return false;
+		}
+		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0)
+		{
+			return true;
+		}
+		else
+		{
+			connection_status = 0;
+			logError(400, "Bad Request: Unsupported Content-Type: '" + content_type + "'");
+			return false;
+		}
+	}
+	return true;
+}
+
+
+
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& headers)
 {

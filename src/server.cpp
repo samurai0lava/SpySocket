@@ -164,7 +164,7 @@ void epollFds(Servers &serv)
                 if (result == ParsingRequest::PARSE_OK)
                 {
                     printRequestInfo(*parser, fd);
-
+                    
                     //send response----------------------------------------
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
