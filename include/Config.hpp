@@ -19,7 +19,6 @@ class Config
     private:
         std::ifstream	_configFile;
 		std::string		_configPath; 
-		ConfigStruct _conf; 
         Config(const Config&);
         void _parseServerBlock(std::string serverBlock);
         void _createConfigStruct(std::string server); 

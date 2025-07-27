@@ -1,4 +1,5 @@
 #include "../include/server.hpp"
+#include "../include/server.hpp"
 
 void getServersFds(Config *configFile, Servers &serv)
 {
@@ -147,20 +148,27 @@ void epollFds(Servers &serv)
 
     close(epollFd);
 }
-
+// void check_is 
 int main(int argc, char **argv)
 {
 
     Config *config = new Config();
+    std::string request = "GET /test/index.html HTTP/1.1\r\n"
+                      "Host: localhost\r\n"
+                      "Connection: close\r\n\r\n";
     try
     {
         config->StartToSet(parseArgv(argc, argv));
         // config->printCluster();
-        Servers serv;
-        getServersFds(config, serv);
-        epollFds(serv);
+        
+        // send(serv.serversFd.begin(), request.c_str(), request.length(), 0);
+        // std::cout<<"0000000000000000000000000000000000000000"<<std::endl;
         // for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
         //     cout << *it << endl;
+        Servers serv;
+        // getServersFds(config, serv);
+        // epollFds(serv);
+        serv.MethodGet(config->_cluster);
     }
     catch (std::exception &e)
     {
@@ -168,5 +176,141 @@ int main(int argc, char **argv)
         delete config;
         return (EXIT_FAILURE);
     }
+    
+    // send(*serv.serversFd.begin(), request.c_str(), request.length(), 0);
     delete config;
+}
+std::string matchLocation(const std::string &requestPath, const ConfigStruct &server) {
+    std::string path = requestPath;
+    std::string removedSegment;
+    std::string removedPath; // Accumulates all removed segments
+
+
+    while (true) {
+        std::cout << "Path : " << path << " removed : " << removedPath << std::endl;
+
+        for (size_t i = 0; i < server.location.size(); ++i) {
+            if (path == server.location[i].first) {
+                
+                if(server.location[i].second.allowedMethods.find("GET") == server.location[i].second.allowedMethods.end())
+                {
+                    throw runtime_error("Error 405 Method Not Allowed");
+                }
+                else 
+                    cout<<"found "<<endl;
+                return server.location[i].second.root +removedPath;
+
+            }
+        }
+
+        if (path == "/")
+            break;
+
+        size_t lastSlash = path.find_last_of('/');
+        if (lastSlash == std::string::npos || lastSlash == 0) {
+            removedSegment = path.substr(lastSlash); // may be "/something"
+            removedPath = removedSegment + removedPath;
+            path = "/";
+        } else {
+            removedSegment = path.substr(lastSlash);  // includes "/"
+            removedPath = removedSegment + removedPath; // accumulate
+            path = path.substr(0, lastSlash);
+        }
+    }
+
+    return ""; //no matching location
+}
+
+bool pathExists(const std::string& path) {
+    struct stat s;
+    return stat(path.c_str(), &s) == 0;
+}
+bool isFile(const std::string& path) {
+    struct stat s;
+    return stat(path.c_str(), &s) == 0 && S_ISREG(s.st_mode);
+}
+
+bool isDirectory(const std::string& path) {
+    struct stat s;
+    return stat(path.c_str(), &s) == 0 && S_ISDIR(s.st_mode);
+}
+
+void Servers::MethodGet(std::map<std::string, ConfigStruct> configStruct)
+{
+    // std::string request = "GET /tours1/index.html HTTP/1.1\r\n"
+    //                   "Host: localhost\r\n"
+    //                   "Connection: close\r\n\r\n";
+    std::string Path = "/zahira/index.html";
+    std::map<std::string, ConfigStruct>::iterator it = configStruct.begin();
+    ConfigStruct &server = it->second;
+    std::string matchedLocation = matchLocation(Path, server);
+     if (matchedLocation.empty()) {
+       std::cout << "No matching location found." << std::endl;
+       return;
+    }
+    std::cout<<"lol matche location : "<< matchedLocation<<std::endl;
+    
+    if (!pathExists(matchedLocation)) {
+        throw std::runtime_error("404 Not Found: Path does not exist");
+    }
+    if (isFile(matchedLocation)) 
+    {
+
+        std::cout << "Serve file: " << matchedLocation << std::endl;
+        // 🚀 NEXT: open file and read content
+        std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
+        if (!file.is_open())
+            throw std::runtime_error("500 Internal Server Error: Cannot open file");
+          std::stringstream buffer;
+        buffer << file.rdbuf();
+        std::string fileContent = buffer.str();
+        file.close();
+
+        std::ostringstream response;
+        response << "HTTP/1.1 200 OK\r\n";
+        response << "Content-Type: text/html\r\n";
+        response << "Content-Length: " << fileContent.size() << "\r\n";
+        response << "\r\n";
+        response << fileContent;
+
+        std::string finalResponse = response.str();
+        std::cout<<"final Response: \n"<<finalResponse<<endl;
+        // send(this->serversFd[0], finalResponse.c_str(), finalResponse.length(), 0);
+        return;
+            // return;
+    }
+    if (isDirectory(matchedLocation)) {
+        std::string indexPath = matchedLocation + "/" + server.location[0].second.indexPage;
+
+        if (!pathExists(indexPath)) {
+            throw std::runtime_error("403 Forbidden: Index not found");
+        }
+
+        std::cout << "Serve index file: " << indexPath << std::endl;
+        // 🚀 NEXT: open indexPath and read content
+        return;
+    }
+    throw std::runtime_error("403 Forbidden: Unknown path type");
+    // const LocationStruct& loc = 
+    // if (loc.allowedMethods.find("GET") == loc.allowedMethods.end()) {
+    //     sendError(405, "Method Not Allowed"); // Custom function to build error response
+    // return;
+    // }
+    //  for (size_t i = 0; i < server.location.size(); ++i)
+    // {
+    //     const std::string &loc_path = server.location[i].first;
+    //     const LocationStruct &loc_struct = server.location[i].second;
+
+    //     std::cout << "Location Path: " << loc_path << std::endl;
+    //     std::cout << "  → Root: " << loc_struct.root << std::endl;
+    //     std::cout << "  → Index Page: " << loc_struct.indexPage << std::endl;
+    //     std::cout << "  → AutoIndex: " << (loc_struct.autoIndex ? "on" : "off") << std::endl;
+    //     std::cout << "  → Return: " << loc_struct._return << std::endl;
+
+    //     // Print allowed methods
+    //     std::cout << "  → Methods: ";
+    //     for (std::set<std::string>::iterator m = loc_struct.allowedMethods.begin(); m != loc_struct.allowedMethods.end(); ++m)
+    //         std::cout << *m << " ";
+    //     std::cout << std::endl;
+    // }
 }
