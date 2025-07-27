@@ -18,10 +18,13 @@ $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -rf	 $(OBJS)
+	@rm -rf	 $(OBJS)
 
 fclean: clean
-	rm -rf $(NAME)
+	@rm -rf $(NAME)
+
+run: all clean
+	@./$(NAME)
 
 re: fclean all	
 
