@@ -89,3 +89,25 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
 }
 
 
+
+// //generate response for DELETE request
+// std::string DeleteMethode::generate_resp(void)
+// {
+//     std::string response = "HTTP/1.1 204 No Content\r\n";
+//     response += "Connection: close\r\n";
+//     response += "Content-Length: 0\r\n";
+//     response += "\r\n"; // End of headers
+//     return response;
+// }
+
+// //generate error response for DELETE request
+// std::string DeleteMethode::generate_error_resp(int error_code, const std::string& message)
+// {
+//     std::string response = "HTTP/1.1 " + std::to_string(error_code) + " Error\r\n";
+//     response += "Content-Type: text/plain\r\n";
+//     response += "Connection: close\r\n";
+//     response += "Content-Length: " + std::to_string(message.length()) + "\r\n";
+//     response += "\r\n";
+//     response += message;
+//     return response;
+// }
