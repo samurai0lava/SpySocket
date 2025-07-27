@@ -234,13 +234,43 @@ bool isDirectory(const std::string& path) {
     struct stat s;
     return stat(path.c_str(), &s) == 0 && S_ISDIR(s.st_mode);
 }
+std::string generateAutoIndex(const std::string &directoryPath) {
+    DIR *dir = opendir(directoryPath.c_str());
+    if (!dir)
+        return "<html><body><h1>403 Forbidden</h1></body></html>";
 
+    std::ostringstream html;
+    html << "<html><head><title>Index of " << directoryPath << "</title></head><body>\n";
+    html << "<h1>Index of " << directoryPath << "</h1><hr><ul>\n";
+
+    struct dirent *entry;
+    while ((entry = readdir(dir)) != NULL) {
+        std::string name = entry->d_name;
+
+        if (name == ".") continue; // skip current dir
+
+        std::string fullPath = directoryPath + "/" + name;
+        struct stat s;
+        stat(fullPath.c_str(), &s);
+
+        if (S_ISDIR(s.st_mode)) {
+            html << "<li><a href=\"" << name << "/\">" << name << "/</a></li>\n";
+        } else {
+            html << "<li><a href=\"" << name << "\">" << name << "</a></li>\n";
+        }
+    }
+
+    closedir(dir);
+
+    html << "</ul><hr></body></html>\n";
+    return html.str();
+}
 void Servers::MethodGet(std::map<std::string, ConfigStruct> configStruct)
 {
     // std::string request = "GET /tours1/index.html HTTP/1.1\r\n"
     //                   "Host: localhost\r\n"
     //                   "Connection: close\r\n\r\n";
-    std::string Path = "/zahira/index.html";
+    std::string Path = "/zahira/";
     std::map<std::string, ConfigStruct>::iterator it = configStruct.begin();
     ConfigStruct &server = it->second;
     std::string matchedLocation = matchLocation(Path, server);
@@ -248,14 +278,14 @@ void Servers::MethodGet(std::map<std::string, ConfigStruct> configStruct)
        std::cout << "No matching location found." << std::endl;
        return;
     }
-    std::cout<<"lol matche location : "<< matchedLocation<<std::endl;
+    // std::cout<<"lol matche location : "<< matchedLocation<<std::endl;
     
     if (!pathExists(matchedLocation)) {
         throw std::runtime_error("404 Not Found: Path does not exist");
     }
     if (isFile(matchedLocation)) 
     {
-
+        cout<<"hello 12"<<endl;
         std::cout << "Serve file: " << matchedLocation << std::endl;
         // 🚀 NEXT: open file and read content
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
@@ -281,16 +311,63 @@ void Servers::MethodGet(std::map<std::string, ConfigStruct> configStruct)
     }
     if (isDirectory(matchedLocation)) {
         std::string indexPath = matchedLocation + "/" + server.location[0].second.indexPage;
+                cout<<"hello 33"<<endl;
 
-        if (!pathExists(indexPath)) {
-            throw std::runtime_error("403 Forbidden: Index not found");
+        // if (!pathExists(indexPath)) {
+        //     throw std::runtime_error("403 Forbidden: Index not found");
+        // }
+        if (pathExists(indexPath)) {
+          std::cout << "path exists " << std::endl;
+
+            // ✅ Serve the index file here
+            std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
+            if (!file.is_open())
+                throw std::runtime_error("500 Internal Server Error: Cannot open index file");
+
+            std::stringstream buffer;
+            buffer << file.rdbuf();
+            std::string fileContent = buffer.str();
+            file.close();
+
+            std::ostringstream response;
+            response << "HTTP/1.1 200 OK\r\n";
+            response << "Content-Type: text/html\r\n";
+            response << "Content-Length: " << fileContent.size() << "\r\n";
+            response << "\r\n";
+            response << fileContent;
+
+            std::string finalResponse = response.str();
+            std::cout << "Final Response (index file): \n" << finalResponse << std::endl;
+
+            // You can send the response like this if needed:
+            // send(this->serversFd[0], finalResponse.c_str(), finalResponse.length(), 0);
+
+            return;
         }
+        else if (server.location[0].second.autoIndex) 
+        {
+            // Generate HTML autoindex
+            cout<<"lol123"<<endl;
+            std::string listing = generateAutoIndex(matchedLocation);
+            std::ostringstream response;
+            response << "HTTP/1.1 200 OK\r\n";
+            response << "Content-Type: text/html\r\n";
+            response << "Content-Length: " << listing.size() << "\r\n\r\n";
+            response << listing;
 
-        std::cout << "Serve index file: " << indexPath << std::endl;
-        // 🚀 NEXT: open indexPath and read content
-        return;
+            std::cout << "Autoindex Response:\n" << response.str() << std::endl;
+            return;
+        } 
+        else 
+        {
+        throw std::runtime_error("403 Forbidden: Index not found and autoindex is off");
+        }
     }
-    throw std::runtime_error("403 Forbidden: Unknown path type");
+
+        // std::cout << "Serve index file: " << indexPath << std::endl;
+        // 🚀 NEXT: open indexPath and read content
+    //     return;
+    // throw std::runtime_error("403 Forbidden: Unknown path type");
     // const LocationStruct& loc = 
     // if (loc.allowedMethods.find("GET") == loc.allowedMethods.end()) {
     //     sendError(405, "Method Not Allowed"); // Custom function to build error response
