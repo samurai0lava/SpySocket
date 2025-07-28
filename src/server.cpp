@@ -155,7 +155,7 @@ void epollFds(Servers &serv)
                 }
                 else
                 {
-                    cerr << "No parser found for client FD " << fd << std::endl;
+                    std::cerr << "No parser found for client FD " << fd << std::endl;
                     close(fd);
                     continue;
                 }
@@ -175,12 +175,22 @@ void epollFds(Servers &serv)
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)
                 {
-                    std::cout << "Need more data for complete request on fd " << fd << std::endl;
+                    std::cout << YELLOW "Waiting for more data on fd ..." RESET << fd << std::endl;
+                }
+                else if (result == ParsingRequest::PARSE_ERROR)
+                {
+                    // ---> send the error response 501 or 400
+                    std::string errorResponse = GenerateResErr(parser->getErrorCode());
+                    send(fd, errorResponse.c_str(), errorResponse.length(), 0);
+                    delete clientParsers[fd];
+                    clientParsers.erase(fd);
+                    close(fd);
                 }
                 else if (result == ParsingRequest::PARSE_ERROR_400)
                 {
-                    std::cout << "Bad Request (400) on fd " << fd << std::endl;
                     //---> send the error response 400
+                    std::string errorResponse = GenerateResErr(400);
+                    send(fd, errorResponse.c_str(), errorResponse.length(), 0);
                     delete clientParsers[fd];
                     clientParsers.erase(fd);
                     close(fd);
@@ -188,8 +198,9 @@ void epollFds(Servers &serv)
                 }
                 else if (result == ParsingRequest::PARSE_ERROR_501)
                 {
-                    std::cout << "Not Implemented (501) on fd " << fd << std::endl;
                     // ---> send the error response 501
+                    std::string errorResponse = GenerateResErr(501);
+                    send(fd, errorResponse.c_str(), errorResponse.length(), 0);
                     delete clientParsers[fd];
                     clientParsers.erase(fd);
                     close(fd);

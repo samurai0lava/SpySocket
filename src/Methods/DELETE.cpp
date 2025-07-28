@@ -6,7 +6,8 @@ bool DeleteMethode::CheckFile(const std::string& uri)
 {
     std::ifstream file(uri);
     if (!file) {
-        logError(404, "Not Found: File does not exist - " + uri);
+        error_code = 404;
+        error_message = "Not Found: File does not exist - " + uri;
         return false;
     }
     file.close();
@@ -18,11 +19,11 @@ bool DeleteMethode::checkReqForDelete(ParsingRequest& request)
     if (request.getContentLengthExists() == 1) {
         
         if (request.getBody().length() > 0 ) {
-            logError(400, "Bad Request: DELETE requests should not have a body");
+            error_code = 400;
+            error_message = "Bad Request: DELETE requests should not have a body";
             return false;
         }
     }
-
     return true;
 }
 
@@ -41,7 +42,10 @@ bool DeleteMethode::CheckisDir(const std::string& uri)
 bool DeleteMethode::CheckAccess(const std::string& uri)
 {
     if (access(uri.c_str(), W_OK) != 0) {
-        logError(403, "Forbidden: You do not have permission to delete this resource - GI your government has abandoned you - GI" + uri);
+        error_code = 403;
+        error_message = "Forbidden: You do not have permission to delete this resource - " + uri;
+        // logError(403, "Forbidden: You do not have permission to delete this
+        // logError(403, "Forbidden: You do not have permission to delete this resource - GI your government has abandoned you - GI" + uri);
         return false;
     }
     return true;
@@ -59,7 +63,8 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
         
         if (std::remove(uri.c_str()) != 0) {
             connection_status = 0;
-            logError(500, "Internal Server Error: Failed to delete file - " + uri);
+            error_code = 500;
+            error_message = "Internal Server Error: Failed to delete file - " + uri;
             return false;
         }
         
@@ -69,8 +74,8 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
     }
     else {
         if (uri.back() != '/') {
-            connection_status = 0;
-            logError(409, "Conflict: Directory URI must end with '/' - " + uri);
+            error_code = 409;
+            error_message = "Conflict: Directory URI must end with '/' - " + uri;
             return false;
         }
         if (!CheckAccess(uri)) {
@@ -78,12 +83,12 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
         }
         
         if (std::remove(uri.c_str()) != 0) {
-            connection_status = 0;
-            logError(500, "Internal Server Error: Failed to delete directory - " + uri);
+            error_code = 500;
+            error_message = "Internal Server Error: Failed to delete directory - " + uri;
             return false;
         }
-        connection_status = 1;
-        std::cout << "204 No Content: Directory deleted successfully - " << uri << std::endl;
+        status_code = 204;
+        status_phrase = "No Content";
         return true;
     }
 }
