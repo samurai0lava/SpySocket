@@ -19,6 +19,7 @@
 #include "../include/server.hpp"
 #include "../include/singleserver.hpp"
 #include "../include/Struct.hpp"
+#include "RespondError.hpp"
 
 
 #define RED "\033[31m"
