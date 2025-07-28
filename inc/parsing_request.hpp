@@ -29,6 +29,11 @@ protected:
     int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
     int host_exists; // 0 for no host, 1 for exists
     
+    int error_code; // Error code for the request
+    std::string error_message; // Error message for the request
+    int status_code; // Status code for the successful request
+    std::string status_phrase; // Status phrase for the successful request
+
     // State machine 
     ParseState current_state; 
     std::string buffer; // Accumulates incoming data
@@ -68,6 +73,10 @@ public:
     int getContentLengthExists() const { return content_lenght_exists; }
     int getTransferEncodingExists() const { return transfer_encoding_exists; }
     int getHostExists() const { return host_exists; }
+    int getErrorCode() const { return error_code; }
+    std::string getErrorMessage() const { return error_message; }
+    int getStatusCode() const { return status_code; }
+    std::string getStatusPhrase() const { return status_phrase; }
     bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
     bool checkURI(const std::string& uri);
     bool checkVersion(const std::string& verion);
