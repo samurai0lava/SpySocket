@@ -6,13 +6,11 @@
 
 class RespondError : public ParsingRequest
 {
-    private:
-    
-    public:
-        RespondError();
-        ~RespondError();
-       void ResERROR(const int ErrorStat);
-       const std::string GenerateResErr(const int ErrorStat);
+private:
+
+public:
+    void ResERROR(const int ErrorStat);
+    const std::string GenerateResErr(const int ErrorStat);
 };
 
 #endif
