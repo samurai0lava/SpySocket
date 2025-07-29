@@ -78,20 +78,18 @@ std::string getDefaultErrorMessage(int errorCode) {
     switch (errorCode) {
         case 400:
             return "The request could not be understood by the server due to malformed syntax.";
-        case 401:
-            return "The request requires user authentication.";
         case 403:
             return "The server understood the request, but is refusing to fulfill it.";
         case 404:
             return "The requested resource could not be found on this server.";
         case 405:
             return "The method specified in the request is not allowed for the resource.";
-        case 409:
-            return "The request could not be completed due to a conflict with the current state.";
-        case 413:
-            return "The request entity is larger than the server is willing to process.";
         case 414:
             return "The request URI is longer than the server can interpret.";
+        case 415:
+            return "The media type is not supported by the server.";
+        case 429:
+            return "Too many requests have been made in a given amount of time.";
         case 500:
             return "The server encountered an internal error and was unable to complete your request.";
         case 501:
@@ -100,6 +98,10 @@ std::string getDefaultErrorMessage(int errorCode) {
             return "The server received an invalid response from the upstream server.";
         case 503:
             return "The server is temporarily unable to service your request due to maintenance.";
+        case 504:
+            return "The server did not receive a timely response from the upstream server.";
+        case 505:
+            return "The server does not support the HTTP protocol version used in the request.";
         default:
             return "An error occurred while processing your request.";
     }
