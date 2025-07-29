@@ -1,6 +1,10 @@
 {
     "files.associations": {
+<<<<<<< HEAD
         "fstream": "cpp",
+=======
+        "system_error": "cpp",
+>>>>>>> b18da600d4f98ca315a8668817cda47b3051afd0
         "array": "cpp",
         "atomic": "cpp",
         "bit": "cpp",
@@ -19,7 +23,10 @@
         "cwctype": "cpp",
         "deque": "cpp",
         "map": "cpp",
+<<<<<<< HEAD
         "set": "cpp",
+=======
+>>>>>>> b18da600d4f98ca315a8668817cda47b3051afd0
         "string": "cpp",
         "unordered_map": "cpp",
         "vector": "cpp",
@@ -33,10 +40,17 @@
         "optional": "cpp",
         "random": "cpp",
         "string_view": "cpp",
+<<<<<<< HEAD
         "system_error": "cpp",
         "tuple": "cpp",
         "type_traits": "cpp",
         "utility": "cpp",
+=======
+        "tuple": "cpp",
+        "type_traits": "cpp",
+        "utility": "cpp",
+        "fstream": "cpp",
+>>>>>>> b18da600d4f98ca315a8668817cda47b3051afd0
         "initializer_list": "cpp",
         "iosfwd": "cpp",
         "iostream": "cpp",
@@ -48,6 +62,7 @@
         "sstream": "cpp",
         "stdexcept": "cpp",
         "streambuf": "cpp",
+<<<<<<< HEAD
         "typeinfo": "cpp",
         "charconv": "cpp",
         "chrono": "cpp",
@@ -62,3 +77,11 @@
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
+=======
+        "cinttypes": "cpp",
+        "typeinfo": "cpp",
+        "set": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
+  }
+>>>>>>> b18da600d4f98ca315a8668817cda47b3051afd0
