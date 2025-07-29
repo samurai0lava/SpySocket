@@ -69,7 +69,9 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
         }
         
         connection_status = 1;
-        std::cout << "204 No Content: File deleted successfully - " << uri << std::endl;
+        // std::cout << "204 No Content: File deleted successfully - " << uri << std::endl;
+        status_code = 204;
+        status_phrase = "No Content";
         return true;
     }
     else {
