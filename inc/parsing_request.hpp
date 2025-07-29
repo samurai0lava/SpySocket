@@ -58,7 +58,18 @@ public:
         PARSE_OK,        // Parsing successful
         PARSE_AGAIN,     // Need more data
         PARSE_ERROR_400, // Bad request
-        PARSE_ERROR_501  // Not implemented 
+        PARSE_ERROR_403, // Forbidden
+        PARSE_ERROR_404, // Not found
+        PARSE_ERROR_405, // Method not allowed
+        PARSE_ERROR_414  // Request-URI too long
+        PARSE_ERROR_415  // Unsupported Media Type
+        PARSE_ERROR_429  // Too Many Requests
+        PARSE_ERROR_500  // Internal Server Error
+        PARSE_ERROR_501  // Not implemented
+        PARSE_ERROR_502  // Bad Gateway
+        PARSE_ERROR_503  // Service Unavailable
+        PARSE_ERROR_504  // Gateway Timeout
+        PARSE_ERROR_505  // HTTP Version Not Supported
     };
     
     ParseResult feed_data(const char* data, size_t len);
