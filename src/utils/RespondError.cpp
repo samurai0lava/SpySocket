@@ -1,8 +1,7 @@
-#include "../../inc/RespondError.hpp"
-#include <sstream>
+#include "../../inc/webserv.hpp"
 
-// C++98 compatible integer to string conversion
-std::string intToString(int value) {
+std::string intToString(int value)
+{
     std::ostringstream oss;
     oss << value;
     return oss.str();

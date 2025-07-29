@@ -20,6 +20,7 @@
 class DeleteMethode : public ParsingRequest
 {
     private:
+    
 
     public:
         DeleteMethode(){}
@@ -31,6 +32,9 @@ class DeleteMethode : public ParsingRequest
         bool PerformDelete(const std::string& uri);
         std::string generate_resp(void);
         std::string generate_error_resp(int error_code, const std::string& message);
+        std::string generate_success_resp(const std::string& uri);
+        int getStatusCode() const { return status_code; }
+        std::string getStatusPhrase() const { return status_phrase; }
 };
 
 
