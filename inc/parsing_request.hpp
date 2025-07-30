@@ -22,10 +22,12 @@ class ParsingRequest
         enum ParseResult {
             PARSE_OK,        // Parsing successful
             PARSE_AGAIN,     // Need more data
+            PARSE_ERROR_RESULT,
             PARSE_ERROR_400, // Bad request
             PARSE_ERROR_403, // Forbidden
             PARSE_ERROR_404, // Not found
             PARSE_ERROR_405, // Method not allowed
+            PARSE_ERROR_413, // Content Too Large
             PARSE_ERROR_414,  // Request-URI too long
             PARSE_ERROR_415,  // Unsupported Media Type
             PARSE_ERROR_429,  // Too Many Requests
@@ -37,10 +39,7 @@ class ParsingRequest
             PARSE_ERROR_505, // HTTP Version Not Supported
         };
     protected:
-    // std::string request_method;
-    // std::string request_uri;
-    // std::string request_version;
-    std::map<std::string, std::string> start_line; //turn  this to vector
+    std::map<std::string, std::string> start_line;
     std::map<std::string, std::string> headers;
 
     int connection_status; // 0 for closed, 1 for keep-alive
@@ -98,6 +97,7 @@ public:
     bool checkContentType(const std::map<std::string, std::string>& headers);
     bool checkMethod(const std::string& method);
     bool checkHost(const std::map<std::string, std::string>& headers);
+    bool checkLocation(const std::map<std::string, std::string>& headers);
 };
 
 void printMap(const std::map<std::string, std::string>& m);

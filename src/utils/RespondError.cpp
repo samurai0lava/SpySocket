@@ -18,6 +18,7 @@ std::string getStatusPhrase(int errorCode) {
         case 403: return "Forbidden";
         case 404: return "Not Found";
         case 405: return "Method Not Allowed";
+        case 413: return "Content Too Large";
         case 414: return "URI Too Long";
         case 415: return "Unsupported Media Type";
         case 429: return "Too Many Requests";
@@ -25,6 +26,8 @@ std::string getStatusPhrase(int errorCode) {
         case 501: return "Not Implemented";
         case 502: return "Bad Gateway";
         case 503: return "Service Unavailable";
+        case 504: return "Gateway Timeout";
+        case 505: return "HTTP Version Not Supported";
         default: return "Unknown Error";
     }
 }
@@ -83,6 +86,8 @@ std::string getDefaultErrorMessage(int errorCode) {
             return "The requested resource could not be found on this server.";
         case 405:
             return "The method specified in the request is not allowed for the resource.";
+        case 413:
+            return "The request entity is larger than limits defined by server.";
         case 414:
             return "The request URI is longer than the server can interpret.";
         case 415:
