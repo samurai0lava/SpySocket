@@ -205,7 +205,6 @@ void epollFds(Servers &serv)
                 }
                 else if (result == ParsingRequest::PARSE_ERROR_RESULT)
                 {
-                    printf("[ERROR] Parsing error on fd %d: %s\n", fd, parser->getErrorMessage().c_str());
                     // Handle any error result - send the error response
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     send(fd, errorResponse.c_str(), errorResponse.length(), 0);
