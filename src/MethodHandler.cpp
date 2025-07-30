@@ -45,12 +45,11 @@ std::string generateAutoIndex(const std::string &directoryPath)
     return html.str();
 }
 //-------------------------------------------------------------------------------------------
-std::string matchLocation(const std::string &requestPath, const ConfigStruct &server) {
+std::string matchLocation(const std::string &requestPath, const ConfigStruct &server) 
+{
     std::string path = requestPath;
     std::string removedSegment;
     std::string removedPath; 
-
-
     while (true) {
         std::cout << "Path : " << path << " removed : " << removedPath << std::endl;
 
@@ -147,10 +146,6 @@ void MethodGet(std::string Path,const ConfigStruct& config,Servers &serv)
         }
         else if (config.location[0].second.autoIndex == true )
         {
-            // cout<<"-----------autoIndex-----------"<<endl;
-            // std::cout<<"print auto index : "<< config.location[0].second.autoIndex <<endl;
-            // // Generate HTML autoindex
-            // cout<<"lol123"<<endl;
             std::string listing = generateAutoIndex(matchedLocation);
             std::ostringstream response;
             response << "HTTP/1.1 200 OK\r\n";
