@@ -324,6 +324,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 std::string directive, statusCode, redirectUrl;
                 iss >> directive >> statusCode >> redirectUrl;
                 std::string extra;
+                
                 iss >> extra;
                 if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
                     throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
