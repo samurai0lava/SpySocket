@@ -12,14 +12,37 @@ void getServersFds(Config *configFile, Servers &serv)
     for (std::map<std::string, ConfigStruct>::iterator it = serv.configStruct.begin(); it != serv.configStruct.end(); it++)
     {
         serverFd = socket(AF_INET, SOCK_STREAM, 0);
+        if (serverFd == -1) {
+            perror("socket creation failed");
+            continue;
+        }
+        
+        // Set SO_REUSEADDR to avoid "Address already in use" errors
+        int opt = 1;
+        if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
+            perror("setsockopt SO_REUSEADDR failed");
+            close(serverFd);
+            continue;
+        }
+        
         sockaddr_in sockStruct;
         sockStruct.sin_family = AF_INET;
         sockStruct.sin_addr.s_addr = inet_addr((*it).second.host.c_str()); // localhost e.g
         unsigned short port = *((*it).second.listen.begin());
         sockStruct.sin_port = htons(port); // check if the port is valid
 
-        bind(serverFd, (sockaddr *)&sockStruct, sizeof(sockStruct));
-        listen(serverFd, 10);
+        if (bind(serverFd, (sockaddr *)&sockStruct, sizeof(sockStruct)) < 0) {
+            perror("bind failed");
+            close(serverFd);
+            continue;
+        }
+        
+        if (listen(serverFd, 10) < 0) {
+            perror("listen failed");
+            close(serverFd);
+            continue;
+        }
+        
         std::cout << "Listening on " << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
         serv.serversFd.push_back(serverFd);
     }
@@ -171,40 +194,24 @@ void epollFds(Servers &serv)
                     //handleMethod(fd, parser);
                     //handle methode logic will be check the method from the start line and assign the correct methode and response
                     
+                    // For now, send a simple HTTP response
+                    // send(fd, http_response, strlen(http_response), 0);
+                    
                     parser->reset();
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)
                 {
-                    std::cout << YELLOW "Waiting for more data on fd ..." RESET << fd << std::endl;
+                    std::cout << YELLOW "Waiting for more data on fd ... " RESET << fd << std::endl;
                 }
-                else if (result == ParsingRequest::PARSE_ERROR)
+                else if (result == ParsingRequest::PARSE_ERROR_RESULT)
                 {
-                    // ---> send the error response 501 or 400
+                    printf("[ERROR] Parsing error on fd %d: %s\n", fd, parser->getErrorMessage().c_str());
+                    // Handle any error result - send the error response
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     send(fd, errorResponse.c_str(), errorResponse.length(), 0);
                     delete clientParsers[fd];
                     clientParsers.erase(fd);
                     close(fd);
-                }
-                else if (result == ParsingRequest::PARSE_ERROR_400)
-                {
-                    //---> send the error response 400
-                    std::string errorResponse = GenerateResErr(400);
-                    send(fd, errorResponse.c_str(), errorResponse.length(), 0);
-                    delete clientParsers[fd];
-                    clientParsers.erase(fd);
-                    close(fd);
-                    continue;
-                }
-                else if (result == ParsingRequest::PARSE_ERROR_501)
-                {
-                    // ---> send the error response 501
-                    std::string errorResponse = GenerateResErr(501);
-                    send(fd, errorResponse.c_str(), errorResponse.length(), 0);
-                    delete clientParsers[fd];
-                    clientParsers.erase(fd);
-                    close(fd);
-                    continue;
                 }
             }
         }

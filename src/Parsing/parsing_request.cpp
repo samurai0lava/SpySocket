@@ -26,8 +26,8 @@ bool ParsingRequest::checkURI(const std::string& uri)
 	if (uri.length() > 8000)
 	{
 		connection_status = 0;
-		error_code = 400;
-		error_message = "Bad Request: URI too long (exceeds 8000 characters)";
+		error_code = 414;
+		error_message = "URI Too Long: URI exceeds 8000 characters";
 		logError(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
@@ -140,6 +140,65 @@ bool ParsingRequest::parse_start_line()
 	return true;
 }
 
+
+bool ParsingRequest::checkLocation(const std::map<std::string, std::string>& headers)
+{
+	if (headers.find("location") != headers.end())
+	{
+		std::string location = headers.at("location");
+		if (location.empty())
+		{
+			connection_status = 0;
+			error_code = 400;
+			error_message = "Bad Request: Location header cannot be empty";
+			current_state = PARSE_ERROR;
+			logError(error_code, error_message);
+			return false;
+		}
+		if (location[0] != '/')
+		{
+			connection_status = 0;
+			error_code = 400;
+			error_message = "Bad Request: Location header must start with '/' - got: '" + location + "'";
+			current_state = PARSE_ERROR;
+			logError(error_code, error_message);
+			return false;
+		}
+		if (location.length() > 8000)
+		{
+			connection_status = 0;
+			error_code = 400;
+			error_message = "Bad Request: Location header too long (exceeds 8000 characters)";
+			current_state = PARSE_ERROR;
+			logError(error_code, error_message);
+			return false;
+		}
+		for (size_t i = 0; i < location.length(); ++i)
+		{
+			char c = location[i];
+			if (c < 32 || c == 127)
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Location header contains invalid control characters";
+				current_state = PARSE_ERROR;
+				logError(error_code, error_message);
+				return false;
+			}
+			if (c == ' ')
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Location header contains unencoded spaces";
+				current_state = PARSE_ERROR;
+				logError(error_code, error_message);
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
 bool ParsingRequest::parse_headers()
 {
 	std::string headers_str;
@@ -233,7 +292,7 @@ bool ParsingRequest::parse_headers()
 	headers = header_map;
 
 	try {
-		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers))
+		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers) || !checkLocation(headers) || !checkContentType(headers))
 		{
 			current_state = PARSE_ERROR;
 			return false;
@@ -278,8 +337,8 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 		else
 		{
 			connection_status = 0;
-			error_code = 400;
-			error_message = "Bad Request: Unsupported Content-Type: '" + content_type + "'";
+			error_code = 415;
+			error_message = "Unsupported Media Type: Content-Type '" + content_type + "' is not supported";
 			current_state = PARSE_ERROR;
 			logError(error_code, error_message);
 			return false;
@@ -380,8 +439,8 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		if (content_length > 8000)
 		{
 			connection_status = 0;
-			error_code = 400;
-			error_message = "Bad Request: Content-Length header exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+			error_code = 413;
+			error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
 			current_state = PARSE_ERROR;
 			logError(error_code, error_message);
 			return false;
@@ -502,6 +561,11 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 		}
 	}
+	if (current_state == PARSE_ERROR)
+	{
+		printf("akki\n");
+		return PARSE_ERROR_RESULT;
+	}
 	return PARSE_OK;
 }
 
@@ -528,4 +592,27 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 // | `Expect` | Optional | Expect 100 - continue                |
 // | `User-Agent` | Optional | Client info                        |
 // | `Authorization` | Optional | Used for auth                      |
+// | `Location` | Optional | Redirect URL for 3xx responses     |
+// | `Cookies` | Optional | Client cookies for session state   |
 // | Others | ❌ Ignore | Not needed for basic functionality |
+
+void ParsingRequest::reset()
+{
+    // Reset all state variables for a new request
+    start_line.clear();
+    headers.clear();
+    body_content.clear();
+    buffer.clear();
+    buffer_pos = 0;
+    expected_body_length = 0;
+    current_state = PARSE_START_LINE;
+    connection_status = 1;
+    content_lenght_exists = 0;
+    transfer_encoding_exists = 0;
+    host_exists = 0;
+    error_code = 0;
+    error_message.clear();
+    status_code = 200;
+    status_phrase.clear();
+}
+	
