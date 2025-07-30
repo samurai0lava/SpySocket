@@ -38,7 +38,8 @@ struct LocationStruct
 	std::set<std::string> allowedMethods;
 	std::string root;
 	std::string indexPage;
-    std::string _return;
+    // std::string _return;
+	std::vector<std::pair<std::string,std::string> > _return;
 	std::vector<std::string> cgi_path;
 	std::vector<std::string> cgi_ext;	
 	// std::vector<std::pair<std::string,std::string> > cgi_path;
