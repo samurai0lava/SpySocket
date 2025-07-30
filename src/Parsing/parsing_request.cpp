@@ -95,7 +95,9 @@ bool ParsingRequest::checkMethod(const std::string& method)
 	{
 		error_code = 501;
 		error_message = "Not Implemented: HTTP method '" + method + "' is not implemented";
-		current_state = PARSE_ERROR_501;
+		current_state = PARSE_ERROR;
+		result_p = PARSE_ERROR_501;
+
 		logError(error_code, error_message);
 		return false;
 	}
@@ -417,7 +419,8 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")
 		{
 			error_code = 501;
-			current_state = PARSE_ERROR_501;
+			current_state = PARSE_ERROR;
+			result_p = PARSE_ERROR_501;
 			error_message = "Not Implemented: Transfer-Encoding '" + transfer_encoding_value + "' is not implemented by our webserver :(";
 			logError(error_code, error_message);
 			return false;
@@ -499,11 +502,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 		}
 	}
-
-	if (current_state == PARSE_ERROR)
-		return PARSE_ERROR_400;
-	else if (current_state == PARSE_ERROR_501)
-		return PARSE_ERROR_501;
 	return PARSE_OK;
 }
 
