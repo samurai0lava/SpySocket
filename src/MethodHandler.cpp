@@ -83,20 +83,54 @@ std::string matchLocation(const std::string &requestPath, const ConfigStruct &se
 
     return ""; 
 }
-void MethodGet(std::string Path,const ConfigStruct& config,Servers &serv)
+std::string getMimeType(const std::string& path) {
+    size_t dot = path.find_last_of(".");
+    if (dot == std::string::npos) return "text/plain";
+
+    std::string ext = path.substr(dot);
+    if (ext == ".html" || ext == ".htm") return "text/html";
+    if (ext == ".css") return "text/css";
+    if (ext == ".js") return "application/javascript";
+    if (ext == ".png") return "image/png";
+    if (ext == ".jpg" || ext == ".jpeg") return "image/jpeg";
+    return "application/octet-stream";
+}
+
+void MethodGet(std::string Path, const ConfigStruct& config, Servers &serv)
 {
     std::string matchedLocation = matchLocation(Path, config);
-    cout<<" : matching : "<<matchedLocation<<endl;
+    std::cout << " : matching : " << matchedLocation << std::endl;
+
     if (matchedLocation.empty()) 
     {
-       std::cout << "No matching location found." << std::endl;
-       return;
+        std::cout << "No matching location found." << std::endl;
+        return;
     }
+    LocationStruct locationMatched;
+    for (size_t i = 0; i < config.location.size(); ++i) {
+        if (matchedLocation == config.location[i].first) {
+            locationMatched = config.location[i].second;
+            break;
+        }
+    }
+    // 404 Not Found: Path does not exist
+    // cout<<"root : "<<locationMatched.root<<" index_page : "<<locationMatched.indexPage<<endl;
+    // cout<<"_return    : "<<locationMatched._return[0].first<<endl;
+    // if (!locationMatched._return.empty()) 
+    // {
+    //     cout<<"lol123"<<endl;
+    //     const std::pair<std::string, std::string>& ret = locationMatched._return[0];
+
+    //     int status = std::atoi(ret.first.c_str());
+    //     const std::string& url = ret.second;         
+    //     std::ostringstream redirect;
+    //     redirect << "HTTP/1.1 " << status << " Moved Permanently\r\n";
+    //     redirect << "Location: " << url << "\r\n\r\n";
+    //     send(serv.getServersFds()[0], redirect.str().c_str(), redirect.str().length(), 0);
+    //     return;
+    // }
     if (!pathExists(matchedLocation)) 
-    {
-        // cout<<"path exists : "<<matchedLocation<<endl;
         throw std::runtime_error("404 Not Found: Path does not exist");
-    }
     if (isFile(matchedLocation)) 
     {
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
@@ -108,43 +142,40 @@ void MethodGet(std::string Path,const ConfigStruct& config,Servers &serv)
         file.close();
         std::ostringstream response;
         response << "HTTP/1.1 200 OK\r\n";
-        response << "Content-Type: text/html\r\n";
-        response << "Content-Length: " << fileContent.size() << "\r\n";
-        response << "\r\n";
+        response << "Content-Type: " << getMimeType(matchedLocation) << "\r\n";
+        response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
         response << fileContent;
-
         std::string finalResponse = response.str();
-        // std::cout<<"final Response: \n"<<finalResponse<<endl;
         send(serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
         return;
     }
+
     if (isDirectory(matchedLocation)) 
     {
-        // std::cout << "matchedLocation: " << matchedLocation << std::endl;
-        // std::cout << "indexPage: " << config.location[0].second.indexPage << std::endl;
-        // std::cout<<"autoindex: "<<config.location[0].second.autoIndex <<endl;
-        std::string indexPath = matchedLocation + "/" + config.location[0].second.indexPage;
-        if (!pathExists(indexPath) ) 
+        std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
+
+        if (pathExists(indexPath) && isFile(indexPath)) 
         {
             std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
             if (!file.is_open())
                 throw std::runtime_error("500 Internal Server Error: Cannot open index file");
+
             std::stringstream buffer;
             buffer << file.rdbuf();
             std::string fileContent = buffer.str();
             file.close();
+
             std::ostringstream response;
             response << "HTTP/1.1 200 OK\r\n";
             response << "Content-Type: text/html\r\n";
-            response << "Content-Length: " << fileContent.size() << "\r\n";
-            response << "\r\n";
+            response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
             response << fileContent;
+
             std::string finalResponse = response.str();
-            // std::cout << "Final Response (index file): \n" << finalResponse << std::endl;
             send(serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
-        else if (config.location[0].second.autoIndex == true )
+        else if (locationMatched.autoIndex) 
         {
             std::string listing = generateAutoIndex(matchedLocation);
             std::ostringstream response;
@@ -152,16 +183,16 @@ void MethodGet(std::string Path,const ConfigStruct& config,Servers &serv)
             response << "Content-Type: text/html\r\n";
             response << "Content-Length: " << listing.size() << "\r\n\r\n";
             response << listing;
+
             std::string finalResponse = response.str();
-            // cout<<"--------------response--------"<<endl;
-            // std::cout << "Autoindex Response:\n" << finalResponse<< std::endl;
             send(serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
             return;
-        } 
+        }
         else 
             throw std::runtime_error("403 Forbidden: Index not found and autoindex is off");
     }
 }
+
 
 void handleMethod(int fd, ParsingRequest* parser, const ConfigStruct& config,Servers &serv)
 {
@@ -171,7 +202,7 @@ void handleMethod(int fd, ParsingRequest* parser, const ConfigStruct& config,Ser
     std::string uri = parser->getStartLine()["uri"];
     if (method == "GET") 
     {
-        cout<<"uri : "<<uri<<endl;
+        // cout<<"uri : "<<uri<<endl;
         MethodGet(uri,config,serv);
     }
 }

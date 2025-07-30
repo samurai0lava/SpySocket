@@ -324,7 +324,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 std::string directive, statusCode, redirectUrl;
                 iss >> directive >> statusCode >> redirectUrl;
                 std::string extra;
-                
+
                 iss >> extra;
                 if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
                     throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
@@ -383,7 +383,7 @@ const char * SingleServerConfig::DublicateRootException:: what(void) const throw
 }
 const char* SingleServerConfig::InvalidPathException::what(void) const throw()
 {
-	return ("↑↑↑ this path is invalid, has to be like : \"/path/ and no use of '.'\"");
+	return ("this path is invalid, has to be like : \"/path/ and no use of '.'\"");
 }
 
 const char* SingleServerConfig::DuplicateServerNameException::what(void) const throw()
