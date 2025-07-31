@@ -206,6 +206,7 @@ void epollFds(Servers &serv)
                 else if (result == ParsingRequest::PARSE_ERROR_RESULT)
                 {
                     // Handle any error result - send the error response
+                    std::cout <<"Error Code: " << parser->getErrorCode() << " - " << parser->getErrorMessage() << std::endl;
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     send(fd, errorResponse.c_str(), errorResponse.length(), 0);
                     delete clientParsers[fd];
