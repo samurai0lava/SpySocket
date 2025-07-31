@@ -10,3 +10,19 @@ TODO : check if all the locations in the config file needs to start with / (nece
 TODO : ask zahira if we can add other directives in the locations blocks like client-max-body-size or upload_directory 
 
 when we find an error e.g 404 close the connection with the client where the error occured then remove it from epoll and clear the ressources
+
+
+upload_enable missing or off	Reject the POST with 403 Forbidden or 501 Not Implemented
+upload_enable on, but upload_path missing	Return 500 Internal Server Error or use a default path
+upload_enable on and upload_path valid	Proceed with the file upload
+
+Method is POST	Maybe
+Content-Type: multipart/form-data	✅ Very likely
+Content-Disposition: form-data; name="file"; filename="..." inside body	✅ Definitely
+
+TODO : set default location
+
+TODO : chrono lib timeout
+
+TODO : nzid EPOLL_MOD mnin nwjed response bach manbqach n readi w nsendi f nefss iteration
+TODO : POST upload(multiple files), chunks, sessions 

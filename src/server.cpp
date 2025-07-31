@@ -58,7 +58,7 @@ const char *http_response =
     "Hello, World!";
 
 
-void epollFds(Servers &serv)
+void epollFds(Servers &serv, Config *conf)
 {
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
@@ -136,7 +136,7 @@ void epollFds(Servers &serv)
             }
             else
             {
-                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL);
+                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL); //no need for MSG_WAITALL
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
@@ -152,7 +152,7 @@ void epollFds(Servers &serv)
                     close(fd);
                     continue;
                 }
-                
+                // cout << serv.buffer << endl;
                 // Get the parser for this specific client
                 ParsingRequest* parser = NULL;
                 if (clientParsers.find(fd) != clientParsers.end())
@@ -169,14 +169,19 @@ void epollFds(Servers &serv)
                 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    printRequestInfo(*parser, fd);
+                    // printRequestInfo(*parser, fd);
 
                     //send response----------------------------------------
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
-                    handleMethod(fd, parser);
-                    //handle methode logic will be check the method from the start line and assign the correct methode and response
                     
+                    
+
+                    string response = handleMethod(fd, parser, conf);
+                    cout << "------------------\n";
+                    cout << response << endl;
+                    //handle methode logic will be check the method from the start line and assign the correct methode and response
+                    write(fd, response.c_str(), response.length());
                     parser->reset();
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)

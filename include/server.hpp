@@ -44,6 +44,6 @@ public:
 };
 
 void getServersFds(Config* configFile, Servers& serv);
-void epollFds(Servers& serv);
+void epollFds(Servers& serv, Config *conf);
 
 #endif
