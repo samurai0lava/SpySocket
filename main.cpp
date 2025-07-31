@@ -8,9 +8,10 @@ int main(int argc, char** argv)
     try
     {
         config->StartToSet(parseArgv(argc, argv));
+        // config->printCluster();
         Servers serv;
-        getServersFds(config, serv);
-        epollFds(serv);
+        serv.getServersFds(config, serv);
+        serv.epollFds(serv);
     }
     catch (std::exception& e)
     {

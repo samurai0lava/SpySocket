@@ -212,24 +212,20 @@ void SingleServerConfig::_handleLocation(std::string block)
 }
 void SingleServerConfig::_handleErrorPage(std::string line)
 {
-    bool duplicate = false;
-    std::string key = line.substr(line.find_first_of(WHITESPACE) + 1);
-	std::string value = key.substr(key.find_first_of(WHITESPACE) + 1);
-	key = key.substr(0, key.find_first_of(WHITESPACE));
+     std::istringstream iss(line);
+    std::string directive, statusCode, path, extra;
+    iss >> directive >> statusCode >> path;
+    iss >> extra;
+    if (statusCode.empty() || path.empty() || !extra.empty())
+        throw std::runtime_error("Error: 'error_page' must have exactly 2 arguments: status_code and file_path.");
+
     for (size_t i = 0; i < this->_conf->errorPage.size(); ++i)
     {
-        if (this->_conf->errorPage[i].first == key)
-        {
-            duplicate = true;
-            break;
-        }
-    }
-    if (duplicate)
-    {
-        throw std::runtime_error("Duplicate error_page entry found.");
+        if (this->_conf->errorPage[i].first == statusCode)
+            throw std::runtime_error("Duplicate error_page entry found for status code: " + statusCode);
     }
 
-	this->_conf->errorPage.push_back(std::make_pair<std::string, std::string>(key, value));
+    this->_conf->errorPage.push_back(std::make_pair(statusCode, path));
 
 }
 std::string locationVariables1[] =
@@ -248,7 +244,6 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
     location_tmp.autoIndex = false;
     location_tmp.indexPage = "";
     location_tmp.root = "";
-    location_tmp._return = "";
     std::stringstream bstream;
     bstream << block;
     std::string keyValue;
@@ -325,8 +320,19 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             }
             case(_return):
             {
-                value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp._return = value;
+                std::istringstream iss(keyValue);
+                std::string directive, statusCode, redirectUrl;
+                iss >> directive >> statusCode >> redirectUrl;
+                std::string extra;
+
+                iss >> extra;
+                if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
+                    throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
+
+                if (!location_tmp._return.empty())
+                    throw std::runtime_error("Error: Multiple return directives are not allowed in one location block.");
+
+                location_tmp._return.push_back(std::make_pair(statusCode, redirectUrl));
                 break;
             }
             case(cgi_path):
@@ -377,7 +383,7 @@ const char * SingleServerConfig::DublicateRootException:: what(void) const throw
 }
 const char* SingleServerConfig::InvalidPathException::what(void) const throw()
 {
-	return ("↑↑↑ this path is invalid, has to be like : \"/path/ and no use of '.'\"");
+	return ("this path is invalid, has to be like : \"/path/ and no use of '.'\"");
 }
 
 const char* SingleServerConfig::DuplicateServerNameException::what(void) const throw()

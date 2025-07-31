@@ -14,6 +14,9 @@
 #include <arpa/inet.h>
 #include <fcntl.h>
 #include <algorithm>
+#include <sys/stat.h>
+#include <dirent.h>   // Required for DIR, opendir(), readdir(), closedir()
+#include <sys/stat.h> // Required for stat()
 
 #define READ_SIZE 1024
 
@@ -39,11 +42,15 @@ public:
         return bufferLength;
     }
     vector<int> serversFd;
+    // Add this inside your class
+    std::vector<int>& getServersFds() {
+        return serversFd;
+    }
     std::map<std::string, ConfigStruct> configStruct;
+    void getServersFds(Config* configFile, Servers& serv);
+    void epollFds(Servers& serv);
 
 };
 
-void getServersFds(Config* configFile, Servers& serv);
-void epollFds(Servers& serv);
 
 #endif

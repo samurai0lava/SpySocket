@@ -205,8 +205,14 @@ void Config::printCluster() const {
 			std::cout << "\t\t\tRoot: " << loc.root << std::endl;
 			std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
 			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
-			std::cout << "\t\t\tReturn: " << loc._return << std::endl;
-
+			std::cout << "\t\t\tReturn: ";
+			for (size_t i = 0; i < loc._return.size(); ++i)
+			{
+				std::cout << "(" << loc._return[i].first << ", " << loc._return[i].second << ")";
+				if (i != loc._return.size() - 1)
+					std::cout << ", ";
+			}
+			std::cout << std::endl;
 			std::cout << "\t\t\tAllowed Methods: ";
 			for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
 				std::cout << *mit << " ";
