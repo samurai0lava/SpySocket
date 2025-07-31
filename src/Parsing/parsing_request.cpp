@@ -502,7 +502,7 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 	return true;
 }
 
-//parsing body if available // CAses
+//parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
 	size_t available = buffer.length() - buffer_pos;
@@ -541,7 +541,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
-			if (content_lenght_exists && expected_body_length > 0)
+			if (expected_body_length > 0)
 				current_state = PARSE_BODY;
 			else
 				current_state = PARSE_COMPLETE;
@@ -563,7 +563,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	}
 	if (current_state == PARSE_ERROR)
 	{
-		printf("akki\n");
 		return PARSE_ERROR_RESULT;
 	}
 	return PARSE_OK;
