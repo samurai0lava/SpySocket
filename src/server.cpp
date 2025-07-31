@@ -1,7 +1,7 @@
 #include "../include/server.hpp"
 #include "../inc/webserv.hpp"
 
-void getServersFds(Config *configFile, Servers &serv)
+void Servers::getServersFds(Config *configFile, Servers &serv)
 {
     // Servers serv;
     serv.configStruct = configFile->_cluster;
@@ -75,7 +75,7 @@ const char *http_response =
     "Hello, World!";
 
 
-void epollFds(Servers &serv)
+void Servers::epollFds(Servers &serv)
 {
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
@@ -186,12 +186,14 @@ void epollFds(Servers &serv)
                 
                 if (result == ParsingRequest::PARSE_OK)
                 {
+                    std::cout<<"im here"<<endl;
                     printRequestInfo(*parser, fd);
-                    
+                    ConfigStruct& config = serv.configStruct.begin()->second;
                     //send response----------------------------------------
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
-                    //handleMethod(fd, parser);
+                    // HandleMethod(fd, parser,);
+                    handleMethod(parser,config ,serv);
                     //handle methode logic will be check the method from the start line and assign the correct methode and response
                     
                     // For now, send a simple HTTP response
@@ -226,3 +228,4 @@ void epollFds(Servers &serv)
 
     close(epollFd);
 }
+
