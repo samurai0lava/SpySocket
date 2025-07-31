@@ -42,6 +42,9 @@ struct LocationStruct
     std::string _return;
 	std::vector<std::string> cgi_path;
 	std::vector<std::string> cgi_ext;
+	//added by hiba
+	bool upload_enabled;
+	std::string upload_path;
 };
 
 // config->_cluster

@@ -1,14 +1,6 @@
 #include "../include/methods.hpp"
 #include "../inc/webserv.hpp"
 
-// THAT'S A PRETTY BASIC PARSING ASSUMING NOTHING IN THE REQUEST IS MALFORMED
-
-void fillFields(Post &request)
-{
-    request.contentType = request.header["Content-Type"];
-    request.contentLength = request.header["Content-Length"];
-    request.returnType = request.header["Accept"];
-}
 
 std::vector<std::string> split(const std::string &str, char delimiter)
 {
@@ -33,25 +25,26 @@ std::vector<std::string> split(const std::string &str, char delimiter)
 }
 
 
-string findClosest(vector<string> &locations, string &path)
+bool matchedHost(ParsingRequest *parser, Config *conf)
+{
+    string host = parser->getHeaders()["host"];
+    if(conf->_cluster.find(host) != conf->_cluster.end())
+    return true;
+    return false;
+}
+
+string getClosest(vector<string> locationsName, string uri)
 {
     int bestIndex = -1;
     size_t bestLength = 0;
 
-    for (size_t i = 0; i < locations.size(); ++i)
+    for (size_t i = 0; i < locationsName.size(); ++i)
     {
-        string loc = locations[i];
-        // cout << "Location : " << loc << endl;
+        string loc = locationsName[i];
 
-        if (path.compare(0, loc.length(), loc) == 0)
+        if (uri.compare(0, loc.length(), loc) == 0)
         {
-            // cout << loc << " is available in " << path << endl;
-
-            // Make sure the next char is '/' or nothing (to avoid /cgi-bin matching /cgi-binary)
-
-            // cout << "Path length : " << path.length() << " Location length : " << loc.length() << endl;
-            
-            if (path.length() == loc.length() || path[loc.length()] == '/' || loc[loc.length() - 1] == '/')
+            if (uri.length() == loc.length() || uri[loc.length()] == '/' || loc[loc.length() - 1] == '/')
             {
                 if (loc.length() > bestLength)
                 {
@@ -62,60 +55,164 @@ string findClosest(vector<string> &locations, string &path)
         }
     }
     if(bestIndex == -1)
-    {
-        //needs modifications later i'll just print the response
-        cout << "No matching location found!! 404\n";
-        return "null";
-    }
-
-    return locations.at(bestIndex);
+        return "No matching loc found!";
+    else
+        return locationsName.at(bestIndex);
 }
 
+// bool matchedLocation(string uri, Config *conf)
+// {
 
-string trimLocation(string path, string foundLocation)
+//     if(getClosest(locations, uri) == "No matching loc found!")
+//         return false;
+//     return true;
+// }
+
+string redirection(string red)
 {
-    return path.substr(foundLocation.length());
+    std::string status = red.substr(0, red.find(' '));
+    std::string newLoc = red.substr(red.find(' ') + 1);
+
+    std::string statusMsg;
+    if (status == "301") statusMsg = "Moved Permanently";
+    else if (status == "302") statusMsg = "Found";
+    else if (status == "307") statusMsg = "Temporary Redirect";
+    else if (status == "308") statusMsg = "Permanent Redirect";
+    else statusMsg = "Redirect"; // fallback
+
+    return "HTTP/1.1 " + status + " " + statusMsg + "\r\n"
+       "Location: " + newLoc + "\r\n"
+       "Content-Length: 0\r\n"
+       "\r\n";
 }
 
-void routingFunc(Post &req, Config *config)
+string methodNotAllowed(std::pair<std::string,LocationStruct> location)
 {
-    auto configMap = config->_cluster;
-    vector<string> locations;
-    for (auto it = configMap.begin(); it != configMap.end(); it++)
-    {
-        for (auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
-        {
-            locations.push_back((*i).first);
+    std::string res = "HTTP/1.1 405 Method Not Allowed\r\nAllow: ";
+    
+    for (auto it = location.second.allowedMethods.begin(); it != location.second.allowedMethods.end(); ++it) {
+        res += *it;
+        if (std::next(it) != location.second.allowedMethods.end()) {
+            res += ", ";
         }
     }
-
-    string closestLocation = findClosest(locations, req.path);
-    //needs modification later
-    if(closestLocation == "null")
-        return;
-    cout << closestLocation << endl;
     
-    for(auto it = (*config->_cluster.begin()).second.location.begin(); it != (*config->_cluster.begin()).second.location.end(); it++)
+    std::string body = "<html><body><h1>405 Method Not Allowed</h1></body></html>";
+    res += "\r\nContent-Type: text/html\r\n";
+    res += "Content-Length: " + std::to_string(body.size()) + "\r\n";
+    res += "\r\n";
+    res += body;
+    
+    return res;
+}
+
+string forbidden()
+{
+    return 
+    "HTTP/1.1 403 Forbidden\r\n"
+    "Content-Type: text/html\r\n"
+    "Content-Length: 58\r\n"
+    "\r\n"
+    "<html><body><h1>403 Forbidden</h1></body></html>";
+}
+
+string internalError()
+{
+    return "HTTP/1.1 500 Internal Server Error\r\n"
+    "Content-Type: text/html\r\n"
+    "Content-Length: 66\r\n"
+    "\r\n"
+    "<html><body><h1>500 Internal Server Error</h1></body></html>";
+}
+
+string handlePost(ParsingRequest *parser, int clientFd, Config *conf)
+{
+    //TODO: back to that later with multiple servers
+    // if(!matchedHost(parser, conf))
+    //     cerr << "400 Bad request no matching server for that host\n";
+
+    
+    vector<string> locations;
+    //WE ASSUMING WE ONLY HAVE ONE SERVER NOW
+    for(auto it = conf->_cluster.begin(); it != conf->_cluster.end(); it++)
     {
-        if((*it).first == closestLocation)
+        for(auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
+            locations.push_back((*i).first);
+    }
+
+    map<string, string> startLine = parser->getStartLine();
+    string URI = startLine["uri"];
+    string matchedLoc = getClosest(locations, URI);
+    if(matchedLoc == "No matching loc found!")
+    {
+        return Error::notFound();
+        // return;
+    }
+    
+    //GET THE WANTED LOCATION
+
+    std::pair<std::string,LocationStruct> location;
+
+    for(auto it = conf->_cluster.begin(); it != conf->_cluster.end(); it++)
+    {
+        for(auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
         {
-            if((*it).second.allowedMethods.find("POST") == (*it).second.allowedMethods.end())
-                cout << req.notFound() << endl; //response 404 should be returned later
-            else
+            if((*i).first == matchedLoc)
             {
-                //check the size of the request body if it matches client_body_size_max in conf file if no return 413 ig if yes proceed with it
-                //
+                location = (*i);
+                break;
             }
         }
     }
+
+
+    //REDIRECTION INCOMPLETE OFC
+
+    string redirect = location.second._return;
+    if(redirect != "")
+    {
+        return redirection(redirect);
+    }
+
+    //
+    if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
+    {
+        return methodNotAllowed(location);
+    }
+
+    //CHECK THE CONTENT LENGTH INSIDE THE GIVEN BLOCK (i don't have a content length variable from the config file TODO : ask zahira)
+
+    //WORK ON UPLOAD HERE :
+    location.second.upload_enabled = true; //static shit need to be modified later
+    location.second.upload_path = "/api/login/users";
+
+    if(!location.second.upload_enabled)
+        return forbidden();
+    else if(location.second.upload_path == "")
+        return internalError();
+    else
+    {
+        
+    }
+    
+    string static_response = "HTTP/1.1 200 OK\r\n"
+    "Content-Type: text/plain\r\n"
+    "Content-Length: 13\r\n"
+    "Connection: close\r\n"
+    "\r\n"
+    "Hello, World!";
+    return static_response;
 }
 
-void handleMethod(int fd, ParsingRequest* parser)
+string handleMethod(int fd, ParsingRequest* parser, Config *conf)
 {
-    cout << "--> Sent FD : " << fd << endl;
-    cout << "************\n";
-    for(auto it = parser->getStartLine().begin(); it != parser->getStartLine().end(); it++)
-        cout << (*it).first << endl;
+    // cout << "--> Sent FD : " << fd << endl;
+    // cout << "************\n";
+
+    map<string, string> startLine = parser->getStartLine();
+    if(startLine["method"] == "POST")
+        return handlePost(parser, fd, conf);
+    return "";
 }
 
 int main(int argc, char **argv)
@@ -125,7 +222,7 @@ int main(int argc, char **argv)
 
     Servers serv;
     getServersFds(config, serv);
-    epollFds(serv);
+    epollFds(serv, config);
 
     // string line;
     // fstream requestFile("request.txt", ios::in);

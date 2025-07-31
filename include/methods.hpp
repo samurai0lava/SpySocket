@@ -7,10 +7,12 @@
 class Error
 {
 public:
-    string notFound() {
-        return "HTTP/1.1 404 Not Found\r\n"
-               "Content-Type: text/html\r\n\r\n"
-               "<html><body><h1>404 Not Found</h1></body></html>";
+    static string notFound() {
+        return  "HTTP/1.1 404 Not Found\r\n"
+                "Content-Type: text/html\r\n"
+                "Content-Length: 48\r\n"
+                "\r\n"
+                "<html><body><h1>404 Not Found</h1></body></html>";
     };
 };
 
@@ -29,4 +31,4 @@ public:
     // void fillImportantFields();
 };
 
-void handleMethod(int fd, ParsingRequest* parser);
+string handleMethod(int fd, ParsingRequest* parser, Config *conf);
