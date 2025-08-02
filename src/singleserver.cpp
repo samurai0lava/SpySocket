@@ -104,11 +104,11 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             if (this->_conf->autoIndex == true)
                 throw std::runtime_error("Duplicate autoindex directive found.");
 		    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-            if (value != "true" && value != "false")
+            if (value != "on" && value != "off")
 		    {
-                throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
+                throw std::runtime_error("Invalid value for 'autoindex': expected 'on' or 'off'.");
 		    }
-            this->_conf->autoIndex = (value.compare("true") == 0);
+            this->_conf->autoIndex = (value.compare("on") == 0);
 		    break ;
 
         }
@@ -236,12 +236,15 @@ std::string locationVariables1[] =
         "index_page",
         "_return",
         "cgi_path",
-        "cgi_ext"
+        "cgi_ext",
+        "upload_enabled",
+        "upload_path"
     };
 LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 {
     LocationStruct location_tmp;
     location_tmp.autoIndex = false;
+    location_tmp.upload_enabled = false;
     location_tmp.indexPage = "";
     location_tmp.root = "";
     std::stringstream bstream;
@@ -252,6 +255,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 	bool foundMethod = false;
 	bool foundIndex = false;
 	bool foundAutoIndex = false;
+    bool foundUpload_enabled = false;
     std::string value;
 
     while(bstream.good())
@@ -265,11 +269,12 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             continue;
         }
 		size_t foundKey = location_root;
-        for (; foundKey < cgi_ext + 1; ++foundKey)
+        for (; foundKey < upload_path + 1; ++foundKey)
 		{
 			if (locationVariables1[foundKey] == key){
 				break ;}
 		}
+        // std::cout<<"locationVariables1 : "<<
         switch (foundKey)
 		{
             case (location_root):
@@ -314,7 +319,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 if (foundAutoIndex == true)
                     throw std::runtime_error("Duplicate Location auto index");
 			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.autoIndex = (value.compare("true") == 0);
+                location_tmp.autoIndex = (value.compare("on") == 0);
 			    foundAutoIndex = true;
                 break;
             }
@@ -352,6 +357,28 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 while (ss >> path)
                     location_tmp.cgi_ext.push_back(path);
                 break;
+            }
+            case(upload_enabled):
+            {
+                std::cout<<"1"<<std::endl;
+                if (foundUpload_enabled == true)
+                    throw std::runtime_error("Duplicate Location Upload enabled");
+			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+                location_tmp.upload_enabled = (value.compare("on") == 0);
+			    foundUpload_enabled = true;
+                break;
+            }
+            case(upload_path):
+            {
+                std::cout<<"KeyValue : "<<keyValue.c_str()<<std::endl;
+                value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+                location_tmp.upload_path = value;
+			    // foundRoot = true;
+                std::cout<<"value : "<<value<<std::endl;
+                std::cout<<"Hola meriam > "<<location_tmp.upload_path<<std::endl;
+                
+                break;
+
             }
             // default: /// trj3 liha waaaaa
             // {

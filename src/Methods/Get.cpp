@@ -1,6 +1,6 @@
 #include "../../inc/Get.hpp"
 
-Get::Get(ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri): parser(parser), config(config), serv(serv), uri(uri)
+Get::Get(int client_fd,ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri):client_fd(client_fd), parser(parser), config(config), serv(serv), uri(uri)
 {
  
 }
@@ -24,28 +24,16 @@ void Get::MethodGet()
             break;
         }
     }
-    // 404 Not Found: Path does not exist
-    // cout<<"_return    : "<<locationMatched._return[0].first<<endl;
-    // if (!locationMatched._return.empty()) 
-    // {
-    //     cout<<"lol123"<<endl;
-    //     const std::pair<std::string, std::string>& ret = locationMatched._return[0];
 
-    //     int status = std::atoi(ret.first.c_str());
-    //     const std::string& url = ret.second;         
-    //     std::ostringstream redirect;
-    //     redirect << "HTTP/1.1 " << status << " Moved Permanently\r\n";
-    //     redirect << "Location: " << url << "\r\n\r\n";
-    //     send(serv.getServersFds()[0], redirect.str().c_str(), redirect.str().length(), 0);
-    //     return;
-    // }
+    std::cout<<" fd : "<<this->serv.serversFd[0]<< endl;
+    cout<<"path = " <<matchedLocation<<endl;
     if (!this->pathExists(matchedLocation)) 
         throw std::runtime_error("404 Not Found: Path does not exist");
     if (this->isFile(matchedLocation)) 
     {
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
         if (!file.is_open())
-            throw std::runtime_error("500 Internal Server Error: Cannot open file");
+        throw std::runtime_error("500 Internal Server Error: Cannot open file");
         std::stringstream buffer;
         buffer << file.rdbuf();
         std::string fileContent = buffer.str();
@@ -53,10 +41,15 @@ void Get::MethodGet()
         std::ostringstream response;
         response << "HTTP/1.1 200 OK\r\n";
         response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
-        response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
+        response << "Content-Length: " << fileContent.size() << "\r\n";
+        // response << "Content-Length: " << b.size() << "\r\n";
+        response << "Connection: keep-alive\r\n"; 
+        response << "\r\n"; 
         response << fileContent;
         std::string finalResponse = response.str();
-        send(serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+        std::cout<<"is file : "<<response.str()<<endl;
+        // std::cout<<"server fd : "<<serv.getServersFds()[0]<<std::endl;
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
         return;
     }
     if (this->isDirectory(matchedLocation)) 
@@ -81,7 +74,7 @@ void Get::MethodGet()
             response << fileContent;
 
             std::string finalResponse = response.str();
-            send(this->serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
         else if (locationMatched.autoIndex) 
@@ -94,7 +87,7 @@ void Get::MethodGet()
             response << listing;
 
             std::string finalResponse = response.str();
-            send(this->serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
         else 
