@@ -120,13 +120,9 @@ void Config::_checkBrackets(std::string all)
 		if(buffer.find("server {") != std::string::npos )
 		{
 			if(openServer == true)
-			{
 				throw Config::ServerInsideServerException();
-			}
 			else
-			{
 				openServer = true;
-			}
 		}
 		else if(buffer.find("location ") != std::string::npos)
 		{
@@ -204,7 +200,7 @@ void Config::printCluster() const {
 			const LocationStruct &loc = conf.location[i].second;
 			std::cout << "\t\t\tRoot: " << loc.root << std::endl;
 			std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
-			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
+			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "on" : "off") << std::endl;
 			std::cout << "\t\t\tReturn: ";
 			for (size_t i = 0; i < loc._return.size(); ++i)
 			{
@@ -227,6 +223,8 @@ void Config::printCluster() const {
 			for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
 				std::cout << loc.cgi_ext[j] << " ";
 			std::cout << std::endl;
+			std::cout << "\t\t\tUpload_enabled: " << (loc.upload_enabled ? "on" : "off") << std::endl;
+			std::cout << "\t\t\tUpload_path : " << loc.upload_path << std::endl;
 		}
 		std::cout << std::endl;
 	}

@@ -30,7 +30,9 @@ enum
 	location_index,
     _return,
     cgi_path,
-	cgi_ext
+	cgi_ext,
+	upload_enabled,
+	upload_path
 };
 struct LocationStruct
 {
@@ -41,7 +43,9 @@ struct LocationStruct
     // std::string _return;
 	std::vector<std::pair<std::string,std::string> > _return;
 	std::vector<std::string> cgi_path;
-	std::vector<std::string> cgi_ext;	
+	std::vector<std::string> cgi_ext;
+	bool upload_enabled;
+	std::string upload_path;	
 	// std::vector<std::pair<std::string,std::string> > cgi_path;
 	// std::vector<std::pair<std::string,std::string> > cgi_ext;
 };
