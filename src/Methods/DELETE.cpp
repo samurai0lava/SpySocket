@@ -53,8 +53,10 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
 bool DeleteMethode::PerformDelete(const std::string& uri, const &ConfigStruct server)
 {
 
-    server.
-
+    //while(server.)
+    //check the method is allowed or not 
+    //i need a eplanation how the fuck she did it 
+    
 
     if (!CheckFile(uri)) {
         return false;

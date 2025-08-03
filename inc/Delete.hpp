@@ -3,6 +3,8 @@
 
 
 #include "parsing_request.hpp"
+#include "../include/Struct.hpp"
+#include "../include/Config.hpp"
 
 //so what we need to make this Delete Work mmmm
 //202 Accepted
@@ -29,7 +31,7 @@ class DeleteMethode : public ParsingRequest
         bool CheckisDir(const std::string& uri);
         bool CheckAccess(const std::string& uri);
         bool checkReqForDelete(ParsingRequest& request);
-        bool PerformDelete(const std::string& uri);
+        bool DeleteMethode::PerformDelete(const std::string& uri, const& ConfigStruct server);
         std::string generate_resp(void);
         std::string generate_error_resp(int error_code, const std::string& message);
         std::string generate_success_resp(const std::string& uri);
