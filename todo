@@ -1,4 +1,16 @@
 TODO : make an array of server sockets (multiple servers)
 TODO : loop on them and add them to epoll
 
+
+
+
+
+
+
 we only have and need one port 
+
+
+
+Improve Delete and add more cases to it
+Config file.
+
