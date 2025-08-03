@@ -4,7 +4,7 @@
 
 bool DeleteMethode::CheckFile(const std::string& uri)
 {
-    std::ifstream file(uri);
+    std::ifstream file(uri.c_str());
     if (!file) {
         error_code = 404;
         error_message = "Not Found: File does not exist - " + uri;
@@ -50,13 +50,13 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
     }
     return true;
 }
-bool DeleteMethode::PerformDelete(const std::string& uri, const &ConfigStruct server)
+
+
+bool DeleteMethode::PerformDelete(const std::string& uri)
 {
 
-    //while(server.)
     //check the method is allowed or not 
-    //i need a eplanation how the fuck she did it 
-    
+    //i need a explanation how the fuck she did it
 
     if (!CheckFile(uri)) {
         return false;
@@ -80,7 +80,7 @@ bool DeleteMethode::PerformDelete(const std::string& uri, const &ConfigStruct se
         return true;
     }
     else {
-        if (uri.back() != '/') {
+        if (uri[uri.length() - 1] != '/') {
             error_code = 409;
             error_message = "Conflict: Directory URI must end with '/' - " + uri;
             return false;
