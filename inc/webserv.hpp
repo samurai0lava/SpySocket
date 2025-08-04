@@ -23,6 +23,7 @@
 #include "MethodHandler.hpp"
 #include "../inc/RespondError.hpp"
 #include "Get.hpp"
+#include "CGI.hpp"
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
