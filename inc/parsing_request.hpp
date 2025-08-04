@@ -39,32 +39,32 @@ class ParsingRequest
             PARSE_ERROR_505, // HTTP Version Not Supported
         };
     protected:
-    std::map<std::string, std::string> start_line;
-    std::map<std::string, std::string> headers;
+        std::map<std::string, std::string> start_line;
+        std::map<std::string, std::string> headers;
 
-    int connection_status; // 0 for closed, 1 for keep-alive
-    int content_lenght_exists; // 0 for no content length, 1 for exists
-    int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
-    int host_exists; // 0 for no host, 1 for exists
-    
-    int error_code; // Error code for the request
-    std::string error_message; // Error message for the request
-    int status_code; // Status code for the successful request
-    std::string status_phrase; // Status phrase for the successful request
+        int connection_status; // 0 for closed, 1 for keep-alive
+        int content_lenght_exists; // 0 for no content length, 1 for exists
+        int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
+        int host_exists; // 0 for no host, 1 for exists
+        
+        int error_code; // Error code for the request
+        std::string error_message; // Error message for the request
+        int status_code; // Status code for the successful request
+        std::string status_phrase; // Status phrase for the successful request
 
-    // State machine 
-    ParseState current_state;
-    ParseResult result_p;
-    std::string buffer; // Accumulates incoming data
-    size_t buffer_pos; // Current position in buffer
-    size_t expected_body_length; // From the Content-Length header value
-    std::string body_content; // Parsed body content if available
-
-    bool parse_start_line();
-    bool parse_headers();
-    bool parse_body();
-    bool find_crlf(size_t& pos);
-    // bool has_complete_line();
+        // State machine 
+        ParseState current_state;
+        ParseResult result_p;
+        std::string buffer; // Accumulates incoming data
+        size_t buffer_pos; // Current position in buffer
+        size_t expected_body_length; // From the Content-Length header value
+        std::string body_content; // Parsed body content if available
+        std::string query_string; // Parsed query string if available
+        bool parse_start_line();
+        bool parse_headers();
+        bool parse_body();
+        bool find_crlf(size_t& pos);
+        // bool has_complete_line();
 
 public:
     ParsingRequest() : connection_status(1), content_lenght_exists(0), 
@@ -89,6 +89,7 @@ public:
     std::string getErrorMessage() const { return error_message; }
     int getStatusCode() const { return status_code; }
     std::string getStatusPhrase() const { return status_phrase; }
+    std::string getQueryString() const { return query_string; }
     bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
     bool checkURI(const std::string& uri);
     bool checkVersion(const std::string& verion);
