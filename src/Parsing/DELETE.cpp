@@ -1,4 +1,3 @@
-#include "../../inc/Delete.hpp"
 #include "../../inc/webserv.hpp"
 
 
@@ -17,8 +16,8 @@ bool DeleteMethode::CheckFile(const std::string& uri)
 bool DeleteMethode::checkReqForDelete(ParsingRequest& request)
 {
     if (request.getContentLengthExists() == 1) {
-        
-        if (request.getBody().length() > 0 ) {
+
+        if (request.getBody().length() > 0) {
             error_code = 400;
             error_message = "Bad Request: DELETE requests should not have a body";
             return false;
@@ -30,7 +29,7 @@ bool DeleteMethode::checkReqForDelete(ParsingRequest& request)
 bool DeleteMethode::CheckisDir(const std::string& uri)
 {
     struct stat path_stat;
-    if (stat(uri.c_str(), &path_stat) != 0){
+    if (stat(uri.c_str(), &path_stat) != 0) {
         return false;
     }
     if (S_ISDIR(path_stat.st_mode)) {
@@ -61,19 +60,19 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
     if (!CheckFile(uri)) {
         return false;
     }
-    
-    if(!CheckisDir(uri)) {
+
+    if (!CheckisDir(uri)) {
         if (!CheckAccess(uri)) {
             return false;
         }
-        
+
         if (std::remove(uri.c_str()) != 0) {
             connection_status = 0;
             error_code = 500;
             error_message = "Internal Server Error: Failed to delete file - " + uri;
             return false;
         }
-        
+
         connection_status = 1;
         status_code = 204;
         status_phrase = "No Content";
@@ -88,7 +87,7 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
         if (!CheckAccess(uri)) {
             return false;
         }
-        
+
         if (std::remove(uri.c_str()) != 0) {
             error_code = 500;
             error_message = "Internal Server Error: Failed to delete directory - " + uri;

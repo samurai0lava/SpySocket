@@ -32,6 +32,7 @@ class CGI : public ParsingRequest
         std::map<std::string, std::string> get_env_vars() const { return env_vars; }
         bool read_output();
         void close_cgi();
+        bool check_is_cgi(const ParsingRequest &request);
 };
 
 
