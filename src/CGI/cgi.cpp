@@ -185,3 +185,4 @@ void CGI::close_cgi()
         cgi_pid = -1;
     }
 }
+
