@@ -104,7 +104,6 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             if (this->_conf->autoIndex == true)
                 throw std::runtime_error("Duplicate autoindex directive found.");
 		    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-            std::cout<<"value = "<<value<<std::endl;
             if (value != "true" && value != "false")
 		    {
                 throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
@@ -270,12 +269,11 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             continue;
         }
 		size_t foundKey = location_root;
-        for (; foundKey < upload_path + 1; ++foundKey)
+        for (; foundKey < upload_path  + 1; ++foundKey)
 		{
 			if (locationVariables1[foundKey] == key){
 				break ;}
 		}
-        // std::cout<<"locationVariables1 : "<<
         switch (foundKey)
 		{
             case (location_root):
@@ -361,7 +359,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             }
             case(upload_enabled):
             {
-                std::cout<<"1"<<std::endl;
+                // std::cout<<"1"<<std::endl;
                 if (foundUpload_enabled == true)
                     throw std::runtime_error("Duplicate Location Upload enabled");
 			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
@@ -371,13 +369,9 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             }
             case(upload_path):
             {
-                std::cout<<"KeyValue : "<<keyValue.c_str()<<std::endl;
+                // std::cout<<"KeyValue : "<<keyValue.c_str()<<std::endl;
                 value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.upload_path = value;
-			    // foundRoot = true;
-                std::cout<<"value : "<<value<<std::endl;
-                std::cout<<"Hola meriam > "<<location_tmp.upload_path<<std::endl;
-                
+                location_tmp.upload_path = value;                
                 break;
 
             }
