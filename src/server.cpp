@@ -193,7 +193,7 @@ void Servers::epollFds(Servers &serv)
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
                     // HandleMethod(fd, parser,);
-                    handleMethod(parser,config ,serv);
+                    handleMethod(fd,parser,config ,serv);
                     //handle methode logic will be check the method from the start line and assign the correct methode and response
                     
                     // For now, send a simple HTTP response

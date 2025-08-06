@@ -227,6 +227,8 @@ void Config::printCluster() const {
 			for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
 				std::cout << loc.cgi_ext[j] << " ";
 			std::cout << std::endl;
+			std::cout << "\t\t\tUpload_enabled: " << (loc.upload_enabled ? "on" : "off") << std::endl;
+			std::cout << "\t\t\tUpload_path : " << loc.upload_path << std::endl;
 		}
 		std::cout << std::endl;
 	}
