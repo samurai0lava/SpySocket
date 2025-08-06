@@ -1,18 +1,3 @@
-# Webserv-42
-
-## And it's why URLs start with HTTP
-
-# Webserv is a simple HTTP server written in C++98, designed to help you understand the basics of web servers and HTTP protocols.
-
-## Features
-
-- Basic HTTP request handling
-- Simple response generation
-- Support for static files
-
-
-## CGI (Common Gateway Interface)
-
 CGI stand for Common gateway interface, its solve a problem, back in the days servers can only serve static website (HTML , IMAGES and fixed content)
 but what i f i want to run something in my website like changing news or a weather stats...
 CGI run that program and return that program output as a web page.
