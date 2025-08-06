@@ -1,6 +1,8 @@
 #include "../../inc/Get.hpp"
+// #include "Get.hpp"
 
-Get::Get(ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri): parser(parser), config(config), serv(serv), uri(uri)
+
+Get::Get(int client_fd,ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri):client_fd(client_fd), parser(parser), config(config), serv(serv), uri(uri)
 {
  
 }
@@ -56,7 +58,7 @@ void Get::MethodGet()
         response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
         response << fileContent;
         std::string finalResponse = response.str();
-        send(serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
         return;
     }
     if (this->isDirectory(matchedLocation)) 
@@ -81,7 +83,7 @@ void Get::MethodGet()
             response << fileContent;
 
             std::string finalResponse = response.str();
-            send(this->serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
         else if (locationMatched.autoIndex) 
@@ -94,7 +96,7 @@ void Get::MethodGet()
             response << listing;
 
             std::string finalResponse = response.str();
-            send(this->serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
         else 
