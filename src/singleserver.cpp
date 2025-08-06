@@ -104,11 +104,12 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             if (this->_conf->autoIndex == true)
                 throw std::runtime_error("Duplicate autoindex directive found.");
 		    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-            if (value != "on" && value != "off")
+            std::cout<<"value = "<<value<<std::endl;
+            if (value != "true" && value != "false")
 		    {
-                throw std::runtime_error("Invalid value for 'autoindex': expected 'on' or 'off'.");
+                throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
 		    }
-            this->_conf->autoIndex = (value.compare("on") == 0);
+            this->_conf->autoIndex = (value.compare("true") == 0);
 		    break ;
 
         }
@@ -319,7 +320,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 if (foundAutoIndex == true)
                     throw std::runtime_error("Duplicate Location auto index");
 			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.autoIndex = (value.compare("on") == 0);
+                location_tmp.autoIndex = (value.compare("true") == 0);
 			    foundAutoIndex = true;
                 break;
             }

@@ -11,6 +11,8 @@ Get::~Get()
 
 void Get::MethodGet()
 {
+    std::cout<<"--------------------------------------------"<<endl;
+    std::cout<<"-------------- Method Get ------------------"<<endl;
     std::string matchedLocation = matchLocation(this->uri , this->config);
     if (matchedLocation.empty()) 
     {
@@ -26,9 +28,11 @@ void Get::MethodGet()
     }
 
     std::cout<<" fd : "<<this->serv.serversFd[0]<< endl;
-    cout<<"path = " <<matchedLocation<<endl;
+    std::cout<<"path = " <<matchedLocation<<endl<<endl;
     if (!this->pathExists(matchedLocation)) 
-        throw std::runtime_error("404 Not Found: Path does not exist");
+    {
+        // std::cout<<"matched location : " <<mak
+        throw std::runtime_error("404 Not Found: Path does not exist");}
     if (this->isFile(matchedLocation)) 
     {
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
@@ -54,38 +58,44 @@ void Get::MethodGet()
     }
     if (this->isDirectory(matchedLocation)) 
     {
+        std::cout<<"is directory"<<endl;
         std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
-
-        if (this->pathExists(indexPath) && this->isFile(indexPath)) 
+             std::cout<<"   =  "<<locationMatched.autoIndex << std::endl;
+        if(locationMatched.autoIndex == true)
+             std::cout<<"   =  "<<locationMatched.autoIndex << std::endl;
+        else
+            std::cout<<"it autoindex is false "<<std::endl;
+         if (locationMatched.autoIndex == true) 
         {
-            std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
-            if (!file.is_open())
-                throw std::runtime_error("500 Internal Server Error: Cannot open index file");
-
-            std::stringstream buffer;
-            buffer << file.rdbuf();
-            std::string fileContent = buffer.str();
-            file.close();
-
-            std::ostringstream response;
-            response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: "<< this->getMimeType(matchedLocation)<<"\r\n";
-            response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
-            response << fileContent;
-
-            std::string finalResponse = response.str();
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return;
-        }
-        else if (locationMatched.autoIndex) 
-        {
+            std::cout<<"im 5 "<<endl;
             std::string listing = this->generateAutoIndex(matchedLocation);
             std::ostringstream response;
             response << "HTTP/1.1 200 OK\r\n";
             response << "Content-Type: "<<this->getMimeType(matchedLocation)<<"\r\n";
             response << "Content-Length: " << listing.size() << "\r\n\r\n";
             response << listing;
-
+            
+            std::string finalResponse = response.str();
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            return;
+        }
+        else if (this->pathExists(indexPath) && this->isFile(indexPath)) 
+        {
+            std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
+            if (!file.is_open())
+                throw std::runtime_error("500 Internal Server Error: Cannot open index file");
+        
+            std::stringstream buffer;
+            buffer << file.rdbuf();
+            std::string fileContent = buffer.str();
+            file.close();
+        
+            std::ostringstream response;
+            response << "HTTP/1.1 200 OK\r\n";
+            response << "Content-Type: "<< this->getMimeType(matchedLocation)<<"\r\n";
+            response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
+            response << fileContent;
+        
             std::string finalResponse = response.str();
             send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
@@ -111,12 +121,14 @@ std::string Get::getMimeType(const std::string& path)
 
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
 {
-     std::string path = requestPath;
-    std::string removedSegment;
-    std::string removedPath; 
-    while (true) {
-        // std::cout << "Path : " << path << " removed : " << removedPath << std::endl;
+    std::string path = requestPath;
 
+    std::string removedSegment;
+
+    std::string removedPath;
+
+    while (true) 
+    {
         for (size_t i = 0; i < server.location.size(); ++i) {
             if (path == server.location[i].first) {
                 
@@ -196,5 +208,7 @@ bool Get::isFile(const std::string& path)
 bool Get::pathExists(const std::string& path)
 {
    struct stat s;
+   std::cout<<"path for check is path exists or not : "<<path<<std::endl;
+
    return stat(path.c_str(), &s) == 0;
 }
