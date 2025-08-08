@@ -103,12 +103,28 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         {
             if (this->_conf->autoIndex == true)
                 throw std::runtime_error("Duplicate autoindex directive found.");
-		    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+            value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+		    value.erase(0, value.find_first_not_of(WHITESPACE));
+            value.erase(value.find_last_not_of(WHITESPACE) + 1);
+            std::cout<<"valuue content : "<<value<<std::endl;
             if (value != "true" && value != "false")
 		    {
                 throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
 		    }
-            this->_conf->autoIndex = (value.compare("true") == 0);
+            // if(value == "true ")
+            // {
+            //     std::cout<<"-----------------------------------------12"<<std::endl;
+            //     std::cout<<"auto index is true "<<std::endl;
+            //     this->_conf->autoIndex = true;
+            // }
+            // this->_conf->autoIndex = (value.compare("true") == 0);
+            // std::cout<<""
+            if (value == "true") {
+                this->_conf->autoIndex = true;
+                std::cout << "auto index is true :: "<<this->_conf->autoIndex<< " must be  : " << true <<std::endl;
+            } else {
+                this->_conf->autoIndex = false;
+            }
 		    break ;
 
         }

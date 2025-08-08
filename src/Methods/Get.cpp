@@ -13,6 +13,7 @@ Get::~Get()
 
 void Get::MethodGet()
 {
+   
     std::string matchedLocation = matchLocation(this->uri , this->config);
     if (matchedLocation.empty()) 
     {
@@ -41,8 +42,10 @@ void Get::MethodGet()
     //     send(serv.getServersFds()[0], redirect.str().c_str(), redirect.str().length(), 0);
     //     return;
     // }
+    
     if (!this->pathExists(matchedLocation)) 
         throw std::runtime_error("404 Not Found: Path does not exist");
+    std::cout<<"location autoindex = "<<locationMatched.autoIndex<<"page index : "<<locationMatched.indexPage<<std::endl;
     if (this->isFile(matchedLocation)) 
     {
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
@@ -61,7 +64,7 @@ void Get::MethodGet()
         send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
         return;
     }
-    if (this->isDirectory(matchedLocation)) 
+    else if (this->isDirectory(matchedLocation)) 
     {
         std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
 
@@ -86,7 +89,7 @@ void Get::MethodGet()
             send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
-        else if (locationMatched.autoIndex) 
+        else if (locationMatched.autoIndex == 0) 
         {
             std::string listing = this->generateAutoIndex(matchedLocation);
             std::ostringstream response;
