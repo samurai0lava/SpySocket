@@ -80,7 +80,7 @@ void Servers::epollFds(Servers &serv)
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
         throw runtime_error("Error creating epoll!");
-        
+    // std::cout<<" 01 : "<<serv.configStruct. 
     struct epoll_event event;
     for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
     {
@@ -182,6 +182,7 @@ void Servers::epollFds(Servers &serv)
                     close(fd);
                     continue;
                 }
+
                 ParsingRequest::ParseResult result = parser->feed_data(serv.buffer, serv.bufferLength);
                 
                 if (result == ParsingRequest::PARSE_OK)

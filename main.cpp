@@ -10,6 +10,7 @@ int main(int argc, char** argv)
         config->StartToSet(parseArgv(argc, argv));
         config->printCluster();
         Servers serv;
+        std::cout<<"01 =:: "<<config->getAutoindex()<<std::endl;
         serv.getServersFds(config, serv);
         serv.epollFds(serv);
     }

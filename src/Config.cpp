@@ -67,7 +67,7 @@ void Config::_createConfigStruct(std::string server)
 	ConfigStruct tmp;
 	tmp.serverName = "";
 	tmp.root = "";  
-	tmp.autoIndex = false;
+	// tmp.autoIndex = false;
 	if (server.find("server_name") == std::string::npos)
 		throw std::runtime_error("Missing server_name in server configuration");
 	std::string serverName = server.substr(server.find("server_name"));
@@ -235,6 +235,10 @@ void Config::printCluster() const {
 }
 
 
+int Config::getAutoindex()
+{
+    return _cluster.begin()->second.autoIndex;
+}
 const char* Config::FileOpenException::what(void) const throw()
 {
 	return ("Failed to read from .conf file, check file existence and readrights");
