@@ -9,6 +9,7 @@ class Get
     int client_fd;
         ParsingRequest * parser;
         ConfigStruct &config;
+        std::string _name_location;
         Servers &serv;
         std::string uri;
         Get(int client_fd,ParsingRequest * parser,ConfigStruct &config,Servers &serv,std::string uri);

@@ -64,4 +64,25 @@ struct ConfigStruct
 	std::vector<std::pair<std::string,std::string> > errorPage;
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #endif
