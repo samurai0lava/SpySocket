@@ -98,7 +98,7 @@ public:
     bool checkContentType(const std::map<std::string, std::string>& headers);
     bool checkMethod(const std::string& method);
     bool checkHost(const std::map<std::string, std::string>& headers);
-    bool checkLocation(const std::map<std::string, std::string>& headers);
+    bool checkCookie(const std::map<std::string, std::string>& headers);
 };
 
 void printMap(const std::map<std::string, std::string>& m);

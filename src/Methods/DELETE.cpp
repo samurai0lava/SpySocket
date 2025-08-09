@@ -100,7 +100,6 @@ bool DeleteMethode::PerformDelete(const std::string& uri)
 }
 
 
-
 // //generate response for DELETE request
 // std::string DeleteMethode::generate_resp(void)
 // {
