@@ -62,3 +62,37 @@ The CGI implementation follows a standard Unix process model with pipe-based com
 3. Executes the CGI script using `execve()` with the appropriate interpreter 
 4. The parent process manages the pipes, handles timeout scenarios using `select()` with interval-based counting.
 5. Reads the CGI output in a non-blocking manner. 
+
+
+
+
+## HTTP Cookies
+
+**So what is a HTTP cookie ?**
+
+Well its a small block of data created by the web server while a user is browsing a website.
+
+*Example Use: Session Management (login state) , Personalisation and Tracking (Ads and analytics)*
+
+
+ ```Responds: Set Cookie```
+--------------------------------- > 
+**SERVER** -------------------- **CLIENT**
+		< ---------------------------------
+		 ```Request: Cookie```
+
+***Set-Cookie (RESPONSE HEADER)***
+The Server sends to tell the browser "*Please Store this data , and send it back to me on future Requests*" 
+Set-Cookie format :
+```       Set-Cookie: <cookie-name>=<cookie_value>[;<attribute>=<value>]...```
+
+`<cookie-name> : The Identifier for the cookie`
+`<cookie_value> :  The data (string you want to store)`
+`[;<attribute>=<value>]... : Optional for controlling the scoop and lifetime and security`
+
+Note : each Set-Cookie can only set one cookie
+
+
+
+
+
