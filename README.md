@@ -90,7 +90,7 @@ Set-Cookie format :
 `<cookie_value> :  The data (string you want to store)`
 `[;<attribute>=<value>]... : Optional for controlling the scoop and lifetime and security`
 
-Note : each Set-Cookie can only set one cookie
+Note : each Set-Cookie can only set one cookie and limited to 4096 bytes.
 
 
 
