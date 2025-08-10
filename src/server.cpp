@@ -57,7 +57,6 @@ const char *http_response =
     "\r\n"
     "Hello, World!";
 
-
 void epollFds(Servers &serv, Config *conf)
 {
     int epollFd = epoll_create1(0);
