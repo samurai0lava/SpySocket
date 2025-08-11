@@ -1,12 +1,16 @@
 
 #ifndef GET_HPP
 # define GET_HPP
+
 #include "webserv.hpp"
+
+
+
 class Get 
 {
     public :
 
-    int client_fd;
+        int client_fd;
         ParsingRequest * parser;
         ConfigStruct &config;
         std::string _name_location;

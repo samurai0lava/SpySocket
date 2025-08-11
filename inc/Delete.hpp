@@ -28,13 +28,12 @@ class DeleteMethode : public ParsingRequest
         bool CheckisDir(const std::string& uri);
         bool CheckAccess(const std::string& uri);
         bool checkReqForDelete(ParsingRequest& request);
-        bool PerformDelete(const std::string& uri);
-        std::string generate_resp(void);
-        std::string generate_error_resp(int error_code, const std::string& message);
-        std::string generate_success_resp(const std::string& uri);
+        bool PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config);        
+        std::string generate_success_resp(void);
         int getStatusCode() const { return status_code; }
         std::string getStatusPhrase() const { return status_phrase; }
-        bool checkIfAllowed(const std::string& method, const ConfigStruct& config) const;
+        bool checkIfAllowed(const std::string& method, const ConfigStruct& config, const std::string& uri) const;
+        std::string mapUriToPath(const std::string& uri, const ConfigStruct& config) const;
 };
 
 
