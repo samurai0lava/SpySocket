@@ -30,6 +30,7 @@ class Config
         void _checkBrackets(std::string buffer);
         void setConfigPath(std::string configPath);
         void printCluster() const;
+        int getAutoindex();
         class FileOpenException : public std::exception
 		{
 			public:

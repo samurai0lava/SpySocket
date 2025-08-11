@@ -20,6 +20,7 @@
 #include "../include/singleserver.hpp"
 #include "../include/Struct.hpp"
 #include "Get.hpp"
+#include "RespondError.hpp"
 #include "MethodHandler.hpp"
 #include "../inc/RespondError.hpp"
 #include "Get.hpp"

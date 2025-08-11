@@ -1,6 +1,8 @@
 #include "../../inc/Get.hpp"
+// #include "Get.hpp"
 
-Get::Get(ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri): parser(parser), config(config), serv(serv), uri(uri)
+
+Get::Get(int client_fd,ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri):client_fd(client_fd), parser(parser), config(config), serv(serv), uri(uri)
 {
  
 }
@@ -8,44 +10,91 @@ Get::Get(ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::strin
 Get::~Get()
 {
 }
+void printLocationStruct(const LocationStruct& loc) {
+    std::cout << "LocationStruct {" << std::endl;
+
+    if(loc.autoIndex == true)
+        std::cout<<"  autoIndex: true"<<std::endl;
+    else 
+        std::cout<<"  autoIndex: false"<<std::endl;
+
+    std::cout << "  allowedMethods: ";
+    for (std::set<std::string>::const_iterator it = loc.allowedMethods.begin();
+         it != loc.allowedMethods.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "  root: " << loc.root << std::endl;
+    std::cout << "  indexPage: " << loc.indexPage << std::endl;
+
+    std::cout << "  _return: ";
+    for (size_t i = 0; i < loc._return.size(); ++i) {
+        std::cout << "[" << loc._return[i].first << " => " << loc._return[i].second << "] ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "  cgi_path: ";
+    for (size_t i = 0; i < loc.cgi_path.size(); ++i) {
+        std::cout << loc.cgi_path[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "  cgi_ext: ";
+    for (size_t i = 0; i < loc.cgi_ext.size(); ++i) {
+        std::cout << loc.cgi_ext[i] << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "  upload_enabled: " << (loc.upload_enabled ? "true" : "false") << std::endl;
+    std::cout << "  upload_path: " << loc.upload_path << std::endl;
+
+    std::cout << "}" << std::endl;
+}
 
 void Get::MethodGet()
 {
+   
     std::string matchedLocation = matchLocation(this->uri , this->config);
-    if (matchedLocation.empty()) 
+    if (!this->pathExists(matchedLocation)) 
     {
-        std::cout << "No matching location found." << std::endl;
-        return;
+        std::string finalResponse = GenerateResErr(404);
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        return ;
     }
+    // if (matchedLocation.empty()) 
+    // {
+    //     std::cout << "No matching location found.";
+    //     throw std::runtime_error("");
+    // }
+    bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->config.location.size(); ++i) {
-        if (matchedLocation == this->config.location[i].first) {
+        if (this->_name_location == this->config.location[i].first) {
             locationMatched = this->config.location[i].second;
+            found = true;
             break;
         }
     }
-    // 404 Not Found: Path does not exist
-    // cout<<"_return    : "<<locationMatched._return[0].first<<endl;
-    // if (!locationMatched._return.empty()) 
-    // {
-    //     cout<<"lol123"<<endl;
-    //     const std::pair<std::string, std::string>& ret = locationMatched._return[0];
-
-    //     int status = std::atoi(ret.first.c_str());
-    //     const std::string& url = ret.second;         
-    //     std::ostringstream redirect;
-    //     redirect << "HTTP/1.1 " << status << " Moved Permanently\r\n";
-    //     redirect << "Location: " << url << "\r\n\r\n";
-    //     send(serv.getServersFds()[0], redirect.str().c_str(), redirect.str().length(), 0);
-    //     return;
-    // }
+    if (!found){ 
+        std::cerr << "No exact match for location: " << matchedLocation << std::endl;
+        throw std::runtime_error("");
+    };
     if (!this->pathExists(matchedLocation)) 
-        throw std::runtime_error("404 Not Found: Path does not exist");
+    {
+        std::string finalResponse = GenerateResErr(404);
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        return ;
+    }
     if (this->isFile(matchedLocation)) 
     {
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
         if (!file.is_open())
-            throw std::runtime_error("500 Internal Server Error: Cannot open file");
+        {
+            std::string finalResponse = GenerateResErr(500);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            return ;
+        }
         std::stringstream buffer;
         buffer << file.rdbuf();
         std::string fileContent = buffer.str();
@@ -56,19 +105,21 @@ void Get::MethodGet()
         response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
         response << fileContent;
         std::string finalResponse = response.str();
-        send(serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
         return;
     }
-    if (this->isDirectory(matchedLocation)) 
+    else if (this->isDirectory(matchedLocation)) 
     {
         std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
-
         if (this->pathExists(indexPath) && this->isFile(indexPath)) 
         {
             std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
             if (!file.is_open())
-                throw std::runtime_error("500 Internal Server Error: Cannot open index file");
-
+            {
+                std::string finalResponse = GenerateResErr(500);
+                send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+                return ;
+            }
             std::stringstream buffer;
             buffer << file.rdbuf();
             std::string fileContent = buffer.str();
@@ -81,10 +132,10 @@ void Get::MethodGet()
             response << fileContent;
 
             std::string finalResponse = response.str();
-            send(this->serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
-        else if (locationMatched.autoIndex) 
+        else if (locationMatched.autoIndex == true ) 
         {
             std::string listing = this->generateAutoIndex(matchedLocation);
             std::ostringstream response;
@@ -94,11 +145,15 @@ void Get::MethodGet()
             response << listing;
 
             std::string finalResponse = response.str();
-            send(this->serv.getServersFds()[0], finalResponse.c_str(), finalResponse.length(), 0);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
         else 
-            throw std::runtime_error("403 Forbidden: Index not found and autoindex is off");
+        {
+            std::string finalResponse = GenerateResErr(403);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            return ;
+        }
     }
 }
 
@@ -122,8 +177,6 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
     std::string removedSegment;
     std::string removedPath; 
     while (true) {
-        // std::cout << "Path : " << path << " removed : " << removedPath << std::endl;
-
         for (size_t i = 0; i < server.location.size(); ++i) {
             if (path == server.location[i].first) {
                 
@@ -131,8 +184,7 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
                 {
                     throw runtime_error("Error 405 Method Not Allowed");
                 }
-                else 
-                    cout<<"found "<<endl;
+                this->_name_location = server.location[i].first;
                 return server.location[i].second.root +removedPath;
             }
         }
