@@ -9,7 +9,6 @@ OBJS = $(SRCS:.cpp=.o)
 NAME = webserv
 
 RED = \033[0;31m
-GREEN = \033[0;32m
 YELLOW = \033[0;33m
 BLUE = \033[0;34m
 MAGENTA = \033[0;35m
@@ -21,7 +20,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
-	@echo "$(GREEN)Webserv compilation completed successfully $(RESET)"
+	@echo "$(YELLOW)Webserv compilation completed successfully $(RESET)"
 	@echo "$(MAGENTA)"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠙⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⡆⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -54,7 +53,7 @@ $(NAME): $(OBJS)
 	@echo "-----samurai0lava <iouhssei>"
 	@echo "-----hibatoon <hcharra>"
 	@echo "-----zohel <zel-harb>"
-	@echo "$(CYAN) 1337 Bengrir $(RESET)"
+	@echo "$(YELLOW) 1337 Bengrir $(RESET)"
 	@echo "$(RESET)"
 
 %.o: %.cpp

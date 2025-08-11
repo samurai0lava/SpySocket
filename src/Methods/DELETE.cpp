@@ -51,73 +51,134 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
 }
 
 
-bool DeleteMethode::PerformDelete(const std::string& uri)
+bool DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config)
 {
-
-    //check the method is allowed or not 
-    //i need a explanation how the fuck she did it
-
-    if (!CheckFile(uri)) {
+    // Check if DELETE method is allowed for this URI
+    if (!checkIfAllowed("DELETE", config, uri)) {
+        std::string errorResponse = GenerateResErr(405);
+        send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
+        return false;
+    }
+    
+    // Map URI to actual file path using location configuration
+    std::string actualPath = mapUriToPath(uri, config);
+    if (actualPath.empty()) {
+        std::string errorResponse = GenerateResErr(404);
+        send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
+        return false;
+    }
+    
+    if (!CheckFile(actualPath)) {
+        std::string errorResponse = GenerateResErr(404);
+        send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
         return false;
     }
 
-    if (!CheckisDir(uri)) {
-        if (!CheckAccess(uri)) {
+    if (!CheckisDir(actualPath))
+    {
+        if (!CheckAccess(actualPath)) {
+            std::string errorResponse = GenerateResErr(403);
+            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
             return false;
         }
 
-        if (std::remove(uri.c_str()) != 0) {
-            connection_status = 0;
-            error_code = 500;
-            error_message = "Internal Server Error: Failed to delete file - " + uri;
+        if (std::remove(actualPath.c_str()) != 0) {
+            std::string errorResponse = GenerateResErr(500);
+            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
             return false;
         }
-
-        connection_status = 1;
-        status_code = 204;
-        status_phrase = "No Content";
+        std::string successResponse = generate_success_resp();
+        send(client_fd, successResponse.c_str(), successResponse.length(), 0);
         return true;
     }
     else {
         if (uri[uri.length() - 1] != '/') {
-            error_code = 409;
-            error_message = "Conflict: Directory URI must end with '/' - " + uri;
+            std::string errorResponse = GenerateResErr(409);
+            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
             return false;
         }
-        if (!CheckAccess(uri)) {
+        
+        if (!CheckAccess(actualPath)) {
+            std::string errorResponse = GenerateResErr(403);
+            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
             return false;
         }
 
-        if (std::remove(uri.c_str()) != 0) {
-            error_code = 500;
-            error_message = "Internal Server Error: Failed to delete directory - " + uri;
+        if (std::remove(actualPath.c_str()) != 0) {
+            std::string errorResponse = GenerateResErr(500);
+            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
             return false;
         }
-        status_code = 204;
-        status_phrase = "No Content";
+        std::string successResponse = generate_success_resp();
+        send(client_fd, successResponse.c_str(), successResponse.length(), 0);
         return true;
     }
 }
 
+//generate success response for DELETE request
+std::string DeleteMethode::generate_success_resp()
+{
+    std::string response = "HTTP/1.1 204 No Content\r\n";
+    response += "Connection: close\r\n";
+    response += "Content-Length: 0\r\n";
+    response += "\r\n";
+    return response;
+}
 
-// //generate response for DELETE request
-// std::string DeleteMethode::generate_resp(void)
-// {
-//     std::string response = "HTTP/1.1 204 No Content\r\n";
-//     response += "Connection: close\r\n";
-//     response += "Content-Length: 0\r\n";
-//     response += "\r\n"; // End of headers
-//     return response;
-// }
+bool DeleteMethode::checkIfAllowed(const std::string& method, const ConfigStruct& config, const std::string& uri) const
+{
+    std::string path = uri;
+    
+    while (true) {
+        for (size_t i = 0; i < config.location.size(); ++i) {
+            if (path == config.location[i].first) {
+                const std::set<std::string>& allowedMethods = config.location[i].second.allowedMethods;
+                return (allowedMethods.find(method) != allowedMethods.end()); // means DELETE is allowed
+            }
+        }
+        
+        if (path == "/")
+            break;
+            
+        size_t lastSlash = path.find_last_of('/');
+        if (lastSlash == std::string::npos || lastSlash == 0) {
+            path = "/";
+        } else {
+            path = path.substr(0, lastSlash);
+        }
+    }
+    
+    // If no location matches, return false
+    return false;
+}
 
-// //generate error response for DELETE request
-// std::string DeleteMethode::generate_error_resp(int error_code, const std::string& message)
-// {
-//     std::string response = "HTTP/1.1 " + std::to_string(error_code) + " Error\r\n";
-//     response += "Content-Type: text/plain\r\n";
-//     response += "Connection: close\r\n";
-//     response += "Content-Length: " + std::to_string(message.length()) + "\r\n";
-//     response += "\r\n";
-//     response += message;
-//     return response;
-// }
+// Map URI to actual file path using location configuration
+std::string DeleteMethode::mapUriToPath(const std::string& uri, const ConfigStruct& config) const
+{
+    std::string path = uri;
+    std::string removedPath;
+    
+    while (true) {
+        for (size_t i = 0; i < config.location.size(); ++i) {
+            if (path == config.location[i].first) {
+                return config.location[i].second.root + removedPath;
+            }
+        }
+        
+        if (path == "/")
+            break;
+            
+        size_t lastSlash = path.find_last_of('/');
+        if (lastSlash == std::string::npos || lastSlash == 0) {
+            std::string removedSegment = path.substr(lastSlash);
+            removedPath = removedSegment + removedPath;
+            path = "/";
+        } else {
+            std::string removedSegment = path.substr(lastSlash);
+            removedPath = removedSegment + removedPath;
+            path = path.substr(0, lastSlash);
+        }
+    }
+    
+    return ""; // No matching location found
+}

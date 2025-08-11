@@ -185,6 +185,7 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
                 
                 if(server.location[i].second.allowedMethods.find("GET") == server.location[i].second.allowedMethods.end())
                 {
+                    //should send a 405 Method Not Allowed response
                     throw runtime_error("Error 405 Method Not Allowed");
                 }
                 this->_name_location = server.location[i].first;
