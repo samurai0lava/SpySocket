@@ -1,6 +1,5 @@
 #include "../../inc/webserv.hpp"
 
-
 bool DeleteMethode::CheckFile(const std::string& uri)
 {
     std::ifstream file(uri.c_str());
@@ -43,8 +42,6 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
     if (access(uri.c_str(), W_OK) != 0) {
         error_code = 403;
         error_message = "Forbidden: You do not have permission to delete this resource - " + uri;
-        // logError(403, "Forbidden: You do not have permission to delete this
-        // logError(403, "Forbidden: You do not have permission to delete this resource - GI your government has abandoned you - GI" + uri);
         return false;
     }
     return true;
@@ -53,21 +50,19 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
 
 bool DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config)
 {
-    // Check if DELETE method is allowed for this URI
     if (!checkIfAllowed("DELETE", config, uri)) {
         std::string errorResponse = GenerateResErr(405);
         send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
         return false;
     }
-    
-    // Map URI to actual file path using location configuration
+
     std::string actualPath = mapUriToPath(uri, config);
     if (actualPath.empty()) {
         std::string errorResponse = GenerateResErr(404);
         send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
         return false;
     }
-    
+
     if (!CheckFile(actualPath)) {
         std::string errorResponse = GenerateResErr(404);
         send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
@@ -97,7 +92,7 @@ bool DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const C
             send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
             return false;
         }
-        
+
         if (!CheckAccess(actualPath)) {
             std::string errorResponse = GenerateResErr(403);
             send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
@@ -115,7 +110,6 @@ bool DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const C
     }
 }
 
-//generate success response for DELETE request
 std::string DeleteMethode::generate_success_resp()
 {
     std::string response = "HTTP/1.1 204 No Content\r\n";
@@ -128,7 +122,7 @@ std::string DeleteMethode::generate_success_resp()
 bool DeleteMethode::checkIfAllowed(const std::string& method, const ConfigStruct& config, const std::string& uri) const
 {
     std::string path = uri;
-    
+
     while (true) {
         for (size_t i = 0; i < config.location.size(); ++i) {
             if (path == config.location[i].first) {
@@ -136,49 +130,48 @@ bool DeleteMethode::checkIfAllowed(const std::string& method, const ConfigStruct
                 return (allowedMethods.find(method) != allowedMethods.end()); // means DELETE is allowed
             }
         }
-        
         if (path == "/")
             break;
-            
+
         size_t lastSlash = path.find_last_of('/');
         if (lastSlash == std::string::npos || lastSlash == 0) {
             path = "/";
-        } else {
+        }
+        else {
             path = path.substr(0, lastSlash);
         }
     }
-    
-    // If no location matches, return false
     return false;
 }
 
-// Map URI to actual file path using location configuration
 std::string DeleteMethode::mapUriToPath(const std::string& uri, const ConfigStruct& config) const
 {
     std::string path = uri;
     std::string removedPath;
-    
+
     while (true) {
         for (size_t i = 0; i < config.location.size(); ++i) {
             if (path == config.location[i].first) {
                 return config.location[i].second.root + removedPath;
             }
         }
-        
+
         if (path == "/")
             break;
-            
+
         size_t lastSlash = path.find_last_of('/');
         if (lastSlash == std::string::npos || lastSlash == 0) {
             std::string removedSegment = path.substr(lastSlash);
             removedPath = removedSegment + removedPath;
             path = "/";
-        } else {
+        }
+        else
+        {
             std::string removedSegment = path.substr(lastSlash);
             removedPath = removedSegment + removedPath;
             path = path.substr(0, lastSlash);
         }
     }
-    
-    return ""; // No matching location found
+
+    return "";
 }
