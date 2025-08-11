@@ -21,11 +21,10 @@ CGI::~CGI()
 
 bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request)
 {
-    // Required CGI environment variables
     env_vars["REQUEST_METHOD"] = request.getStartLine().at("method");
-    env_vars["SCRIPT_NAME"] = script_path;  // Use parsed script path
-    env_vars["PATH_INFO"] = path_info;      // Use parsed path info
-    env_vars["QUERY_STRING"] = query_string; // Use parsed query string
+    env_vars["SCRIPT_NAME"] = script_path;
+    env_vars["PATH_INFO"] = path_info;
+    env_vars["QUERY_STRING"] = query_string;
     env_vars["HTTP_VERSION"] = request.getStartLine().at("version");
     env_vars["SERVER_PROTOCOL"] = request.getStartLine().at("version");
     if (request.getHeaders().find("host") != request.getHeaders().end())
@@ -47,7 +46,6 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     else
         env_vars["HTTP_USER_AGENT"] = "";
 
-    // Additional standard CGI variables
     env_vars["GATEWAY_INTERFACE"] = "CGI/1.1";
     env_vars["SERVER_SOFTWARE"] = "Webserv/1.0";
     // env_vars["REMOTE_ADDR"] = "127.0.0.1"; // i need to get this from the socket
@@ -77,7 +75,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
 
 bool CGI::execute(std::map<std::string, std::string>& env_vars)
 {
-    std::string full_script_path = "/www/html" + script_path;
+    std::string full_script_path = "/www/html" + script_path; // this sould be getting from the config file
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
         error_code = 404;
@@ -115,7 +113,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     }
     envp.push_back(NULL);
 
-    // Create the CGI process
     cgi_pid = fork();
     if (cgi_pid < 0)
     {
@@ -129,11 +126,10 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         return false;
     }
 
-    // CHILD PROCESS
     if (cgi_pid == 0)
     {
-        close(pipe_in[1]);  // Close write end of input pipe
-        close(pipe_out[0]); // Close read end of output pipe
+        close(pipe_in[1]);
+        close(pipe_out[0]);
 
         if (dup2(pipe_in[0], STDIN_FILENO) == -1 ||
             dup2(pipe_out[1], STDOUT_FILENO) == -1)
@@ -146,7 +142,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         close(pipe_in[0]);
         close(pipe_out[1]);
 
-        // interpreter and build argv
         std::vector<char*> argv;
         std::string interpreter = get_interpreter(full_script_path);
         
@@ -161,14 +156,11 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         }
         argv.push_back(NULL);
 
-        // Change working directory to script directory
         std::string script_dir = full_script_path.substr(0, full_script_path.find_last_of('/'));
         if (chdir(script_dir.c_str()) != 0)
         {
             perror("chdir failed");
         }
-
-        // Execute the script
         if (!interpreter.empty())
         {
             execve(interpreter.c_str(), &argv[0], &envp[0]);
@@ -181,8 +173,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         perror("execve failed");
         exit(EXIT_FAILURE);
     }
-    
-    // PARENT PROCESS
     else
     {
         close(pipe_in[0]);
@@ -190,22 +180,20 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         int input_fd = pipe_in[1];
         cgi_fd = pipe_out[0];
 
-        // Close input pipe since execute() doesn't send body data
-        // For POST requests, use execute_with_body() instead
         close(input_fd);
 
-        // // Wait for CGI process with timeout
-        // bool process_finished = wait_with_timeout(5); // 5 second timeout
-        
-        // if (!process_finished)
-        // {
-        //     std::cerr << "CGI script timeout" << std::endl;
-        //     kill(cgi_pid, SIGKILL);
-        //     waitpid(cgi_pid, &status, 0);
-        //     close(cgi_fd);
-        //     cgi_fd = -1;
-        //     return false;
-        // }
+        bool process_finished = wait_with_timeout(5);
+        if (!process_finished)
+        {
+            logError("CGI script timeout");
+            error_code = 504;
+            error_message = "Gateway Timeout";
+            kill(cgi_pid, SIGKILL);
+            waitpid(cgi_pid, &status, 0);
+            close(cgi_fd);
+            cgi_fd = -1;
+            return false;
+        }
 
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
         {
@@ -220,6 +208,9 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
 
     return true;
 }
+
+// use excute with body for POST requests
+
 
 // bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
 // {
