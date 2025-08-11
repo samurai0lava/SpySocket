@@ -33,6 +33,8 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <errno.h>
+#include <sys/select.h>
+#include <sys/time.h>
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
