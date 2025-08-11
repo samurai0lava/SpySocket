@@ -127,7 +127,10 @@ void Get::MethodGet()
 
             std::ostringstream response;
             response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: "<< this->getMimeType(matchedLocation)<<"\r\n";
+            // response << "Content-Type: "<< this->getMimeType(matchedLocation)<<"\r\n";
+            response << "Content-Type: "<< "text/html"<<"\r\n";
+            // std::cout << "Serving file: " << matchedLocation << std::endl;
+            // std::cout << this->getMimeType(matchedLocation) << std::endl;
             response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
             response << fileContent;
 
@@ -140,7 +143,7 @@ void Get::MethodGet()
             std::string listing = this->generateAutoIndex(matchedLocation);
             std::ostringstream response;
             response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: "<<this->getMimeType(matchedLocation)<<"\r\n";
+            response << "Content-Type: " <<"text/html"<<"\r\n";
             response << "Content-Length: " << listing.size() << "\r\n\r\n";
             response << listing;
 
@@ -214,8 +217,23 @@ std::string Get::generateAutoIndex(const std::string& directoryPath)
         return "<html><body><h1>403 Forbidden</h1></body></html>";
 
     std::ostringstream html;
-    html << "<html><head><title>Index of " << directoryPath << "</title></head><body>\n";
-    html << "<h1>Index of " << directoryPath << "</h1><hr><ul>\n";
+    html << "<!DOCTYPE html>\n";
+    html << "<html>\n<head>\n";
+    html << "<meta charset=\"UTF-8\">\n";
+    html << "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n";
+    html << "<title>Index of " << directoryPath << "</title>\n";
+    html << "<style>\n";
+    html << "body { font-family: Arial, sans-serif; margin: 40px; }\n";
+    html << "h1 { color: #333; border-bottom: 1px solid #ccc; padding-bottom: 10px; }\n";
+    html << "ul { list-style: none; padding: 0; }\n";
+    html << "li { margin: 5px 0; }\n";
+    html << "a { text-decoration: none; color: #0066cc; padding: 5px; display: block; }\n";
+    html << "a:hover { background-color: #f0f0f0; }\n";
+    html << ".directory { font-weight: bold; }\n";
+    html << "</style>\n";
+    html << "</head>\n<body>\n";
+    html << "<h1>Index of " << directoryPath << "</h1>\n";
+    html << "<ul>\n";
 
     struct dirent *entry;
     while ((entry = readdir(dir)) != NULL) {
