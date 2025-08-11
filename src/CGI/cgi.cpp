@@ -1,6 +1,4 @@
 #include "../../inc/webserv.hpp"
-#include <sys/select.h>
-#include <sys/time.h>
 
 CGI::CGI()
 {
