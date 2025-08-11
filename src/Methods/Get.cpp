@@ -56,11 +56,17 @@ void Get::MethodGet()
 {
    
     std::string matchedLocation = matchLocation(this->uri , this->config);
-    if (matchedLocation.empty()) 
+    if (!this->pathExists(matchedLocation)) 
     {
-        std::cout << "No matching location found.";
-        throw std::runtime_error("");
+        std::string finalResponse = GenerateResErr(404);
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        return ;
     }
+    // if (matchedLocation.empty()) 
+    // {
+    //     std::cout << "No matching location found.";
+    //     throw std::runtime_error("");
+    // }
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->config.location.size(); ++i) {
@@ -73,15 +79,22 @@ void Get::MethodGet()
     if (!found){ 
         std::cerr << "No exact match for location: " << matchedLocation << std::endl;
         throw std::runtime_error("");
-    }
-    // printLocationStruct(locationMatched);
+    };
     if (!this->pathExists(matchedLocation)) 
-        throw std::runtime_error("404 Not Found: Path does not exist");
+    {
+        std::string finalResponse = GenerateResErr(404);
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        return ;
+    }
     if (this->isFile(matchedLocation)) 
     {
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
         if (!file.is_open())
-            throw std::runtime_error("500 Internal Server Error: Cannot open file");
+        {
+            std::string finalResponse = GenerateResErr(500);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            return ;
+        }
         std::stringstream buffer;
         buffer << file.rdbuf();
         std::string fileContent = buffer.str();
@@ -102,8 +115,11 @@ void Get::MethodGet()
         {
             std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
             if (!file.is_open())
-                throw std::runtime_error("500 Internal Server Error: Cannot open index file");
-
+            {
+                std::string finalResponse = GenerateResErr(500);
+                send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+                return ;
+            }
             std::stringstream buffer;
             buffer << file.rdbuf();
             std::string fileContent = buffer.str();
@@ -133,7 +149,11 @@ void Get::MethodGet()
             return;
         }
         else 
-            throw std::runtime_error("403 Forbidden: Index not found and autoindex is off");
+        {
+            std::string finalResponse = GenerateResErr(403);
+            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            return ;
+        }
     }
 }
 
