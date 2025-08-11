@@ -154,6 +154,7 @@ void Servers::epollFds(Servers &serv)
             else
             {
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL);
+                std::cout<<"serv bufferLength : "<< serv.bufferLength <<std::endl;
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)

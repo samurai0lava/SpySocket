@@ -26,7 +26,7 @@ class Servers
 {
 public:
     char buffer[READ_SIZE];
-    size_t bufferLength;
+    ssize_t bufferLength;
     Servers() : bufferLength(0) {
         memset(buffer, 0, READ_SIZE);
     }

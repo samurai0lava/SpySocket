@@ -518,8 +518,11 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
+	std::cout<<"waaaaaaaaaaaaaaaaaaaaaaaaa3"<<std::endl;
+	std::cout << " data " <<  data << std::endl; 
+	std::cout << " len " <<  len << std::endl; 
 	buffer.append(data, len);
-
+	std::cout<<"nnnnnnnnnnnnnnnnnnnnnnn"<<std::endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		switch (current_state)

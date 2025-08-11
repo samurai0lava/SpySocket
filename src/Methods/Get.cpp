@@ -54,7 +54,6 @@ void printLocationStruct(const LocationStruct& loc) {
 
 void Get::MethodGet()
 {
-   
     std::string matchedLocation = matchLocation(this->uri , this->config);
     if (!this->pathExists(matchedLocation)) 
     {
@@ -79,7 +78,7 @@ void Get::MethodGet()
     if (!found){ 
         std::cerr << "No exact match for location: " << matchedLocation << std::endl;
         throw std::runtime_error("");
-    };
+    }
     if (!this->pathExists(matchedLocation)) 
     {
         std::string finalResponse = GenerateResErr(404);
@@ -103,6 +102,7 @@ void Get::MethodGet()
         response << "HTTP/1.1 200 OK\r\n";
         response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
         response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
+        std::cout<<"print response : "<< response.str()<<std::endl;
         response << fileContent;
         std::string finalResponse = response.str();
         send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
@@ -113,6 +113,7 @@ void Get::MethodGet()
         std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath)) 
         {
+            std::cout<<"hellllllllllllllllllllllo"<<std::endl;
             std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
             if (!file.is_open())
             {
@@ -127,11 +128,16 @@ void Get::MethodGet()
 
             std::ostringstream response;
             response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: "<< this->getMimeType(matchedLocation)<<"\r\n";
+            std::cout<<" content type : "<<this->getMimeType(matchedLocation)<<std::endl;
             response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
+            std::cout<<"print response : "<<response.str()<<std::endl;
             response << fileContent;
-
             std::string finalResponse = response.str();
+            std::cout<<"nnnnnnnnnnnn"<<endl;
+            // char buffer1[4096];
+            // while (file.read(buffer1, sizeof(buffer1)) || file.gcount() > 0) {
+            //     send(this->client_fd, buffer1, file.gcount(), 0);
+            // }
             send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
         }
@@ -143,7 +149,7 @@ void Get::MethodGet()
             response << "Content-Type: "<<this->getMimeType(matchedLocation)<<"\r\n";
             response << "Content-Length: " << listing.size() << "\r\n\r\n";
             response << listing;
-
+             std::cout<<"print response : "<<response.str()<<std::endl;
             std::string finalResponse = response.str();
             send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return;
@@ -160,11 +166,12 @@ void Get::MethodGet()
 std::string Get::getMimeType(const std::string& path)
 {
     size_t dot = path.find_last_of(".");
-    if (dot == std::string::npos) return "text/plain";
+    if (dot == std::string::npos) return "text/html";
 
     std::string ext = path.substr(dot);
     if (ext == ".html" || ext == ".htm") return "text/html";
     if (ext == ".css") return "text/css";
+    if (ext == ".mp4") return "video/mp4";
     if (ext == ".js") return "application/javascript";
     if (ext == ".png") return "image/png";
     if (ext == ".jpg" || ext == ".jpeg") return "image/jpeg";
