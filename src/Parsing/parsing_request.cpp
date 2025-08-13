@@ -291,25 +291,19 @@ bool ParsingRequest::parse_headers()
 
 	headers = header_map;
 
-	try {
-		if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers) || !checkLocation(headers) || !checkContentType(headers))
-		{
-			current_state = PARSE_ERROR;
-			return false;
-		}
 
-		// Check content length for body parsing
-		if (content_lenght_exists)
-		{
-			std::string content_length_str = headers.at("content-length");
-			std::istringstream iss(content_length_str);
-			iss >> expected_body_length;
-		}
-
-	}
-	catch (...) {
+	if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers) || !checkLocation(headers) || !checkContentType(headers))
+	{
 		current_state = PARSE_ERROR;
 		return false;
+	}
+
+	// Check content length for body parsing
+	if (content_lenght_exists)
+	{
+		std::string content_length_str = headers.at("content-length");
+		std::istringstream iss(content_length_str);
+		iss >> expected_body_length;
 	}
 
 	return true;
@@ -352,11 +346,6 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& headers)
 {
-	//check the Connection value
-	//if exists set the connection status to 1
-	//if not exists set the connection status to 0
-	// default is keep-alive for HTTP/1.1
-
 	if (headers.find("connection") != headers.end())
 	{
 		std::string connection_value = headers.at("connection");
@@ -386,10 +375,6 @@ bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& h
 
 bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>& headers)
 {
-	//check the Content Length value
-	//if exists set the content length exists to 1
-	//if not exists set the content length exists to 0
-
 	if (headers.find("content-length") != headers.end())
 	{
 		content_lenght_exists = 1;

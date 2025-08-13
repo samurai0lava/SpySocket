@@ -43,7 +43,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
             continue;
         }
         
-        std::cout << "Listening on " << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
+        std::cout << BLUE "Listening on " RESET << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
         serv.serversFd.push_back(serverFd);
     }
 }
@@ -188,7 +188,6 @@ void Servers::epollFds(Servers &serv)
                 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    std::cout<<"im here"<<endl;
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     //send response----------------------------------------
