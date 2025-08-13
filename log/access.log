@@ -1,0 +1,6 @@
+[2025-08-13 22:31:33] GET / HTTP/1.1 localhost 
+[2025-08-13 22:31:33] GET / HTTP/1.1 localhost:1080 curl/8.15.0 
+[2025-08-13 22:31:33] GET / HTTP/1.1 localhost:1080 postmanruntime/7.45.0 
+[2025-08-13 22:34:12] GET / HTTP/1.1 localhost:1080 postmanruntime/7.45.0 keep-alive 
+[2025-08-13 22:34:12] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:141.0) gecko/20100101 firefox/141.0 keep-alive 
+[2025-08-13 22:34:12] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:141.0) gecko/20100101 firefox/141.0 keep-alive 

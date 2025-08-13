@@ -1,0 +1,7 @@
+[2025-08-13 22:06:53] Error: 400 - Bad Request: Invalid HTTP method: 'dhhfhfhf'
+[2025-08-13 22:12:37] Error: 400 - Bad Request: Invalid HTTP method: 'ahdhdhdh'
+[2025-08-13 22:12:37] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/1.2'
+[2025-08-13 22:12:37] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-08-13 22:14:15] Error: 400 - Bad Request: Invalid HTTP method: 'jdjdjdjd'
+[2025-08-13 22:14:15] Error: 400 - Bad Request: Host header is missing
+[2025-08-13 22:31:33] Error: 400 - Bad Request: Invalid HTTP method: 'ÿôÿý'

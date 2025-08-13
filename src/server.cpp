@@ -189,6 +189,7 @@ void Servers::epollFds(Servers &serv)
                 {
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
+                    access_log(*parser);
                     //send response----------------------------------------
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
