@@ -5,3 +5,11 @@
 [2025-08-13 22:14:15] Error: 400 - Bad Request: Invalid HTTP method: 'jdjdjdjd'
 [2025-08-13 22:14:15] Error: 400 - Bad Request: Host header is missing
 [2025-08-13 22:31:33] Error: 400 - Bad Request: Invalid HTTP method: 'ÿôÿý'
+[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-08-14 11:45:21] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '100000000'
+[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-08-14 11:45:21] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/0.1'
+[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-08-14 11:45:21] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/0.1'
