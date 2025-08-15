@@ -315,6 +315,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 	if (headers.find("content-type") != headers.end())
 	{
 		std::string content_type = headers.at("content-type");
+		// cout << "-----> " << content_type << endl;
 		if (content_type.empty())
 		{
 			connection_status = 0;
@@ -324,8 +325,18 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			logError(error_code, error_message);
 			return false;
 		}
-		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0)
+		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0 || content_type.find("multipart/") == 0)
 		{
+			if(content_type.find("multipart/") == 0)
+			{
+				boundary = content_type.substr(content_type.find(';') + 1);
+				if(boundary.empty())
+				{
+					logError(400, "Bad Request: No boundary found.");
+					return false;
+				}
+				cout << "----> " << boundary << endl;
+			}
 			return true;
 		}
 		else

@@ -45,16 +45,10 @@ struct LocationStruct
 	std::vector<std::pair<std::string,std::string> > _return;
 	std::vector<std::string> cgi_path;
 	std::vector<std::string> cgi_ext;
-<<<<<<< HEAD
-	//added by hiba
-	bool upload_enabled;
-	std::string upload_path;
-=======
 	bool upload_enabled;
 	std::string upload_path;
 	// std::vector<std::pair<std::string,std::string> > cgi_path;
 	// std::vector<std::pair<std::string,std::string> > cgi_ext;
->>>>>>> main
 };
 
 // config->_cluster

@@ -19,9 +19,6 @@
 #include "../include/server.hpp"
 #include "../include/singleserver.hpp"
 #include "../include/Struct.hpp"
-<<<<<<< HEAD
-#include "../include/methods.hpp"
-=======
 #include "Get.hpp"
 #include "RespondError.hpp"
 #include "MethodHandler.hpp"
@@ -38,7 +35,6 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
->>>>>>> main
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
