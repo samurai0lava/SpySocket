@@ -178,6 +178,7 @@ void Servers::epollFds(Servers &serv)
                 }
                 else
                 {
+                    access_error(500, "No parser found for client");
                     std::cerr << "No parser found for client FD " << fd << std::endl;
                     close(fd);
                     continue;
@@ -196,9 +197,6 @@ void Servers::epollFds(Servers &serv)
                     // HandleMethod(fd, parser,);
                     handleMethod(fd,parser,config ,serv);
                     //handle methode logic will be check the method from the start line and assign the correct methode and response
-                    
-                    // For now, send a simple HTTP response
-                    // send(fd, http_response, strlen(http_response), 0);
                     
                     parser->reset();
                 }
