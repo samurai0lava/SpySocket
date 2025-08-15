@@ -1,13 +1,8 @@
-TODO : make an array of server sockets (multiple servers)
-TODO : loop on them and add them to epoll
+
 
 we only have and need one port 
 
 TODO : switch to c++98 later and add make_pair since you changed it to pair
-
-TODO : check if all the locations in the config file needs to start with / (necessary when you want to route )
-
-TODO : ask zahira if we can add other directives in the locations blocks like client-max-body-size or upload_directory 
 
 when we find an error e.g 404 close the connection with the client where the error occured then remove it from epoll and clear the ressources
 
