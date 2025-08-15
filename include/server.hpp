@@ -52,10 +52,5 @@ public:
 
 };
 
-<<<<<<< HEAD
-void getServersFds(Config* configFile, Servers& serv);
-void epollFds(Servers& serv, Config *conf);
-=======
->>>>>>> main
 
 #endif
