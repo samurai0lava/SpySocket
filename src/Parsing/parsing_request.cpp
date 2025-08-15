@@ -324,15 +324,102 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			access_error(error_code, error_message);
 			return false;
 		}
-		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0)
+		
+		size_t semicolon_pos = content_type.find(';');
+		std::string content_type_value;
+		std::map<std::string, std::string> content_type_directives;
+		
+		if (semicolon_pos != std::string::npos)
 		{
-			return true;
+			content_type_value = content_type.substr(0, semicolon_pos);
+			std::string directives_part = content_type.substr(semicolon_pos + 1);
+			size_t start = 0;
+			size_t next_semicolon;
+			
+			do {
+				next_semicolon = directives_part.find(';', start);
+				std::string directive;
+				
+				if (next_semicolon != std::string::npos)
+				{
+					directive = directives_part.substr(start, next_semicolon - start);
+					start = next_semicolon + 1;
+				}
+				else
+				{
+					directive = directives_part.substr(start);
+				}
+				directive.erase(0, directive.find_first_not_of(" \t"));
+				directive.erase(directive.find_last_not_of(" \t") + 1);
+				size_t equals_pos = directive.find('=');
+				if (equals_pos != std::string::npos)
+				{
+					std::string key = directive.substr(0, equals_pos);
+					std::string value = directive.substr(equals_pos + 1);
+					key.erase(0, key.find_first_not_of(" \t"));
+					key.erase(key.find_last_not_of(" \t") + 1);
+					value.erase(0, value.find_first_not_of(" \t"));
+					value.erase(value.find_last_not_of(" \t") + 1);
+					std::transform(key.begin(), key.end(), key.begin(), ::tolower);
+					std::transform(value.begin(), value.end(), value.begin(), ::tolower);
+					content_type_directives[key] = value;
+					this->headers[key] = value;
+				}
+			} while (next_semicolon != std::string::npos);
+			if (content_type_directives.find("charset") != content_type_directives.end())
+			{
+				std::string charset = content_type_directives["charset"];
+				if (charset != "utf-8" && charset != "iso-8859-1")
+				{
+					connection_status = 0;
+					error_code = 415;
+					error_message = "Unsupported Media Type: Charset '" + charset + "' is not supported";
+					current_state = PARSE_ERROR;
+					access_error(error_code, error_message);
+					return false;
+				}
+			}
 		}
 		else
 		{
+			content_type_value = content_type;
+		}
+		content_type_value.erase(0, content_type_value.find_first_not_of(" \t"));
+		content_type_value.erase(content_type_value.find_last_not_of(" \t") + 1);
+		std::transform(content_type_value.begin(), content_type_value.end(), content_type_value.begin(), ::tolower);
+		this->headers["content-type-value"] = content_type_value;
+
+		if (content_type_value.find("multipart/") == 0)
+		{
+			if (content_type_directives.find("boundary") == content_type_directives.end())
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Boundary parameter is required for multipart content types";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
+			std::string boundary = content_type_directives["boundary"];
+			if (boundary.empty())
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Boundary parameter cannot be empty for multipart content types";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
+		}
+		if (content_type_value != "text/html" && 
+			content_type_value != "text/plain" && 
+			content_type_value != "application/x-www-form-urlencoded" &&
+			content_type_value != "multipart/form-data" &&
+			content_type_value != "application/json")
+		{
 			connection_status = 0;
 			error_code = 415;
-			error_message = "Unsupported Media Type: Content-Type '" + content_type + "' is not supported";
+			error_message = "Unsupported Media Type: Content-Type '" + content_type_value + "' is not supported";
 			current_state = PARSE_ERROR;
 			access_error(error_code, error_message);
 			return false;
