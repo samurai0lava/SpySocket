@@ -67,7 +67,7 @@ void Config::_createConfigStruct(std::string server)
 	ConfigStruct tmp;
 	tmp.serverName = "";
 	tmp.root = "";  
-	tmp.autoIndex = false;
+	// tmp.autoIndex = false;
 	if (server.find("server_name") == std::string::npos)
 		throw std::runtime_error("Missing server_name in server configuration");
 	std::string serverName = server.substr(server.find("server_name"));
@@ -205,8 +205,14 @@ void Config::printCluster() const {
 			std::cout << "\t\t\tRoot: " << loc.root << std::endl;
 			std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
 			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
-			std::cout << "\t\t\tReturn: " << loc._return << std::endl;
-
+			std::cout << "\t\t\tReturn: ";
+			for (size_t i = 0; i < loc._return.size(); ++i)
+			{
+				std::cout << "(" << loc._return[i].first << ", " << loc._return[i].second << ")";
+				if (i != loc._return.size() - 1)
+					std::cout << ", ";
+			}
+			std::cout << std::endl;
 			std::cout << "\t\t\tAllowed Methods: ";
 			for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
 				std::cout << *mit << " ";
@@ -221,12 +227,18 @@ void Config::printCluster() const {
 			for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
 				std::cout << loc.cgi_ext[j] << " ";
 			std::cout << std::endl;
+			std::cout << "\t\t\tUpload_enabled: " << (loc.upload_enabled ? "on" : "off") << std::endl;
+			std::cout << "\t\t\tUpload_path : " << loc.upload_path << std::endl;
 		}
 		std::cout << std::endl;
 	}
 }
 
 
+int Config::getAutoindex()
+{
+    return _cluster.begin()->second.autoIndex;
+}
 const char* Config::FileOpenException::what(void) const throw()
 {
 	return ("Failed to read from .conf file, check file existence and readrights");
