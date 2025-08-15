@@ -103,12 +103,16 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         {
             if (this->_conf->autoIndex == true)
                 throw std::runtime_error("Duplicate autoindex directive found.");
-		    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+            value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+		    value.erase(0, value.find_first_not_of(WHITESPACE));
+            value.erase(value.find_last_not_of(WHITESPACE) + 1);
             if (value != "true" && value != "false")
-		    {
                 throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
-		    }
-            this->_conf->autoIndex = (value.compare("true") == 0);
+            if (value == "true") {
+                this->_conf->autoIndex = true;
+            } else {
+                this->_conf->autoIndex = false;
+            }
 		    break ;
 
         }
@@ -212,24 +216,20 @@ void SingleServerConfig::_handleLocation(std::string block)
 }
 void SingleServerConfig::_handleErrorPage(std::string line)
 {
-    bool duplicate = false;
-    std::string key = line.substr(line.find_first_of(WHITESPACE) + 1);
-	std::string value = key.substr(key.find_first_of(WHITESPACE) + 1);
-	key = key.substr(0, key.find_first_of(WHITESPACE));
+     std::istringstream iss(line);
+    std::string directive, statusCode, path, extra;
+    iss >> directive >> statusCode >> path;
+    iss >> extra;
+    if (statusCode.empty() || path.empty() || !extra.empty())
+        throw std::runtime_error("Error: 'error_page' must have exactly 2 arguments: status_code and file_path.");
+
     for (size_t i = 0; i < this->_conf->errorPage.size(); ++i)
     {
-        if (this->_conf->errorPage[i].first == key)
-        {
-            duplicate = true;
-            break;
-        }
-    }
-    if (duplicate)
-    {
-        throw std::runtime_error("Duplicate error_page entry found.");
+        if (this->_conf->errorPage[i].first == statusCode)
+            throw std::runtime_error("Duplicate error_page entry found for status code: " + statusCode);
     }
 
-	this->_conf->errorPage.push_back(std::pair<std::string, std::string>(key, value));
+    this->_conf->errorPage.push_back(std::make_pair(statusCode, path));
 
 }
 std::string locationVariables1[] =
@@ -240,15 +240,17 @@ std::string locationVariables1[] =
         "index_page",
         "_return",
         "cgi_path",
-        "cgi_ext"
+        "cgi_ext",
+        "upload_enabled",
+        "upload_path"
     };
 LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 {
     LocationStruct location_tmp;
     location_tmp.autoIndex = false;
+    location_tmp.upload_enabled = false;
     location_tmp.indexPage = "";
     location_tmp.root = "";
-    location_tmp._return = "";
     std::stringstream bstream;
     bstream << block;
     std::string keyValue;
@@ -257,6 +259,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 	bool foundMethod = false;
 	bool foundIndex = false;
 	bool foundAutoIndex = false;
+    bool foundUpload_enabled = false;
     std::string value;
 
     while(bstream.good())
@@ -270,7 +273,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             continue;
         }
 		size_t foundKey = location_root;
-        for (; foundKey < cgi_ext + 1; ++foundKey)
+        for (; foundKey < upload_path  + 1; ++foundKey)
 		{
 			if (locationVariables1[foundKey] == key){
 				break ;}
@@ -325,8 +328,19 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             }
             case(_return):
             {
-                value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp._return = value;
+                std::istringstream iss(keyValue);
+                std::string directive, statusCode, redirectUrl;
+                iss >> directive >> statusCode >> redirectUrl;
+                std::string extra;
+
+                iss >> extra;
+                if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
+                    throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
+
+                if (!location_tmp._return.empty())
+                    throw std::runtime_error("Error: Multiple return directives are not allowed in one location block.");
+
+                location_tmp._return.push_back(std::make_pair(statusCode, redirectUrl));
                 break;
             }
             case(cgi_path):
@@ -346,6 +360,24 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 while (ss >> path)
                     location_tmp.cgi_ext.push_back(path);
                 break;
+            }
+            case(upload_enabled):
+            {
+                // std::cout<<"1"<<std::endl;
+                if (foundUpload_enabled == true)
+                    throw std::runtime_error("Duplicate Location Upload enabled");
+			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+                location_tmp.upload_enabled = (value.compare("on") == 0);
+			    foundUpload_enabled = true;
+                break;
+            }
+            case(upload_path):
+            {
+                // std::cout<<"KeyValue : "<<keyValue.c_str()<<std::endl;
+                value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+                location_tmp.upload_path = value;                
+                break;
+
             }
             // default: /// trj3 liha waaaaa
             // {
@@ -377,7 +409,7 @@ const char * SingleServerConfig::DublicateRootException:: what(void) const throw
 }
 const char* SingleServerConfig::InvalidPathException::what(void) const throw()
 {
-	return ("↑↑↑ this path is invalid, has to be like : \"/path/ and no use of '.'\"");
+	return ("this path is invalid, has to be like : \"/path/ and no use of '.'\"");
 }
 
 const char* SingleServerConfig::DuplicateServerNameException::what(void) const throw()

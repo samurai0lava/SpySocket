@@ -19,7 +19,6 @@ class Config
     private:
         std::ifstream	_configFile;
 		std::string		_configPath; 
-		ConfigStruct _conf; 
         Config(const Config&);
         void _parseServerBlock(std::string serverBlock);
         void _createConfigStruct(std::string server); 
@@ -31,6 +30,7 @@ class Config
         void _checkBrackets(std::string buffer);
         void setConfigPath(std::string configPath);
         void printCluster() const;
+        int getAutoindex();
         class FileOpenException : public std::exception
 		{
 			public:
