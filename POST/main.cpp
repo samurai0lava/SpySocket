@@ -125,13 +125,87 @@ string internalError()
     "<html><body><h1>500 Internal Server Error</h1></body></html>";
 }
 
-string handlePost(ParsingRequest *parser, int clientFd, Config *conf)
-{
-    //TODO: back to that later with multiple servers
-    // if(!matchedHost(parser, conf))
-    //     cerr << "400 Bad request no matching server for that host\n";
+// string handlePost(ParsingRequest *parser, int clientFd, Config *conf)
+// {
+//     //TODO: back to that later with multiple servers
+//     // if(!matchedHost(parser, conf))
+//     //     cerr << "400 Bad request no matching server for that host\n";
 
     
+//     vector<string> locations;
+//     //WE ASSUMING WE ONLY HAVE ONE SERVER NOW
+//     for(auto it = conf->_cluster.begin(); it != conf->_cluster.end(); it++)
+//     {
+//         for(auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
+//             locations.push_back((*i).first);
+//     }
+
+//     map<string, string> startLine = parser->getStartLine();
+//     string URI = startLine["uri"];
+//     string matchedLoc = getClosest(locations, URI);
+//     if(matchedLoc == "No matching loc found!")
+//     {
+//         return Error::notFound();
+//         // return;
+//     }
+    
+//     //GET THE WANTED LOCATION
+
+//     std::pair<std::string,LocationStruct> location;
+
+//     for(auto it = conf->_cluster.begin(); it != conf->_cluster.end(); it++)
+//     {
+//         for(auto i = (*it).second.location.begin(); i != (*it).second.location.end(); i++)
+//         {
+//             if((*i).first == matchedLoc)
+//             {
+//                 location = (*i);
+//                 break;
+//             }
+//         }
+//     }
+
+
+//     //REDIRECTION INCOMPLETE OFC
+
+//     string redirect = location.second._return;
+//     if(redirect != "")
+//     {
+//         return redirection(redirect);
+//     }
+
+//     //
+//     if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
+//     {
+//         return methodNotAllowed(location);
+//     }
+
+//     //CHECK THE CONTENT LENGTH INSIDE THE GIVEN BLOCK (i don't have a content length variable from the config file TODO : ask zahira)
+
+//     //WORK ON UPLOAD HERE :
+//     location.second.upload_enabled = true; //static shit need to be modified later
+//     location.second.upload_path = "/api/login/users";
+
+//     if(!location.second.upload_enabled)
+//         return forbidden();
+//     else if(location.second.upload_path == "")
+//         return internalError();
+//     else
+//     {
+        
+//     }
+    
+//     string static_response = "HTTP/1.1 200 OK\r\n"
+//     "Content-Type: text/plain\r\n"
+//     "Content-Length: 13\r\n"
+//     "Connection: close\r\n"
+//     "\r\n"
+//     "Hello, World!";
+//     return static_response;
+// }
+
+string handlePost(ParsingRequest *parser, int fd, Config *conf)
+{
     vector<string> locations;
     //WE ASSUMING WE ONLY HAVE ONE SERVER NOW
     for(auto it = conf->_cluster.begin(); it != conf->_cluster.end(); it++)
@@ -146,7 +220,6 @@ string handlePost(ParsingRequest *parser, int clientFd, Config *conf)
     if(matchedLoc == "No matching loc found!")
     {
         return Error::notFound();
-        // return;
     }
     
     //GET THE WANTED LOCATION
@@ -165,43 +238,19 @@ string handlePost(ParsingRequest *parser, int clientFd, Config *conf)
         }
     }
 
-
-    //REDIRECTION INCOMPLETE OFC
-
-    string redirect = location.second._return;
-    if(redirect != "")
-    {
-        return redirection(redirect);
-    }
-
-    //
-    if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
-    {
+    //LETS SAY THAT THE REDIRECTION IS CHECKED IN THE REQUEST
+    if(!method_allowed(location, "POST"))
         return methodNotAllowed(location);
-    }
-
-    //CHECK THE CONTENT LENGTH INSIDE THE GIVEN BLOCK (i don't have a content length variable from the config file TODO : ask zahira)
-
-    //WORK ON UPLOAD HERE :
-    location.second.upload_enabled = true; //static shit need to be modified later
-    location.second.upload_path = "/api/login/users";
-
-    if(!location.second.upload_enabled)
-        return forbidden();
-    else if(location.second.upload_path == "")
-        return internalError();
-    else
+    if(!uploadSupported(location))
     {
         
     }
-    
-    string static_response = "HTTP/1.1 200 OK\r\n"
+    return "HTTP/1.1 200 OK\r\n"
     "Content-Type: text/plain\r\n"
     "Content-Length: 13\r\n"
     "Connection: close\r\n"
     "\r\n"
     "Hello, World!";
-    return static_response;
 }
 
 string handleMethod(int fd, ParsingRequest* parser, Config *conf)
