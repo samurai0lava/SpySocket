@@ -102,17 +102,20 @@ void	handle_notAllowed(int fd, std::pair<std::string,
 		LocationStruct> location)
 {
 	std::string res = "HTTP/1.1 405 Method Not Allowed\r\nAllow: ";
-	for (auto it = location.second.allowedMethods.begin(); it != location.second.allowedMethods.end(); ++it)
+	for (std::set<std::string>::iterator it = location.second.allowedMethods.begin(); it != location.second.allowedMethods.end(); ++it)
 	{
 		res += *it;
-		if (std::next(it) != location.second.allowedMethods.end())
+		if (it++ != location.second.allowedMethods.end())
 		{
 			res += ", ";
 		}
+		it--;
 	}
 	std::string body = "<html><body><h1>405 Method Not Allowed</h1></body></html>";
 	res += "\r\nContent-Type: text/html\r\n";
-	res += "Content-Length: " + std::to_string(body.size()) + "\r\n";
+	std::stringstream ss;
+	ss << body.size();
+	res += "Content-Length: " + ss.str() + "\r\n";
 	res += "\r\n";
 	res += body;
 	cout << res << endl;
@@ -225,43 +228,86 @@ std::pair<std::string, LocationStruct> get_location(int fd,
 void	forbidden_error(int fd)
 {
 	string response = "HTTP/1.1 403 Forbidden\r\n"
-							"Content-Type: text/html\r\n"
-							"Content-Length: 112\r\n"
-							"Connection: close\r\n"
-							"\r\n"
-							"<html>"
-							"<head><title>403 Forbidden</title></head>"
-							"<body>"
-							"<h1>Forbidden</h1>"
-							"<p>You don't have permission to access this resource.</p>"
-							"</body>"
-							"</html>";
+						"Content-Type: text/html\r\n"
+						"Content-Length: 112\r\n"
+						"Connection: close\r\n"
+						"\r\n"
+						"<html>"
+						"<head><title>403 Forbidden</title></head>"
+						"<body>"
+						"<h1>Forbidden</h1>"
+						"<p>You don't have permission to access this resource.</p>"
+						"</body>"
+						"</html>";
 	send(fd, response.c_str(), response.length(), 0);
 }
 
-void	handle_upload(int fd, ConfigStruct config, LocationStruct location)
+// vector<pair<string, string>> get_first_line(string body)
+// {
+
+// }
+
+std::vector<std::string> split(std::string &s, std::string &delimiters)
 {
+	std::vector<std::string> tokens;
+	std::string token;
+	for (std::string::size_type i = 0; i < s.size(); ++i)
+	{
+		if (delimiters.find(s[i]) != std::string::npos)
+		{
+			if (!token.empty())
+			{
+				tokens.push_back(token);
+				token.clear();
+			}
+		}
+		else
+		{
+			token += s[i];
+		}
+	}
+	if (!token.empty())
+	{
+		tokens.push_back(token);
+	}
+	return (tokens);
+}
+
+void	parse_body(ParsingRequest parser, int fd, LocationStruct location)
+{
+	string	body;
+
+	// cout << "------->>>>> " << parser.getBody() << "<<<<<<---------------"<< endl;
+	
+}
+
+void	handle_upload(int fd, ConfigStruct config, LocationStruct location,
+		ParsingRequest parser)
+{
+	string	upload_path;
+
+	// cout << "-------------------> " << location.upload_enabled << endl;
 	if (location.upload_enabled == false)
 	{
 		forbidden_error(fd);
 		return ;
 	}
-	string upload_path;
-	if(location.upload_path.empty())
+	if (location.upload_path.empty())
 		upload_path = location.root;
 	else
 		upload_path = location.upload_path;
-	
+	parse_body(parser, fd, location);
 }
 
-void	postMethod(int fd, string uri, ConfigStruct config)
+void	postMethod(int fd, string uri, ConfigStruct config,
+		ParsingRequest &parser)
 {
 	try
 	{
 		std::pair<std::string, LocationStruct> location = get_location(fd, uri,
 				config);
 
-		handle_upload(fd, config, location.second);
+		handle_upload(fd, config, location.second, parser);
 
 		// cout << location.first << endl;
 	}
