@@ -157,6 +157,10 @@ void Servers::epollFds(Servers &serv)
             else
             {
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL); //no need for MSG_WAITALL
+
+                cout << "*******************************\n";
+                cout << serv.buffer << "\n";
+                cout << "*******************************\n";
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)

@@ -247,7 +247,7 @@ void	forbidden_error(int fd)
 
 // }
 
-std::vector<std::string> split(std::string &s, std::string &delimiters)
+std::vector<std::string> split(std::string s, std::string delimiters)
 {
 	std::vector<std::string> tokens;
 	std::string token;
@@ -273,12 +273,43 @@ std::vector<std::string> split(std::string &s, std::string &delimiters)
 	return (tokens);
 }
 
+void	testFun(string boundary, string body)
+{
+	size_t	pos;
+	size_t	headerEnd;
+	size_t	contentStart;
+	size_t	nextBoundary;
+	std::string headers;
+	std::string content;
+	
+	pos = 0;
+	while ((pos = body.find(boundary, pos)) != std::string::npos)
+	{
+		pos += boundary.size();
+		// Skip leading CRLF
+		if (body.compare(pos, 2, "\r\n") == 0)
+			pos += 2;
+		// Find end of headers
+		headerEnd = body.find("\r\n\r\n", pos);
+		if (headerEnd == std::string::npos)
+			break ;
+		headers = body.substr(pos, headerEnd - pos);
+		// Content starts after headerEnd+4
+		contentStart = headerEnd + 4;
+		// Find next boundary
+		nextBoundary = body.find(boundary, contentStart);
+		content = body.substr(contentStart, nextBoundary
+				- contentStart);
+				pos = nextBoundary;
+	}
+	std::cout << "Headers:\n" << headers << "\n";
+	std::cout << "Content:\n" << content << "\n";
+}
+
 void	parse_body(ParsingRequest parser, int fd, LocationStruct location)
 {
-	string	body;
+	testFun(parser.getHeaders()["boundary"], parser.getBody());
 
-	// cout << "------->>>>> " << parser.getBody() << "<<<<<<---------------"<< endl;
-	
 }
 
 void	handle_upload(int fd, ConfigStruct config, LocationStruct location,
