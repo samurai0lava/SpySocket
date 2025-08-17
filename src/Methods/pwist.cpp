@@ -1,16 +1,4 @@
-struct stat st;
-if (stat(rootPath.c_str(), &st) == 0) {
-    if (S_ISDIR(st.st_mode)) {
-        // it's a directory
-    } else {
-        // it's a file
-    }
-}
-
-
-swirver 
-
-#include "post.hpp"
+#include "../../inc/POST.hpp"
 
 std::string generate_filename()
 {
@@ -23,30 +11,19 @@ std::string generate_filename()
     return result;
 }
 
-void handle_request(const std::string &request)
+
+
+void handle_request(int fd, const LocationStruct &location, ParsingRequest &parser)
 {
-    std::istringstream request_stream(request);
+    // std::istringstream request_stream(request);
     std::string line;
     int count = 0;
-    std::vector<std::string> headers;
 
-    while (std::getline(request_stream, line))
-    {
-        if (line.empty() && count == 0)
-        {
-            count++;
-            continue;
-        }
-        else if (line.empty() && count == 1)
-        {
-            break;
-        }
+    std::string boundary = parser.getHeaders().at("boundary");
+    cout << "Boundary : " << boundary << endl;
+    std::string request = parser.getBody();
+    cout << "Body : " << request << endl;
 
-        if (count == 0)
-            headers.push_back(line);
-    }
-
-    std::string boundary = headers.at(2).substr(headers.at(2).find("boundary=") + 9);
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
@@ -109,54 +86,19 @@ void handle_request(const std::string &request)
     file.close();
 }
 
-void server()
+void	postMethod(int fd, string uri, ConfigStruct config,
+		ParsingRequest &parser)
 {
-    int fd = socket(AF_INET, SOCK_STREAM, 0);
-    if (fd == -1)
-    {
-        perror("socket");
-        return;
-    }
+	try
+	{
+		std::pair<std::string, LocationStruct> location = get_location(fd, uri,
+				config);
 
-    sockaddr_in addr;
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(8888);
-    addr.sin_addr.s_addr = INADDR_ANY;
+		handle_request(fd, location.second, parser);
 
-    if (bind(fd, (sockaddr *)&addr, sizeof(addr)) == -1)
-    {
-        perror("bind");
-        close(fd);
-        return;
-    }
-
-    if (listen(fd, SOMAXCONN) == -1)
-    {
-        perror("listen");
-        close(fd);
-        return;
-    }
-
-    int client_fd = accept(fd, NULL, NULL);
-    if (client_fd == -1)
-    {
-        perror("accept");
-        return;
-    }
-    else
-        std::cout << "Client connected " << client_fd << std::endl;
-
-    // Handle client connection
-    char buffer[1024];
-    ssize_t bytes_received = recv(client_fd, buffer, sizeof(buffer) - 1, 0);
-    if (bytes_received > 0)
-    {
-        buffer[bytes_received] = '\0';
-        // std::cout << "Received message from client " << client_fd << ": " << buffer << std::endl;
-        // Process the received message
-        handle_request(buffer);
-    }
-    close(client_fd);
-
-    close(fd);
+		// cout << location.first << endl;
+	}
+	catch (exception &e)
+	{
+	}
 }
