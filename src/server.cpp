@@ -49,13 +49,13 @@ int setNonBlocking(int fd)
     return 0;
 }
 
-const char *http_response =
-    "HTTP/1.1 200 OK\r\n"
-    "Content-Type: text/plain\r\n"
-    "Content-Length: 13\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-    "Hello, World!";
+// const char *http_response =
+//     "HTTP/1.1 200 OK\r\n"
+//     "Content-Type: text/plain\r\n"
+//     "Content-Length: 13\r\n"
+//     "Connection: close\r\n"
+//     "\r\n"
+//     "Hello, World!";
 
 void epollFds(Servers &serv, Config *conf)
 {
@@ -135,7 +135,8 @@ void epollFds(Servers &serv, Config *conf)
             }
             else
             {
-                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL); //no need for MSG_WAITALL
+                
+                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
