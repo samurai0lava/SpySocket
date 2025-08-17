@@ -330,19 +330,19 @@ void	handle_upload(int fd, ConfigStruct config, LocationStruct location,
 	parse_body(parser, fd, location);
 }
 
-void	postMethod(int fd, string uri, ConfigStruct config,
-		ParsingRequest &parser)
-{
-	try
-	{
-		std::pair<std::string, LocationStruct> location = get_location(fd, uri,
-				config);
+// void	postMethod(int fd, string uri, ConfigStruct config,
+// 		ParsingRequest &parser)
+// {
+// 	try
+// 	{
+// 		std::pair<std::string, LocationStruct> location = get_location(fd, uri,
+// 				config);
 
-		handle_upload(fd, config, location.second, parser);
+// 		handle_upload(fd, config, location.second, parser);
 
-		// cout << location.first << endl;
-	}
-	catch (exception &e)
-	{
-	}
-}
+// 		// cout << location.first << endl;
+// 	}
+// 	catch (exception &e)
+// 	{
+// 	}
+// }

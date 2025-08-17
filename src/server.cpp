@@ -1,7 +1,7 @@
 #include "../include/server.hpp"
 #include "../inc/webserv.hpp"
 
-void Servers::getServersFds(Config *configFile, Servers &serv)
+void Servers::getServersFds(Config* configFile, Servers& serv)
 {
     // Servers serv;
     serv.configStruct = configFile->_cluster;
@@ -16,7 +16,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
             perror("socket creation failed");
             continue;
         }
-        
+
         // Set SO_REUSEADDR to avoid "Address already in use" errors
         int opt = 1;
         if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
@@ -24,7 +24,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
             close(serverFd);
             continue;
         }
-        
+
         sockaddr_in sockStruct;
         sockStruct.sin_family = AF_INET;
         sockStruct.sin_addr.s_addr = inet_addr((*it).second.host.c_str()); // localhost e.g
@@ -33,19 +33,19 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
 
         //very useful SO_REUSEADDR allows us to re use the address so bind won't fail after closing the server with ctrl+C (setsockopt) will use it later SO_REUSEPORT allows us to bind to the same port (load balancing), SO_RCVTIMEO / SO_SNDTIMEO (receive or send timeouts)
         setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt));
-        
-        if (bind(serverFd, (sockaddr *)&sockStruct, sizeof(sockStruct)) < 0) {
+
+        if (bind(serverFd, (sockaddr*)&sockStruct, sizeof(sockStruct)) < 0) {
             perror("bind failed");
             close(serverFd);
             continue;
         }
-        
+
         if (listen(serverFd, 10) < 0) {
             perror("listen failed");
             close(serverFd);
             continue;
         }
-        
+
         std::cout << BLUE "Listening on " RESET << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
         serv.serversFd.push_back(serverFd);
     }
@@ -78,7 +78,7 @@ int setNonBlocking(int fd)
 //     "Hello, World!";
 
 
-void Servers::epollFds(Servers &serv)
+void Servers::epollFds(Servers& serv)
 {
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
@@ -156,11 +156,7 @@ void Servers::epollFds(Servers &serv)
             }
             else
             {
-                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, MSG_WAITALL); //no need for MSG_WAITALL
-
-                cout << "*******************************\n";
-                cout << serv.buffer << "\n";
-                cout << "*******************************\n";
+                serv.bufferLength;
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
@@ -176,22 +172,43 @@ void Servers::epollFds(Servers &serv)
                     close(fd);
                     continue;
                 }
-                // cout << serv.buffer << endl;
-                // Get the parser for this specific client
-                ParsingRequest* parser = NULL;
-                if (clientParsers.find(fd) != clientParsers.end())
+                cout << "*******************************\n";
+                while (serv.bufferLength = recv(fd, serv.buffer, READ_SIZE) > 0)
                 {
-                    parser = clientParsers[fd];
-                }
-                else
-                {
-                    std::cerr << "No parser found for client FD " << fd << std::endl;
-                    close(fd);
-                    continue;
+                    ParsingRequest* parser = NULL;
+                    if (clientParsers.find(fd) != clientParsers.end())
+                    {
+                        parser = clientParsers[fd];
+                    }
+                    else
+                    {
+                        std::cerr << "No parser found for client FD " << fd << std::endl;
+                        close(fd);
+                        continue;
+                    }
+
+                    ParsingRequest::ParseResult result = parser->feed_data(serv.buffer, serv.bufferLength);
                 }
 
-                ParsingRequest::ParseResult result = parser->feed_data(serv.buffer, serv.bufferLength);
+                cout << serv.buffer << "\n";
+                cout << "*******************************\n";
                 
+                // cout << serv.buffer << endl;
+                // Get the parser for this specific client
+                // ParsingRequest* parser = NULL;
+                // if (clientParsers.find(fd) != clientParsers.end())
+                // {
+                //     parser = clientParsers[fd];
+                // }
+                // else
+                // {
+                //     std::cerr << "No parser found for client FD " << fd << std::endl;
+                //     close(fd);
+                //     continue;
+                // }
+
+                // ParsingRequest::ParseResult result = parser->feed_data(serv.buffer, serv.bufferLength);
+
                 if (result == ParsingRequest::PARSE_OK)
                 {
                     printRequestInfo(*parser, fd);
@@ -200,12 +217,12 @@ void Servers::epollFds(Servers &serv)
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
                     // HandleMethod(fd, parser,);
-                    handleMethod(fd,parser,config ,serv);
+                    handleMethod(fd, parser, config, serv);
                     //handle methode logic will be check the method from the start line and assign the correct methode and response
-                    
+
                     // For now, send a simple HTTP response
                     // send(fd, http_response, strlen(http_response), 0);
-                    
+
                     parser->reset();
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)
@@ -215,7 +232,7 @@ void Servers::epollFds(Servers &serv)
                 else if (result == ParsingRequest::PARSE_ERROR_RESULT)
                 {
                     // Handle any error result - send the error response
-                    std::cout <<"Error Code: " << parser->getErrorCode() << " - " << parser->getErrorMessage() << std::endl;
+                    std::cout << "Error Code: " << parser->getErrorCode() << " - " << parser->getErrorMessage() << std::endl;
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     send(fd, errorResponse.c_str(), errorResponse.length(), 0);
                     delete clientParsers[fd];
@@ -227,8 +244,8 @@ void Servers::epollFds(Servers &serv)
     }
 
     // Clean up all parsers
-    for (std::map<int, ParsingRequest*>::iterator it = clientParsers.begin(); 
-         it != clientParsers.end(); ++it) {
+    for (std::map<int, ParsingRequest*>::iterator it = clientParsers.begin();
+        it != clientParsers.end(); ++it) {
         delete it->second;
     }
     clientParsers.clear();
