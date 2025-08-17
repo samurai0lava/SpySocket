@@ -31,4 +31,4 @@ public:
     // void fillImportantFields();
 };
 
-string handleMethod(int fd, ParsingRequest* parser, Config *conf);
+// string handleMethod(int fd, ParsingRequest* parser, Config *conf);
