@@ -8,7 +8,7 @@
 #include <vector>
 #define WHITESPACE "\n\r\t\f\v "
 #define DECIMAL "0123456789"
-#define CHUNK_SIZE 10000
+#define CHUNK_SIZE  16384
 
 enum
 {

@@ -35,6 +35,7 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
+#define limit 1024*1024
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"

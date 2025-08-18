@@ -91,7 +91,6 @@ void sendNextChunk(int client_fd, ClientSendState &state)
 void Servers::epollFds(Servers &serv)
 {
     int epollFd = epoll_create1(0);
-    
     if (epollFd == -1)
         throw runtime_error("Error creating epoll!");
     struct epoll_event event;
@@ -206,6 +205,7 @@ void Servers::epollFds(Servers &serv)
                     // Response sending logic
                     // In a real server, you would generate a response based on the request so we the methode implemented would handle it
                     // HandleMethod(fd, parser,);
+                    // std::cout<<"moomoomo \n";
                     handleMethod(fd,parser,config ,serv);
                     //handle methode logic will be check the method from the start line and assign the correct methode and response
                     
@@ -237,17 +237,22 @@ void Servers::epollFds(Servers &serv)
             
             int client_fd = it->first;
             ClientSendState &state = it->second;
+            std::cout<<" fd : "<<state.fileFd << " state offset : "<< state.offset << " state file size : "<< state.fileSize<<std::endl;
+            if(state.offset < static_cast<off_t>(state.fileSize))
+            {
 
-            // send chunk to client
-            sendNextChunk(client_fd, state);
+                // send chunk to client
+                sendNextChunk(client_fd, state);
 
-            if (state.offset >= static_cast<off_t>(state.fileSize)) {
-                close(state.fileFd);  // close file descriptor
-                tmp = it;             // store current iterator
-                ++it;                 // move to next before erasing
-                serv.clientSendStates.erase(tmp); // erase old iterator
-            } else {
-                ++it;
+                if (state.offset >= static_cast<off_t>(state.fileSize)) {
+                    
+                    close(state.fileFd); 
+                    tmp = it;           
+                    ++it;                 
+                    serv.clientSendStates.erase(tmp);
+                } else {
+                    ++it;
+                }
             }
         }
 

@@ -94,34 +94,41 @@ void Get::MethodGet()
             send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
             return ;
         }
-        // std::stringstream buffer;
-        // buffer << file.rdbuf();
-        // std::string fileContent = buffer.str();
-        // file.close();
-        // std::ostringstream response;
-        // response << "HTTP/1.1 200 OK\r\n";
-        // response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
-        // response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
-        // // std::cout<<"print response : "<< response.str()<<std::endl;
-        // response << fileContent;
-        // std::string finalResponse = response.str();
-        // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        std::stringstream buffer;
+        buffer << file.rdbuf();
+        std::string fileContent = buffer.str();
+        file.close();
+        std::cout<<"match index : "<< matchedLocation << "file content size  : " <<fileContent.size() <<std::endl; 
+        if(fileContent.size() > limit && this->getMimeType(matchedLocation) == "video/mp4")
+        {
+            std::cout<<" sup of the limit "<<std::endl;
+            ClientSendState state;
+            state.clientFd = client_fd;
+            state.filePath = matchedLocation; // the file you want to send
+            state.fileFd = open(state.filePath.c_str(), O_RDONLY);
+            struct stat s;
+            stat(state.filePath.c_str(), &s);
+            state.fileSize = s.st_size;
+            // Prepare HTTP headers
+            std::ostringstream oss;
+            oss << "HTTP/1.1 200 OK\r\n";
+            oss << "Content-Type: " << getMimeType(state.filePath) << "\r\n";
+            oss << "Content-Length: " << state.fileSize << "\r\n\r\n";
+            state.headers = oss.str();
+            // Add state to map for this client
+            serv.clientSendStates[client_fd] = state;
+            return ;
+            
+        }
+        std::ostringstream response;
+        response << "HTTP/1.1 200 OK\r\n";
+        response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
+        response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
+        // std::cout<<"print response : "<< response.str()<<std::endl;
+        response << fileContent;
+        std::string finalResponse = response.str();
+        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
 
-        ClientSendState state;
-        state.clientFd = client_fd;
-        state.filePath = matchedLocation; // the file you want to send
-        state.fileFd = open(state.filePath.c_str(), O_RDONLY);
-        struct stat s;
-        stat(state.filePath.c_str(), &s);
-        state.fileSize = s.st_size;
-        // Prepare HTTP headers
-        std::ostringstream oss;
-        oss << "HTTP/1.1 200 OK\r\n";
-        oss << "Content-Type: " << getMimeType(state.filePath) << "\r\n";
-        oss << "Content-Length: " << state.fileSize << "\r\n\r\n";
-        state.headers = oss.str();
-        // Add state to map for this client
-        serv.clientSendStates[client_fd] = state;
         return;
     }
     else if (this->isDirectory(matchedLocation)) 
