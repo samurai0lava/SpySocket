@@ -28,7 +28,7 @@ class DeleteMethode : public ParsingRequest
         bool CheckisDir(const std::string& uri);
         bool CheckAccess(const std::string& uri);
         bool checkReqForDelete(ParsingRequest& request);
-        bool PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config);        
+        std::string PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config);
         std::string generate_success_resp(void);
         int getStatusCode() const { return status_code; }
         std::string getStatusPhrase() const { return status_phrase; }

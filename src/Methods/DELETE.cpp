@@ -48,24 +48,22 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
 }
 
 
-bool DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config)
+std::string DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config)
 {
     if (!checkIfAllowed("DELETE", config, uri)) {
         std::string errorResponse = GenerateResErr(405);
-        send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-        return false;
+        return errorResponse;
     }
 
     std::string actualPath = mapUriToPath(uri, config);
     if (actualPath.empty()) {
         std::string errorResponse = GenerateResErr(404);
-        send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-        return false;
+        return errorResponse;
     }
 
     if (!CheckFile(actualPath)) {
         std::string errorResponse = GenerateResErr(404);
-        send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
+        return errorResponse;
         return false;
     }
 
@@ -73,40 +71,35 @@ bool DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const C
     {
         if (!CheckAccess(actualPath)) {
             std::string errorResponse = GenerateResErr(403);
-            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-            return false;
+            return errorResponse;
         }
 
         if (std::remove(actualPath.c_str()) != 0) {
             std::string errorResponse = GenerateResErr(500);
-            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-            return false;
+            return errorResponse;
         }
         std::string successResponse = generate_success_resp();
-        send(client_fd, successResponse.c_str(), successResponse.length(), 0);
-        return true;
+        return successResponse;
     }
-    else {
+    else
+    {
         if (uri[uri.length() - 1] != '/') {
             std::string errorResponse = GenerateResErr(409);
-            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-            return false;
+            return errorResponse;
         }
 
         if (!CheckAccess(actualPath)) {
             std::string errorResponse = GenerateResErr(403);
-            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-            return false;
+            return errorResponse;
         }
 
         if (std::remove(actualPath.c_str()) != 0) {
             std::string errorResponse = GenerateResErr(500);
-            send(client_fd, errorResponse.c_str(), errorResponse.length(), 0);
-            return false;
+            return errorResponse;
+
         }
         std::string successResponse = generate_success_resp();
-        send(client_fd, successResponse.c_str(), successResponse.length(), 0);
-        return true;
+        return successResponse;
     }
 }
 
