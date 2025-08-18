@@ -120,7 +120,6 @@ void Get::MethodGet()
         oss << "Content-Type: " << getMimeType(state.filePath) << "\r\n";
         oss << "Content-Length: " << state.fileSize << "\r\n\r\n";
         state.headers = oss.str();
-        std::cout<<"77777777777777777777777777777777777\n";
         // Add state to map for this client
         serv.clientSendStates[client_fd] = state;
         return;
@@ -130,8 +129,7 @@ void Get::MethodGet()
         std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath)) 
         {
-            // std::cout<<"hellllllllllllllllllllllo :: "<< matchedLocation<<std::endl;
-            std::cout<<" ******************** Path : ******* "<< indexPath<<std::endl;
+            // std::cout<<" ******************** Path : ******* "<< indexPath<<std::endl;
             std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
             if (!file.is_open())
             {

@@ -77,32 +77,23 @@ const char *http_response =
 
 void sendNextChunk(int client_fd, ClientSendState &state)
 {
-    // Prepare buffer
     ssize_t bytesRead = read(state.fileFd, state.buffer, CHUNK_SIZE);
-    if (bytesRead <= 0) return; // done or error
-
-    // Send headers first if needed
+    if (bytesRead <= 0) return; 
     if (state.sendingHeaders) {
         send(client_fd, state.headers.c_str(), state.headers.size(), 0);
         state.sendingHeaders = false;
     }
-
-    // Send file chunk
     send(client_fd, state.buffer, bytesRead, MSG_NOSIGNAL);
-
-    // Update offset
     state.offset += bytesRead;
-    std::cout<<"state offset : "<< state.offset <<std::endl;
 }
 
 
 void Servers::epollFds(Servers &serv)
 {
-    int num = 0;
     int epollFd = epoll_create1(0);
+    
     if (epollFd == -1)
         throw runtime_error("Error creating epoll!");
-    // std::cout<<" 01 : "<<serv.configStruct. 
     struct epoll_event event;
     for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
     {
@@ -125,7 +116,7 @@ void Servers::epollFds(Servers &serv)
     }
 
     struct epoll_event events[10];
-    std::map<int, ParsingRequest*> clientParsers;  // Map client FD to parser instance
+    std::map<int, ParsingRequest*> clientParsers;  
 
 
     while (true)
@@ -141,7 +132,6 @@ void Servers::epollFds(Servers &serv)
         {
             int fd = events[i].data.fd;
 
-            // Check if fd is a listening socket
             std::vector<int>::iterator it = std::find(serv.serversFd.begin(), serv.serversFd.end(), fd);
             if (it != serv.serversFd.end())
             {
@@ -245,7 +235,6 @@ void Servers::epollFds(Servers &serv)
             it != serv.clientSendStates.end(); )
         {
             
-            std::cout<<"   :   " << num++ <<std::endl;
             int client_fd = it->first;
             ClientSendState &state = it->second;
 
