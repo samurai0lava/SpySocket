@@ -186,44 +186,7 @@ void	notFound(int fd)
 // 	// return ("");
 // }
 
-std::pair<std::string, LocationStruct> get_location(int fd,
-	const std::string &requestPath, const ConfigStruct &server)
-{
-	LocationStruct	bestLocation;
-	size_t			bestLength;
 
-	std::string bestMatch;
-	bestLength = 0;
-	for (size_t i = 0; i < server.location.size(); ++i)
-	{
-		const std::string &locPath = server.location[i].first;
-		if (requestPath.find(locPath) == 0) // prefix match
-		{
-			if (locPath.size() > bestLength) // longest match wins
-			{
-				bestMatch = locPath;
-				bestLocation = server.location[i].second;
-				bestLength = locPath.size();
-			}
-		}
-	}
-	if (!bestMatch.empty())
-	{
-		if (!bestLocation._return.empty())
-		{
-			handle_redirect(fd, std::make_pair(bestMatch, bestLocation));
-			throw runtime_error("Redirection");
-		}
-		if (bestLocation.allowedMethods.find("POST") == bestLocation.allowedMethods.end())
-		{
-			handle_notAllowed(fd, std::make_pair(bestMatch, bestLocation));
-			throw runtime_error("Method not allowed");
-		}
-		return (std::make_pair(bestMatch, bestLocation));
-	}
-	notFound(fd);
-	throw runtime_error("Location not found");
-}
 
 void	forbidden_error(int fd)
 {
@@ -309,14 +272,15 @@ void	testFun(string boundary, string body)
 void	parse_body(ParsingRequest parser, int fd, LocationStruct location)
 {
 	testFun(parser.getHeaders()["boundary"], parser.getBody());
-
+	cout << fd << endl;
+	cout << location.root << endl;
 }
 
 void	handle_upload(int fd, ConfigStruct config, LocationStruct location,
 		ParsingRequest parser)
 {
 	string	upload_path;
-
+	cout << config.root << endl;
 	// cout << "-------------------> " << location.upload_enabled << endl;
 	if (location.upload_enabled == false)
 	{
