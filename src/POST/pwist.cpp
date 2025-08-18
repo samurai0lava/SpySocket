@@ -162,13 +162,17 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
             filename = location.upload_path;
         }
     }
-    //else some error occured with stat
+    // else some error occured with stat
     else
+    {
+        cout << "PPPPPPPPPPPPPPPPPPP\n";
         return internal_error();
+    }
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
         //500 internal
+        cout << "DDDDDDDDDDDDDDDDDDD\n";
         return internal_error();
     }
 
