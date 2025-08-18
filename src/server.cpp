@@ -17,7 +17,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
             continue;
         }
         
-        // Set SO_REUSEADDR to avoid "Address already in use" errors
+        // Set SO_REUSEADDR to avoi d "Address already in use" errors
         int opt = 1;
         if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
             perror("setsockopt SO_REUSEADDR failed");
