@@ -10,6 +10,7 @@ void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& conf
         ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
         Get MGet(client_fd,parser, mutableConfig, serv, uri);
         MGet.MethodGet();
+        std::cout<<"8888888888888888888888\n";
     }
     else if (method == "DELETE")
     {

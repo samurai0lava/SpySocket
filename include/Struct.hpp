@@ -4,9 +4,12 @@
 #include <set>
 #include <string>
 #include <iostream>
+#include <cstring> 
 #include <vector>
 #define WHITESPACE "\n\r\t\f\v "
 #define DECIMAL "0123456789"
+#define CHUNK_SIZE 10000
+
 enum
 {
 	listen_,
@@ -49,7 +52,26 @@ struct LocationStruct
 	// std::vector<std::pair<std::string,std::string> > cgi_path;
 	// std::vector<std::pair<std::string,std::string> > cgi_ext;
 };
+struct ClientSendState {
+	 int clientFd;              // Client socket file descriptor
+    std::string filePath;      // Full path of the file being sent
+    int fileFd;                // File descriptor for the file
+    off_t offset;              // Current offset in the file
+    size_t fileSize;           // Total size of the file
+    bool sendingHeaders;       // True if headers still need to be sent
+    std::string headers;       // HTTP headers to send
+    char buffer[CHUNK_SIZE];   // Chunk buffer for reading file
+	size_t bufferLen;          // How many bytes currently in buffer
+    size_t bufferSent;         // How many bytes already sent from buffer
 
+     ClientSendState()
+        : clientFd(-1), fileFd(-1), offset(0),
+          fileSize(0), sendingHeaders(true),
+          bufferLen(0), bufferSent(0)
+    {
+        memset(buffer, 0, CHUNK_SIZE);
+    }
+};
 struct ConfigStruct
 {
     std::string								serverName;

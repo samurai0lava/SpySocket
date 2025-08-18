@@ -75,8 +75,30 @@ const char *http_response =
     "Hello, World!";
 
 
+void sendNextChunk(int client_fd, ClientSendState &state)
+{
+    // Prepare buffer
+    ssize_t bytesRead = read(state.fileFd, state.buffer, CHUNK_SIZE);
+    if (bytesRead <= 0) return; // done or error
+
+    // Send headers first if needed
+    if (state.sendingHeaders) {
+        send(client_fd, state.headers.c_str(), state.headers.size(), 0);
+        state.sendingHeaders = false;
+    }
+
+    // Send file chunk
+    send(client_fd, state.buffer, bytesRead, MSG_NOSIGNAL);
+
+    // Update offset
+    state.offset += bytesRead;
+    std::cout<<"state offset : "<< state.offset <<std::endl;
+}
+
+
 void Servers::epollFds(Servers &serv)
 {
+    int num = 0;
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
         throw runtime_error("Error creating epoll!");
@@ -218,6 +240,28 @@ void Servers::epollFds(Servers &serv)
                 }
             }
         }
+        std::map<int, ClientSendState>::iterator tmp;
+        for (std::map<int, ClientSendState>::iterator it = serv.clientSendStates.begin();
+            it != serv.clientSendStates.end(); )
+        {
+            
+            std::cout<<"   :   " << num++ <<std::endl;
+            int client_fd = it->first;
+            ClientSendState &state = it->second;
+
+            // send chunk to client
+            sendNextChunk(client_fd, state);
+
+            if (state.offset >= static_cast<off_t>(state.fileSize)) {
+                close(state.fileFd);  // close file descriptor
+                tmp = it;             // store current iterator
+                ++it;                 // move to next before erasing
+                serv.clientSendStates.erase(tmp); // erase old iterator
+            } else {
+                ++it;
+            }
+        }
+
     }
 
     // Clean up all parsers

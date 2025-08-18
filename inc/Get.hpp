@@ -25,6 +25,7 @@ class Get
         bool isDirectory(const std::string& path);
         bool isFile(const std::string& path);
         bool pathExists(const std::string& path);
+        std::string buildHttpHeaders(const std::string& path, size_t fileSize);
  
 };
 #endif

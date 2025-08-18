@@ -25,6 +25,7 @@ using namespace std;
 class Servers
 {
 public:
+    std::map<int, ClientSendState> clientSendStates;
     char buffer[READ_SIZE];
     ssize_t bufferLength;
     Servers() : bufferLength(0) {
