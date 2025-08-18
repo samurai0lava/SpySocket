@@ -12,3 +12,7 @@ TODO : nzid EPOLL_MOD mnin nwjed response bach manbqach n readi w nsendi f nefss
 TODO : POST upload(multiple files), chunks, sessions 
 
 TODO : CHECK FOR THE CLOSED FD IN THE SERVER !!!IMPORTANT SINCE YOU SENDING THE RESPONSE IN ANOTHER BLOCK
+
+//helpful commands :
+    sed 's/$/\r/' upload.txt > request_crlf.txt // convert LF to CRLF
+    nc 127.0.0.1 8080 < request_crlf.txt //better than telnet :3
