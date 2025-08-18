@@ -11,73 +11,140 @@ std::string generate_filename()
     return result;
 }
 
+string bad_request()
+{
+    return "HTTP/1.1 400 Bad Request\r\n"
+    "Content-Type: text/html; charset=UTF-8\r\n"
+    "Content-Length: 113\r\n"
+    "Connection: close\r\n"
+    "\r\n"
+    "<!DOCTYPE html>\n"
+    "<html>\n"
+    "<head><title>400 Bad Request</title></head>\n"
+    "<body><h1>400 Bad Request</h1><p>Your request is invalid.</p></body>\n"
+    "</html>\n";
+}
 
+string forbidden_403()
+{
+   return "HTTP/1.1 403 Forbidden\r\n"
+						"Content-Type: text/html\r\n"
+						"Content-Length: 112\r\n"
+						"Connection: close\r\n"
+						"\r\n"
+						"<html>"
+						"<head><title>403 Forbidden</title></head>"
+						"<body>"
+						"<h1>Forbidden</h1>"
+						"<p>You don't have permission to access this resource.</p>"
+						"</body>"
+						"</html>";
+}
 
-string handle_upload(const LocationStruct& location, ParsingRequest& parser)
+string internal_error()
+{
+    return "HTTP/1.1 500 Internal Server Error\r\n"
+    "Content-Type: text/html; charset=UTF-8\r\n"
+    "Content-Length: 164\r\n"
+    "Connection: close\r\n"
+    "\r\n"
+    "<!DOCTYPE html>\n"
+    "<html>\n"
+    "<head><title>500 Internal Server Error</title></head>\n"
+    "<body><h1>500 Internal Server Error</h1><p>Unexpected server error.</p></body>\n"
+    "</html>\n";
+}
+
+string created_success()
+{
+    return "HTTP/1.1 201 Created\r\n"
+    "Content-Type: text/html; charset=UTF-8\r\n"
+    "Content-Length: 128\r\n"
+    "Connection: close\r\n"
+    "\r\n"
+    "<!DOCTYPE html>\n"
+    "<html>\n"
+    "<head><title>201 Created</title></head>\n"
+    "<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
+    "</html>\n";
+}
+
+string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
     if (location.upload_enabled == false)
     {
         // 403 Forbidden
-        std::cerr << "Error: Upload is not enabled for this location." << std::endl;
-        return "HTTP/1.1 403 Forbidden\r\n\r\n";
+        return forbidden_403();
     }
     if (location.upload_path.empty())
-    {
         location.upload_path = location.root;
-    }
     std::string line;
 
-    // std::cout << location.root << std::endl;
-
     std::string boundary = parser.getHeaders().at("boundary");
-    cout << "Boundary : " << boundary << endl;
+    // cout << "Boundary : " << boundary << endl;
     std::string request = parser.getBody();
-    cout << "Body : " << request << endl;
+    // cout << "Body : " << request << endl;
 
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
         //400 bad request
-        std::cerr << "Error: Could not find body start." << std::endl;
-        // return;
+        cout << "111111111\n";
+        return bad_request();
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
         //400 bad request
-        std::cerr << "Error: Could not find body end." << std::endl;
-        // return;
+        cout << "222222222\n";
+        return bad_request();
     }
     // should be +4 for "\r\n but since we only have "\n in a string we'll +3 here"
     std::string body = request.substr(body_start + boundary.length() + 4, body_end - body_start - boundary.length() - 4);
 
-    size_t fn_pos = body.find("filename=\"");
+    // cout << "++++++++++++++++++++\n";
+    // cout << "-->" << body << "<--" << endl;
+    // cout << "++++++++++++++++++++\n";
+
+    size_t fn_pos = body.find("filename=");
+    int quoted = 0;
+    cout << "---> " << body[fn_pos + 1] << endl;
+    if(body[fn_pos + 1] == '"')
+    {
+        cout << "It's quoted!!!\n";
+        quoted = 1;
+    }
     if (fn_pos == std::string::npos)
     {
         //no error maybe it's just a text not a file (username e.g)
         std::cerr << "Error: No filename found.\n";
         // return;
     }
-    fn_pos += 10;
-    size_t fn_end = body.find('"', fn_pos);
-    if (fn_end == std::string::npos)
+    fn_pos += 9 + quoted;
+    size_t fn_end;
+    if(quoted)
     {
-        //400 bad request
-        std::cerr << "Error: Malformed filename.\n";
-        // return;
+        fn_end = body.find('"', fn_pos);
+        if (fn_end == std::string::npos)
+        {
+            //400 bad request
+            cout << ":3333333333333333\n";
+            return bad_request();
+        }
     }
+    else
+        fn_end = body.find(' ', fn_pos);
     std::string filename = body.substr(fn_pos, fn_end - fn_pos);
     if (filename.empty())
         filename = generate_filename();
-    
+    cout << "FILENAME ::::: " << filename << endl;
 
     // don't forget it's \r\n in real requests now we only working with \n\n
     size_t content_start = body.find("\r\n\r\n");
     if (content_start == std::string::npos)
     {
         //400 bad request (need to check if an upload request can be bodyless)
-        std::cerr << "Error: Could not find content start." << std::endl;
-        // return;
+        return bad_request();
     }
     content_start += 4; // Skip past the "\r\n\r\n"
 
@@ -87,6 +154,7 @@ string handle_upload(const LocationStruct& location, ParsingRequest& parser)
         // it's a directory
         if (S_ISDIR(st.st_mode)) 
         {
+            //pay ATTENTION to the slash "/"
             filename = location.upload_path + "/" + filename;
         }
         else 
@@ -95,24 +163,23 @@ string handle_upload(const LocationStruct& location, ParsingRequest& parser)
         }
     }
     //else some error occured with stat
-
+    else
+        return internal_error();
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
         //500 internal
-        std::cerr << "Error: Could not open file " << filename << std::endl;
-        // return;
+        return internal_error();
     }
 
     file.write(body.c_str() + content_start, body.size() - content_start);
     if (!file)
     {
         //internal server error
-        std::cerr << "Error: Could not write to file " << filename << std::endl;
-        // return;
+        return internal_error();
     }
     file.close();
-    return "";
+    return created_success();
 }
 
 string	postMethod(string uri, ConfigStruct config,
