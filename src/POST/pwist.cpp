@@ -13,11 +13,11 @@ std::string generate_filename()
 
 
 
-void handle_request(int fd, const LocationStruct &location, ParsingRequest &parser)
+string handle_upload(const LocationStruct &location, ParsingRequest &parser)
 {
-    // std::istringstream request_stream(request);
     std::string line;
-    int count = 0;
+
+    std::cout << location.root << std::endl;
 
     std::string boundary = parser.getHeaders().at("boundary");
     cout << "Boundary : " << boundary << endl;
@@ -29,14 +29,14 @@ void handle_request(int fd, const LocationStruct &location, ParsingRequest &pars
     {
         //400 bad request
         std::cerr << "Error: Could not find body start." << std::endl;
-        return;
+        // return;
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
         //400 bad request
         std::cerr << "Error: Could not find body end." << std::endl;
-        return;
+        // return;
     }
     // should be +4 for "\r\n but since we only have "\n in a string we'll +3 here"
     std::string body = request.substr(body_start + boundary.length() + 3, body_end - body_start - boundary.length() - 3);
@@ -46,7 +46,7 @@ void handle_request(int fd, const LocationStruct &location, ParsingRequest &pars
     {
         //no error maybe it's just a text not a file (username e.g)
         std::cerr << "Error: No filename found.\n";
-        return;
+        // return;
     }
     fn_pos += 10;
     size_t fn_end = body.find('"', fn_pos);
@@ -54,7 +54,7 @@ void handle_request(int fd, const LocationStruct &location, ParsingRequest &pars
     {
         //400 bad request
         std::cerr << "Error: Malformed filename.\n";
-        return;
+        // return;
     }
     std::string filename = body.substr(fn_pos, fn_end - fn_pos);
     if(filename.empty())
@@ -64,7 +64,7 @@ void handle_request(int fd, const LocationStruct &location, ParsingRequest &pars
     {
         //500 internal
         std::cerr << "Error: Could not open file " << filename << std::endl;
-        return;
+        // return;
     }
 
     // don't forget it's \r\n in real requests now we only working with \n\n
@@ -73,7 +73,7 @@ void handle_request(int fd, const LocationStruct &location, ParsingRequest &pars
     {
         //400 bad request (need to check if an upload request can be bodyless)
         std::cerr << "Error: Could not find content start." << std::endl;
-        return;
+        // return;
     }
     content_start += 2; // Skip past the "\r\n\r\n"
     file.write(body.c_str() + content_start, body.size() - content_start);
@@ -81,24 +81,29 @@ void handle_request(int fd, const LocationStruct &location, ParsingRequest &pars
     {
         //internal server error
         std::cerr << "Error: Could not write to file " << filename << std::endl;
-        return;
+        // return;
     }
     file.close();
+    return "";
 }
 
-void	postMethod(int fd, string uri, ConfigStruct config,
+string	postMethod(string uri, ConfigStruct config,
 		ParsingRequest &parser)
 {
+    string response = "";
 	try
 	{
-		std::pair<std::string, LocationStruct> location = get_location(fd, uri,
+		std::pair<std::string, LocationStruct> location = get_location(uri,
 				config);
 
-		handle_request(fd, location.second, parser);
+        // cout << "------> " << parser.getHeaders()["content-type"] << endl;
+        if(parser.getHeaders()["content-type-value"] == "multipart/form-data")
+            response = handle_upload(location.second, parser);
 
 		// cout << location.first << endl;
 	}
 	catch (exception &e)
 	{
 	}
+    return response;
 }
