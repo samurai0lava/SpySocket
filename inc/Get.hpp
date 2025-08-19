@@ -18,7 +18,6 @@ class Get
         std::string uri;
         Get(int client_fd,ParsingRequest * parser,ConfigStruct &config,Servers &serv,std::string uri);
         ~Get();
-        void MethodGet();
         std::string getMimeType(const std::string& path);
         std::string matchLocation(const std::string &requestPath, const ConfigStruct &server);
         std::string generateAutoIndex(const std::string &directoryPath);
@@ -26,6 +25,10 @@ class Get
         bool isFile(const std::string& path);
         bool pathExists(const std::string& path);
         std::string buildHttpHeaders(const std::string& path, size_t fileSize);
+        string pathIsFile(string matchLocation);
+        string handleDirectoryWithIndex(string indexPath);
+        string handleDirectoryWithAutoIndex(string matchLocation);
+        string MethodGet();
  
 };
 #endif

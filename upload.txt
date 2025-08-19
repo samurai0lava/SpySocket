@@ -1,0 +1,11 @@
+POST /api/login HTTP/1.1
+Host: 127.0.0.1:8080
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryX
+Content-Length: 219
+
+------WebKitFormBoundaryX
+Content-Disposition: form-data; name="file"; filename="example.txt"
+Content-Type: text/plain
+
+This is the content of the file.
+------WebKitFormBoundaryX--

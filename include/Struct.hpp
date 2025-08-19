@@ -37,6 +37,7 @@ enum
 	upload_enabled,
 	upload_path
 };
+
 struct LocationStruct
 {
 	bool autoIndex;
@@ -82,7 +83,7 @@ struct ConfigStruct
 	size_t									clientMaxBodySize;
 	std::vector<unsigned short> listen;
 	// std::vector<std::pair<std::string, unsigned short> > listen;
-	std::vector<std::pair<std::string,LocationStruct> > location;
+	std::vector<std::pair<std::string,LocationStruct> > location; //switch to map maybe?
 	std::vector<std::pair<std::string,std::string> > errorPage;
 };
 

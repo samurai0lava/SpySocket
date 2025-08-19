@@ -1,15 +1,13 @@
 #include "../../inc/Get.hpp"
-// #include "Get.hpp"
-
 
 Get::Get(int client_fd,ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri):client_fd(client_fd), parser(parser), config(config), serv(serv), uri(uri)
 {
  
 }
-
 Get::~Get()
 {
 }
+
 void printLocationStruct(const LocationStruct& loc) {
     std::cout << "LocationStruct {" << std::endl;
 
@@ -51,136 +49,6 @@ void printLocationStruct(const LocationStruct& loc) {
 
     std::cout << "}" << std::endl;
 }
-
-void Get::MethodGet()
-{
-    std::string matchedLocation = matchLocation(this->uri , this->config);
-    if (!this->pathExists(matchedLocation)) 
-    {
-        std::string finalResponse = GenerateResErr(404);
-        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return ;
-    }
-    // if (matchedLocation.empty()) 
-    // {
-    //     std::cout << "No matching location found.";
-    //     throw std::runtime_error("");
-    // }
-    bool found = false;
-    LocationStruct locationMatched;
-    for (size_t i = 0; i < this->config.location.size(); ++i) {
-        if (this->_name_location == this->config.location[i].first) {
-            locationMatched = this->config.location[i].second;
-            found = true;
-            break;
-        }
-    }
-    if (!found){ 
-        std::cerr << "No exact match for location: " << matchedLocation << std::endl;
-        throw std::runtime_error("");
-    }
-    if (!this->pathExists(matchedLocation)) 
-    {
-        std::string finalResponse = GenerateResErr(404);
-        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return ;
-    }
-    if (this->isFile(matchedLocation)) 
-    {
-        std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
-        if (!file.is_open())
-        {
-            std::string finalResponse = GenerateResErr(500);
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return ;
-        }
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        std::string fileContent = buffer.str();
-        file.close();
-        std::cout<<"match index : "<< matchedLocation << "file content size  : " <<fileContent.size() <<std::endl; 
-        if(fileContent.size() > limit && this->getMimeType(matchedLocation) == "video/mp4")
-        {
-            std::cout<<" sup of the limit "<<std::endl;
-            ClientSendState state;
-            state.clientFd = client_fd;
-            state.filePath = matchedLocation; // the file you want to send
-            state.fileFd = open(state.filePath.c_str(), O_RDONLY);
-            struct stat s;
-            stat(state.filePath.c_str(), &s);
-            state.fileSize = s.st_size;
-            // Prepare HTTP headers
-            std::ostringstream oss;
-            oss << "HTTP/1.1 200 OK\r\n";
-            oss << "Content-Type: " << getMimeType(state.filePath) << "\r\n";
-            oss << "Content-Length: " << state.fileSize << "\r\n\r\n";
-            state.headers = oss.str();
-            // Add state to map for this client
-            serv.clientSendStates[client_fd] = state;
-            return ;
-            
-        }
-        std::ostringstream response;
-        response << "HTTP/1.1 200 OK\r\n";
-        response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
-        response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
-        // std::cout<<"print response : "<< response.str()<<std::endl;
-        response << fileContent;
-        std::string finalResponse = response.str();
-        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-
-        return;
-    }
-    else if (this->isDirectory(matchedLocation)) 
-    {
-        std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
-        if (this->pathExists(indexPath) && this->isFile(indexPath)) 
-        {
-            // std::cout<<" ******************** Path : ******* "<< indexPath<<std::endl;
-            std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
-            if (!file.is_open())
-            {
-                std::string finalResponse = GenerateResErr(500);
-                send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-                return ;
-            }
-            std::stringstream buffer;
-            buffer << file.rdbuf();
-            std::string fileContent = buffer.str();
-            file.close();
-
-            std::ostringstream response;
-            response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: " << this->getMimeType(indexPath) << "\r\n";
-            response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
-            // std::cout<<"print response : "<< response.str()<<std::endl;
-            response << fileContent;
-            std::string finalResponse = response.str();
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return;
-        }
-        else if (locationMatched.autoIndex == true ) 
-        {
-            std::string listing = this->generateAutoIndex(matchedLocation);
-            std::ostringstream response;
-            response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: " <<"text/html"<<"\r\n";
-            response << "Content-Length: " << listing.size() << "\r\n\r\n";
-            response << listing;
-            //  std::cout<<"print response : "<<response.str()<<std::endl;
-            std::string finalResponse = response.str();
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return;
-        }
-        else 
-        {
-            std::string finalResponse = GenerateResErr(403);
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return ;
-        }
-    }
-}
-
 std::string Get::getMimeType(const std::string& path)
 {
     size_t dot = path.find_last_of(".");
@@ -195,7 +63,6 @@ std::string Get::getMimeType(const std::string& path)
     if (ext == ".jpg" || ext == ".jpeg") return "image/jpeg";
     return "application/octet-stream";
 }
-
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
 {
      std::string path = requestPath;
@@ -232,7 +99,6 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
 
     return "";
 }
-
 std::string Get::generateAutoIndex(const std::string& directoryPath)
 {
     DIR *dir = opendir(directoryPath.c_str());
@@ -280,7 +146,6 @@ std::string Get::generateAutoIndex(const std::string& directoryPath)
     html << "</ul><hr></body></html>\n";
     return html.str();
 }
-
 bool Get::isDirectory(const std::string& path)
 {
     struct stat s;
@@ -307,3 +172,105 @@ std::string Get::buildHttpHeaders(const std::string& path, size_t fileSize)
     oss << "Content-Length: " << fileSize << "\r\n\r\n";
     return oss.str();
 }
+string Get::pathIsFile(string matchLocation)
+{
+    ifstream file(matchLocation.c_str(),std::ios::in | std::ios::binary);
+    if(!file.is_open())
+    {
+        string finalResponse = GenerateResErr(500);
+        return (finalResponse);
+    }
+    stringstream buffer;
+    buffer << file.rdbuf();
+    file.close();
+    ostringstream response;
+    response<<"HTTP/1.1 200 OK \r\n";
+    response<<"Content-type: "<<this->getMimeType(matchLocation)<<"\r\n";
+    response<<"Content-length: "<<buffer.str().size()<<"\r\n\r\n";
+    response<<buffer.str();
+    return (response.str());
+}
+
+string Get::handleDirectoryWithIndex(string indexPath)
+{
+    ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
+    if(!file.is_open())
+        return (GenerateResErr(500));
+    stringstream buffer;
+    buffer<<file.rdbuf();
+    file.close();
+
+    ostringstream response;
+    response << "HTTP/1.1 200 OK\r\n";
+    response << "Content-Type: " << this->getMimeType(indexPath) << "\r\n";
+    response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+    response << buffer.str();
+    return (response.str());
+}
+string Get::handleDirectoryWithAutoIndex(string matchLocation)
+{
+    string listing = this->generateAutoIndex(matchLocation);
+    ostringstream response;
+    response << "HTTP/1.1 200 OK\r\n";
+    response << "Content-Type: " <<"text/html"<<"\r\n";
+    response << "Content-Length: " << listing.size() << "\r\n\r\n";
+    response << listing; 
+    return (response.str());
+}
+string Get::MethodGet()
+{
+    std::cout<<" hello :: " <<this->parser->getTransferEncodingExists() <<std::endl;
+    string matchedLocation = matchLocation(this->uri , this->config);
+    if(!this->pathExists(matchedLocation))
+    {
+        string finalResponce = GenerateResErr(404);
+        return (finalResponce);
+    }
+    bool found = false ;
+    LocationStruct locationMatched;
+    for(size_t i = 0; i < this->config.location.size(); i++)
+    {
+        locationMatched = this->config.location[i].second;
+        found = true ;
+        break ;
+    }
+    if(!found)
+    {
+        std::cerr << "No exact match for location : "<< matchedLocation << std::endl;
+        throw std::runtime_error("");
+    }
+    if(this->isFile(matchedLocation))
+        return(pathIsFile(matchedLocation));
+    else if(this->isDirectory(matchedLocation))
+    {
+        string indexPath = matchedLocation + "/" + locationMatched.indexPage;
+        if(this->pathExists(indexPath) && this->isFile(indexPath))
+            return (this->handleDirectoryWithIndex(indexPath));
+        else if(locationMatched.autoIndex == true )
+            return (this->handleDirectoryWithAutoIndex(matchedLocation));
+    }
+    return (GenerateResErr(403));
+}
+
+
+// if(fileContent.size() > limit && this->getMimeType(matchedLocation) == "video/mp4")
+//         {
+//             std::cout<<" sup of the limit "<<std::endl;
+//             ClientSendState state;
+//             state.clientFd = client_fd;
+//             state.filePath = matchedLocation; // the file you want to send
+//             state.fileFd = open(state.filePath.c_str(), O_RDONLY);
+//             struct stat s;
+//             stat(state.filePath.c_str(), &s);
+//             state.fileSize = s.st_size;
+//             // Prepare HTTP headers
+//             std::ostringstream oss;
+//             oss << "HTTP/1.1 200 OK\r\n";
+//             oss << "Content-Type: " << getMimeType(state.filePath) << "\r\n";
+//             oss << "Content-Length: " << state.fileSize << "\r\n\r\n";
+//             state.headers = oss.str();
+//             // Add state to map for this client
+//             serv.clientSendStates[client_fd] = state;
+//             return ;
+            
+//         }

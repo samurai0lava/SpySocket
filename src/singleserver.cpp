@@ -101,8 +101,8 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         }
         case(autoindex):
         {
-            if (this->_conf->autoIndex == true)
-                throw std::runtime_error("Duplicate autoindex directive found.");
+            // if (this->_conf->autoIndex == true)
+            //     throw std::runtime_error("Duplicate autoindex directive found.");
             value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
 		    value.erase(0, value.find_first_not_of(WHITESPACE));
             value.erase(value.find_last_not_of(WHITESPACE) + 1);
@@ -334,8 +334,8 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
                 std::string extra;
 
                 iss >> extra;
-                if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
-                    throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
+                // if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
+                //     throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
 
                 if (!location_tmp._return.empty())
                     throw std::runtime_error("Error: Multiple return directives are not allowed in one location block.");
