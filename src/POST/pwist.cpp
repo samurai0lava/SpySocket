@@ -59,8 +59,8 @@ string created_success()
 {
     return "HTTP/1.1 201 Created\r\n"
     "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 128\r\n"
-    "Connection: close\r\n"
+    "Content-Length: 142\r\n"
+    "Connection: keep-alive\r\n"
     "\r\n"
     "<!DOCTYPE html>\n"
     "<html>\n"
@@ -68,6 +68,7 @@ string created_success()
     "<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
     "</html>\n";
 }
+
 
 string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
@@ -81,37 +82,23 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     std::string line;
 
     std::string boundary = parser.getHeaders().at("boundary");
-    // cout << "Boundary : " << boundary << endl;
     std::string request = parser.getBody();
-    // cout << "Body : " << request << endl;
 
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
-        //400 bad request
-        cout << "111111111\n";
         return bad_request();
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
-        //400 bad request
-        cout << "222222222\n";
         return bad_request();
     }
-    // should be +4 for "\r\n but since we only have "\n in a string we'll +3 here"
     std::string body = request.substr(body_start + boundary.length() + 4, body_end - body_start - boundary.length() - 4);
-
-    // cout << "++++++++++++++++++++\n";
-    // cout << "-->" << body << "<--" << endl;
-    // cout << "++++++++++++++++++++\n";
-
     size_t fn_pos = body.find("filename=");
     int quoted = 0;
-    cout << "---> " << body[fn_pos + 1] << endl;
-    if(body[fn_pos + 1] == '"')
+    if(body[fn_pos + 9] == '"')
     {
-        cout << "It's quoted!!!\n";
         quoted = 1;
     }
     if (fn_pos == std::string::npos)
@@ -128,7 +115,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         if (fn_end == std::string::npos)
         {
             //400 bad request
-            cout << ":3333333333333333\n";
+            // cout << ":3333333333333333\n";
             return bad_request();
         }
     }
@@ -137,7 +124,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     std::string filename = body.substr(fn_pos, fn_end - fn_pos);
     if (filename.empty())
         filename = generate_filename();
-    cout << "FILENAME ::::: " << filename << endl;
+    // cout << "FILENAME ::::: " << filename << endl;
 
     // don't forget it's \r\n in real requests now we only working with \n\n
     size_t content_start = body.find("\r\n\r\n");
@@ -165,14 +152,15 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     // else some error occured with stat
     else
     {
-        cout << "PPPPPPPPPPPPPPPPPPP\n";
+        cout << location.upload_path << endl;
+        std::cerr << "stat failed: " << strerror(errno) << "\n";
         return internal_error();
     }
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
         //500 internal
-        cout << "DDDDDDDDDDDDDDDDDDD\n";
+        // cout << "DDDDDDDDDDDDDDDDDDD\n";
         return internal_error();
     }
 
@@ -183,6 +171,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         return internal_error();
     }
     file.close();
+    // cout << "?????????????????????\n";
     return created_success();
 }
 

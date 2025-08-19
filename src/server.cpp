@@ -148,9 +148,9 @@ void Servers::epollFds(Servers& serv)
             if (events[i].events & EPOLLIN)
             {
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
-                // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
-                // cout << serv.buffer;
-                // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+                cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+                cout << serv.buffer;
+                cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
