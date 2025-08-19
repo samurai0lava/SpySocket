@@ -48,7 +48,7 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
 }
 
 
-std::string DeleteMethode::PerformDelete(int client_fd, const std::string& uri, const ConfigStruct& config)
+std::string DeleteMethode::PerformDelete(const std::string& uri, const ConfigStruct& config)
 {
     if (!checkIfAllowed("DELETE", config, uri)) {
         std::string errorResponse = GenerateResErr(405);
@@ -64,7 +64,6 @@ std::string DeleteMethode::PerformDelete(int client_fd, const std::string& uri, 
     if (!CheckFile(actualPath)) {
         std::string errorResponse = GenerateResErr(404);
         return errorResponse;
-        return false;
     }
 
     if (!CheckisDir(actualPath))

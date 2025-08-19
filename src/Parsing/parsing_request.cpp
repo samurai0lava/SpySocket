@@ -285,14 +285,14 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "content-length" || key == "transfer-encoding" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" ||key == "transfer-encoding" || key == "content-length" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
 			header_map[key] = value;
 	}
 
 	headers = header_map;
 
 
-	if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers) || !checkLocation(headers) || !checkContentType(headers))
+	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers))
 	{
 		current_state = PARSE_ERROR;
 		return false;
@@ -415,7 +415,9 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "text/plain" && 
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
-			content_type_value != "application/json")
+			content_type_value != "application/json" &&
+			content_type_value != "image/png"
+		)
 		{
 			connection_status = 0;
 			error_code = 415;
@@ -505,14 +507,17 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			access_error(error_code, error_message);
 			return false;
 		}
-		if (content_length > 8000)
+		if(transfer_encoding_exists == 0)
 		{
-			connection_status = 0;
-			error_code = 413;
-			error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
-			current_state = PARSE_ERROR;
-			access_error(error_code, error_message);
-			return false;
+			if (content_length > 8000)
+			{
+				connection_status = 0;
+				error_code = 413;
+				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
 		}
 		return true;
 	}
@@ -557,7 +562,7 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 		{
 			connection_status = 0;
 			error_code = 400;
-			error_message = "Bad Request: Invalid Transfer-Encoding header value - must be 'chunked'";
+			error_message = "Bad Request: Invalid Transfer-Encoding header value";
 			current_state = PARSE_ERROR;
 			access_error(error_code, error_message);
 			return false;

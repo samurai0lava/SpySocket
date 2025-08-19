@@ -27,3 +27,13 @@
 [2025-08-15 20:11:10] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
 [2025-08-15 20:11:10] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
 [2025-08-15 20:40:34] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
+[2025-08-19 16:45:04] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:02:02] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:10:18] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:27:17] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:28:48] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:30:53] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:31:22] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:31:22] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-19 17:34:58] Error: 415 - Unsupported Media Type: Content-Type 'image/png' is not supported
+[2025-08-19 17:36:24] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
