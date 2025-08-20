@@ -1,9 +1,8 @@
-#include "inc/webserv.hpp"
-#include <cmath>
+#include "../../inc/webserv.hpp"
 
 void lower(string &str)
 {
-    for(int i = 0; i < str.length(); i++)
+    for(int i = 0; i < (int)str.length(); i++)
         str[i] = tolower(str[i]);
 }
 
@@ -22,7 +21,11 @@ int hex_to_dec(string hex)
     return res;
 }
 
-int main()
+void unchunk_content(char *buffer)
 {
-   cout << hex_to_dec("3") << endl;
+    // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+    // cout << buffer;
+    // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+
+    //look for the /r/n 
 }

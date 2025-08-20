@@ -47,6 +47,7 @@ struct LocationStruct
 	std::vector<std::string> cgi_ext;
 	bool upload_enabled;
 	std::string upload_path;
+	std::map<std::string, std::string> url_encoded; //heeepa
 	// std::vector<std::pair<std::string,std::string> > cgi_path;
 	// std::vector<std::pair<std::string,std::string> > cgi_ext;
 };

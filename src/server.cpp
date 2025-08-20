@@ -147,10 +147,12 @@ void Servers::epollFds(Servers& serv)
             Client& c = clients[fd];
             if (events[i].events & EPOLLIN)
             {
+                memset(&serv.buffer, 0, READ_SIZE);
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
-                cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
-                cout << serv.buffer;
-                cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+                unchunk_content(serv.buffer);
+                // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+                // cout << serv.buffer;
+                // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
@@ -183,7 +185,7 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    printRequestInfo(*parser, fd);
+                    // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     c.response = handleMethod(fd, parser, config, serv);
                     c.ready_to_respond = true;

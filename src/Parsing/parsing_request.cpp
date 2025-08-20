@@ -292,7 +292,7 @@ bool ParsingRequest::parse_headers()
 	headers = header_map;
 
 
-	if (!checkHost(headers) || !checkConnection(headers) || !checkContentLength(headers) || !checkTransferEncoding(headers) || !checkLocation(headers) || !checkContentType(headers))
+	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers))
 	{
 		current_state = PARSE_ERROR;
 		return false;
@@ -459,7 +459,8 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "text/plain" && 
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
-			content_type_value != "application/json")
+			content_type_value != "application/json" &&
+			content_type_value != "image/png")
 		{
 			connection_status = 0;
 			error_code = 415;
@@ -551,14 +552,17 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			logError(error_code, error_message);
 			return false;
 		}
-		if (content_length > 8000)
+		if(transfer_encoding_exists == 0)
 		{
-			connection_status = 0;
-			error_code = 413;
-			error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
-			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
-			return false;
+			if (content_length > 8000)
+			{
+				connection_status = 0;
+				error_code = 413;
+				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+				current_state = PARSE_ERROR;
+				logError(error_code, error_message);
+				return false;
+			}
 		}
 		return true;
 	}
@@ -620,6 +624,10 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
+	// cout << "xxxxxxxxxxxxxxxxx\n";
+	// cout << buffer << endl;
+	// cout << "xxxxxxxxxxxxxxxxx\n";
+
 	size_t available = buffer.length() - buffer_pos;
 	if (available < expected_body_length)
 		return false;

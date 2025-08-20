@@ -210,31 +210,7 @@ void	forbidden_error(int fd)
 
 // }
 
-std::vector<std::string> split(std::string s, std::string delimiters)
-{
-	std::vector<std::string> tokens;
-	std::string token;
-	for (std::string::size_type i = 0; i < s.size(); ++i)
-	{
-		if (delimiters.find(s[i]) != std::string::npos)
-		{
-			if (!token.empty())
-			{
-				tokens.push_back(token);
-				token.clear();
-			}
-		}
-		else
-		{
-			token += s[i];
-		}
-	}
-	if (!token.empty())
-	{
-		tokens.push_back(token);
-	}
-	return (tokens);
-}
+
 
 void	testFun(string boundary, string body)
 {

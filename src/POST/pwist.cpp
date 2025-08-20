@@ -1,10 +1,10 @@
 #include "../../inc/POST.hpp"
 
-std::string generate_filename()
+std::string generate_filename(string type)
 {
     std::string result;
     static int counter = 0;
-    result = "upload_";
+    result = type;
     result += (char)(counter + '0');
     result += ".txt";
     counter++;
@@ -123,7 +123,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         fn_end = body.find(' ', fn_pos);
     std::string filename = body.substr(fn_pos, fn_end - fn_pos);
     if (filename.empty())
-        filename = generate_filename();
+        filename = generate_filename("upload_");
     // cout << "FILENAME ::::: " << filename << endl;
 
     // don't forget it's \r\n in real requests now we only working with \n\n
@@ -175,6 +175,113 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     return created_success();
 }
 
+std::vector<std::string> split(std::string s, std::string delimiters)
+{
+	std::vector<std::string> tokens;
+	std::string token;
+	for (std::string::size_type i = 0; i < s.size(); ++i)
+	{
+		if (delimiters.find(s[i]) != std::string::npos)
+		{
+			if (!token.empty())
+			{
+				tokens.push_back(token);
+				token.clear();
+			}
+		}
+		else
+		{
+			token += s[i];
+		}
+	}
+	if (!token.empty())
+	{
+		tokens.push_back(token);
+	}
+	return (tokens);
+}
+
+std::string OK_200(std::string &body)
+{
+    std::stringstream ss;
+    ss << "HTTP/1.1 200 OK\r\n"
+       << "Content-Type: text/html; charset=UTF-8\r\n"
+       << "Content-Length: " << body.size() << "\r\n"
+       << "Connection: close\r\n"
+       << "\r\n"
+       << body;
+    return ss.str();
+}
+
+
+string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
+{
+    string body = parser.getBody();
+
+    vector<string> tokens = split(body, "&");
+    vector<string> pairs;
+    for(vector<string>::iterator it = tokens.begin(); it != tokens.end(); it++)
+    {
+        pairs = split((*it), "=");
+        //check if there is a possiblity that we can assign to "" (e.g name="")
+        location.url_encoded.insert(std::make_pair(pairs[0], pairs[1]));
+    }
+    string res_body = "";
+    for(map<string, string>::iterator it = location.url_encoded.begin(); it != location.url_encoded.end(); it++)
+        res_body += (*it).first + " : " + (*it).second + "\r\n";
+
+    return OK_200(res_body);
+}
+
+string main_response(LocationStruct &location, ParsingRequest &parser)
+{
+    string body = parser.getBody();
+
+    string filename = generate_filename(parser.getHeaders()["content-type-value"] + "_");
+
+    struct stat st;
+    if (stat(location.upload_path.c_str(), &st) == 0)
+    {
+        // it's a directory
+        if (S_ISDIR(st.st_mode)) 
+        {
+            //pay ATTENTION to the slash "/"
+            filename = location.upload_path + "/" + filename;
+        }
+        else 
+        {
+            filename = location.upload_path;
+        }
+    }
+    else
+    {
+        // cout << location.upload_path << endl;
+        // std::cerr << "stat failed: " << strerror(errno) << "\n";
+        return internal_error();
+    }
+    std::fstream file(filename.c_str(), std::ios::out);
+    if (!file)
+    {
+        return internal_error();
+    }
+
+    file.write(body.c_str(), body.length());
+    if (!file)
+    {
+        //internal server error
+        return internal_error();
+    }
+    file.close();
+    return created_success();
+}
+
+
+
+// string unchunked_content(ParsingRequest &parser)
+// {
+
+// }
+
 string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
@@ -183,9 +290,13 @@ string	postMethod(string uri, ConfigStruct config,
     {
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
-
+        
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
             response = handle_upload(location.second, parser);
+        else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
+            response = handle_url_encoded(location.second, parser);
+        else
+            response = main_response(location.second, parser);
 
         // cout << location.first << endl;
     }
