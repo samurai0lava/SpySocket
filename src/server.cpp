@@ -149,17 +149,16 @@ void Servers::epollFds(Servers& serv)
             {
                 memset(&serv.buffer, 0, READ_SIZE);
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
-                unchunk_content(serv.buffer);
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
-                        std::cout << "Client disconnected.\n";
+                    std::cout << "Client disconnected.\n";
                     else
-                        cerr << "Error occured while reading sent data!\n";
-
+                    cerr << "Error occured while reading sent data!\n";
+                    
                     if (clientParsers.find(fd) != clientParsers.end())
                     {
                         delete clientParsers[fd];
@@ -168,6 +167,7 @@ void Servers::epollFds(Servers& serv)
                     close(fd);
                     continue;
                 }
+                unchunk_content(serv.buffer);
                 // Get the parser for this specific client
                 ParsingRequest* parser = NULL;
                 if (clientParsers.find(fd) != clientParsers.end())
@@ -187,7 +187,7 @@ void Servers::epollFds(Servers& serv)
                 {
                     // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    c.response = handleMethod(fd, parser, config, serv);
+                    c.response = handleMethod(fd, parser, config, serv); 
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;
