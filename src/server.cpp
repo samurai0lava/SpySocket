@@ -145,6 +145,7 @@ void Servers::epollFds(Servers& serv)
             }
 
             Client& c = clients[fd];
+            string body_file = "";
             if (events[i].events & EPOLLIN)
             {
                 memset(&serv.buffer, 0, READ_SIZE);
@@ -167,7 +168,7 @@ void Servers::epollFds(Servers& serv)
                     close(fd);
                     continue;
                 }
-                unchunk_content(serv.buffer);
+                body_file = unchunk_content(serv.buffer);
                 // Get the parser for this specific client
                 ParsingRequest* parser = NULL;
                 if (clientParsers.find(fd) != clientParsers.end())

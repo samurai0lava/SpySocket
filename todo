@@ -19,3 +19,11 @@ TODO : CHECK FOR THE CLOSED FD IN THE SERVER !!!IMPORTANT SINCE YOU SENDING THE 
 
 
 TODO : check why when the content is chunked it got sent twice is it normal
+
+TODO : create a directory for created files maybe
+
+
+
+----------------------------140132664875765806049619
+Content-Disposition: form-data; name=""; filename="bye.txt"
+Content-Type: text/plain
