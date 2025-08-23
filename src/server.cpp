@@ -87,8 +87,9 @@ void Servers::epollFds(Servers& serv)
     }
 
     std::map<int, Client> clients;
+    CClient client_data;
     struct epoll_event events[10];
-    std::map<int, ParsingRequest*> clientParsers;  
+    std::map<int, ParsingRequest*> clientParsers;
 
 
     while (true)
@@ -184,7 +185,7 @@ void Servers::epollFds(Servers& serv)
                 {
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    c.response = handleMethod(fd, parser, config, serv);
+                    c.response = handleMethod(fd, parser, config, serv,client_data);
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;

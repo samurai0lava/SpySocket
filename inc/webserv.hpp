@@ -26,6 +26,7 @@
 #include "Get.hpp"
 #include "CGI.hpp"
 #include "Delete.hpp"
+#include "CClient.hpp"
 #include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
