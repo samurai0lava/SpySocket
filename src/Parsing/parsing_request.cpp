@@ -208,7 +208,6 @@ bool ParsingRequest::parse_headers()
 	{
 		return false;
 	}
-	std::cout << buffer;
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
 	buffer_pos = double_crlf + 4;
 

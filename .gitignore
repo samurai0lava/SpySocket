@@ -41,8 +41,8 @@
 *.dwo
 
 #log
-log/access.log
-log/error.log
+access.log
+error.log
 
 #executable
 webserv
