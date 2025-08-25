@@ -125,15 +125,16 @@ string unchunk_data(char *chunk, size_t chunk_size)
     string stringged_chunk(chunk, chunk_size);
     int new_request = 0;
     size_t body_start = 0;
-
+    int x = 0;
     if(stringged_chunk.substr(0, stringged_chunk.find("\r\n")).find("HTTP") != string::npos)
     {
         new_request = 1;
-        body_start = stringged_chunk.find("\r\n\r\n");
+        body_start = stringged_chunk.find("\r\n\r\n") + 4;
+        x = 4;
     }
 
-    stringged_chunk = stringged_chunk.substr(body_start + 4);
-    chunk_size -= body_start + 4;
+    stringged_chunk = stringged_chunk.substr(body_start + x);
+    chunk_size -= body_start + x;
 
     // cout << "BODY START : " << body_start << endl;
     cout << "xxxxxxxxxxxxxxxxx\n";
