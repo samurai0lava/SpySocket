@@ -2,7 +2,7 @@ CC = c++
 
 FLAGS = -Wall -Wextra -Werror -std=c++98 -g
 
-SRCS = main.cpp \
+SRCS = src/main.cpp \
 	src/Parsing/parsing_request.cpp\
 	src/Config.cpp\
 	src/server.cpp\
@@ -16,7 +16,8 @@ SRCS = main.cpp \
 	src/utils/ft_time.cpp
 
 
-OBJS = $(SRCS:.cpp=.o)
+OBJDIR = obj
+OBJS = $(SRCS:src/%.cpp=$(OBJDIR)/%.o)
 
 NAME = webserv
 
@@ -28,7 +29,10 @@ CYAN = \033[0;36m
 WHITE = \033[0;37m
 RESET = \033[0m
 
-all: $(NAME)
+all: $(OBJDIR) $(NAME)
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
@@ -68,11 +72,12 @@ $(NAME): $(OBJS)
 	@echo "$(YELLOW) 1337 Bengrir $(RESET)"
 	@echo "$(RESET)"
 
-%.o: %.cpp
+$(OBJDIR)/%.o: src/%.cpp | $(OBJDIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@rm -rf	 $(OBJS)
+	@rm -rf	 $(OBJDIR)
 
 fclean: clean
 	@rm -rf $(NAME)
