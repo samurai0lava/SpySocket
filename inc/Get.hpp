@@ -21,6 +21,7 @@ class Get : public CClient
         std::string handleDirectoryWithIndex(std::string indexPath);
         std::string handleDirectoryWithAutoIndex(std::string matchLocation);
         std::string MethodGet();
+        string setupChunkedSending(const std::string  & filePath);
 };
 
 #endif

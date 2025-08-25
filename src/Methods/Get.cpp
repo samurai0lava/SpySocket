@@ -1,4 +1,5 @@
 #include "../../inc/Get.hpp"
+// #include "Get.hpp"
 
 Get::Get(std::string uri, int client_fd, ConfigStruct config,
          Servers serv, ParsingRequest *parser)
@@ -175,6 +176,33 @@ std::string Get::buildHttpHeaders(const std::string& path, size_t fileSize)
 }
 string Get::pathIsFile(string matchLocation)
 {
+    this->filePath = matchLocation;
+    
+    // Get file size using stat
+    struct stat fileStat;
+    if (stat(matchLocation.c_str(), &fileStat) == -1) {
+        cerr << "Error getting file stats!" << endl;
+        return GenerateResErr(500);
+    }
+    
+    // Check if file is larger than 1MB, use chunked sending
+    if(fileStat.st_size > 1024*1024)
+    {
+        cout << "File size: " << fileStat.st_size << " bytes, using chunked sending" << endl;
+        this->chunkedSending = true;
+        this->chunkSize = 1024;
+        this->bytesSent = 0;
+        this->fileSize = fileStat.st_size;
+        this->fileFd = open(this->filePath.c_str(), O_RDONLY);
+        if (this->fileFd == -1) {
+            cerr << "Error opening file for chunked sending!" << endl;
+            return GenerateResErr(500);
+        }
+        else
+           return (setupChunkedSending(this->filePath));
+    }
+    
+    // For small files, read normally
     ifstream file(matchLocation.c_str(),std::ios::in | std::ios::binary);
     if(!file.is_open())
     {
@@ -221,6 +249,7 @@ string Get::handleDirectoryWithAutoIndex(string matchLocation)
 string Get::MethodGet()
 {
     std::cout<<" hello :: " <<this->parser->getTransferEncodingExists() <<std::endl;
+    std::cout<<"lollll :: "<<std::endl;
     string matchedLocation = matchLocation(this->uri , this->mutableConfig);
     if(!this->pathExists(matchedLocation))
     {
@@ -254,6 +283,48 @@ string Get::MethodGet()
 }
 
 
+string Get::setupChunkedSending(const std::string& filePath)
+{
+    if( this->SendHeader == true )
+    {
+        struct stat s;
+        if (stat(filePath.c_str(), &s) == -1) {
+            cerr << "Error getting file size for chunked sending!" << endl;
+            return GenerateResErr(500);
+        }
+        this->fileSize = s.st_size;
+        std::ostringstream oss;
+        oss << "HTTP/1.1 200 OK\r\n";
+        oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
+        oss << "Transfer-Encoding: chunked\r\n";
+        oss << "\r\n";
+        this->response += oss.str();
+        this->SendHeader = false; // Ensure headers are sent only once
+    }
+    else
+    {
+        char buffer[this->chunkSize + 1];
+        ssize_t bytesRead = read(this->fileFd, buffer, this->chunkSize);
+        if (bytesRead == -1) {
+            cerr << "Error reading file for chunked sending!" << endl;
+            close(this->fileFd);
+            return GenerateResErr(500);
+        } else if (bytesRead == 0) {
+            // End of file reached, send final chunk
+            this->response += "0\r\n\r\n";
+            close(this->fileFd);
+            this->chunkedSending = false; // Finished sending
+        } else {
+            buffer[bytesRead] = '\0';
+            std::ostringstream oss;
+            oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
+            oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
+            this->response += oss.str();
+            this->bytesSent += bytesRead;
+        }
+    }
+    return this->response;
+}
 // if(fileContent.size() > limit && this->getMimeType(matchedLocation) == "video/mp4")
 //         {
 //             std::cout<<" sup of the limit "<<std::endl;

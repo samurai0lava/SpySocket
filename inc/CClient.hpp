@@ -18,6 +18,17 @@ class CClient
         ConfigStruct mutableConfig ;
         Servers serv;
         ParsingRequest *parser;
+        bool SendHeader;
+        bool readyToSendAllResponse;
+        bool chunkedSending;
+        size_t chunkSize;
+        size_t bytesSent;
+        std::string response;
+        std::string filePath;
+        size_t fileSize;
+        off_t offset; 
+        int fileFd;
+               
         CClient ();
         CClient(string NameMethod,string uri,int FdClient,ConfigStruct MConfig,
             Servers serv,ParsingRequest *parser);
