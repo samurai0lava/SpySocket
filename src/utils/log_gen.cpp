@@ -38,7 +38,6 @@ std::string generate_error_line(int error_code, const std::string& error_message
     std::string error_line;
     std::ostringstream oss;
     std::string time = ft_time_format();
-    std::cout << time << std::endl;
 
     oss << "[";
     oss << time;

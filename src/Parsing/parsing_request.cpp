@@ -123,17 +123,17 @@ bool ParsingRequest::parse_start_line()
 	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
 	buffer_pos = crlf_pos + 2;
 
-	// Parse start line directly
 	std::istringstream ss(start_line_str);
 	std::string method, uri, version;
-
-	ss >> method >> uri >> version;
-
+	
+	std::getline(ss, method, ' ');
+	std::getline(ss, uri, ' ');
+	std::getline(ss, version, ' ');
+	
 	start_line["method"] = method;
 	start_line["uri"] = uri;
 	start_line["version"] = version;
 
-	// Validate method directly
 	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
 		return false;
 
@@ -205,7 +205,14 @@ bool ParsingRequest::parse_headers()
 
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
+	{
+		// connection_status = 0;
+		// error_code = 400;
+		// error_message = "Bad Request: Host header is missing";
+		// current_state = PARSE_ERROR;
+		// access_error(error_code, error_message);
 		return false;
+	}
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
 	buffer_pos = double_crlf + 4;
 
@@ -411,6 +418,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				return false;
 			}
 		}
+		//need to be changed to more convinion data struct like map
 		if (content_type_value != "text/html" && 
 			content_type_value != "text/plain" && 
 			content_type_value != "application/x-www-form-urlencoded" &&

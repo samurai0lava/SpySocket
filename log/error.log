@@ -37,3 +37,12 @@
 [2025-08-19 17:31:22] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
 [2025-08-19 17:34:58] Error: 415 - Unsupported Media Type: Content-Type 'image/png' is not supported
 [2025-08-19 17:36:24] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-08-25 11:03:36] Error: 400 - Bad Request: Host header is missing
+[2025-08-25 11:05:38] Error: 400 - Bad Request: Invalid HTTP version: 'localhost'
+[2025-08-25 11:07:51] Error: 400 - Bad Request: Invalid HTTP method: 'ÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿýÿôÿý'
+[2025-08-25 11:07:51] Error: 400 - Bad Request: Invalid HTTP method: 'k'
+[2025-08-25 11:07:51] Error: 400 - Bad Request: Host header is missing
+[2025-08-25 11:23:34] Error: 400 - Bad Request: URI cannot be empty
+[2025-08-25 11:32:30] Error: 400 - Bad Request: Host header is missing
+[2025-08-25 11:35:58] Error: 400 - Bad Request: Host header is missing
+[2025-08-25 11:36:44] Error: 400 - Bad Request: Host header is missing
