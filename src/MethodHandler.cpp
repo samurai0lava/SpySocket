@@ -15,6 +15,6 @@ void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& conf
         std::string uri = parser->getStartLine()["uri"];
         ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
         DeleteMethode MDelete;
-        MDelete.PerformDelete(client_fd, uri, mutableConfig);
+        MDelete.PerformDelete(uri, mutableConfig);
     }
 }

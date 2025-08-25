@@ -1,8 +1,20 @@
 CC = c++
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
 
-SRCS = main.cpp src/Parsing/parsing_request.cpp src/Config.cpp src/server.cpp src/singleserver.cpp src/Parsing/utils/utils.cpp src/MethodHandler.cpp src/Methods/Get.cpp src/utils/RespondError.cpp src/Methods/DELETE.cpp
+SRCS = main.cpp \
+	src/Parsing/parsing_request.cpp\
+	src/Config.cpp\
+	src/server.cpp\
+	src/singleserver.cpp\
+	src/Parsing/utils/utils.cpp\
+	src/MethodHandler.cpp\
+	src/Methods/Get.cpp\
+	src/utils/RespondError.cpp\
+	src/Methods/DELETE.cpp\
+	src/utils/log_gen.cpp\
+	src/utils/ft_time.cpp
+
 
 OBJS = $(SRCS:.cpp=.o)
 

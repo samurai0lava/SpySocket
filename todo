@@ -1,22 +1,42 @@
 TODO : make an array of server sockets (multiple servers)
 TODO : loop on them and add them to epoll
 
-
-
-
-
-
-
 we only have and need one port 
 
 
 
-Improve Delete and add more cases to it
-Config file.
 
 
+
+
+Todo:
 
 "[TAB] GET / HTTP/1.1" (400 BAD request)
+
+
+signal handling using signal() ?? valgrind throw a still reachable in server
+send a 405 Method Not Allowed response in GET.cpp
+
+
+error page in Config file ? 
+do we need exceptions ? handling exceptions
+Merge Cgi with Post so we can add it to the webserv
+cookies and handle session management
+
+root page (needs to be coded HTML/css) aaaaaaaaaaaa
+    
+test and more tests 
+and we re done i guess.
+
+
+
+
+
+
+
+
+
+
 
 
 

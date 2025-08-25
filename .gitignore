@@ -39,3 +39,8 @@
 
 # debug information files
 *.dwo
+
+#log
+log/access.log
+log/error.log
+
