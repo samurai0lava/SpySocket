@@ -186,6 +186,7 @@ void Servers::epollFds(Servers& serv)
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     c.response = handleMethod(fd, parser, config, serv,client_data);
+                    client_data.printInfo();
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;

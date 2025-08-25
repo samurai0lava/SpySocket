@@ -1,8 +1,9 @@
 #include "../../inc/Get.hpp"
 
-Get::Get(int client_fd,ParsingRequest* parser, ConfigStruct& config, Servers& serv, std::string uri):client_fd(client_fd), parser(parser), config(config), serv(serv), uri(uri)
+Get::Get(int client_fd, ParsingRequest *parser,
+         ConfigStruct &config, Servers &serv, std::string uri)
+    : CClient("GET", uri, client_fd, config, serv, parser) // call base constructor
 {
- 
 }
 Get::~Get()
 {
@@ -220,7 +221,7 @@ string Get::handleDirectoryWithAutoIndex(string matchLocation)
 string Get::MethodGet()
 {
     std::cout<<" hello :: " <<this->parser->getTransferEncodingExists() <<std::endl;
-    string matchedLocation = matchLocation(this->uri , this->config);
+    string matchedLocation = matchLocation(this->uri , this->mutableConfig);
     if(!this->pathExists(matchedLocation))
     {
         string finalResponce = GenerateResErr(404);
@@ -228,9 +229,9 @@ string Get::MethodGet()
     }
     bool found = false ;
     LocationStruct locationMatched;
-    for(size_t i = 0; i < this->config.location.size(); i++)
+    for(size_t i = 0; i < this->mutableConfig.location.size(); i++)
     {
-        locationMatched = this->config.location[i].second;
+        locationMatched = this->mutableConfig.location[i].second;
         found = true ;
         break ;
     }

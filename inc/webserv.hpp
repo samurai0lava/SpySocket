@@ -19,14 +19,12 @@
 #include "../include/server.hpp"
 #include "../include/singleserver.hpp"
 #include "../include/Struct.hpp"
-#include "Get.hpp"
 #include "RespondError.hpp"
 #include "MethodHandler.hpp"
 #include "../inc/RespondError.hpp"
-#include "Get.hpp"
 #include "CGI.hpp"
 #include "Delete.hpp"
-#include "CClient.hpp"
+#include "Get.hpp"
 #include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
@@ -36,6 +34,7 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
+#include <sys/types.h>
 #define limit 1024*1024
 
 #define RED "\033[31m"

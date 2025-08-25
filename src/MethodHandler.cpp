@@ -6,9 +6,9 @@ string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& co
 
     std::string method = parser->getStartLine()["method"];
     std::string uri = parser->getStartLine()["uri"];
-    // std::cout<<" "
     ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
-    client_data = CClient(method, uri,client_fd, mutableConfig, serv, parser);
+    client_data.~CClient();  // destroy old object
+    new (&client_data) CClient(method, uri, client_fd, mutableConfig, serv, parser); // pl
 
     if(method == "GET")
     {
