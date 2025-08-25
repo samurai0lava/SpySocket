@@ -1,6 +1,6 @@
 CC = c++
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = src/main.cpp \
 	src/Parsing/parsing_request.cpp\
@@ -37,7 +37,7 @@ $(OBJDIR):
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 	@echo "$(YELLOW)Webserv compilation completed successfully $(RESET)"
-	@echo "$(MAGENTA)"
+	@echo "$(BLUE)"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠙⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⡆⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇⠀⠀⠀⠀⠀⠀⣾⢡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -81,6 +81,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
+	@echo "$(YELLOW)Objs and webserv has been successfully removed.$(RESET)"
 
 run: all clean
 	@./$(NAME)

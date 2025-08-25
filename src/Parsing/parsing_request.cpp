@@ -206,13 +206,9 @@ bool ParsingRequest::parse_headers()
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 	{
-		// connection_status = 0;
-		// error_code = 400;
-		// error_message = "Bad Request: Host header is missing";
-		// current_state = PARSE_ERROR;
-		// access_error(error_code, error_message);
 		return false;
 	}
+	std::cout << buffer;
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
 	buffer_pos = double_crlf + 4;
 

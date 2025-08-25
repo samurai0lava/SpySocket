@@ -3,7 +3,7 @@
 
 std::string parseArgv(int argc, char** argv)
 {
-	std::string defaultConfPath = "file.conf";
+	std::string defaultConfPath = "config/file.conf";
 	if (argc == 1)
 	{
 		return (defaultConfPath);
