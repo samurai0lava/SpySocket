@@ -299,6 +299,14 @@ bool ParsingRequest::parse_headers()
 		current_state = PARSE_ERROR;
 		return false;
 	}
+	if(content_lenght_exists == 1 && transfer_encoding_exists == 1)
+	{
+		error_code = 400;
+		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
+		access_error(error_code, error_message);
+		current_state = PARSE_ERROR;
+		return false;
+	}
 
 	// Check content length for body parsing
 	if (content_lenght_exists)
