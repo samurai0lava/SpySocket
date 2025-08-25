@@ -13,7 +13,6 @@
 #include <unistd.h>
 #include <arpa/inet.h>
 #include <fcntl.h>
-#include "../inc/CClient.hpp"
 #include <algorithm>
 #include <sys/stat.h>
 #include <dirent.h>   // Required for DIR, opendir(), readdir(), closedir()

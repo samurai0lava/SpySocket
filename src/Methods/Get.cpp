@@ -1,8 +1,8 @@
 #include "../../inc/Get.hpp"
 
-Get::Get(int client_fd, ParsingRequest *parser,
-         ConfigStruct &config, Servers &serv, std::string uri)
-    : CClient("GET", uri, client_fd, config, serv, parser) // call base constructor
+Get::Get(std::string uri, int client_fd, ConfigStruct config,
+         Servers serv, ParsingRequest *parser)
+    : CClient("GET", uri, client_fd, config, serv, parser)
 {
 }
 Get::~Get()

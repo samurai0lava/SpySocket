@@ -1,21 +1,18 @@
 #ifndef GET_HPP
-#define GET_HPP
+# define GET_HPP
 
-  // full definition required for inheritance
-#include "webserv.hpp"  // optional, only include if needed for structs like Servers/ParsingRequest
+#include "webserv.hpp"
 #include "CClient.hpp"
 class Get : public CClient
 {
     public:
-        std::string _name_location;
-
-        Get(int client_fd, ParsingRequest *parser,
-            ConfigStruct &config, Servers &serv, std::string uri);
+        Get(std::string uri, int client_fd, ConfigStruct config,
+            Servers serv, ParsingRequest *parser);
         ~Get();
 
         std::string getMimeType(const std::string& path);
         std::string matchLocation(const std::string &requestPath, const ConfigStruct &server);
-        std::string generateAutoIndex(const std::string& directoryPath);
+        std::string generateAutoIndex(const std::string &directoryPath);
         bool isDirectory(const std::string& path);
         bool isFile(const std::string& path);
         bool pathExists(const std::string& path);

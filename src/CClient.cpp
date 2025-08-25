@@ -1,6 +1,5 @@
 #include "../inc/CClient.hpp"
 // #include "CClient.hpp"
-// #include "CClient.hpp"
 
 CClient::CClient()
 {
@@ -16,15 +15,14 @@ CClient::CClient(string NameMethod, string uri,int FdClient, ConfigStruct MConfi
 CClient::~CClient()
 {
 }
-
 void CClient::printInfo() const {
     std::cout << "===== Client Info =====" << std::endl;
     std::cout << "Method: " << NameMethod << std::endl;
     std::cout << "URI: " << uri << std::endl;
     std::cout << "FdClient: " << FdClient << std::endl;
-    std::cout << "Read Buffer: " << readbuf << std::endl;
-    std::cout << "Offset: " << offset << std::endl;
-    std::cout << "Size File: " << sizeFile << std::endl;
+    // std::cout << "Read Buffer: " << readbuf << std::endl;
+    // std::cout << "Offset: " << offset << std::endl;
+    // std::cout << "Size File: " << sizeFile << std::endl;
 
     // Optional: print parser address
     std::cout << "Parser ptr: " << parser << std::endl;
