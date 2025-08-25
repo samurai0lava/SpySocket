@@ -95,3 +95,14 @@
 [2025-08-15 20:40:34] GET / HTTP/1.1 localhost:1080 curl/8.15.0 
 [2025-08-15 21:11:52] POST / HTTP/1.1 localhost:1080 curl/8.15.0 
 [2025-08-19 16:29:22] POST / HTTP/1.1 localhost:1080 postmanruntime/7.45.0 keep-alive 
+[2025-08-25 10:17:18] GET / HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /style.css HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/1337.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/Login.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/Github.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/Server-vector.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/image-8-1.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /script.js HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/image-8.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/Vector-2.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-08-25 10:17:18] GET /img/Vector-1.png HTTP/1.1 127.0.0.1:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
