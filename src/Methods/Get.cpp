@@ -188,6 +188,7 @@ string Get::pathIsFile(string matchLocation)
     // Check if file is larger than 1MB, use chunked sending
     if(fileStat.st_size > 1024*1024)
     {
+        std::cout<<"im here in PathIsFile for chunked sending"<<std::endl;
         cout << "File size: " << fileStat.st_size << " bytes, using chunked sending" << endl;
         this->chunkedSending = true;
         this->chunkSize = 1024;
@@ -285,6 +286,7 @@ string Get::MethodGet()
 
 string Get::setupChunkedSending(const std::string& filePath)
 {
+    std::cout << "Setting up chunked sending for file: " << filePath << std::endl;
     if( this->SendHeader == true )
     {
         struct stat s;
