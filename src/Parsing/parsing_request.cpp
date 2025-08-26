@@ -319,7 +319,6 @@ bool ParsingRequest::parse_headers()
 	return true;
 }
 
-
 bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("content-type") != headers.end())
