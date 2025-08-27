@@ -176,7 +176,7 @@ std::string Get::getMimeType(const std::string& path)
 
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
 {
-     std::string path = requestPath;
+    std::string path = requestPath;
     std::string removedSegment;
     std::string removedPath; 
     while (true) {

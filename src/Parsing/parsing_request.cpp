@@ -2,8 +2,64 @@
 
 
 // NGINX-style incremental parsing implementation
+int parse_hex(const std::string& s)
+{
+	std::istringstream iss(s);
+	int n;
+	iss >> std::uppercase >> std::hex >> n;
+	return n;
+}
 
-bool ParsingRequest::checkURI(const std::string& uri)
+std::string url_Decode(const std::string& s)
+{
+	std::string result;
+	result.reserve(s.size());
+	for (std::size_t i = 0; i < s.size();) {
+		if (s[i] != '%') {
+			result.push_back(s[i]);
+			++i;
+		}
+		else {
+			result.push_back(parse_hex(s.substr(i + 1, 2)));
+			i += 3;
+		}
+	}
+	return result;
+}
+
+std::string normalizePath(const std::string& path)
+{
+	std::vector<std::string> stack;
+	std::istringstream iss(path);
+	std::string token;
+
+	while (std::getline(iss, token, '/')) {
+		if (token.empty() || token == ".") {
+			continue;
+		}
+		if (token == "..") {
+			if (!stack.empty()) {
+				stack.pop_back();
+			}
+		}
+		else {
+			stack.push_back(token);
+		}
+	}
+
+	std::string normalized = "/";
+	for (size_t i = 0; i < stack.size(); ++i) {
+		normalized += stack[i];
+		if (i + 1 < stack.size()) {
+			normalized += "/";
+		}
+	}
+	return normalized;
+}
+
+
+
+bool ParsingRequest::checkURI(std::string& uri)
 {
 	if (uri.empty())
 	{
@@ -54,7 +110,9 @@ bool ParsingRequest::checkURI(const std::string& uri)
 			return false;
 		}
 	}
-
+	std::string decoded_uri = url_Decode(uri);
+	uri = normalizePath(decoded_uri);
+	// std::cout << "uriiiiiiiiiiiiiiiiiiiiiiiiiii"<< uri << std::endl;
 	return true;
 }
 bool ParsingRequest::checkVersion(const std::string& version)
