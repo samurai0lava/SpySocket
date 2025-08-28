@@ -1,58 +1,59 @@
 #include "../../inc/webserv.hpp"
 
-void	lower(string &str)
+void	lower(string& str)
 {
-	for (int i = 0; i < (int)str.length(); i++)
-		str[i] = tolower(str[i]);
+    for (int i = 0; i < (int)str.length(); i++)
+        str[i] = tolower(str[i]);
 }
 
 int	hex_to_dec(string hex)
 {
-	int		res;
-	string	hexa;
-	int		j;
-
-	lower(hex);
-	// cout << "'" << hex << "'" << endl;
-	res = 0;
-	hexa = "0123456789abcdef";
-	j = 0;
-	for (int i = hex.length() - 1; i >= 0; i--)
-	{
-		if (hex[i] == ' ' || hex[i] == '\t')
-			continue ;
-		res += hexa.find(hex[i]) * pow(16, j++);
-	}
-	return (res);
+    int		res;
+    string	hexa;
+    int		j;
+    if (hex.empty())
+        return (0);
+    lower(hex);
+    // cout << "'" << hex << "'" << endl;
+    res = 0;
+    hexa = "0123456789abcdef";
+    j = 0;
+    for (int i = hex.length() - 1; i >= 0; i--)
+    {
+        if (hex[i] == ' ' || hex[i] == '\t')
+            continue;
+        res += hexa.find(hex[i]) * pow(16, j++);
+    }
+    return (res);
 }
 
-string	unchunk_content(char *buffer)
+string	unchunk_content(char* buffer)
 {
-	string buff = buffer;
-	static string filename;
+    string buff = buffer;
+    static string filename;
     static bool chunked;
-	string start_line;
-	int new_request = 0;
-	istringstream body_stream(buff);
-	size_t start_pos = 0;
-	getline(body_stream, start_line);
-	if (start_line.find("HTTP/1.1") != string::npos)
-	{
+    string start_line;
+    int new_request = 0;
+    istringstream body_stream(buff);
+    size_t start_pos = 0;
+    getline(body_stream, start_line);
+    if (start_line.find("HTTP/1.1") != string::npos)
+    {
         start_pos = buff.find("\r\n\r\n");
-		filename = generate_filename("chunk_");
-        if(buff.find("Transfer-Encoding") != string::npos)
-        chunked = true;
+        filename = generate_filename("chunk_");
+        if (buff.find("Transfer-Encoding") != string::npos)
+            chunked = true;
         else
-        chunked = false;
-		new_request = 1;
-	}
-    
+            chunked = false;
+        new_request = 1;
+    }
+
     cout << "CHUNKED : " << chunked << endl;
-	if (start_pos != string::npos)
-	{
-		if (new_request)
-			start_pos += 4;
-		buffer = buffer + start_pos;
+    if (start_pos != string::npos)
+    {
+        if (new_request)
+            start_pos += 4;
+        buffer = buffer + start_pos;
         fstream file;
         string line;
         istringstream body_stream(buff.substr(start_pos));
@@ -63,7 +64,7 @@ string	unchunk_content(char *buffer)
             return "Empty";
         }
 
-        if(chunked == true)
+        if (chunked == true)
         {
             cout << "xxxxxxxxxxx\n";
             cout << buffer << endl;
@@ -72,7 +73,7 @@ string	unchunk_content(char *buffer)
             int chars_to_read = 0;
             chars_to_read = hex_to_dec(line.substr(0, line.length() - 1));
             cout << "-----> " << line << endl;
-            if(new_request)
+            if (new_request)
                 file.open(filename.c_str(), ios::out);
             else
                 file.open(filename.c_str(), ios::out | ios::app);
@@ -85,20 +86,17 @@ string	unchunk_content(char *buffer)
                 file.write(buffer, chars_to_read);
                 buffer = buffer + chars_to_read;
                 buff = buffer;
-                if (buff.empty())
+                if (buff.empty() || buff.find("\r\n") + 2 == buff.length())
                 {
-                    cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
-                    break ;
+                    // cout << "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\n";
+                    break;
                 }
-                else if(buff.find("\r\n") != string::npos)
-                {
-                    cout << "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\n";
-                    cout << buff.find("\r\n") << endl;
-                    cout << "-->" << buff << "<--" << endl;
-                }
-                //mostly we have /r/n before the hex line so check that out (causing me problems)
-                chars_to_read = hex_to_dec(buff.substr(0, buff.find("\r\n")));
-                
+                size_t pos = buff.find("\r\n");
+                if (buff.find("\r\n") != string::npos && buff.find("\r\n") == 0 )
+                    pos = buff.find("\r\n") + 2;
+                cout << "'" << buff.substr(0, pos) << "'" << endl;
+                chars_to_read = hex_to_dec(buff.substr(0, pos));
+
                 cout << "CHARS TO READ : " << chars_to_read << endl;
             }
         }
@@ -110,11 +108,11 @@ string	unchunk_content(char *buffer)
             // cout << "---> " << buffer << endl;
             // cout << sizeof(buffer) << endl;
             // for(int i = 0; i < content_length; i++)
-            for(int i = 0; buffer[i]; i++)
+            for (int i = 0; buffer[i]; i++)
                 file.write(&buffer[i], 1);
         }
 
         file.close();
-	}
+    }
     return filename;
 }
