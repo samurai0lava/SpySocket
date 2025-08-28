@@ -13,7 +13,7 @@ string unchunk_data(char *chunk, size_t chunk_size);
 
 
 std::vector<std::string> split(std::string s, std::string delimiters);
-std::string generate_filename(string type);
+std::string generate_filename(string type, string termination);
 
 
 

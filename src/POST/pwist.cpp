@@ -1,12 +1,15 @@
 #include "../../inc/POST.hpp"
 
-std::string generate_filename(string type)
+std::string generate_filename(string type, string termination)
 {
     std::string result;
     static int counter = 0;
     result = type;
     result += (char)(counter + '0');
-    result += ".txt";
+    if(termination.empty())
+        result += ".txt";
+    else    
+        result += termination;
     counter++;
     return result;
 }
@@ -123,7 +126,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         fn_end = body.find(' ', fn_pos);
     std::string filename = body.substr(fn_pos, fn_end - fn_pos);
     if (filename.empty())
-        filename = generate_filename("upload_");
+        filename = generate_filename("upload_", "");
     // cout << "FILENAME ::::: " << filename << endl;
 
     // don't forget it's \r\n in real requests now we only working with \n\n
@@ -237,7 +240,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
 {
     string body = parser.getBody();
 
-    string filename = generate_filename(parser.getHeaders()["content-type-value"] + "_");
+    string filename = generate_filename(parser.getHeaders()["content-type-value"] + "_", "");
 
     struct stat st;
     if (stat(location.upload_path.c_str(), &st) == 0)
