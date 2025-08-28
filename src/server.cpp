@@ -31,6 +31,7 @@ void Servers::getServersFds(Config* configFile, Servers& serv)
         unsigned short port = *((*it).second.listen.begin());
         sockStruct.sin_port = htons(port); // check if the port is valid
 
+            
         if (bind(serverFd, (sockaddr*)&sockStruct, sizeof(sockStruct)) < 0) {
             perror("bind failed");
             close(serverFd);
@@ -168,7 +169,7 @@ void Servers::epollFds(Servers& serv)
                     close(fd);
                     continue;
                 }
-                body_file = unchunk_content(serv.buffer);
+                body_file = unchunk_data(serv.buffer, serv.bufferLength);
                 // Get the parser for this specific client
                 ParsingRequest* parser = NULL;
                 if (clientParsers.find(fd) != clientParsers.end())
