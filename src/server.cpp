@@ -188,7 +188,7 @@ void Servers::epollFds(Servers &serv)
                 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    printRequestInfo(*parser, fd);
+                    // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     access_log(*parser);
                     //send response----------------------------------------
@@ -227,4 +227,3 @@ void Servers::epollFds(Servers &serv)
 
     close(epollFd);
 }
-

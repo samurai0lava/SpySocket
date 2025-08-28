@@ -60,6 +60,4 @@ void printRequestInfo(const ParsingRequest& request, int fd)
     std::cout << BLUE "Transfer-Encoding exists: " RESET << (request.getTransferEncodingExists() ? "Yes" : "No") << std::endl;
     std::cout << BLUE "Connection status: " RESET << (request.getConnectionStatus() ? "Keep-Alive" : "Closed") << std::endl;
     std::cout << "----------------------------------------------" << std::endl;
-
-
 } 

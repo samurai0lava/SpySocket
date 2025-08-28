@@ -112,7 +112,6 @@ bool ParsingRequest::checkURI(std::string& uri)
 	}
 	std::string decoded_uri = url_Decode(uri);
 	uri = normalizePath(decoded_uri);
-	// std::cout << "uriiiiiiiiiiiiiiiiiiiiiiiiiii"<< uri << std::endl;
 	return true;
 }
 bool ParsingRequest::checkVersion(const std::string& version)
@@ -188,12 +187,12 @@ bool ParsingRequest::parse_start_line()
 	std::getline(ss, uri, ' ');
 	std::getline(ss, version, ' ');
 	
+	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
+		return false;
+
 	start_line["method"] = method;
 	start_line["uri"] = uri;
 	start_line["version"] = version;
-
-	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
-		return false;
 
 	return true;
 }
@@ -484,7 +483,11 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
-			content_type_value != "image/png"
+			content_type_value != "image/png" &&
+			content_type_value != "image/jpeg" &&
+			content_type_value != "image/gif" &&
+			content_type_value != "text/css" &&
+			content_type_value != "application/javascript"
 		)
 		{
 			connection_status = 0;
