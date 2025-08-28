@@ -1,7 +1,7 @@
 #include "../inc/webserv.hpp"
 // #include "../inc/CClient.h"
 
-string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& config,Servers &serv,CClient &client_data)
+void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& config,Servers &serv,CClient &client_data)
 {
 
     std::string method = parser->getStartLine()["method"];
@@ -9,12 +9,13 @@ string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& co
     // std::cout<<" "
     ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
     client_data = CClient(method, uri,client_fd, mutableConfig, serv, parser);
-    client_data.printInfo();
-    if(method == "GET")
-    {
-        Get MGet(uri, client_fd, mutableConfig, serv, parser);
-        return( MGet.MethodGet());
-    }
+    // client_data.printInfo();
+
+    // if(method == "GET")
+    // {
+
+    //     return ;
+    // }
     // else if (method == "DELETE")
     // {
         // DeleteMethode MDelete;
@@ -25,5 +26,5 @@ string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& co
     // {
     //     return postMethod(uri, mutableConfig, *parser);
     // }
-    return "";
+    return ;
 }

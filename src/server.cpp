@@ -64,7 +64,7 @@ void Servers::epollFds(Servers& serv)
 {
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
-        throw runtime_error("Error creating epoll!");
+    throw runtime_error("Error creating epoll!");
     struct epoll_event event;
     for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
     {
@@ -74,10 +74,10 @@ void Servers::epollFds(Servers& serv)
             close(*it);
             continue;
         }
-
+        
         event.events = EPOLLIN;
         event.data.fd = *it;
-
+        
         if (epoll_ctl(epollFd, EPOLL_CTL_ADD, *it, &event) == -1)
         {
             cerr << "Cannot add server " << *it << " to epoll!\n";
@@ -85,15 +85,17 @@ void Servers::epollFds(Servers& serv)
             continue;
         }
     }
-
+    
     std::map<int, Client> clients;
     CClient client_data;
     struct epoll_event events[10];
     std::map<int, ParsingRequest*> clientParsers;
-
+    
+    int i = -1;
 
     while (true)
     {
+        i++;
         int ready_fds = epoll_wait(epollFd, events, 10, -1);
         if (ready_fds == -1)
         {
@@ -185,7 +187,11 @@ void Servers::epollFds(Servers& serv)
                 {
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    c.response = handleMethod(fd, parser, config, serv,client_data);
+                    handleMethod(fd, parser, config, serv,client_data);
+                    // std::cout <<"-----------------CClient Data --------------\n";
+                    // client_data.printInfo();
+                    // // std::cout<<" "
+                    // std::cout<<"------------------------------"<<std::endl;
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;
@@ -218,7 +224,9 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
+                c.response = client_data.HandleAllMethod();
                 size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), 0);
+                std::cout << " i = "<< i<<"Sent " << bytes_sent << " bytes to client on fd " << fd << std::endl;
                 if (bytes_sent > 0)
                     c.response.erase(0, bytes_sent);
                 if (c.response.empty())
@@ -230,35 +238,15 @@ void Servers::epollFds(Servers& serv)
                     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                 }
             }
+            // if(client_data.bytesSent < client_data.fileSize && client_data.chunkedSending)
+            // {
+            //     std::cout<<" setting up chunked sending for fd : "<< client_data.FdClient << " file path : "<< client_data.filePath <<std::endl;
+            //     client_data.setupChunkedSending(client_data.filePath);
+            //     std::cout<<"lool"<<std::endl;                
+            // }
 
 
         }
-        // std::map<int, ClientSendState>::iterator tmp;
-        // for (std::map<int, ClientSendState>::iterator it = serv.clientSendStates.begin();
-        //     it != serv.clientSendStates.end(); )
-        // {
-            
-        //     int client_fd = it->first;
-        //     ClientSendState &state = it->second;
-        //     std::cout<<" fd : "<<state.fileFd << " state offset : "<< state.offset << " state file size : "<< state.fileSize<<std::endl;
-        //     if(state.offset < static_cast<off_t>(state.fileSize))
-        //     {
-
-        //         // send chunk to client
-        //         sendNextChunk(client_fd, state);
-
-        //         if (state.offset >= static_cast<off_t>(state.fileSize)) {
-                    
-        //             close(state.fileFd); 
-        //             tmp = it;           
-        //             ++it;                 
-        //             serv.clientSendStates.erase(tmp);
-        //         } else {
-        //             ++it;
-        //         }
-        //     }
-        // }
-
     }
 
     // Clean up all parsers

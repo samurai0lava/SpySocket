@@ -5,11 +5,16 @@
 #include "CClient.hpp"
 class Get : public CClient
 {
-    public:
-        Get(std::string uri, int client_fd, ConfigStruct config,
-            Servers serv, ParsingRequest *parser);
-        ~Get();
 
+    public:
+        Get();  
+        Get(const CClient& client) : CClient(client) {} ; // copy base part
+        ~Get();
+        void setupFromClient(const CClient& client) {
+        this->uri = client.uri;
+        this->mutableConfig = client.mutableConfig;
+        // copy anything else you need
+    }
         std::string getMimeType(const std::string& path);
         std::string matchLocation(const std::string &requestPath, const ConfigStruct &server);
         std::string generateAutoIndex(const std::string &directoryPath);
@@ -22,6 +27,8 @@ class Get : public CClient
         std::string handleDirectoryWithAutoIndex(std::string matchLocation);
         std::string MethodGet();
         string setupChunkedSending(const std::string  & filePath);
+        void printLocationStruct(const LocationStruct &loc);
+
 };
 
 #endif

@@ -1,9 +1,6 @@
 #include "../../inc/Get.hpp"
-// #include "Get.hpp"
 
-Get::Get(std::string uri, int client_fd, ConfigStruct config,
-         Servers serv, ParsingRequest *parser)
-    : CClient("GET", uri, client_fd, config, serv, parser)
+Get::Get()
 {
 }
 Get::~Get()
@@ -76,10 +73,10 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
                 
                 if(server.location[i].second.allowedMethods.find("GET") == server.location[i].second.allowedMethods.end())
                 {
-                    //should send a 405 Method Not Allowed response
                     throw runtime_error("Error 405 Method Not Allowed");
                 }
                 this->_name_location = server.location[i].first;
+                // printLocationStruct(server.location[i].second);
                 return server.location[i].second.root +removedPath;
             }
         }
@@ -249,8 +246,9 @@ string Get::handleDirectoryWithAutoIndex(string matchLocation)
 }
 string Get::MethodGet()
 {
-    std::cout<<" hello :: " <<this->parser->getTransferEncodingExists() <<std::endl;
-    std::cout<<"lollll :: "<<std::endl;
+    if(this->uri.empty() ){
+        std::cerr << "Empty URI in GET method" << std::endl;
+        return (GenerateResErr(400));}
     string matchedLocation = matchLocation(this->uri , this->mutableConfig);
     if(!this->pathExists(matchedLocation))
     {
@@ -270,8 +268,9 @@ string Get::MethodGet()
         std::cerr << "No exact match for location : "<< matchedLocation << std::endl;
         throw std::runtime_error("");
     }
-    if(this->isFile(matchedLocation))
-        return(pathIsFile(matchedLocation));
+    if(this->isFile(matchedLocation)){
+        std::cout<<"it's a file"<<std::endl;
+        return(pathIsFile(matchedLocation));}
     else if(this->isDirectory(matchedLocation))
     {
         string indexPath = matchedLocation + "/" + locationMatched.indexPage;
@@ -286,12 +285,13 @@ string Get::MethodGet()
 
 string Get::setupChunkedSending(const std::string& filePath)
 {
-    std::cout << "Setting up chunked sending for file: " << filePath << std::endl;
-    if( this->SendHeader == true )
+    std::cout<<"Setting up chunked sending for file: " << filePath << std::endl;
+    std::cout<<" this->SendHeader : "<< this->SendHeader << std::endl;
+    if( this->SendHeader == false)
     {
+        std::cout<<"Sending headers for chunked response"<<std::endl;
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
-            cerr << "Error getting file size for chunked sending!" << endl;
             return GenerateResErr(500);
         }
         this->fileSize = s.st_size;
@@ -301,14 +301,14 @@ string Get::setupChunkedSending(const std::string& filePath)
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->response += oss.str();
-        this->SendHeader = false; // Ensure headers are sent only once
+        this->SendHeader = true; // Ensure headers are sent only once
     }
     else
     {
+        std::cout<<"Continuing chunked sending for file: " << filePath << std::endl;
         char buffer[this->chunkSize + 1];
         ssize_t bytesRead = read(this->fileFd, buffer, this->chunkSize);
         if (bytesRead == -1) {
-            cerr << "Error reading file for chunked sending!" << endl;
             close(this->fileFd);
             return GenerateResErr(500);
         } else if (bytesRead == 0) {
@@ -327,24 +327,26 @@ string Get::setupChunkedSending(const std::string& filePath)
     }
     return this->response;
 }
-// if(fileContent.size() > limit && this->getMimeType(matchedLocation) == "video/mp4")
-//         {
-//             std::cout<<" sup of the limit "<<std::endl;
-//             ClientSendState state;
-//             state.clientFd = client_fd;
-//             state.filePath = matchedLocation; // the file you want to send
-//             state.fileFd = open(state.filePath.c_str(), O_RDONLY);
-//             struct stat s;
-//             stat(state.filePath.c_str(), &s);
-//             state.fileSize = s.st_size;
-//             // Prepare HTTP headers
-//             std::ostringstream oss;
-//             oss << "HTTP/1.1 200 OK\r\n";
-//             oss << "Content-Type: " << getMimeType(state.filePath) << "\r\n";
-//             oss << "Content-Length: " << state.fileSize << "\r\n\r\n";
-//             state.headers = oss.str();
-//             // Add state to map for this client
-//             serv.clientSendStates[client_fd] = state;
-//             return ;
-            
-//         }
+
+void Get::printLocationStruct(const LocationStruct& loc)
+{
+    std::cout << "  LocationStruct {" << std::endl;
+    std::cout << "    autoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
+
+    std::cout << "    allowedMethods: ";
+    for (std::set<std::string>::const_iterator it = loc.allowedMethods.begin();
+         it != loc.allowedMethods.end(); ++it) {
+        std::cout << *it << " ";
+    }
+    std::cout << std::endl;
+
+    std::cout << "    root: " << loc.root << std::endl;
+    std::cout << "    indexPage: " << loc.indexPage << std::endl;
+    if (!loc.cgi_ext.empty())
+        std::cout << "    cgi_ext: " << loc.cgi_ext[0] << std::endl;
+    else
+        std::cout << "    cgi_ext: (empty)" << std::endl;
+    std::cout << "    upload_enabled: " << (loc.upload_enabled ? "true" : "false") << std::endl;
+    std::cout << "    upload_path: " << loc.upload_path << std::endl;
+    std::cout << "  }" << std::endl;
+}

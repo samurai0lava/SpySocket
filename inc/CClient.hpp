@@ -4,8 +4,8 @@
 #include "../include/server.hpp"
 #include "parsing_request.hpp"
 #include "../include/Config.hpp"
+#include "RespondError.hpp"
 #include <string>
-
 
 
 class CClient   
@@ -26,14 +26,15 @@ class CClient
         std::string response;
         std::string filePath;
         size_t fileSize;
-        off_t offset; 
-        int fileFd;
-               
+        off_t offset;
+        int fileFd;              
         CClient ();
         CClient(string NameMethod,string uri,int FdClient,ConfigStruct MConfig,
             Servers serv,ParsingRequest *parser);
          ~CClient();
-
+        string setupChunkedSending(const std::string & filePath);
+        string HandleAllMethod();
+        // std::string GenerateResErr(int errorCode);
         void printInfo() const;
 
 
