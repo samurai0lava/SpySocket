@@ -160,7 +160,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 	}
 	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
 	{
-		connection_status = 0;
+ 		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: Invalid HTTP method: '" + method + "'";
 		current_state = PARSE_ERROR;

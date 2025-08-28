@@ -60,24 +60,28 @@ void ResERROR(const int ErrorStat)
 
 const std::string GenerateResErr(const int ErrorStat)
 {
-
-    // i need to check if the error page already exists if not then i generate the error page
-    // Mmmmmmmmm
-
     std::string statusPhrase = getStatusPhrase(ErrorStat);
     std::string errorMessage = getDefaultErrorMessage(ErrorStat);
-    std::string htmlBody = generateErrorPageHTML(ErrorStat, errorMessage);
-    
-    // HTTP response
+    std::string htmlBody;
     std::string response = "HTTP/1.1 " + intToString(ErrorStat) + " " + statusPhrase + "\r\n";
     response += "Content-Type: text/html; charset=UTF-8\r\n";
     response += "Content-Length: " + intToString(htmlBody.length()) + "\r\n";
     response += "Connection: close\r\n";
     response += "Server: SpySocket\r\n";
     response += "\r\n";
-    // i need to check here because i will take the html body from its path
-    response += htmlBody;
-
+    // if (access("www/html/404.html", F_OK) == -1)
+    // {
+        htmlBody = generateErrorPageHTML(ErrorStat, errorMessage);
+        response += htmlBody;
+    // }
+    // else
+    // {
+    //     std::ifstream error_page("www/html/404.html");
+    //     while(std::getline(error_page, htmlBody))
+    //     {
+    //         response += htmlBody;
+    //     }
+    // // }
     return response;
 }
 
