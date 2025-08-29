@@ -1,5 +1,8 @@
 #include "../../inc/Get.hpp"
+// #include "Get.hpp"
 
+
+Get::Get(CClient& c) : client(c) {}
 Get::Get()
 {
 }
@@ -185,19 +188,28 @@ string Get::pathIsFile(string matchLocation)
     // Check if file is larger than 1MB, use chunked sending
     if(fileStat.st_size > 1024*1024)
     {
+        if(this->SendHeader == true)
+          std::cout <<"Headers already sent for chunked response : true"<<std::endl;
+        else
+          std::cout <<"Sending headers for chunked response : false "<<std::endl;
         std::cout<<"im here in PathIsFile for chunked sending"<<std::endl;
         cout << "File size: " << fileStat.st_size << " bytes, using chunked sending" << endl;
-        this->chunkedSending = true;
-        this->chunkSize = 1024;
-        this->bytesSent = 0;
-        this->fileSize = fileStat.st_size;
-        this->fileFd = open(this->filePath.c_str(), O_RDONLY);
-        if (this->fileFd == -1) {
-            cerr << "Error opening file for chunked sending!" << endl;
-            return GenerateResErr(500);
+        if (chunkedSending == false)
+        {
+            this->chunkedSending = true;
+            this->chunkSize = 1024;
+            this->bytesSent = 0;
+            this->fileSize = fileStat.st_size;
+            this->fileFd = open(this->filePath.c_str(), O_RDONLY);
+            if (this->fileFd == -1) {
+                cerr << "Error opening file for chunked sending!" << endl;
+                return GenerateResErr(500) ;
+            }
+            else 
+                return (setupChunkedSending(this->filePath));
+            
         }
-        else
-           return (setupChunkedSending(this->filePath));
+        return (setupChunkedSending(this->filePath));
     }
     
     // For small files, read normally
@@ -297,11 +309,12 @@ string Get::setupChunkedSending(const std::string& filePath)
         this->fileSize = s.st_size;
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
-        oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
+        // oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->response += oss.str();
         this->SendHeader = true; // Ensure headers are sent only once
+        std::cout <<" 2222222222222heder sent  : "<< this->SendHeader << std::endl;
     }
     else
     {

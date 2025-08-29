@@ -6,9 +6,11 @@
 class Get : public CClient
 {
 
+    private:
+    CClient& client;
     public:
         Get();  
-        Get(const CClient& client) : CClient(client) {} ; // copy base part
+        Get(CClient& client);
         ~Get();
         void setupFromClient(const CClient& client) {
         this->uri = client.uri;

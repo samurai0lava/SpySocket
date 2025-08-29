@@ -65,6 +65,9 @@ string CClient::HandleAllMethod()
 
    if(this->NameMethod == "GET")
    {
+        std::cout << "true : "<<true<<std::endl;
+        std::cout << "false : "<<false<<std::endl;
+        std::cout << "Client Data in SendHeader:"  <<this->SendHeader << std::endl;
         // std::cout<<"\n\n";
         // std::cout<<" config root : "<< this->mutableConfig.root << std::endl;
         // std::cout<<" config indexPage : "<< this->mutableConfig.indexPage << std::endl;
@@ -72,7 +75,8 @@ string CClient::HandleAllMethod()
          Get _MGet (*this);
          try {
                 std::cout << "Handling GET method for URI: " << this->uri << std::endl;
-              return _MGet.MethodGet();
+                std::cout << "00000000000001Client Data in SendHeader before MethodGet:"  <<this->SendHeader << std::endl;
+              return (_MGet.MethodGet()  );
          } catch (const std::runtime_error& e) {
               std::string errMsg = e.what();
               if (errMsg.find("405") != std::string::npos) {

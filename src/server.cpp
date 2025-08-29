@@ -185,6 +185,7 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
+                    std::cout<<"00000000000000000000000000001212121\n";
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     handleMethod(fd, parser, config, serv,client_data);
@@ -224,7 +225,9 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
+                std::cout << "////////////Client on fd " << fd << " is ready to receive data.\n";
                 c.response = client_data.HandleAllMethod();
+                std::cout<<"4444444444 sent :: "<<client_data.SendHeader <<std::endl;
                 size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), 0);
                 std::cout << " i = "<< i<<"Sent " << bytes_sent << " bytes to client on fd " << fd << std::endl;
                 if (bytes_sent > 0)
@@ -232,10 +235,21 @@ void Servers::epollFds(Servers& serv)
                 if (c.response.empty())
                 {
                     c.ready_to_respond = false;
-                   if(/// ila salt ydkhol ){ epoll_event ev;
-                    ev.events = EPOLLIN;//hadi nhydha ta nsali response 
-                    ev.data.fd = fd;
-                    epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);}
+                    if(client_data.chunkedSending == true)
+                    {
+                        std::cout<<"Finished sending response to fd : "<< fd << std::endl;
+                        epoll_event ev;
+                        ev.events = EPOLLIN;//hadi nhydha ta nsali response 
+                        ev.data.fd = fd;
+                        epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                    }
+                    // else
+                    // {
+                    //     std::cout<<" setting up chunked sending for fd : "<< client_data.FdClient << " file path : "<< client_data.filePath <<std::endl;
+                    //     client_data.setupChunkedSending(client_data.filePath);
+                    //     std::cout<<"lool"<<std::endl;                
+                    // }
+
                 }
             }
             // if(client_data.bytesSent < client_data.fileSize && client_data.chunkedSending)

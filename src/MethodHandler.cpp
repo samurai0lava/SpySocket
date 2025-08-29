@@ -3,12 +3,14 @@
 
 void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& config,Servers &serv,CClient &client_data)
 {
+    std::cout <<"333333333333333333333333\n";
 
     std::string method = parser->getStartLine()["method"];
     std::string uri = parser->getStartLine()["uri"];
     // std::cout<<" "
     ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
     client_data = CClient(method, uri,client_fd, mutableConfig, serv, parser);
+    client_data.SendHeader = false;
     // client_data.printInfo();
 
     // if(method == "GET")

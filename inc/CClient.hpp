@@ -27,7 +27,8 @@ class CClient
         std::string filePath;
         size_t fileSize;
         off_t offset;
-        int fileFd;              
+        int fileFd;
+        // bool               
         CClient ();
         CClient(string NameMethod,string uri,int FdClient,ConfigStruct MConfig,
             Servers serv,ParsingRequest *parser);
