@@ -16,6 +16,7 @@ std::vector<std::string> split(std::string s, std::string delimiters);
 std::string generate_filename(string type, string termination);
 
 
+string	refactor_data(char *buffer, size_t buffer_size);
 
 
 // class POST
