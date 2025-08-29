@@ -5,14 +5,14 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
 }
-  
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
   line-height: 1.6;
   color: #333;
   overflow-x: hidden;
-  background: #FFEFE4;
+  background: #ffefe4;
 }
 
 /* Animations */
@@ -36,7 +36,16 @@ body {
     opacity: 1;
     transform: translateX(0);
   }
-  
+}
+@keyframes slidInFromRight {
+  0% {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 /* Floating animations for decorative elements */
@@ -89,7 +98,8 @@ body {
 }
 
 @keyframes floatGentle {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0);
   }
   33% {
@@ -101,7 +111,8 @@ body {
 }
 
 @keyframes triangleFloat {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) rotate(-25deg);
   }
   50% {
@@ -110,7 +121,8 @@ body {
 }
 
 @keyframes triangleFloat2 {
-  0%, 100% {
+  0%,
+  100% {
     transform: translate(0, 0) rotate(15deg);
   }
   50% {
@@ -118,14 +130,13 @@ body {
   }
 }
 
-
 /* Header Styles */
 .main-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 60px;
-  background: #FFEFE4;
+  background: #ffefe4;
   position: relative;
   z-index: 100;
 }
@@ -167,25 +178,24 @@ body {
 .nav-button span {
   font-size: 17px;
   font-weight: 500;
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
   font-weight: 900;
   color: #002d61;
 }
-
 
 .nav-text {
   font-size: 20px;
   font-weight: 500;
   color: #000000;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
 }
 
 /* Hero Section */
 .hero-section {
   position: relative;
   background-color: white;
-  background: #FFEFE4;
+  background: #ffefe4;
   min-height: 500px;
   display: flex;
   align-items: center;
@@ -224,14 +234,12 @@ body {
 .server-window1,
 .server-window2 {
   position: absolute;
-  
 }
 .server-window1 {
   width: 120px;
   height: 120px;
   top: 10px;
   right: 280px;
-  
 }
 .server-window2 {
   width: 190px;
@@ -283,7 +291,7 @@ body {
   font-size: 1.2rem;
   color: #666;
   margin-bottom: 30px;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   font-weight: 400;
 }
 
@@ -293,24 +301,23 @@ body {
   color: #000000;
   margin-bottom: 70px;
   line-height: 1.6;
-  font-family: 'Roboto Mono', monospace;
+  font-family: "Roboto Mono", monospace;
   text-align: center;
   padding: 40px;
   max-width: 400px;
 }
 
 .spy {
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
   font-weight: 900;
-  color: #FF9A52;
+  color: #ff9a52;
   position: relative;
   right: -35px;
-
 }
 .socket {
-  font-family: 'Comfortaa', cursive;
+  font-family: "Comfortaa", cursive;
   font-weight: 900;
-  color: #2C3E50;
+  color: #2c3e50;
   position: relative;
 }
 .socket::before {
@@ -318,16 +325,17 @@ body {
   position: absolute;
   bottom: -3px;
   left: 10px;
-  font-size: 17px; 
+  font-size: 17px;
 }
 
 /* Decorative Elements */
 .decoration-dot {
   position: absolute;
   border-radius: 90%;
-  background: #4A90E2;
+  background: #4a90e2;
   opacity: 0;
-  animation: fadeInUp 1s ease-out 2s forwards, floatCircular 8s ease-in-out 3s infinite;
+  animation: fadeInUp 1s ease-out 2s forwards,
+    floatCircular 8s ease-in-out 3s infinite;
 }
 
 .dot-1 {
@@ -335,7 +343,8 @@ body {
   height: 12px;
   top: 80px;
   right: -10px;
-  animation: fadeInUp 1s ease-out 2s forwards, floatGentle 6s ease-in-out 3s infinite;
+  animation: fadeInUp 1s ease-out 2s forwards,
+    floatGentle 6s ease-in-out 3s infinite;
 }
 
 .dot-2 {
@@ -343,8 +352,9 @@ body {
   height: 10px;
   top: 70px;
   right: -100px;
-  background: #FF9A52;
-  animation: fadeInUp 1s ease-out 2.2s forwards, floatFigure8 7s ease-in-out 3.2s infinite;
+  background: #ff9a52;
+  animation: fadeInUp 1s ease-out 2.2s forwards,
+    floatFigure8 7s ease-in-out 3.2s infinite;
 }
 
 .dot-3 {
@@ -352,8 +362,9 @@ body {
   height: 26px;
   bottom: 60px;
   right: 30px;
-  background: #FF9A52;
-  animation: fadeInUp 1s ease-out 2.4s forwards, floatCircular 9s ease-in-out 3.4s infinite reverse;
+  background: #ff9a52;
+  animation: fadeInUp 1s ease-out 2.4s forwards,
+    floatCircular 9s ease-in-out 3.4s infinite reverse;
 }
 
 .dot-4 {
@@ -361,8 +372,9 @@ body {
   height: 14px;
   top: 50px;
   right: -200px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 2.6s forwards, floatGentle 5s ease-in-out 3.6s infinite;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 2.6s forwards,
+    floatGentle 5s ease-in-out 3.6s infinite;
 }
 
 .dot-5 {
@@ -370,18 +382,19 @@ body {
   height: 17px;
   top: -70px;
   right: -50px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 2.8s forwards, floatFigure8 8s ease-in-out 3.8s infinite;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 2.8s forwards,
+    floatFigure8 8s ease-in-out 3.8s infinite;
 }
-
 
 .dot-6 {
   width: 5px;
   height: 5px;
   top: 200px;
   right: 450px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 3s forwards, floatCircular 6s ease-in-out 4s infinite;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 3s forwards,
+    floatCircular 6s ease-in-out 4s infinite;
 }
 
 .dot-7 {
@@ -389,8 +402,9 @@ body {
   height: 25px;
   top: -20px;
   right: 190px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 3.2s forwards, floatGentle 7s ease-in-out 4.2s infinite reverse;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 3.2s forwards,
+    floatGentle 7s ease-in-out 4.2s infinite reverse;
 }
 
 .dot-8 {
@@ -398,8 +412,9 @@ body {
   height: 8px;
   top: 150px;
   right: -150px;
-  background: #FF9A52;
-  animation: fadeInUp 1s ease-out 3.4s forwards, floatCircular 5.5s ease-in-out 4.4s infinite;
+  background: #ff9a52;
+  animation: fadeInUp 1s ease-out 3.4s forwards,
+    floatCircular 5.5s ease-in-out 4.4s infinite;
 }
 
 .dot-9 {
@@ -407,8 +422,9 @@ body {
   height: 18px;
   bottom: 0px;
   right: 200px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 3.6s forwards, floatFigure8 9s ease-in-out 4.6s infinite reverse;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 3.6s forwards,
+    floatFigure8 9s ease-in-out 4.6s infinite reverse;
 }
 
 .dot-10 {
@@ -416,8 +432,9 @@ body {
   height: 6px;
   top: 300px;
   right: 150px;
-  background: #FF9A52;
-  animation: fadeInUp 1s ease-out 3.8s forwards, floatGentle 6.5s ease-in-out 4.8s infinite;
+  background: #ff9a52;
+  animation: fadeInUp 1s ease-out 3.8s forwards,
+    floatGentle 6.5s ease-in-out 4.8s infinite;
 }
 
 .dot-11 {
@@ -425,8 +442,9 @@ body {
   height: 22px;
   top: 9px;
   left: 0px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 4s forwards, floatCircular 8.5s ease-in-out 5s infinite reverse;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 4s forwards,
+    floatCircular 8.5s ease-in-out 5s infinite reverse;
 }
 
 .dot-12 {
@@ -434,8 +452,9 @@ body {
   height: 15px;
   bottom: 200px;
   right: -80px;
-  background: #FF9A52;
-  animation: fadeInUp 1s ease-out 4.2s forwards, floatFigure8 7.5s ease-in-out 5.2s infinite;
+  background: #ff9a52;
+  animation: fadeInUp 1s ease-out 4.2s forwards,
+    floatFigure8 7.5s ease-in-out 5.2s infinite;
 }
 
 .dot-13 {
@@ -443,8 +462,9 @@ body {
   height: 4px;
   bottom: 0px;
   right: 280px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 4.4s forwards, floatGentle 5s ease-in-out 5.4s infinite reverse;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 4.4s forwards,
+    floatGentle 5s ease-in-out 5.4s infinite reverse;
 }
 
 .dot-14 {
@@ -452,8 +472,9 @@ body {
   height: 20px;
   top: 0px;
   right: 150px;
-  background: #FF9A52;
-  animation: fadeInUp 1s ease-out 4.6s forwards, floatCircular 6.8s ease-in-out 5.6s infinite;
+  background: #ff9a52;
+  animation: fadeInUp 1s ease-out 4.6s forwards,
+    floatCircular 6.8s ease-in-out 5.6s infinite;
 }
 
 .dot-15 {
@@ -461,11 +482,10 @@ body {
   height: 9px;
   top: 40px;
   right: 80px;
-  background: #4A90E2;
-  animation: fadeInUp 1s ease-out 4.8s forwards, floatFigure8 8.2s ease-in-out 5.8s infinite reverse;
+  background: #4a90e2;
+  animation: fadeInUp 1s ease-out 4.8s forwards,
+    floatFigure8 8.2s ease-in-out 5.8s infinite reverse;
 }
-
-
 
 /* Mountain Background */
 .mountain-background {
@@ -484,12 +504,16 @@ body {
   height: auto;
 }
 
-
 .mountain-1,
 .mountain-2 {
   right: 0;
   width: 50%;
   animation: slidInFromLeft 2s ease-out;
+}
+.mountain-3,
+.mountain-4{
+  left: -1px;
+  animation: slidInFromRight 2s ease-out;
 }
 
 /* Blue Bottom Bar */
@@ -504,31 +528,62 @@ body {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
+/*STYLE THE LOGIN PAGE*/
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: #fff;
+  padding: 10px 10px;
+  border-radius: 25px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 120px;
+  height: 41px;
+  position: absolute;
+  top: 47px;
+  left: 51px;
+}
+
+.back-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.Back-text {
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(0, 45, 97);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
 
 @media screen and (max-width: 1024px) {
   .main-header {
     padding: 15px 40px;
   }
-  
+
   .hero-section {
     padding: 0 40px;
     min-height: 60vh;
   }
-  
+
   .hero-content {
     gap: 40px;
   }
-  
+
   .spy-socket-title {
     font-size: 5rem;
     white-space: nowrap;
   }
-  
+
   .server-illustration-container {
     width: 350px;
     height: 250px;
   }
-  
+
   .server-illustration {
     width: 250px;
   }
@@ -540,76 +595,76 @@ body {
     flex-direction: column;
     gap: 20px;
   }
-  
+
   .header-right {
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
   }
-  
+
   .header-left .logo-1337 {
     width: 80px;
     height: 80px;
   }
-  
+
   .hero-section {
     padding: 20px 30px;
     min-height: 50vh;
   }
-  
+
   .hero-content {
     flex-direction: column;
     gap: 30px;
     text-align: center;
   }
-  
+
   .hero-right {
     max-width: 100%;
   }
-  
+
   .spy-socket-title {
     font-size: 4rem;
     white-space: nowrap;
   }
-  
+
   .tagline {
     font-size: 1.1rem;
   }
-  
+
   .hero-description {
     font-size: 0.9rem;
     max-width: 100%;
     padding: 15px;
   }
-  
+
   .server-illustration-container {
     width: 300px;
     height: 200px;
   }
-  
+
   .server-illustration {
     width: 200px;
   }
-  
+
   .server-window1 {
     width: 80px;
     height: 80px;
     top: 5px;
     right: 20px;
   }
-  
+
   .server-window2 {
     width: 150px;
     height: 150px;
     bottom: 5px;
     left: 30px;
   }
-  
+
   .decoration-dot,
   .decoration-triangle {
     display: none;
   }
-  
+
   .mountain-1,
   .mountain-2 {
     width: 70%;
@@ -620,75 +675,75 @@ body {
   .main-header {
     padding: 10px 20px;
   }
-  
+
   .header-left .logo-1337 {
     width: 60px;
     height: 60px;
   }
-  
+
   .nav-button {
     padding: 8px 15px;
     font-size: 12px;
   }
-  
+
   .nav-button span {
     font-size: 12px;
   }
-  
+
   .hero-section {
     padding: 15px 20px;
     min-height: 45vh;
   }
-  
+
   .spy-socket-title {
     font-size: 2.5rem;
     margin-bottom: 15px;
     white-space: nowrap;
   }
-  
+
   .tagline {
     font-size: 1rem;
     margin-bottom: 20px;
   }
-  
+
   .hero-description {
     font-size: 0.8rem;
     margin-bottom: 40px;
     padding: 10px;
   }
-  
+
   .server-illustration-container {
     width: 250px;
     height: 180px;
   }
-  
+
   .server-illustration {
     width: 180px;
   }
-  
+
   .server-window1 {
     width: 60px;
     height: 60px;
     top: 0;
     right: 15px;
   }
-  
+
   .server-window2 {
     width: 120px;
     height: 120px;
     bottom: 0;
     left: 20px;
   }
-  
+
   .socket::before {
     font-size: 12px;
     bottom: -5px;
   }
-  
+
   .bottom-blue-bar {
     height: 30px;
   }
-  
+
   .mountain {
     bottom: 20px;
   }
@@ -699,16 +754,16 @@ body {
     font-size: 2rem;
     white-space: nowrap;
   }
-  
+
   .hero-description {
     font-size: 0.75rem;
   }
-  
+
   .server-illustration-container {
     width: 200px;
     height: 150px;
   }
-  
+
   .server-illustration {
     width: 150px;
   }
@@ -718,14 +773,13 @@ body {
   .hero-section {
     min-height: 100vh;
   }
-  
+
   .spy-socket-title {
     font-size: 3rem;
     white-space: nowrap;
   }
-  
+
   .hero-content {
     gap: 20px;
   }
 }
-

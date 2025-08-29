@@ -1,77 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SpySocket</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
-    rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
-    rel="stylesheet">
-</head>
-<body>
-  <header class="main-header">
-    <div class="header-left">
-      <img src="img/1337.png" alt="1337 Logo" class="logo-1337">
-    </div>
-    <div class="header-right">
-      <div class="nav-button login-btn">
-        <img src="img/Login.png" alt="Login" class="nav-icon">
-        <span class="nav-text">Login</span>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpySocket</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="main-header">
+      <div class="header-left">
+        <img src="img/1337.png" alt="1337 Logo" class="logo-1337" />
       </div>
-      <div class="nav-button github-btn" onclick="window.open('https://github.com/samurai0lava/Webserv-42#', '_blank')">
-        <img src="img/Github.png" alt="GitHub" class="nav-icon">
-        <span class="nav-text">GitHub</span>
-      </div>
-    </div>
-  </header>
-  <main class="hero-section">
-    <div class="hero-content">
-      <div class="hero-left">
-        <div class="server-illustration-container">
-          <img src="img/Server-vector.png" class="server-illustration">
-          <div class="decoration-dot dot-1"></div>
-          <div class="decoration-dot dot-2"></div>
-          <div class="decoration-dot dot-3"></div>
-          <div class="decoration-dot dot-4"></div>
-          <div class="decoration-dot dot-5"></div>
-          <div class="decoration-dot dot-6"></div>
-          <div class="decoration-dot dot-7"></div>
-          <div class="decoration-dot dot-8"></div>
-          <div class="decoration-dot dot-9"></div>
-          <div class="decoration-dot dot-10"></div>
-          <div class="decoration-dot dot-11"></div>
-          <div class="decoration-dot dot-12"></div>
-          <div class="decoration-dot dot-13"></div>
-          <div class="decoration-dot dot-14"></div>
-          <div class="decoration-dot dot-15"></div>
+      <div class="header-right">
+        <div
+          class="nav-button login-btn"
+          onclick="window.location.href='login-page.html'">
+          <img src="img/Login.png" alt="Login" class="nav-icon" />
+          <span class="nav-text">Login</span>
         </div>
-        <img src="img/image-8-1 .png" class="win server-window1">
-        <img src="img/image-8.png" class="win server-window2">
+        <div
+          class="nav-button github-btn"
+          onclick="window.open('https://github.com/samurai0lava/Webserv-42#', '_blank')"
+        >
+          <img src="img/Github.png" alt="GitHub" class="nav-icon" />
+          <span class="nav-text">GitHub</span>
+        </div>
       </div>
-      <div class="hero-right">
-        <h1 class="spy-socket-title">
-          <span class="spy">Spy</span>
-          <span class="socket">Socket</span>
-        </h1>
-        <p class="hero-description">
-          Welcome to Spy Socket — HTTP server written in C++98
-        </p>
+    </header>
+    <main class="hero-section">
+      <div class="hero-content">
+        <div class="hero-left">
+          <div class="server-illustration-container">
+            <img src="img/Server-vector.png" class="server-illustration" />
+            <div class="decoration-dot dot-1"></div>
+            <div class="decoration-dot dot-2"></div>
+            <div class="decoration-dot dot-3"></div>
+            <div class="decoration-dot dot-4"></div>
+            <div class="decoration-dot dot-5"></div>
+            <div class="decoration-dot dot-6"></div>
+            <div class="decoration-dot dot-7"></div>
+            <div class="decoration-dot dot-8"></div>
+            <div class="decoration-dot dot-9"></div>
+            <div class="decoration-dot dot-10"></div>
+            <div class="decoration-dot dot-11"></div>
+            <div class="decoration-dot dot-12"></div>
+            <div class="decoration-dot dot-13"></div>
+            <div class="decoration-dot dot-14"></div>
+            <div class="decoration-dot dot-15"></div>
+          </div>
+          <img src="img/image-8-1 .png" class="win server-window1" />
+          <img src="img/image-8.png" class="win server-window2" />
+        </div>
+        <div class="hero-right">
+          <h1 class="spy-socket-title">
+            <span class="spy">Spy</span>
+            <span class="socket">Socket</span>
+          </h1>
+          <p class="hero-description">
+            Welcome to Spy Socket — HTTP server written in C++98
+          </p>
+        </div>
       </div>
-    </div>
-    <div class="mountain-background">
-      <img src="img/Vector-2.png" alt="Mountain 2" class="mountain mountain-2">
-      <img src="img/Vector-1.png" alt="Mountain 1" class="mountain mountain-1">
-    </div>
-  </main>
-  <div class="bottom-blue-bar"></div>
-  <script src="script.js"></script>
-</body>
-
+      <div class="mountain-background">
+        <img
+          src="img/Vector-2.png"
+          alt="Mountain 2"
+          class="mountain mountain-2"
+        />
+        <img
+          src="img/Vector-1.png"
+          alt="Mountain 1"
+          class="mountain mountain-1"
+        />
+      </div>
+    </main>
+    <div class="bottom-blue-bar"></div>
+    <script src="script.js"></script>
+  </body>
 </html>

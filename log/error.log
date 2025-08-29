@@ -2,3 +2,5 @@
 [2025-08-25 21:32:32] Error: 400 - Bad Request: Content-Length and Transfer-Encoding headers cannot be used together
 [2025-08-28 15:12:28] Error: 400 - Bad Request: URI must start with '/' - got: 'DJDJKJD'
 [2025-08-28 15:12:28] Error: 400 - Bad Request: HTTP method cannot be empty
+[2025-08-29 07:47:08] Error: 400 - Bad Request: Host header is missing
+[2025-08-29 08:16:37] Error: 400 - Bad Request: Invalid HTTP version: 'DJDJJDJD'
