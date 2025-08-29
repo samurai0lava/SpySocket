@@ -38,12 +38,15 @@ class CGI : public ParsingRequest
         std::string get_query_string() const { return query_string; }
         std::map<std::string, std::string> get_env_vars() const { return env_vars; }
         bool check_is_cgi(const ParsingRequest &request);
+        void handleCGI(ParsingRequest *parser);
         
     private:
         std::string get_interpreter(const std::string& script_path);
         bool wait_with_timeout(int timeout_seconds);
         bool send_post_data(int fd, const std::string& body_data);
 };
+
+
 
 
 

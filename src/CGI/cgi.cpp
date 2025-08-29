@@ -516,3 +516,7 @@ bool CGI::wait_with_timeout(int timeout_seconds)
 //     return true;
 // }
 
+void CGI::handleCGI(ParsingRequest *parser)
+{
+    
+}
