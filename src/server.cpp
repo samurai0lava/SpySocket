@@ -232,10 +232,10 @@ void Servers::epollFds(Servers& serv)
                 if (c.response.empty())
                 {
                     c.ready_to_respond = false;
-                    epoll_event ev;
-                    ev.events = EPOLLIN;
+                   if(/// ila salt ydkhol ){ epoll_event ev;
+                    ev.events = EPOLLIN;//hadi nhydha ta nsali response 
                     ev.data.fd = fd;
-                    epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                    epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);}
                 }
             }
             // if(client_data.bytesSent < client_data.fileSize && client_data.chunkedSending)
