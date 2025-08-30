@@ -227,9 +227,9 @@ void Servers::epollFds(Servers& serv)
                
                 c.response = client_data.HandleAllMethod();
                 size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
-                std::cout<<"response size : "<< c.response.size() << std::endl;
-                std::cout<<"byteSent : "<< client_data.bytesSent << std::endl;
-                std::cout<<"fileSize : "<< client_data.fileSize << std::endl;
+                // std::cout<<"response size : "<< c.response.size() << std::endl;
+                // std::cout<<"byteSent : "<< client_data.bytesSent << std::endl;
+                // std::cout<<"fileSize : "<< client_data.fileSize << std::endl;
                 if (bytes_sent > 0)
                     c.response.erase(0, bytes_sent);
                 if (c.response.empty())

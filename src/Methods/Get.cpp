@@ -311,7 +311,7 @@ string Get::setupChunkedSending(const std::string& filePath)
     }
     else
     {
-        std::cout<<"setupChunkedSending called again\n";
+        // std::cout<<"setupChunkedSending called again\n";
         char buffer[this->client.chunkSize + 1];
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
