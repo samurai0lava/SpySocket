@@ -96,7 +96,11 @@ void Servers::epollFds(Servers& serv)
     while (true)
     {
         i++;
+        //epoll wait returns 2 fds that are ready when only one client is connected ???
         int ready_fds = epoll_wait(epollFd, events, 10, -1);
+
+        // std::cout << "READY FDS : " << ready_fds << std::endl;
+
         if (ready_fds == -1)
         {
             std::cerr << "Error occured in epoll wait!" << std::endl;

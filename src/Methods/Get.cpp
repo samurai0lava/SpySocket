@@ -306,7 +306,7 @@ string Get::setupChunkedSending(const std::string& filePath)
         oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
-        this->client.response += oss.str();
+        this->client.response = oss.str();
         this->client.SendHeader = true; // Ensure headers are sent only once
     }
     else
@@ -319,7 +319,7 @@ string Get::setupChunkedSending(const std::string& filePath)
             return GenerateResErr(500);
         } else if (bytesRead == 0) {
             // End of file reached, send final chunk
-            this->client.response += "0\r\n\r\n";
+            this->client.response = "0\r\n\r\n";
             close(this->client.fileFd);
             this->client.chunkedSending = true; // Finished sending
         } else {
