@@ -3,9 +3,8 @@
 
 
 Get::Get(CClient& c) : client(c) {}
-Get::Get()
-{
-}
+
+
 Get::~Get()
 {
 }
@@ -78,7 +77,7 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
                 {
                     throw runtime_error("Error 405 Method Not Allowed");
                 }
-                this->_name_location = server.location[i].first;
+                this->client._name_location = server.location[i].first;
                 // printLocationStruct(server.location[i].second);
                 return server.location[i].second.root +removedPath;
             }
@@ -176,7 +175,7 @@ std::string Get::buildHttpHeaders(const std::string& path, size_t fileSize)
 }
 string Get::pathIsFile(string matchLocation)
 {
-    this->filePath = matchLocation;
+    this->client.filePath = matchLocation;
     
     // Get file size using stat
     struct stat fileStat;
@@ -188,28 +187,28 @@ string Get::pathIsFile(string matchLocation)
     // Check if file is larger than 1MB, use chunked sending
     if(fileStat.st_size > 1024*1024)
     {
-        if(this->SendHeader == true)
+        if(this->client.SendHeader == true)
           std::cout <<"Headers already sent for chunked response : true"<<std::endl;
         else
           std::cout <<"Sending headers for chunked response : false "<<std::endl;
         std::cout<<"im here in PathIsFile for chunked sending"<<std::endl;
         cout << "File size: " << fileStat.st_size << " bytes, using chunked sending" << endl;
-        if (chunkedSending == false)
+        if (client.intialized == false)
         {
-            this->chunkedSending = true;
-            this->chunkSize = 1024;
-            this->bytesSent = 0;
-            this->fileSize = fileStat.st_size;
-            this->fileFd = open(this->filePath.c_str(), O_RDONLY);
-            if (this->fileFd == -1) {
+            client.intialized = true;
+            client.chunkSize = 1024 ;
+            client.bytesSent = 0;
+            client.fileSize = fileStat.st_size;
+            client.fileFd = open(client.filePath.c_str(), O_RDONLY);
+            if (client.fileFd == -1) {
                 cerr << "Error opening file for chunked sending!" << endl;
                 return GenerateResErr(500) ;
             }
-            else 
-                return (setupChunkedSending(this->filePath));
+            else
+                return (setupChunkedSending(client.filePath));
             
         }
-        return (setupChunkedSending(this->filePath));
+        return (setupChunkedSending(client.filePath));
     }
     
     // For small files, read normally
@@ -258,10 +257,10 @@ string Get::handleDirectoryWithAutoIndex(string matchLocation)
 }
 string Get::MethodGet()
 {
-    if(this->uri.empty() ){
+    if(this->client.uri.empty() ){
         std::cerr << "Empty URI in GET method" << std::endl;
         return (GenerateResErr(400));}
-    string matchedLocation = matchLocation(this->uri , this->mutableConfig);
+    string matchedLocation = matchLocation(this->client.uri , this->client.mutableConfig);
     if(!this->pathExists(matchedLocation))
     {
         string finalResponce = GenerateResErr(404);
@@ -269,9 +268,9 @@ string Get::MethodGet()
     }
     bool found = false ;
     LocationStruct locationMatched;
-    for(size_t i = 0; i < this->mutableConfig.location.size(); i++)
+    for(size_t i = 0; i < this->client.mutableConfig.location.size(); i++)
     {
-        locationMatched = this->mutableConfig.location[i].second;
+        locationMatched = this->client.mutableConfig.location[i].second;
         found = true ;
         break ;
     }
@@ -298,47 +297,49 @@ string Get::MethodGet()
 string Get::setupChunkedSending(const std::string& filePath)
 {
     std::cout<<"Setting up chunked sending for file: " << filePath << std::endl;
-    std::cout<<" this->SendHeader : "<< this->SendHeader << std::endl;
-    if( this->SendHeader == false)
+    std::cout<<" this->client.SendHeader : "<< this->client.SendHeader << std::endl;
+    if( this->client.SendHeader == false)
     {
+        std::cout<<"000000000000000000010\n";
         std::cout<<"Sending headers for chunked response"<<std::endl;
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
             return GenerateResErr(500);
         }
-        this->fileSize = s.st_size;
+        this->client.fileSize = s.st_size;
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         // oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
-        this->response += oss.str();
-        this->SendHeader = true; // Ensure headers are sent only once
-        std::cout <<" 2222222222222heder sent  : "<< this->SendHeader << std::endl;
+        this->client.response += oss.str();
+        this->client.SendHeader = true; // Ensure headers are sent only once
+        std::cout <<" 2222222222222heder sent  : "<< this->client.SendHeader << std::endl;
     }
     else
     {
+        std::cout<<"000000000000000000020\n";
         std::cout<<"Continuing chunked sending for file: " << filePath << std::endl;
-        char buffer[this->chunkSize + 1];
-        ssize_t bytesRead = read(this->fileFd, buffer, this->chunkSize);
+        char buffer[this->client.chunkSize + 1];
+        ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
-            close(this->fileFd);
+            close(this->client.fileFd);
             return GenerateResErr(500);
         } else if (bytesRead == 0) {
             // End of file reached, send final chunk
-            this->response += "0\r\n\r\n";
-            close(this->fileFd);
-            this->chunkedSending = false; // Finished sending
+            this->client.response += "0\r\n\r\n";
+            close(this->client.fileFd);
+            this->client.chunkedSending = false; // Finished sending
         } else {
             buffer[bytesRead] = '\0';
             std::ostringstream oss;
             oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
             oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
-            this->response += oss.str();
-            this->bytesSent += bytesRead;
+            this->client.response += oss.str();
+            this->client.bytesSent += bytesRead;
         }
     }
-    return this->response;
+    return this->client.response;
 }
 
 void Get::printLocationStruct(const LocationStruct& loc)

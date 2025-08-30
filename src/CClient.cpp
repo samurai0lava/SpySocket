@@ -34,31 +34,43 @@ void CClient::printInfo() const {
 
     std::cout << "=======================" << std::endl;
 }
-string CClient::setupChunkedSending(const std::string & filePath)
-{
-     std::cout << "Setting up chunked sending for file: " << filePath << std::endl;
+// string CClient::setupChunkedSending(const std::string & filePath)
+// {
+//     //  std::cout << "Setting up chunked sending for file: " << filePath << std::endl;
    
-        char buffer[this->chunkSize + 1];
-        ssize_t bytesRead = read(this->fileFd, buffer, this->chunkSize);
-        if (bytesRead == -1) {
-            cerr << "Error reading file for chunked sending!" << endl;
-            close(this->fileFd);
-            return GenerateResErr(500);
-        } else if (bytesRead == 0) {
-            // End of file reached, send final chunk
-            this->response += "0\r\n\r\n";
-            close(this->fileFd);
-            this->chunkedSending = false; // Finished sending
-        } else {
-            buffer[bytesRead] = '\0';
-            std::ostringstream oss;
-            oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
-            oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
-            this->response += oss.str();
-            this->bytesSent += bytesRead;
-        }
-    return this->response;
-}
+//     //     char buffer[this->chunkSize + 1];
+//     //     ssize_t bytesRead = read(this->fileFd, buffer, this->chunkSize);
+//     //     if (bytesRead == -1) {
+//     //         cerr << "Error reading file for chunked sending!" << endl;
+//     //         close(this->fileFd);
+//     //         return GenerateResErr(500);
+//     //     } else if (bytesRead == 0) {
+//     //         // End of file reached, send final chunk
+//     //         this->response += "0\r\n\r\n";
+//     //         close(this->fileFd);
+//     //         this->chunkedSending = false; // Finished sending
+//     //     } else {
+//     //         buffer[bytesRead] = '\0';
+//     //         std::ostringstream oss;
+//     //         oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
+//     //         oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
+//     //         this->response += oss.str();
+//     //         this->bytesSent += bytesRead;
+//     //     }
+//     std::cout<<"9999999999999999999999999\n";
+//     ifstream file(filePath.c_str(),std::ios::in | std::ios::binary);
+
+//     stringstream buffer;
+//     buffer << file.rdbuf();
+//     file.close();
+//     ostringstream response;
+//     // response<<"HTTP/1.1 200 OK \r\n";
+//     // response<<"Content-type: "<<"image/jpeg\r\n";
+//     response<<"Content-length: "<<buffer.str().size()<<"\r\n\r\n";
+//     response<<buffer.str();
+
+//     return response.str();
+// }
 
 string CClient::HandleAllMethod()
 {
@@ -68,14 +80,8 @@ string CClient::HandleAllMethod()
         std::cout << "true : "<<true<<std::endl;
         std::cout << "false : "<<false<<std::endl;
         std::cout << "Client Data in SendHeader:"  <<this->SendHeader << std::endl;
-        // std::cout<<"\n\n";
-        // std::cout<<" config root : "<< this->mutableConfig.root << std::endl;
-        // std::cout<<" config indexPage : "<< this->mutableConfig.indexPage << std::endl;
-        // std::cout<<"location size : "<< this->mutableConfig.location.size() << std::endl;
          Get _MGet (*this);
          try {
-                std::cout << "Handling GET method for URI: " << this->uri << std::endl;
-                std::cout << "00000000000001Client Data in SendHeader before MethodGet:"  <<this->SendHeader << std::endl;
               return (_MGet.MethodGet()  );
          } catch (const std::runtime_error& e) {
               std::string errMsg = e.what();

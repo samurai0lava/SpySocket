@@ -28,12 +28,13 @@ class CClient
         size_t fileSize;
         off_t offset;
         int fileFd;
+        bool intialized;
         // bool               
         CClient ();
         CClient(string NameMethod,string uri,int FdClient,ConfigStruct MConfig,
             Servers serv,ParsingRequest *parser);
          ~CClient();
-        string setupChunkedSending(const std::string & filePath);
+        // string setupChunkedSending(const std::string & filePath);
         string HandleAllMethod();
         // std::string GenerateResErr(int errorCode);
         void printInfo() const;

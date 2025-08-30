@@ -3,19 +3,19 @@
 
 #include "webserv.hpp"
 #include "CClient.hpp"
-class Get : public CClient
+class Get 
 {
 
     private:
-    CClient& client;
+        CClient& client;
     public:
         Get();  
         Get(CClient& client);
         ~Get();
         void setupFromClient(const CClient& client) {
-        this->uri = client.uri;
-        this->mutableConfig = client.mutableConfig;
-        // copy anything else you need
+        this->client.uri = client.uri;
+        this->client.mutableConfig = client.mutableConfig;
+        //  anything else you need
     }
         std::string getMimeType(const std::string& path);
         std::string matchLocation(const std::string &requestPath, const ConfigStruct &server);

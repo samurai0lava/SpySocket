@@ -225,11 +225,18 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-                std::cout << "////////////Client on fd " << fd << " is ready to receive data.\n";
+                std::cout<<"fd : "<<client_data.FdClient << std::endl;
+                std::cout<<"Send Header : "<< client_data.SendHeader << std::endl;
+                std::cout<<"chunkedSending : "<< client_data.chunkedSending << std::endl;
+                std::cout <<"true : " <<true<<std::endl;
+                std::cout <<"false : " <<false<<std::endl;
                 c.response = client_data.HandleAllMethod();
-                std::cout<<"4444444444 sent :: "<<client_data.SendHeader <<std::endl;
+                std::cout<<"============================================="<<std::endl;
+                std::cout<<"fd : "<<client_data.FdClient << std::endl;
+                std::cout<<"Send Header : "<< client_data.SendHeader << std::endl;
+                std::cout<<"chunkedSending : "<< client_data.chunkedSending << std::endl;
+                std::cout<<"============================================="<<std::endl;
                 size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), 0);
-                std::cout << " i = "<< i<<"Sent " << bytes_sent << " bytes to client on fd " << fd << std::endl;
                 if (bytes_sent > 0)
                     c.response.erase(0, bytes_sent);
                 if (c.response.empty())
