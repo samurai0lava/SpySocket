@@ -185,7 +185,6 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    std::cout<<"00000000000000000000000000001212121\n";
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     handleMethod(fd, parser, config, serv,client_data);
@@ -225,18 +224,12 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-                std::cout<<"fd : "<<client_data.FdClient << std::endl;
-                std::cout<<"Send Header : "<< client_data.SendHeader << std::endl;
-                std::cout<<"chunkedSending : "<< client_data.chunkedSending << std::endl;
-                std::cout <<"true : " <<true<<std::endl;
-                std::cout <<"false : " <<false<<std::endl;
+               
                 c.response = client_data.HandleAllMethod();
-                std::cout<<"============================================="<<std::endl;
-                std::cout<<"fd : "<<client_data.FdClient << std::endl;
-                std::cout<<"Send Header : "<< client_data.SendHeader << std::endl;
-                std::cout<<"chunkedSending : "<< client_data.chunkedSending << std::endl;
-                std::cout<<"============================================="<<std::endl;
-                size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), 0);
+                size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
+                std::cout<<"response size : "<< c.response.size() << std::endl;
+                std::cout<<"byteSent : "<< client_data.bytesSent << std::endl;
+                std::cout<<"fileSize : "<< client_data.fileSize << std::endl;
                 if (bytes_sent > 0)
                     c.response.erase(0, bytes_sent);
                 if (c.response.empty())
@@ -250,12 +243,6 @@ void Servers::epollFds(Servers& serv)
                         ev.data.fd = fd;
                         epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                     }
-                    // else
-                    // {
-                    //     std::cout<<" setting up chunked sending for fd : "<< client_data.FdClient << " file path : "<< client_data.filePath <<std::endl;
-                    //     client_data.setupChunkedSending(client_data.filePath);
-                    //     std::cout<<"lool"<<std::endl;                
-                    // }
 
                 }
             }

@@ -77,9 +77,7 @@ string CClient::HandleAllMethod()
 
    if(this->NameMethod == "GET")
    {
-        std::cout << "true : "<<true<<std::endl;
-        std::cout << "false : "<<false<<std::endl;
-        std::cout << "Client Data in SendHeader:"  <<this->SendHeader << std::endl;
+        
          Get _MGet (*this);
          try {
               return (_MGet.MethodGet()  );

@@ -3,7 +3,6 @@
 
 void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& config,Servers &serv,CClient &client_data)
 {
-    std::cout <<"333333333333333333333333\n";
 
     std::string method = parser->getStartLine()["method"];
     std::string uri = parser->getStartLine()["uri"];

@@ -187,18 +187,15 @@ string Get::pathIsFile(string matchLocation)
     // Check if file is larger than 1MB, use chunked sending
     if(fileStat.st_size > 1024*1024)
     {
-        if(this->client.SendHeader == true)
-          std::cout <<"Headers already sent for chunked response : true"<<std::endl;
-        else
-          std::cout <<"Sending headers for chunked response : false "<<std::endl;
-        std::cout<<"im here in PathIsFile for chunked sending"<<std::endl;
-        cout << "File size: " << fileStat.st_size << " bytes, using chunked sending" << endl;
+       
         if (client.intialized == false)
         {
             client.intialized = true;
-            client.chunkSize = 1024 ;
+            client.chunkSize = 1024 * 8;
             client.bytesSent = 0;
             client.fileSize = fileStat.st_size;
+            client.chunkedSending = false;
+            client.SendHeader = false;
             client.fileFd = open(client.filePath.c_str(), O_RDONLY);
             if (client.fileFd == -1) {
                 cerr << "Error opening file for chunked sending!" << endl;
@@ -280,7 +277,6 @@ string Get::MethodGet()
         throw std::runtime_error("");
     }
     if(this->isFile(matchedLocation)){
-        std::cout<<"it's a file"<<std::endl;
         return(pathIsFile(matchedLocation));}
     else if(this->isDirectory(matchedLocation))
     {
@@ -296,12 +292,10 @@ string Get::MethodGet()
 
 string Get::setupChunkedSending(const std::string& filePath)
 {
-    std::cout<<"Setting up chunked sending for file: " << filePath << std::endl;
-    std::cout<<" this->client.SendHeader : "<< this->client.SendHeader << std::endl;
+    
     if( this->client.SendHeader == false)
     {
-        std::cout<<"000000000000000000010\n";
-        std::cout<<"Sending headers for chunked response"<<std::endl;
+        
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
             return GenerateResErr(500);
@@ -309,17 +303,15 @@ string Get::setupChunkedSending(const std::string& filePath)
         this->client.fileSize = s.st_size;
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
-        // oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
+        oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response += oss.str();
         this->client.SendHeader = true; // Ensure headers are sent only once
-        std::cout <<" 2222222222222heder sent  : "<< this->client.SendHeader << std::endl;
     }
     else
     {
-        std::cout<<"000000000000000000020\n";
-        std::cout<<"Continuing chunked sending for file: " << filePath << std::endl;
+        std::cout<<"setupChunkedSending called again\n";
         char buffer[this->client.chunkSize + 1];
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
@@ -329,13 +321,15 @@ string Get::setupChunkedSending(const std::string& filePath)
             // End of file reached, send final chunk
             this->client.response += "0\r\n\r\n";
             close(this->client.fileFd);
-            this->client.chunkedSending = false; // Finished sending
+            this->client.chunkedSending = true; // Finished sending
         } else {
-            buffer[bytesRead] = '\0';
+            // buffer[bytesRead] = '\0';
             std::ostringstream oss;
             oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
-            oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
-            this->client.response += oss.str();
+            // oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
+            oss.write(buffer, bytesRead);
+            oss << "\r\n";
+            this->client.response = oss.str();
             this->client.bytesSent += bytesRead;
         }
     }
