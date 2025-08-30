@@ -150,9 +150,12 @@ void Servers::epollFds(Servers& serv)
             if (events[i].events & EPOLLIN)
             {
                 memset(&serv.buffer, 0, READ_SIZE);
+                
+                //buffer length is always 1024???
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
-                // cout << serv.buffer;
+                // write(1, serv.buffer, serv.bufferLength);
+                // // cout << serv.buffer;
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 if (serv.bufferLength <= 0)
                 {
@@ -170,10 +173,9 @@ void Servers::epollFds(Servers& serv)
                     continue;
                 }
                 // body_file = unchunk_data(serv.buffer, serv.bufferLength);
+
                 // cout << "******************\n";
-                // cout <<
-                refactor_data(serv.buffer, serv.bufferLength) ;
-                // << endl;
+                // cout << refactor_data(serv.buffer, serv.bufferLength);
                 // cout << "********END**********\n";
 
                 // Get the parser for this specific client
@@ -193,7 +195,10 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    // printRequestInfo(*parser, fd);
+                    // buffer = refactor_data(buffer.data(), buffer.size());
+                    // cout << "****************\n";
+                    // write(1, buffer.data(), buffer.size());
+                    printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     c.response = handleMethod(fd, parser, config, serv); 
                     c.ready_to_respond = true;

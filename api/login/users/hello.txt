@@ -1,11 +1,7 @@
-hello this
-is
-another
-test
-for the chunks
+hello
+this is a test
+file called hello.txt
+to test chunks
 
-whoa that's a new
-line before lol
-byeee
-let's hope it'll work
+whoa a new line before
 

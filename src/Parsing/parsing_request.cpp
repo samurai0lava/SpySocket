@@ -592,6 +592,9 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 {
 	if (headers.find("transfer-encoding") != headers.end())
 	{
+		// cout << "***********\n";
+		// write(1, buffer.data(), buffer.length());
+		// cout << "***BUFFER_END***\n";
 		std::string transfer_encoding_value = headers.at("transfer-encoding");
 		transfer_encoding_exists = 1;
 		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")
@@ -641,11 +644,14 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	// cout << "DATA : " << data << endl;
-	buffer.append(data, len);
-
+	// buffer.append(data, len);
+	// cout << "*****BUFFER****\n";
+	// write(1, data, len);
+	// cout << "****BUFFER_ENF****\n";
+	refactor_data(buffer, data, len);
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
+		
 		switch (current_state)
 		{
 		case PARSE_START_LINE:

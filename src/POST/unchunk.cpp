@@ -147,75 +147,166 @@ string	unchunk_data(char *chunk, size_t chunk_size)
 	return (filename);
 }
 
-string	refactor_data(char *buffer, size_t buffer_size)
+// string	refactor_data(const char *buffer, size_t buffer_size)
+// {
+// 	string data(buffer, buffer_size);
+//     size_t start_line_end = data.find("\r\n");
+//     if(start_line_end == string::npos)
+//         return "error_400"; //malformed request
+//     // static int new_request;
+//     static string headers;
+//     static string res;
+// 	// static string body;
+
+	
+
+// 	if (data.substr(0, start_line_end).find("HTTP") != string::npos) //headers found
+// 	{
+//         cout << "NEW REQUEST!!!!!!\n";
+//         res = "";
+// 		size_t headers_end = data.find("\r\n\r\n");
+// 		if (headers_end == string::npos)
+// 			return ("error_400");
+//         headers = data.substr(0, headers_end + 4);
+// 		// cout << "--->HEADERS<---\n";
+// 		// cout << headers;
+// 		// cout << "DATA SIZE : " << data.length() << " HEADERS SIZE : " << headers.length() << endl;
+// 		// cout << "--><--\n";
+//         data = data.substr(headers_end + 4);
+// 		// cout << "****DATA****\n";
+// 		// write(1, data.data(), data.length());
+// 		// cout << "************\n";
+// 		buffer_size -= headers.length();
+// 		// cout << "BUFFER SIZE : " << buffer_size << endl;
+// 	}
+
+//     if(headers.find("Transfer-Encoding") != string::npos)
+//     {
+// 		// cout << "-*-*-*-CHUNKED-*-*-*-\n";
+//         int chars_to_read = 0;
+//         size_t eol;
+
+
+// 		// STEP 4: process chunks
+// 		while (buffer_size > 0)
+// 		{
+// 			// (a) find the CRLF that ends the size line
+// 			eol = data.find("\r\n");
+// 			if (eol == string::npos)
+// 				return ("error_400");
+// 			// (b) extract hex size and convert
+// 			chars_to_read = hex_to_dec(data.substr(0, eol));
+// 			// (c) advance past the size line + CRLF
+// 			data = data.substr(eol + 2);
+// 			buffer_size -= (eol + 2);
+// 			if (chars_to_read == 0)
+// 			{
+// 				// this is the terminating "0\r\n\r\n"
+// 				break ;
+// 			}
+// 			// (d) check we actually have enough bytes left
+// 			if (chars_to_read + 2 > (int)buffer_size)
+// 			{ // +2 for the trailing CRLF
+// 				return ("error_400");
+// 			}
+// 			// (e) add exactly `chars_to_read` bytes
+//             res += data.substr(0, chars_to_read);
+// 			// (f) advance past the data + trailing CRLF
+// 			data = data.substr(chars_to_read + 2);
+// 			buffer_size -= (chars_to_read + 2);
+// 		}
+//     }
+//     else
+// 	{
+// 		// cout << "-*-*-*-UNCHUNKED-*-*-*-\n";
+// 		//binary data comes separated
+// 		cout << "****RES****\n";
+// 		write(1, res.data(), res.length());
+// 		cout << "*****RES_END******\n";
+// 		res += buffer;
+// 		cout << "***RES+BUFFER***\n";
+// 		write(1, res.data(), res.length());
+// 		cout << "***RES+BUFFER_END***\n";
+//         return res;
+// 	}
+// 	//maybe there's \r\n after the 0 check this later
+//     return headers + res;
+// }
+
+
+
+void	refactor_data(string& buffer, const char* data, size_t len)
 {
-	string data(buffer, buffer_size);
-    size_t start_line_end = data.find("\r\n");
-    if(start_line_end == string::npos)
-        return "error_400"; //malformed request
-    // static int new_request;
-    string headers;
-    static string res;
-	if (data.substr(0, start_line_end).find("HTTP") != string::npos) //headers found
+	string data_recv(data, len);
+	cout << "***RECV****\n";
+	write(1, data_recv.data(), data_recv.length());
+	cout << "****RECV_END****\n";
+    size_t start_line_end = data_recv.find("\r\n");
+    static string headers;
+    string res;
+
+	cout << "LEN : " << len << endl;
+
+	if (data_recv.substr(0, start_line_end).find("HTTP") != string::npos) //headers found
 	{
         cout << "NEW REQUEST!!!!!!\n";
+		buffer = "";
         res = "";
-		size_t headers_end = data.find("\r\n\r\n");
-		if (headers_end == string::npos)
-			return ("error_400");
-        headers = data.substr(0, headers_end + 4);
-        // new_request = 1;
-        res += headers;
-        data = data.substr(headers_end + 4);
+		size_t headers_end = data_recv.find("\r\n\r\n");
+        headers = data_recv.substr(0, headers_end + 4);
+        data_recv = data_recv.substr(headers_end + 4);
+		len -= headers.length();
+		buffer.append(headers);
 	}
-    cout << "*******RES*******\n";
-    cout << res;
-    cout << "*******RES_END********\n";
 
-    if(res.find("Transfer-Encoding") != string::npos)
+	cout << "LEN : " << len << endl;
+
+	
+    if(headers.find("Transfer-Encoding") != string::npos)
     {
-        cout << "BUFFER SIZE BEFORE : " << buffer_size << endl;
-        buffer_size -= res.length();
-        cout << "BUFFER SIZE AFTER : " << buffer_size << endl;
-
-        int chars_to_read = 0;
+		int chars_to_read = 0;
         size_t eol;
-
-        cout << "*******DATA*******\n";
-        cout << data;
-        cout << "*******DATA_END********\n";
-
+		
+		
 		// STEP 4: process chunks
-		while (buffer_size > 0)
+		while (len > 0)
 		{
 			// (a) find the CRLF that ends the size line
-			eol = data.find("\r\n");
-			if (eol == string::npos)
-				return ("error_400");
+			eol = data_recv.find("\r\n");
 			// (b) extract hex size and convert
-			chars_to_read = hex_to_dec(data.substr(0, eol));
+			chars_to_read = hex_to_dec(data_recv.substr(0, eol));
 			// (c) advance past the size line + CRLF
-			data = data.substr(eol + 2);
-			buffer_size -= (eol + 2);
+			data_recv = data_recv.substr(eol + 2);
+			len -= (eol + 2);
 			if (chars_to_read == 0)
 			{
 				// this is the terminating "0\r\n\r\n"
 				break ;
 			}
 			// (d) check we actually have enough bytes left
-			if (chars_to_read + 2 > (int)buffer_size)
-			{ // +2 for the trailing CRLF
-				return ("error_400");
-			}
-			// (e) write exactly `chars_to_read` bytes
-			// file.write(data.data(), chars_to_read);
-            res += data.substr(0, chars_to_read);
+			
+			// (e) add exactly `chars_to_read` bytes
+            res += data_recv.substr(0, chars_to_read);
 			// (f) advance past the data + trailing CRLF
-			data = data.substr(chars_to_read + 2);
-			buffer_size -= (chars_to_read + 2);
+			cout << "CHARS TO READ : " << chars_to_read << endl;
+			cout << "DATA SIZE : " << data_recv.length() << endl;
+			data_recv = data_recv.substr(chars_to_read + 2);
+			// cout << "ALLOOOOOOOOOO\n";
+			len -= (chars_to_read + 2);
 		}
+		buffer.append(res);
     }
     else
-        return buffer;
-    return res;
+	{
+		// cout << "***RES_BEFORE***\n";
+		// write(1, res.data(), res.length());
+		res += data_recv;
+		// cout << "***RES_AFTER***\n";
+		// write(1, res.data(), res.length());
+		buffer.append(res);
+		// cout << "***BUFFER***\n";
+		// write(1, buffer.data(), buffer.length());
+		// cout << "****BUFFER_END****\n";
+	}
+	//maybe there's \r\n after the 0 check this later
 }
