@@ -281,6 +281,7 @@ void	refactor_data(string& buffer, const char* data, size_t len)
 			if (chars_to_read == 0)
 			{
 				// this is the terminating "0\r\n\r\n"
+				cout << "WwWWwwwWWWwwWWWWWWwwwWWwwwwwW\n";
 				break ;
 			}
 			// (d) check we actually have enough bytes left
