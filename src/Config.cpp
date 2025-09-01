@@ -55,7 +55,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 		}
 		if (buffer.length() > 0)
 		{
-			server.append(buffer, buffer.length());
+			server.append(buffer);//add length of buffer?
 			server.append("\n");
 		}
 	}

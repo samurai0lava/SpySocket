@@ -29,6 +29,9 @@ class CClient
         off_t offset;
         int fileFd;
         bool intialized;
+        bool checkSendResponse;
+        std::ifstream *file;
+        bool headerFirst;
         // bool               
         CClient ();
         CClient(string NameMethod,string uri,int FdClient,ConfigStruct MConfig,

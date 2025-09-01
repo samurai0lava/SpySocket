@@ -234,19 +234,17 @@ void Servers::epollFds(Servers& serv)
                }
                ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
                std::cout << "Sent " << bytes_sent << " bytes to fd " << fd << std::endl;
-                std::cout<<"response size : "<< c.response.size() << std::endl;
+            //     std::cout<<"response size : "<< c.response.size() << std::endl;
                std::cout<<"byteSent : "<< client_data.bytesSent << std::endl;
                std::cout<<"fileSize : "<< client_data.fileSize << std::endl;
                if (bytes_sent == -1) {
-                   if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                       // Socket not ready yet, try again later
-                       continue;
-                    }
-                    std::cerr << "Error sending response: " << strerror(errno) << std::endl;
+                  client_data.checkSendResponse = true;
+                // std::cerr << "Error sending response: " << strerror(errno) << std::endl;
                 }
                 if (bytes_sent > 0) 
                 {
-                    client_data.bytesSent += bytes_sent;
+                    if(client_data.headerFirst == true)
+                        client_data.bytesSent += bytes_sent;
                     c.response.erase(0, bytes_sent);
                 }
                 if (c.response.empty())
