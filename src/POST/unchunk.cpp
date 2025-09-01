@@ -238,14 +238,14 @@ string	unchunk_data(char *chunk, size_t chunk_size)
 void	refactor_data(string& buffer, const char* data, size_t len)
 {
 	string data_recv(data, len);
-	cout << "***RECV****\n";
+	// cout << "***RECV****\n";
 	write(1, data_recv.data(), data_recv.length());
-	cout << "****RECV_END****\n";
+	// cout << "****RECV_END****\n";
     size_t start_line_end = data_recv.find("\r\n");
     static string headers;
     string res;
 
-	cout << "LEN : " << len << endl;
+	// cout << "LEN : " << len << endl;
 
 	if (data_recv.substr(0, start_line_end).find("HTTP") != string::npos) //headers found
 	{
@@ -259,12 +259,12 @@ void	refactor_data(string& buffer, const char* data, size_t len)
 		buffer.append(headers);
 	}
 
-	cout << "LEN : " << len << endl;
+	// cout << "LEN : " << len << endl;
 
 	
     if(headers.find("Transfer-Encoding") != string::npos)
     {
-		int chars_to_read = 0;
+		size_t chars_to_read = 0;
         size_t eol;
 		
 		
@@ -284,12 +284,17 @@ void	refactor_data(string& buffer, const char* data, size_t len)
 				break ;
 			}
 			// (d) check we actually have enough bytes left
-			
+			// cout << "CHARS TO READ : " << chars_to_read << endl;
+			// cout << "DATA SIZE : " << data_recv.length() << endl;
+			if(chars_to_read > len)
+			{
+				cerr << "Not enough data sent!!\n";
+				return;
+			}
 			// (e) add exactly `chars_to_read` bytes
             res += data_recv.substr(0, chars_to_read);
 			// (f) advance past the data + trailing CRLF
-			cout << "CHARS TO READ : " << chars_to_read << endl;
-			cout << "DATA SIZE : " << data_recv.length() << endl;
+			
 			data_recv = data_recv.substr(chars_to_read + 2);
 			// cout << "ALLOOOOOOOOOO\n";
 			len -= (chars_to_read + 2);

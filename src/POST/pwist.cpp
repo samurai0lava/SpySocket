@@ -260,6 +260,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     {
         // cout << location.upload_path << endl;
         // std::cerr << "stat failed: " << strerror(errno) << "\n";
+        cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
         return internal_error();
     }
     std::fstream file(filename.c_str(), std::ios::out);

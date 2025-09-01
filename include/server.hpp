@@ -18,7 +18,7 @@
 #include <dirent.h>   // Required for DIR, opendir(), readdir(), closedir()
 #include <sys/stat.h> // Required for stat()
 #include <map>
-#define READ_SIZE 1024
+#define READ_SIZE 8000
 
 using namespace std;
 

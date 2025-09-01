@@ -644,10 +644,6 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	// buffer.append(data, len);
-	// cout << "*****BUFFER****\n";
-	// write(1, data, len);
-	// cout << "****BUFFER_ENF****\n";
 	refactor_data(buffer, data, len);
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
