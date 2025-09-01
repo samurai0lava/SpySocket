@@ -635,8 +635,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 {
 	// cout << "DATA : " << data << endl;
 	buffer.append(data, len);
-
-	buffer.append(data, len);
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		switch (current_state)

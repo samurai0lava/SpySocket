@@ -228,14 +228,27 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-               
-                c.response = client_data.HandleAllMethod();
-                size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
-                // std::cout<<"response size : "<< c.response.size() << std::endl;
-                // std::cout<<"byteSent : "<< client_data.bytesSent << std::endl;
-                // std::cout<<"fileSize : "<< client_data.fileSize << std::endl;
-                if (bytes_sent > 0)
+               if (c.response.empty() && client_data.chunkedSending == false) {
+                   // Build response only once (headers + first chunk)
+                   c.response = client_data.HandleAllMethod();
+               }
+               ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
+               std::cout << "Sent " << bytes_sent << " bytes to fd " << fd << std::endl;
+                std::cout<<"response size : "<< c.response.size() << std::endl;
+               std::cout<<"byteSent : "<< client_data.bytesSent << std::endl;
+               std::cout<<"fileSize : "<< client_data.fileSize << std::endl;
+               if (bytes_sent == -1) {
+                   if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                       // Socket not ready yet, try again later
+                       continue;
+                    }
+                    std::cerr << "Error sending response: " << strerror(errno) << std::endl;
+                }
+                if (bytes_sent > 0) 
+                {
+                    client_data.bytesSent += bytes_sent;
                     c.response.erase(0, bytes_sent);
+                }
                 if (c.response.empty())
                 {
                     c.ready_to_respond = false;
@@ -250,6 +263,7 @@ void Servers::epollFds(Servers& serv)
 
                 }
             }
+            //  epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
             // if(client_data.bytesSent < client_data.fileSize && client_data.chunkedSending)
             // {
             //     std::cout<<" setting up chunked sending for fd : "<< client_data.FdClient << " file path : "<< client_data.filePath <<std::endl;

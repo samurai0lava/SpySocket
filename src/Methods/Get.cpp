@@ -191,7 +191,7 @@ string Get::pathIsFile(string matchLocation)
         if (client.intialized == false)
         {
             client.intialized = true;
-            client.chunkSize = 1024 * 8;
+            client.chunkSize = 1024 ;
             client.bytesSent = 0;
             client.fileSize = fileStat.st_size;
             client.chunkedSending = false;
@@ -318,19 +318,16 @@ string Get::setupChunkedSending(const std::string& filePath)
             close(this->client.fileFd);
             return GenerateResErr(500);
         } else if (bytesRead == 0) {
-            // End of file reached, send final chunk
             this->client.response = "0\r\n\r\n";
             close(this->client.fileFd);
-            this->client.chunkedSending = true; // Finished sending
+            this->client.chunkedSending = true; 
         } else {
-            // buffer[bytesRead] = '\0';
             std::ostringstream oss;
-            oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
-            // oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
+            oss << std::hex << bytesRead << "\r\n"; 
             oss.write(buffer, bytesRead);
             oss << "\r\n";
             this->client.response = oss.str();
-            this->client.bytesSent += bytesRead;
+            // this->client.bytesSent += bytesRead;
         }
     }
     return this->client.response;
