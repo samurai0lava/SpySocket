@@ -644,7 +644,12 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
+	// cout << "***************\n";
+	// cout << "CHUNK SIZE : " << len << endl;
+	// write(1, data, len);
+	// cout << "******END******\n";
 	refactor_data(buffer, data, len);
+	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		

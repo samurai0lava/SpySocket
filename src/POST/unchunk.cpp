@@ -235,84 +235,159 @@ string	unchunk_data(char *chunk, size_t chunk_size)
 
 
 
-void	refactor_data(string& buffer, const char* data, size_t len)
-{
-	string data_recv(data, len);
-	// cout << "***RECV****\n";
-	write(1, data_recv.data(), data_recv.length());
-	// cout << "****RECV_END****\n";
-    size_t start_line_end = data_recv.find("\r\n");
-    static string headers;
-    string res;
+// void	refactor_data(string& buffer, const char* data, size_t len)
+// {
+// 	string data_recv(data, len);
+// 	// cout << "***RECV****\n";
+// 	// write(1, data_recv.data(), data_recv.length());
+// 	// cout << "****RECV_END****\n";
+//     size_t start_line_end = data_recv.find("\r\n");
+//     static string headers;
+//     string res;
 
-	// cout << "LEN : " << len << endl;
+// 	// cout << "LEN : " << len << endl;
 
-	if (data_recv.substr(0, start_line_end).find("HTTP") != string::npos) //headers found
-	{
-        cout << "NEW REQUEST!!!!!!\n";
-		buffer = "";
-        res = "";
-		size_t headers_end = data_recv.find("\r\n\r\n");
-        headers = data_recv.substr(0, headers_end + 4);
-        data_recv = data_recv.substr(headers_end + 4);
-		len -= headers.length();
-		buffer.append(headers);
-	}
+// 	if (data_recv.substr(0, start_line_end).find("HTTP") != string::npos) //headers found
+// 	{
+//         // cout << "NEW REQUEST!!!!!!\n";
+// 		buffer = "";
+//         res = "";
+// 		size_t headers_end = data_recv.find("\r\n\r\n");
+//         headers = data_recv.substr(0, headers_end + 4);
+//         data_recv = data_recv.substr(headers_end + 4);
+// 		len -= headers.length();
+// 		buffer.append(headers);
+// 	}
 
-	// cout << "LEN : " << len << endl;
+// 	// cout << "LEN : " << len << endl;
 
 	
-    if(headers.find("Transfer-Encoding") != string::npos)
-    {
-		size_t chars_to_read = 0;
-        size_t eol;
+//     if(headers.find("Transfer-Encoding") != string::npos)
+//     {
+// 		size_t chars_to_read = 0;
+//         size_t eol;
 		
 		
-		// STEP 4: process chunks
-		while (len > 0)
-		{
-			// (a) find the CRLF that ends the size line
-			eol = data_recv.find("\r\n");
-			// (b) extract hex size and convert
-			chars_to_read = hex_to_dec(data_recv.substr(0, eol));
-			// (c) advance past the size line + CRLF
-			data_recv = data_recv.substr(eol + 2);
-			len -= (eol + 2);
-			if (chars_to_read == 0)
-			{
-				// this is the terminating "0\r\n\r\n"
-				cout << "WwWWwwwWWWwwWWWWWWwwwWWwwwwwW\n";
-				break ;
-			}
-			// (d) check we actually have enough bytes left
-			// cout << "CHARS TO READ : " << chars_to_read << endl;
-			// cout << "DATA SIZE : " << data_recv.length() << endl;
-			if(chars_to_read > len)
-			{
-				cerr << "Not enough data sent!!\n";
-				return;
-			}
-			// (e) add exactly `chars_to_read` bytes
-            res += data_recv.substr(0, chars_to_read);
-			// (f) advance past the data + trailing CRLF
+// 		// STEP 4: process chunks
+// 		while (len > 0)
+// 		{
+// 			// (a) find the CRLF that ends the size line
+// 			eol = data_recv.find("\r\n");
+// 			// (b) extract hex size and convert
+// 			cout << "--> HEX STRINGGED : " << data_recv.substr(0, eol) << " <--\n";
+// 			chars_to_read = hex_to_dec(data_recv.substr(0, eol));
+// 			// (c) advance past the size line + CRLF
+// 			data_recv = data_recv.substr(eol + 2);
+// 			len -= (eol + 2);
+// 			if (chars_to_read == 0)
+// 			{
+// 				// this is the terminating "0\r\n\r\n"
+// 				cout << "WwWWwwwWWWwwWWWWWWwwwWWwwwwwW\n";
+// 				break ;
+// 			}
+// 			// (d) check we actually have enough bytes left
+// 			// cout << "CHARS TO READ : " << chars_to_read << endl;
+// 			// cout << "DATA SIZE : " << data_recv.length() << endl;
+// 			if(chars_to_read > len)
+// 			{
+// 				cout << "LEN : " << len << " CHARS_TO_READ : " << chars_to_read << endl;
+// 				cerr << "Not enough data sent!!\n";
+// 				return;
+// 			}
+// 			// (e) add exactly `chars_to_read` bytes
+//             res += data_recv.substr(0, chars_to_read);
+// 			// (f) advance past the data + trailing CRLF
 			
-			data_recv = data_recv.substr(chars_to_read + 2);
-			// cout << "ALLOOOOOOOOOO\n";
-			len -= (chars_to_read + 2);
-		}
-		buffer.append(res);
+// 			data_recv = data_recv.substr(chars_to_read + 2);
+// 			// cout << "ALLOOOOOOOOOO\n";
+// 			len -= (chars_to_read + 2);
+// 		}
+// 		buffer.append(res);
+//     }
+//     else
+// 	{
+// 		// cout << "***RES_BEFORE***\n";
+// 		// write(1, res.data(), res.length());
+// 		res += data_recv;
+// 		// cout << "***RES_AFTER***\n";
+// 		// write(1, res.data(), res.length());
+// 		buffer.append(res);
+// 		// cout << "***BUFFER***\n";
+// 		// write(1, buffer.data(), buffer.length());
+// 		// cout << "****BUFFER_END****\n";
+// 	}
+// 	//maybe there's \r\n after the 0 check this later
+// }
+
+
+void refactor_data(std::string &buffer, const char *data, size_t len)
+{
+    static std::string headers;
+    static std::string chunk_buffer;
+    static size_t current_chunk_size = 0;
+    static bool reading_size = true;
+
+    // Append newly received data
+    chunk_buffer.append(data, len);
+
+    // Detect headers first (only once at the beginning)
+    if (headers.empty()) {
+        size_t headers_end = chunk_buffer.find("\r\n\r\n");
+        if (headers_end == std::string::npos)
+            return; // wait for full headers
+
+        headers = chunk_buffer.substr(0, headers_end + 4);
+        buffer.append(headers);
+        chunk_buffer.erase(0, headers_end + 4);
     }
-    else
-	{
-		// cout << "***RES_BEFORE***\n";
-		// write(1, res.data(), res.length());
-		res += data_recv;
-		// cout << "***RES_AFTER***\n";
-		// write(1, res.data(), res.length());
-		buffer.append(res);
-		// cout << "***BUFFER***\n";
-		// write(1, buffer.data(), buffer.length());
-		// cout << "****BUFFER_END****\n";
-	}
-	//maybe there's \r\n after the 0 check this later
+
+    // If Transfer-Encoding: chunked
+    if (headers.find("Transfer-Encoding") != std::string::npos) {
+        while (true) {
+            if (reading_size) {
+                size_t eol = chunk_buffer.find("\r\n");
+                if (eol == std::string::npos)
+                    return; // not enough data yet (still waiting for size line)
+
+                std::string hex_str = chunk_buffer.substr(0, eol);
+                current_chunk_size = hex_to_dec(hex_str);
+				cout << "CHUNK SIZE : " << current_chunk_size << endl;
+                chunk_buffer.erase(0, eol + 2); // remove size line
+                if (current_chunk_size == 0) {
+                    // End of chunks: expect "\r\n"
+                    size_t end_marker = chunk_buffer.find("\r\n");
+                    if (end_marker != std::string::npos)
+                        chunk_buffer.erase(0, end_marker + 2);
+
+                    // reset state for next request
+                    headers.clear();
+                    chunk_buffer.clear();
+                    current_chunk_size = 0;
+                    reading_size = true;
+                    return;
+                }
+                reading_size = false;
+            }
+
+            // Wait until we have the full chunk (data + CRLF)
+			cout << "CHUNK BUFFER SIZE : " << chunk_buffer.size() << endl;
+            if (chunk_buffer.size() < current_chunk_size + 2)
+                return; // not enough data yet
+
+            // Append chunk data to buffer
+
+            buffer.append(chunk_buffer, 0, current_chunk_size);
+
+            // Erase consumed bytes + trailing CRLF
+            chunk_buffer.erase(0, current_chunk_size + 2);
+
+            // Ready for next chunk size
+            reading_size = true;
+        }
+    }
+    else {
+        // Not chunked: just append directly
+        buffer.append(chunk_buffer);
+        chunk_buffer.clear();
+    }
 }

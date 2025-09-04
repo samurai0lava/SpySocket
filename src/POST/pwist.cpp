@@ -90,11 +90,13 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
+        cout << "!!!!!!!!!!!!!!!\n";
         return bad_request();
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
+        cout << "???????\n";
         return bad_request();
     }
     std::string body = request.substr(body_start + boundary.length() + 4, body_end - body_start - boundary.length() - 4);
@@ -118,7 +120,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         if (fn_end == std::string::npos)
         {
             //400 bad request
-            // cout << ":3333333333333333\n";
+            cout << ":3333333333333333\n";
             return bad_request();
         }
     }
@@ -134,6 +136,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     if (content_start == std::string::npos)
     {
         //400 bad request (need to check if an upload request can be bodyless)
+        cout << "AAAAAAAAAAAAAAAAAA\n";
         return bad_request();
     }
     content_start += 4; // Skip past the "\r\n\r\n"
@@ -163,7 +166,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     if (!file)
     {
         //500 internal
-        // cout << "DDDDDDDDDDDDDDDDDDD\n";
+        cout << "DDDDDDDDDDDDDDDDDDD\n";
         return internal_error();
     }
 
@@ -171,6 +174,8 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     if (!file)
     {
         //internal server error
+        cout << "CCCCCCCCCCCCCCCCCC\n";
+
         return internal_error();
     }
     file.close();
@@ -239,9 +244,17 @@ string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
 string main_response(LocationStruct &location, ParsingRequest &parser)
 {
     string body = parser.getBody();
-
-    string filename = generate_filename(parser.getHeaders()["content-type-value"] + "_", "");
-
+//here
+    string filename = "";
+    // string filename = generate_filename(parser.getHeaders()["content-type-value"] + "_", "");
+    if(parser.getHeaders()["content-type-value"].find("image") != string::npos)
+    {
+        filename = generate_filename("image_", ".png");
+    }
+    else
+    {
+        filename = generate_filename("file_", ".txt");
+    }
     struct stat st;
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
@@ -263,9 +276,12 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
         return internal_error();
     }
-    std::fstream file(filename.c_str(), std::ios::out);
+
+    std::fstream file(filename.c_str(), std::ios::binary | std::ios::out);
     if (!file)
     {
+        cout << "EEEEEEEEEEEEEEEEEEEEEEEEE\n";
+        cout << filename << endl;
         return internal_error();
     }
 
@@ -273,6 +289,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     if (!file)
     {
         //internal server error
+        cout  << "UUUUUUUUUUUUUUUUUUUUUUUUUUUU\n";
         return internal_error();
     }
     file.close();
