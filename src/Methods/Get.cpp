@@ -196,8 +196,6 @@ string Get::pathIsFile(string matchLocation)
             client.fileSize = fileStat.st_size;
             client.chunkedSending = false;
             client.SendHeader = false;
-
-            client.file = new std::ifstream(client.filePath.c_str(), std::ios::in | std::ios::binary);
             client.fileFd = open(client.filePath.c_str(), O_RDONLY);
             if (client.fileFd == -1) {
                 cerr << "Error opening file for chunked sending!" << endl;
@@ -313,27 +311,14 @@ string Get::setupChunkedSending(const std::string& filePath)
     }
     else
     {
-        client.headerFirst = true;
         // std::cout<<"setupChunkedSending called again\n";
         char buffer[this->client.chunkSize + 1];
-        // ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
-        if(this->client.checkSendResponse == true)
-        {
-            this->client.file->clear(); // Clear any error flags
-            this->client.file->seekg(this->client.bytesSent); // Move to the last
-            this->client.checkSendResponse = false;
-        }
-        client.file->read(buffer, this->client.chunkSize);
-        ssize_t bytesRead = client.file->gcount();
+        ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
-            client.file->close();
-            delete client.file;
             return GenerateResErr(500);
         } else if (bytesRead == 0) {
             this->client.response = "0\r\n\r\n";
-             client.file->close();
-            delete client.file;
             close(this->client.fileFd);
             this->client.chunkedSending = true; 
         } else {
