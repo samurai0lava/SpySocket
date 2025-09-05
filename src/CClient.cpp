@@ -92,10 +92,14 @@ string CClient::HandleAllMethod()
               }
          }
    }
-   else if(this->NameMethod == "POST")
-   {}
-    else if(this->NameMethod == "DELETE")
-    {}
+   else if(this->NameMethod == "DELETE")
+   {
+    std::cout<<"DELETE METHOD HANDLER"<<std::endl;
+      DeleteMethode MDelete;
+       MDelete.PerformDelete(this->FdClient, this->uri, this->mutableConfig);
+   }
+  //  else if(this->NameMethod == "POST")
+  //  {}
     else
         return GenerateResErr(405); // Method Not Allowed
     return string();
