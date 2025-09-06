@@ -34,47 +34,10 @@ void CClient::printInfo() const {
 
     std::cout << "=======================" << std::endl;
 }
-// string CClient::setupChunkedSending(const std::string & filePath)
-// {
-//     //  std::cout << "Setting up chunked sending for file: " << filePath << std::endl;
-   
-//     //     char buffer[this->chunkSize + 1];
-//     //     ssize_t bytesRead = read(this->fileFd, buffer, this->chunkSize);
-//     //     if (bytesRead == -1) {
-//     //         cerr << "Error reading file for chunked sending!" << endl;
-//     //         close(this->fileFd);
-//     //         return GenerateResErr(500);
-//     //     } else if (bytesRead == 0) {
-//     //         // End of file reached, send final chunk
-//     //         this->response += "0\r\n\r\n";
-//     //         close(this->fileFd);
-//     //         this->chunkedSending = false; // Finished sending
-//     //     } else {
-//     //         buffer[bytesRead] = '\0';
-//     //         std::ostringstream oss;
-//     //         oss << std::hex << bytesRead << "\r\n"; // Chunk size in hex
-//     //         oss << std::string(buffer, bytesRead) << "\r\n"; // Chunk data
-//     //         this->response += oss.str();
-//     //         this->bytesSent += bytesRead;
-//     //     }
-//     std::cout<<"9999999999999999999999999\n";
-//     ifstream file(filePath.c_str(),std::ios::in | std::ios::binary);
 
-//     stringstream buffer;
-//     buffer << file.rdbuf();
-//     file.close();
-//     ostringstream response;
-//     // response<<"HTTP/1.1 200 OK \r\n";
-//     // response<<"Content-type: "<<"image/jpeg\r\n";
-//     response<<"Content-length: "<<buffer.str().size()<<"\r\n\r\n";
-//     response<<buffer.str();
-
-//     return response.str();
-// }
 
 string CClient::HandleAllMethod()
 {
-
    if(this->NameMethod == "GET")
    {
         
@@ -94,9 +57,8 @@ string CClient::HandleAllMethod()
    }
    else if(this->NameMethod == "DELETE")
    {
-    std::cout<<"DELETE METHOD HANDLER"<<std::endl;
-      DeleteMethode MDelete;
-       MDelete.PerformDelete(this->FdClient, this->uri, this->mutableConfig);
+        DeleteMethode MDelete;
+        return (MDelete.PerformDelete(this->uri, this->mutableConfig));
    }
   //  else if(this->NameMethod == "POST")
   //  {}

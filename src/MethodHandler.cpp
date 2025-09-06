@@ -8,28 +8,7 @@ void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& conf
     std::string uri = parser->getStartLine()["uri"];
     std::cout<<"Method : "<< method << std::endl;
     ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
-    if(method == "GET")
-    {
-        std::cout<<"GET METHOD HANDLER"<<std::endl;
-        client_data = CClient(method, uri,client_fd, mutableConfig, serv, parser);
-        client_data.SendHeader = false;
-    }
-    // client_data.printInfo();
-
-    // if(method == "GET")
-    // {
-
-    //     return ;
-    // }
-    // else if (method == "DELETE")
-    // {
-    //     DeleteMethode MDelete;
-    //     MDelete.PerformDelete(client_fd, uri, mutableConfig);
-    // }
-    // else 
-    // if(method == "POST")
-    // {
-    //     return postMethod(uri, mutableConfig, *parser);
-    // }
+    client_data = CClient(method, uri,client_fd, mutableConfig, serv, parser);
+    client_data.SendHeader = false;
     return ;
 }
