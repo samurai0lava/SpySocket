@@ -30,6 +30,7 @@ class Get
         std::string MethodGet();
         string setupChunkedSending(const std::string  & filePath);
         void printLocationStruct(const LocationStruct &loc);
+        string buildRedirectResponse(int statusCode, const std::string &target);
 
 };
 

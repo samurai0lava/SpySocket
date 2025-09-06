@@ -1,5 +1,4 @@
 #include "../../inc/Get.hpp"
-// #include "Get.hpp"
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -276,6 +275,11 @@ string Get::MethodGet()
         std::cerr << "No exact match for location : "<< matchedLocation << std::endl;
         throw std::runtime_error("");
     }
+    if (!locationMatched._return.empty()) {
+        int statusCode = atoi(locationMatched._return[0].first.c_str());
+        std::string target = locationMatched._return[0].second;
+        return buildRedirectResponse(statusCode, target);
+    }
     if(this->isFile(matchedLocation)){
         return(pathIsFile(matchedLocation));}
     else if(this->isDirectory(matchedLocation))
@@ -354,4 +358,22 @@ void Get::printLocationStruct(const LocationStruct& loc)
     std::cout << "    upload_enabled: " << (loc.upload_enabled ? "true" : "false") << std::endl;
     std::cout << "    upload_path: " << loc.upload_path << std::endl;
     std::cout << "  }" << std::endl;
+}
+
+string Get::buildRedirectResponse(int statusCode, const std::string& target)
+{
+     std::ostringstream oss;
+
+    // Choose correct status message
+    std::string statusMessage = (statusCode == 301) ? "Moved Permanently" :
+                                (statusCode == 302) ? "Found" :
+                                (statusCode == 307) ? "Temporary Redirect" :
+                                "Redirect";
+
+    oss << "HTTP/1.1 " << statusCode << " " << statusMessage << "\r\n";
+    oss << "Location: " << target << "\r\n";
+    oss << "Content-Length: 0\r\n";
+    oss << "Connection: close\r\n\r\n";
+
+    return oss.str();
 }
