@@ -87,7 +87,8 @@ void Servers::epollFds(Servers& serv)
     }
     
     std::map<int, Client> clients;
-    CClient client_data;
+    // CClient client_data;
+    std::map<int, CClient> client_data_map;
     struct epoll_event events[10];
     std::map<int, ParsingRequest*> clientParsers;
     
@@ -145,6 +146,8 @@ void Servers::epollFds(Servers& serv)
                     tmp.ready_to_respond = false;
                     clients[client_fd] = tmp;
                     clientParsers[client_fd] = new ParsingRequest();
+                    client_data_map[client_fd] = CClient();
+                    client_data_map[client_fd].FdClient = client_fd;
                     std::cout << "New client connected on FD " << client_fd << std::endl;
                 }
                 continue;
@@ -191,7 +194,7 @@ void Servers::epollFds(Servers& serv)
                 {
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    handleMethod(fd, parser, config, serv,client_data);
+                    handleMethod(fd, parser, config, serv,client_data_map[fd]);
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;
@@ -224,9 +227,9 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-               if (c.response.empty() && client_data.chunkedSending == false) {
+               if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
                    // Build response only once (headers + first chunk)
-                   c.response = client_data.HandleAllMethod();
+                   c.response = client_data_map[fd].HandleAllMethod();
                }
                ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
                if (bytes_sent == -1) {
@@ -237,18 +240,19 @@ void Servers::epollFds(Servers& serv)
                 }
                 if (bytes_sent > 0) 
                 {
-                    client_data.bytesSent += bytes_sent;
+                    client_data_map[fd].bytesSent += bytes_sent;
                     c.response.erase(0, bytes_sent);
                 }
                 if (c.response.empty())
                 {
                     c.ready_to_respond = false;
-                    if(client_data.chunkedSending == true)
+                    if(client_data_map[fd].chunkedSending == true)
                     {
                         std::cout<<"Finished sending response to fd : "<< fd << std::endl;
                         epoll_event ev;
                         ev.events = EPOLLIN;//hadi nhydha ta nsali response 
                         ev.data.fd = fd;
+                        client_data_map.erase(fd); 
                         epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                     }
 

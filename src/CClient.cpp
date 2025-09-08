@@ -57,6 +57,7 @@ string CClient::HandleAllMethod()
    }
    else if(this->NameMethod == "DELETE")
    {
+        // std::cout << "DELETE method called for URI: " << this->uri << std::endl;
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
    }

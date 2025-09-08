@@ -286,12 +286,12 @@ string Get::MethodGet()
     {
         string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if(this->pathExists(indexPath) && this->isFile(indexPath))
-            return (this->handleDirectoryWithIndex(indexPath));
+            // return (this->handleDirectoryWithIndex(indexPath));
+            return(pathIsFile(indexPath));
         else if(locationMatched.autoIndex == true )
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
     }
     return (GenerateResErr(403));
-    //hello
 }
 
 
@@ -364,13 +364,10 @@ void Get::printLocationStruct(const LocationStruct& loc)
 string Get::buildRedirectResponse(int statusCode, const std::string& target)
 {
      std::ostringstream oss;
-
-    // Choose correct status message
     std::string statusMessage = (statusCode == 301) ? "Moved Permanently" :
                                 (statusCode == 302) ? "Found" :
                                 (statusCode == 307) ? "Temporary Redirect" :
                                 "Redirect";
-
     oss << "HTTP/1.1 " << statusCode << " " << statusMessage << "\r\n";
     oss << "Location: " << target << "\r\n";
     oss << "Content-Length: 0\r\n";
