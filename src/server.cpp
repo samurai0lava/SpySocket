@@ -153,6 +153,9 @@ void Servers::epollFds(Servers& serv)
                 
                 //READ_SIZE = 8000
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
+                // cout << "********************************************\n";
+                // write(1, serv.buffer, serv.bufferLength);
+                // cout << "***************END**************************\n";
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
@@ -189,9 +192,9 @@ void Servers::epollFds(Servers& serv)
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     c.response = handleMethod(fd, parser, config, serv); 
-                    cout << "********RESPONSE********\n";
-                    cout << c.response;
-                    cout << "********END_RESPONSE********\n";
+                    // cout << "********RESPONSE********\n";
+                    // cout << c.response;
+                    // cout << "********END_RESPONSE********\n";
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;

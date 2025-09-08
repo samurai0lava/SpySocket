@@ -460,7 +460,8 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
-			content_type_value != "image/png")
+			content_type_value != "image/png" && 
+			content_type_value != "video/mp4")
 		{
 			connection_status = 0;
 			error_code = 415;
@@ -645,7 +646,7 @@ bool ParsingRequest::parse_body()
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
 	// cout << "***************\n";
-	// cout << "CHUNK SIZE : " << len << endl;
+	// // cout << "CHUNK SIZE : " << len << endl;
 	// write(1, data, len);
 	// cout << "******END******\n";
 	refactor_data(buffer, data, len);
@@ -660,6 +661,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "STAAAAAAAAAAAAAAART\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_HEADERS;
@@ -670,6 +672,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
 			if (expected_body_length > 0)
@@ -683,6 +686,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "BOOOOOOOOOOOOOODY\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;

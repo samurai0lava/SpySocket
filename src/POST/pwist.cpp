@@ -251,6 +251,10 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     {
         filename = generate_filename("image_", ".png");
     }
+    else if(parser.getHeaders()["content-type-value"].find("video") != string::npos)
+    {
+        filename = generate_filename("video_", ".mp4");
+    }
     else
     {
         filename = generate_filename("file_", ".txt");
