@@ -52,6 +52,7 @@ class ParsingRequest
         int status_code; // Status code for the successful request
         std::string status_phrase; // Status phrase for the successful request
 
+        std::string boundary; //mandatory in upload POST
         // State machine 
         ParseState current_state;
         ParseResult result_p;

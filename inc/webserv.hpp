@@ -35,9 +35,13 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
+<<<<<<< HEAD
 #include "ft_time.hpp"
 #include "logs.hpp"
 
+=======
+#include "POST.hpp"
+>>>>>>> hepa
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -47,4 +51,9 @@
 
 
 
+<<<<<<< HEAD
 #endif
+=======
+
+#endif 
+>>>>>>> hepa

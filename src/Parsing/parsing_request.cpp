@@ -376,6 +376,51 @@ bool ParsingRequest::parse_headers()
 	return true;
 }
 
+
+// bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
+// {
+// 	if (headers.find("content-type") != headers.end())
+// 	{
+// 		std::string content_type = headers.at("content-type");
+// 		// cout << "-----> " << content_type << endl;
+// 		if (content_type.empty())
+// 		{
+// 			connection_status = 0;
+// 			current_state = PARSE_ERROR;
+// 			error_code = 400;
+// 			error_message = "Bad Request: Content-Type header cannot be empty";
+// 			logError(error_code, error_message);
+// 			return false;
+// 		}
+// 		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0 || content_type.find("multipart/") == 0)
+// 		{
+// 			if(content_type.find("multipart/") == 0)
+// 			{
+// 				boundary = content_type.substr(content_type.find(';') + 1);
+// 				if(boundary.empty())
+// 				{
+// 					logError(400, "Bad Request: No boundary found.");
+// 					return false;
+// 				}
+// 				cout << "----> " << boundary << endl;
+// 			}
+// 			return true;
+// 		}
+// 		else
+// 		{
+// 			connection_status = 0;
+// 			error_code = 415;
+// 			error_message = "Unsupported Media Type: Content-Type '" + content_type + "' is not supported";
+// 			current_state = PARSE_ERROR;
+// 			logError(error_code, error_message);
+// 			return false;
+// 		}
+// 	}
+// 	return true;
+// }
+
+
+
 bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("content-type") != headers.end())
@@ -463,7 +508,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter is required for multipart content types";
 				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
+				// access_error(error_code, error_message);
 				return false;
 			}
 			std::string boundary = content_type_directives["boundary"];
@@ -473,33 +518,30 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter cannot be empty for multipart content types";
 				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
+				// access_error(error_code, error_message);
 				return false;
 			}
 		}
-		//need to be changed to more convinion data struct like map
 		if (content_type_value != "text/html" && 
 			content_type_value != "text/plain" && 
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
-			content_type_value != "image/png" &&
-			content_type_value != "image/jpeg" &&
-			content_type_value != "image/gif" &&
-			content_type_value != "text/css" &&
-			content_type_value != "application/javascript"
-		)
+			content_type_value != "image/png" && 
+			content_type_value != "video/mp4")
 		{
 			connection_status = 0;
 			error_code = 415;
 			error_message = "Unsupported Media Type: Content-Type '" + content_type_value + "' is not supported";
 			current_state = PARSE_ERROR;
-			access_error(error_code, error_message);
+			// access_error(error_code, error_message);
 			return false;
 		}
 	}
 	return true;
 }
+
+
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& headers)
 {
@@ -618,6 +660,9 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 {
 	if (headers.find("transfer-encoding") != headers.end())
 	{
+		// cout << "***********\n";
+		// write(1, buffer.data(), buffer.length());
+		// cout << "***BUFFER_END***\n";
 		std::string transfer_encoding_value = headers.at("transfer-encoding");
 		transfer_encoding_exists = 1;
 		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")
@@ -650,6 +695,10 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
+	// cout << "xxxxxxxxxxxxxxxxx\n";
+	// cout << buffer << endl;
+	// cout << "xxxxxxxxxxxxxxxxx\n";
+
 	size_t available = buffer.length() - buffer_pos;
 	if (available < expected_body_length)
 		return false;
@@ -663,10 +712,15 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	buffer.append(data, len);
-
+	// cout << "***************\n";
+	// // cout << "CHUNK SIZE : " << len << endl;
+	// write(1, data, len);
+	// cout << "******END******\n";
+	refactor_data(buffer, data, len);
+	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
+		
 		switch (current_state)
 		{
 		case PARSE_START_LINE:
@@ -674,6 +728,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "STAAAAAAAAAAAAAAART\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_HEADERS;
@@ -684,6 +739,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
 			if (expected_body_length > 0)
@@ -697,6 +753,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "BOOOOOOOOOOOOOODY\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;
