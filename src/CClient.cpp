@@ -38,6 +38,7 @@ void CClient::printInfo() const {
 
 string CClient::HandleAllMethod()
 {
+  std::cout<<"HandleAllMethod called for Method: "<< this->NameMethod << " and URI: " << this->uri << std::endl;
    if(this->NameMethod == "GET")
    {
         
@@ -57,7 +58,6 @@ string CClient::HandleAllMethod()
    }
    else if(this->NameMethod == "DELETE")
    {
-        // std::cout << "DELETE method called for URI: " << this->uri << std::endl;
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
    }

@@ -227,27 +227,61 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-               if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
-                   // Build response only once (headers + first chunk)
-                   c.response = client_data_map[fd].HandleAllMethod();
-               }
-               ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
-               if (bytes_sent == -1) {
-                   if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                       // Socket not ready yet, try again later
-                       continue;
+                if(client_data_map[fd].NameMethod == "GET") 
+                {
+                    std::cout << "Ready to send response to fd : " << fd << std::endl;
+                    if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
+                    std::cout<<"****Building response for fd : "<< fd << std::endl;
+                        // Build response only once (headers + first chunk)
+                        c.response = client_data_map[fd].HandleAllMethod();
+                    }
+                    ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
+                    if (bytes_sent == -1) {
+                        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                            // Socket not ready yet, try again later
+                            continue;
+                        }
+                    }
+                    if (bytes_sent > 0) 
+                    {
+                        client_data_map[fd].bytesSent += bytes_sent;
+                        c.response.erase(0, bytes_sent);
+                    }
+                    if (c.response.empty())
+                    {
+                        c.ready_to_respond = false;
+                        if(client_data_map[fd].chunkedSending == true)
+                        {
+                            std::cout<<"Finished sending response to fd : "<< fd << std::endl;
+                            epoll_event ev;
+                            ev.events = EPOLLIN;//hadi nhydha ta nsali response 
+                            ev.data.fd = fd;
+                            client_data_map.erase(fd); 
+                            epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                        }
+
                     }
                 }
-                if (bytes_sent > 0) 
+                else if (client_data_map[fd].NameMethod == "DELETE")
                 {
-                    client_data_map[fd].bytesSent += bytes_sent;
-                    c.response.erase(0, bytes_sent);
-                }
-                if (c.response.empty())
-                {
-                    c.ready_to_respond = false;
-                    if(client_data_map[fd].chunkedSending == true)
+                    // std::cout << "Ready to send response to fd : " << fd << std::endl;
+                    if (c.response.empty()) 
+                        c.response = client_data_map[fd].HandleAllMethod();
+                    ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(),  MSG_NOSIGNAL);
+                    if (bytes_sent == -1) {
+                        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                            // Socket not ready yet, try again later
+                            continue;
+                        }
+                    }
+                    if (bytes_sent > 0) 
                     {
+                        client_data_map[fd].bytesSent += bytes_sent;
+                        c.response.erase(0, bytes_sent);
+                    }
+                    if (c.response.empty())
+                    {
+                        c.ready_to_respond = false;
                         std::cout<<"Finished sending response to fd : "<< fd << std::endl;
                         epoll_event ev;
                         ev.events = EPOLLIN;//hadi nhydha ta nsali response 
@@ -255,7 +289,6 @@ void Servers::epollFds(Servers& serv)
                         client_data_map.erase(fd); 
                         epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                     }
-
                 }
             }          
         }
