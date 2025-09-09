@@ -1,11 +1,11 @@
-#!bin/bash
+#!/bin/bash
 
 echo "Content-Type: text/html"
 echo ""
 
 echo "This is a simple BASH script running from CGI in our Webserv-42"
 echo "" 
-echo "Current time is $(data)"
+echo "Current time is $(date)"
 echo ""
 
 cat << EOF

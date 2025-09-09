@@ -16,13 +16,10 @@ void Servers::getServersFds(Config* configFile, Servers& serv)
             perror("socket creation failed");
             continue;
         }
-<<<<<<< HEAD
         
         // Set SO_REUSEADDR to avoi d "Address already in use" errors
-=======
 
         // Set SO_REUSEADDR to avoid "Address already in use" errors
->>>>>>> hepa
         int opt = 1;
         if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
             perror("setsockopt SO_REUSEADDR failed");
@@ -258,8 +255,4 @@ void Servers::epollFds(Servers& serv)
     clientParsers.clear();
 
     close(epollFd);
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> hepa

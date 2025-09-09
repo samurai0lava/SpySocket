@@ -11,15 +11,15 @@ string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& co
         Get MGet(client_fd,parser, mutableConfig, serv, uri);
         MGet.MethodGet();
     }
-    // else if (method == "DELETE")
-    // {
-        // DeleteMethode MDelete;
-        // MDelete.PerformDelete(client_fd, uri, mutableConfig);
-    // }
-    // else 
+    else if (method == "DELETE")
+    {
+        DeleteMethode MDelete;
+        MDelete.PerformDelete(uri, mutableConfig);
+    }
     if(method == "POST")
     {
         return postMethod(uri, mutableConfig, *parser);
     }
     return "";
+
 }

@@ -1,6 +1,5 @@
 CC = c++
 
-<<<<<<< HEAD
 FLAGS = -Wall -Wextra -Werror -std=c++98
 
 SRCS = src/main.cpp \
@@ -14,13 +13,12 @@ SRCS = src/main.cpp \
 	src/utils/RespondError.cpp\
 	src/Methods/DELETE.cpp\
 	src/utils/log_gen.cpp\
-	src/utils/ft_time.cpp
-=======
+	src/utils/ft_time.cpp\
+	src/POST/pwist.cpp src/POST/match_location.cpp src/POST/unchunk.cpp\
+	src/CGI/cgi.cpp src/CGI/cgi_utils.cpp
 FLAGS = -std=c++98 -Wall -Wextra -Werror -fsanitize=address -g3 
 
-SRCS = main.cpp src/Parsing/parsing_request.cpp src/Config.cpp src/server.cpp src/singleserver.cpp src/Parsing/utils/utils.cpp src/MethodHandler.cpp src/Methods/Get.cpp src/utils/RespondError.cpp src/Methods/DELETE.cpp \
-src/POST/pwist.cpp src/POST/match_location.cpp src/POST/unchunk.cpp
->>>>>>> hepa
+
 
 
 OBJDIR = obj
