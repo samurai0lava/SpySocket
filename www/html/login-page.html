@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="style.css" />
-    <title>Login</title>
-  </head>
-  <body>
-    <header>
-      <div class="back-button" onclick="window.location.href='index.html'"">
-        <img src="img/arrow_back.png" class="back-butt" />
-        <span class="Back-text">Back</span>
-      </div>
-    </header>
-    <div class="mountain-background">
-      <img
-        src="img/Vector-2.png"
-        alt="Mountain 2"
-        class="mountain mountain-2"
-      />
-      <img
-        src="img/Vector-1.png"
-        alt="Mountain 1"
-        class="mountain mountain-1"
-      />
-      <img src="img/Vector 4.png" class="mountain mountain-4" />
-      <img src="img/Vector 3.png" class="mountain mountain-3" />
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="style.css" />
+  <title>Login</title>
+</head>
+
+<body>
+  <header>
+    <div class="back-button" onclick="window.location.href='index.html'"">
+        <img src=" img/arrow_back.png" class="back-butt" />
+    <span class="Back-text">Back</span>
     </div>
-    <div class="bottom-blue-bar"></div>
-  </body>
+  </header>
+  <form action="action_page.php" method="post">
+
+    <div class="container">
+      <label for="uname"><b>Username</b></label>
+      <input type="text" placeholder="Enter Username" name="uname" required>
+
+      <label for="psw"><b>Password</b></label>
+      <input type="password" placeholder="Enter Password" name="psw" required>
+
+      <button type="submit">Login</button>
+    </div>
+
+  </form>
+  <div class="mountain-background">
+    <img src="img/Vector-2.png" alt="Mountain 2" class="mountain mountain-2" />
+    <img src="img/Vector-1.png" alt="Mountain 1" class="mountain mountain-1" />
+    <img src="img/Vector 4.png" class="mountain mountain-4" />
+    <img src="img/Vector 3.png" class="mountain mountain-3" />
+  </div>
+  <div class="bottom-blue-bar"></div>
+</body>
+
 </html>

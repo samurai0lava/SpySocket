@@ -466,3 +466,145 @@
 [2025-08-29 08:46:09] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
 [2025-08-29 08:46:09] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
 [2025-08-29 08:46:09] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Login.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img_avatar2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img_avatar2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Login.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /login-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Login.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
+[2025-09-09 19:36:13] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:142.0) gecko/20100101 firefox/142.0 keep-alive 
