@@ -29,6 +29,7 @@ class CClient
         off_t offset;
         int fileFd;
         bool intialized;
+        bool Chunked;
         // bool               
         CClient ();
         CClient(string NameMethod,string uri,int FdClient,ConfigStruct MConfig,

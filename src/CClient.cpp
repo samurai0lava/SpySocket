@@ -38,7 +38,6 @@ void CClient::printInfo() const {
 
 string CClient::HandleAllMethod()
 {
-  std::cout<<"HandleAllMethod called for Method: "<< this->NameMethod << " and URI: " << this->uri << std::endl;
    if(this->NameMethod == "GET")
    {
         

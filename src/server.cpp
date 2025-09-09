@@ -227,11 +227,10 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-                if(client_data_map[fd].NameMethod == "GET") 
+                if(client_data_map[fd].NameMethod == "GET" ) 
                 {
-                    std::cout << "Ready to send response to fd : " << fd << std::endl;
                     if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
-                    std::cout<<"****Building response for fd : "<< fd << std::endl;
+                    // std::cout<<"****Building response for fd : "<< fd << std::endl;
                         // Build response only once (headers + first chunk)
                         c.response = client_data_map[fd].HandleAllMethod();
                     }
@@ -262,7 +261,7 @@ void Servers::epollFds(Servers& serv)
 
                     }
                 }
-                else if (client_data_map[fd].NameMethod == "DELETE")
+                else 
                 {
                     // std::cout << "Ready to send response to fd : " << fd << std::endl;
                     if (c.response.empty()) 

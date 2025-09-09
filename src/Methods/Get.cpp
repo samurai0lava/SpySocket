@@ -195,6 +195,7 @@ string Get::pathIsFile(string matchLocation)
             client.fileSize = fileStat.st_size;
             client.chunkedSending = false;
             client.SendHeader = false;
+            client.Chunked = true;
             client.fileFd = open(client.filePath.c_str(), O_RDONLY);
             if (client.fileFd == -1) {
                 cerr << "Error opening file for chunked sending!" << endl;
