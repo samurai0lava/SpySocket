@@ -68,29 +68,40 @@ The CGI implementation follows a standard Unix process model with pipe-based com
 
 ## HTTP Cookies
 
-**So what is a HTTP cookie ?**
+A cookie is a small piece of data set by the server and stored by the browser. The browser automatically sends matching cookies back to the server on subsequent requests.
 
-Well its a small block of data created by the web server while a user is browsing a website.
+Common uses: session management (login state), personalization, and analytics/ads tracking.
 
-*Example Use: Session Management (login state) , Personalisation and Tracking (Ads and analytics)*
+Request/response flow (simplified):
 
+- Server response header: `Set-Cookie`
+- Later client request header: `Cookie`
 
- ```Responds: Set Cookie```
---------------------------------- > 
-**SERVER** -------------------- **CLIENT**
-		< ---------------------------------
-		 ```Request: Cookie```
+Set-Cookie format:
 
-***Set-Cookie (RESPONSE HEADER)***
-The Server sends to tell the browser "*Please Store this data , and send it back to me on future Requests*" 
-Set-Cookie format :
-```       Set-Cookie: <cookie-name>=<cookie_value>[;<attribute>=<value>]...```
+```
+Set-Cookie: <cookie-name>=<cookie-value>[; <attribute>=<value>]...
+```
 
-`<cookie-name> : The Identifier for the cookie`
-`<cookie_value> :  The data (string you want to store)`
-`[;<attribute>=<value>]... : Optional for controlling the scoop and lifetime and security`
+Where:
 
-Note : each Set-Cookie can only set one cookie and limited to 4096 bytes.
+- `<cookie-name>`: Identifier of the cookie
+- `<cookie-value>`: String value to store
+- Attributes (optional): scope, lifetime, and security controls
+
+Common attributes:
+
+- `Path=/app` – restricts which request paths send the cookie
+- `Domain=example.com` – enables subdomain sharing
+- `Max-Age=3600` or `Expires=Wed, 21 Oct 2015 07:28:00 GMT` – lifetime
+- `Secure` – send only over HTTPS
+- `HttpOnly` – inaccessible to JavaScript
+- `SameSite=Strict|Lax|None` – cross-site cookie policy (if `None`, must also set `Secure`)
+
+Notes:
+
+- Each `Set-Cookie` sets a single cookie. Multiple cookies require multiple headers.
+- Browsers typically limit each cookie to about 4096 bytes; total cookie limits vary by browser.
 
 
 

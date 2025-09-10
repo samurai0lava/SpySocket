@@ -1,16 +1,72 @@
 #include "../../inc/webserv.hpp"
 
 
-// NGINX-style incremental parsing implementation (like wtfffff)
+// NGINX-style incremental parsing implementation
+int parse_hex(const std::string& s)
+{
+	std::istringstream iss(s);
+	int n;
+	iss >> std::uppercase >> std::hex >> n;
+	return n;
+}
 
-bool ParsingRequest::checkURI(const std::string& uri)
+std::string url_Decode(const std::string& s)
+{
+	std::string result;
+	result.reserve(s.size());
+	for (std::size_t i = 0; i < s.size();) {
+		if (s[i] != '%') {
+			result.push_back(s[i]);
+			++i;
+		}
+		else {
+			result.push_back(parse_hex(s.substr(i + 1, 2)));
+			i += 3;
+		}
+	}
+	return result;
+}
+
+std::string normalizePath(const std::string& path)
+{
+	std::vector<std::string> stack;
+	std::istringstream iss(path);
+	std::string token;
+
+	while (std::getline(iss, token, '/')) {
+		if (token.empty() || token == ".") {
+			continue;
+		}
+		if (token == "..") {
+			if (!stack.empty()) {
+				stack.pop_back();
+			}
+		}
+		else {
+			stack.push_back(token);
+		}
+	}
+
+	std::string normalized = "/";
+	for (size_t i = 0; i < stack.size(); ++i) {
+		normalized += stack[i];
+		if (i + 1 < stack.size()) {
+			normalized += "/";
+		}
+	}
+	return normalized;
+}
+
+
+
+bool ParsingRequest::checkURI(std::string& uri)
 {
 	if (uri.empty())
 	{
 		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: URI cannot be empty";
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
@@ -19,7 +75,7 @@ bool ParsingRequest::checkURI(const std::string& uri)
 		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: URI must start with '/' - got: '" + uri + "'";
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
@@ -28,7 +84,7 @@ bool ParsingRequest::checkURI(const std::string& uri)
 		connection_status = 0;
 		error_code = 414;
 		error_message = "URI Too Long: URI exceeds 8000 characters";
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
@@ -40,7 +96,7 @@ bool ParsingRequest::checkURI(const std::string& uri)
 			connection_status = 0;
 			error_code = 400;
 			error_message = "Bad Request: URI contains invalid control characters";
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			current_state = PARSE_ERROR;
 			return false;
 		}
@@ -50,11 +106,12 @@ bool ParsingRequest::checkURI(const std::string& uri)
 			error_code = 400;
 			error_message = "Bad Request: URI contains unencoded spaces";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 	}
-
+	std::string decoded_uri = url_Decode(uri);
+	uri = normalizePath(decoded_uri);
 	return true;
 }
 bool ParsingRequest::checkVersion(const std::string& version)
@@ -64,7 +121,7 @@ bool ParsingRequest::checkVersion(const std::string& version)
 		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: HTTP version cannot be empty";
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
@@ -74,7 +131,7 @@ bool ParsingRequest::checkVersion(const std::string& version)
 		error_code = 400;
 		error_message = "Bad Request: Invalid HTTP version: '" + version + "'";
 		current_state = PARSE_ERROR;
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		return false;
 	}
 	return true;
@@ -87,7 +144,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 		error_code = 400;
 		error_message = "Bad Request: HTTP method cannot be empty";
 		current_state = PARSE_ERROR;
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		return false;
 	}
 
@@ -98,16 +155,16 @@ bool ParsingRequest::checkMethod(const std::string& method)
 		current_state = PARSE_ERROR;
 		result_p = PARSE_ERROR_501;
 
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		return false;
 	}
 	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
 	{
-		connection_status = 0;
+ 		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: Invalid HTTP method: '" + method + "'";
 		current_state = PARSE_ERROR;
-		logError(error_code, error_message);
+		access_error(error_code, error_message);
 		return false;
 	}
 	return true;
@@ -123,19 +180,19 @@ bool ParsingRequest::parse_start_line()
 	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
 	buffer_pos = crlf_pos + 2;
 
-	// Parse start line directly
 	std::istringstream ss(start_line_str);
 	std::string method, uri, version;
-
-	ss >> method >> uri >> version;
+	
+	std::getline(ss, method, ' ');
+	std::getline(ss, uri, ' ');
+	std::getline(ss, version, ' ');
+	
+	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
+		return false;
 
 	start_line["method"] = method;
 	start_line["uri"] = uri;
 	start_line["version"] = version;
-
-	// Validate method directly
-	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
-		return false;
 
 	return true;
 }
@@ -152,7 +209,7 @@ bool ParsingRequest::checkLocation(const std::map<std::string, std::string>& hea
 			error_code = 400;
 			error_message = "Bad Request: Location header cannot be empty";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		if (location[0] != '/')
@@ -161,7 +218,7 @@ bool ParsingRequest::checkLocation(const std::map<std::string, std::string>& hea
 			error_code = 400;
 			error_message = "Bad Request: Location header must start with '/' - got: '" + location + "'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		if (location.length() > 8000)
@@ -170,7 +227,7 @@ bool ParsingRequest::checkLocation(const std::map<std::string, std::string>& hea
 			error_code = 400;
 			error_message = "Bad Request: Location header too long (exceeds 8000 characters)";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		for (size_t i = 0; i < location.length(); ++i)
@@ -182,7 +239,7 @@ bool ParsingRequest::checkLocation(const std::map<std::string, std::string>& hea
 				error_code = 400;
 				error_message = "Bad Request: Location header contains invalid control characters";
 				current_state = PARSE_ERROR;
-				logError(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 			if (c == ' ')
@@ -191,7 +248,7 @@ bool ParsingRequest::checkLocation(const std::map<std::string, std::string>& hea
 				error_code = 400;
 				error_message = "Bad Request: Location header contains unencoded spaces";
 				current_state = PARSE_ERROR;
-				logError(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 		}
@@ -205,7 +262,9 @@ bool ParsingRequest::parse_headers()
 
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
+	{
 		return false;
+	}
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
 	buffer_pos = double_crlf + 4;
 
@@ -228,7 +287,7 @@ bool ParsingRequest::parse_headers()
 			error_code = 400;
 			error_message = "Bad Request: Invalid header format - no colon found in line: '" + line + "'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 
@@ -241,7 +300,7 @@ bool ParsingRequest::parse_headers()
 			error_code = 400;
 			error_message = "Bad Request: Invalid header name - trailing whitespace not allowed: '" + key + "'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		if (!key.empty() && (key[0] == ' ' || key[0] == '\t'))
@@ -250,7 +309,7 @@ bool ParsingRequest::parse_headers()
 			error_code = 400;
 			error_message = "Bad Request: Invalid header name - leading whitespace not allowed: '" + key + "'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 
@@ -267,7 +326,7 @@ bool ParsingRequest::parse_headers()
 				connection_status = 0;
 				error_code = 400;
 				error_message = "Bad Request: Invalid character in header name: '" + std::string(1, c) + "'";
-				logError(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 		}
@@ -277,7 +336,7 @@ bool ParsingRequest::parse_headers()
 			error_code = 400;
 			error_message = "Bad Request: Empty header name not allowed";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 
@@ -285,7 +344,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "content-length" || key == "transfer-encoding" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" ||key == "transfer-encoding" || key == "content-length" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
 			header_map[key] = value;
 	}
 
@@ -294,6 +353,14 @@ bool ParsingRequest::parse_headers()
 
 	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers))
 	{
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	if(content_lenght_exists == 1 && transfer_encoding_exists == 1)
+	{
+		error_code = 400;
+		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
@@ -365,7 +432,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			current_state = PARSE_ERROR;
 			error_code = 400;
 			error_message = "Bad Request: Content-Type header cannot be empty";
-			// access_error(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		
@@ -419,7 +486,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 					error_code = 415;
 					error_message = "Unsupported Media Type: Charset '" + charset + "' is not supported";
 					current_state = PARSE_ERROR;
-					// access_error(error_code, error_message);
+					access_error(error_code, error_message);
 					return false;
 				}
 			}
@@ -497,7 +564,7 @@ bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& h
 			error_code = 400;
 			error_message = "Bad Request: Invalid Connection header value - must be 'keep-alive' or 'close'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 	}
@@ -517,7 +584,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			error_code = 400;
 			error_message = "Bad Request: Content-Length header cannot be empty";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		for (size_t i = 0; i < content_length_str.length(); ++i)
@@ -528,7 +595,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 				error_code = 400;
 				error_message = "Bad Request: Content-Length header must be a valid integer - got: '" + content_length_str + "'";
 				current_state = PARSE_ERROR;
-				logError(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 		}
@@ -541,7 +608,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			error_code = 400;
 			error_message = "Bad Request: Content-Length header must be a valid integer - got: '" + content_length_str + "'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		if (content_length < 0)
@@ -550,7 +617,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			error_code = 400;
 			error_message = "Bad Request: Content-Length header cannot be negative - got: '" + content_length_str + "'";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		if(transfer_encoding_exists == 0)
@@ -561,7 +628,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 				error_code = 413;
 				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
 				current_state = PARSE_ERROR;
-				logError(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 		}
@@ -585,7 +652,7 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 	error_code = 400;
 	current_state = PARSE_ERROR;
 	error_message = "Bad Request: Host header is missing";
-	logError(error_code, error_message);
+	access_error(error_code, error_message);
 	return false;
 }
 
@@ -604,16 +671,16 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 			current_state = PARSE_ERROR;
 			result_p = PARSE_ERROR_501;
 			error_message = "Not Implemented: Transfer-Encoding '" + transfer_encoding_value + "' is not implemented by our webserver :(";
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 		else if (transfer_encoding_value != "chunked")
 		{
 			connection_status = 0;
 			error_code = 400;
-			error_message = "Bad Request: Invalid Transfer-Encoding header value - must be 'chunked'";
+			error_message = "Bad Request: Invalid Transfer-Encoding header value";
 			current_state = PARSE_ERROR;
-			logError(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 	}
@@ -649,8 +716,14 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	// // cout << "CHUNK SIZE : " << len << endl;
 	// write(1, data, len);
 	// cout << "******END******\n";
+<<<<<<< HEAD
 	refactor_data(buffer, data, len);
 	cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
+=======
+	buffer.append(data, len);	
+	// refactor_data(buffer, data, len);	
+	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
+>>>>>>> ilyass
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		

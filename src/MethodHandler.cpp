@@ -1,9 +1,12 @@
 #include "../inc/webserv.hpp"
+// #include "../inc/CClient.h"
 
-string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& config,Servers &serv)
+void handleMethod(int client_fd, ParsingRequest* parser, const ConfigStruct& config, Servers& serv, CClient& client_data)
 {
+
     std::string method = parser->getStartLine()["method"];
     std::string uri = parser->getStartLine()["uri"];
+<<<<<<< HEAD
     ConfigStruct &mutableConfig = const_cast<ConfigStruct&>(config);
 
     if(method == "GET")
@@ -22,4 +25,12 @@ string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& co
         return postMethod(uri, mutableConfig, *parser);
     }
     return "";
+=======
+    // std::cout<<"Method : "<< method << std::endl;
+    ConfigStruct& mutableConfig = const_cast<ConfigStruct&>(config);
+    client_data = CClient(method, uri, client_fd, mutableConfig, serv, parser);
+    client_data.SendHeader = false;
+    client_data.printInfo();
+    return;
+>>>>>>> ilyass
 }

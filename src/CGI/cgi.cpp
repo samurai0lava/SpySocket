@@ -183,7 +183,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         bool process_finished = wait_with_timeout(5);
         if (!process_finished)
         {
-            logError("CGI script timeout");
             error_code = 504;
             error_message = "Gateway Timeout";
             kill(cgi_pid, SIGKILL);
@@ -483,8 +482,6 @@ bool CGI::wait_with_timeout(int timeout_seconds)
             perror("waitpid failed");
             return false;
         }
-        
-        // Process still running
         struct timeval tv;
         tv.tv_sec = 0;
         tv.tv_usec = 100000; // 100ms
@@ -516,3 +513,7 @@ bool CGI::wait_with_timeout(int timeout_seconds)
 //     return true;
 // }
 
+void CGI::handleCGI(ParsingRequest *parser)
+{
+    (void)parser; // Avoid unused parameter warning
+}

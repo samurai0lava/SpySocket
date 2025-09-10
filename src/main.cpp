@@ -1,4 +1,4 @@
-#include "inc/webserv.hpp"
+#include "../inc/webserv.hpp"
 
 int main(int argc, char** argv)
 {
@@ -8,7 +8,7 @@ int main(int argc, char** argv)
     try
     {
         config->StartToSet(parseArgv(argc, argv));
-        config->printCluster();
+        // config->printCluster();
         Servers serv;
         serv.getServersFds(config, serv);
         serv.epollFds(serv);
@@ -21,3 +21,4 @@ int main(int argc, char** argv)
     }
     delete config;
 }
+

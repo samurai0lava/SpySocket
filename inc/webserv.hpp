@@ -1,7 +1,8 @@
 #ifndef WEBSERV_HPP
 # define WEBSERV_HPP
 
-
+#include "CClient.hpp"
+#include <unistd.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -35,6 +36,9 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
+#include "ft_time.hpp"
+#include "logs.hpp"
+
 #include "POST.hpp"
 
 #define RED "\033[31m"
@@ -45,5 +49,5 @@
 
 
 
+#endif
 
-#endif 
