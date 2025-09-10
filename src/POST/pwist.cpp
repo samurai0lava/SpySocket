@@ -260,6 +260,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         filename = generate_filename("file_", ".txt");
     }
     struct stat st;
+    cout << "UPLOAD_PATH : " << location.upload_path << endl;
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
         // it's a directory
@@ -313,13 +314,17 @@ string	postMethod(string uri, ConfigStruct config,
     string response = "";
     try
     {
+        cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
         
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
             response = handle_upload(location.second, parser);
         else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
+        {
+            cout << "ENTRAAAAAAAADO\n";
             response = handle_url_encoded(location.second, parser);
+        }
         else
             response = main_response(location.second, parser);
 

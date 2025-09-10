@@ -358,7 +358,7 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 				chunk_buffer.erase(0, eol + 2); // remove size line
 				if (current_chunk_size == 0)
 				{
-					cout << "///////////EEEEEEEEEEEEEEEEEEEEEEEEEND//////////////////\n";
+					// cout << "///////////EEEEEEEEEEEEEEEEEEEEEEEEEND//////////////////\n";
 					// End of chunks: expect "\r\n"
 					end_marker = chunk_buffer.find("\r\n");
 					if (end_marker != string::npos)
@@ -388,13 +388,18 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 		// Not chunked: just append directly
 		if(headers.find("Content-Length:") == string::npos)
 		{
-			// buffer = malformed_req;
-			return;
-		}
-		int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
-		buffer.append(chunk_buffer);
-		chunk_buffer.clear();
-		if(buffer.size() == content_length + headers.length())
+			//no body
+			buffer.append("");
 			headers.clear();
+		}
+		else
+		{
+			int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
+			// cout << "CONTENT LENGTH : " << content_length << endl;
+			buffer.append(chunk_buffer);
+			chunk_buffer.clear();
+			if(buffer.size() == content_length + headers.length())
+				headers.clear();
+		}
 	}
 }

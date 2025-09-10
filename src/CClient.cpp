@@ -17,6 +17,7 @@ CClient::CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConf
     response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false)
 
 {
+    cout << "PARSER CCLIENT : " << parser->getHeaders()["connection"] << endl;
 }
 
 CClient::~CClient()
@@ -44,6 +45,7 @@ void CClient::printInfo() const {
 
 string CClient::HandleAllMethod()
 {
+    cout << "PARSER METHOD : " << parser->getHeaders()["connection"] << endl;
     if (this->NameMethod == "GET")
     {
 
@@ -69,8 +71,11 @@ string CClient::HandleAllMethod()
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
     }
-    //  else if(this->NameMethod == "POST")
-    //  {}
+    else if(this->NameMethod == "POST")
+    {
+
+        return postMethod(this->uri, this->mutableConfig, *(this->parser));
+    }
     else
         return GenerateResErr(405); // Method Not Allowed
     return string();
