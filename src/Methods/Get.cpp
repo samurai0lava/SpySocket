@@ -49,132 +49,6 @@ void printLocationStruct(const LocationStruct& loc) {
 
     std::cout << "}" << std::endl;
 }
-<<<<<<< HEAD
-
-string Get::MethodGet()
-{
-    std::string matchedLocation = matchLocation(this->uri , this->config);
-    cout << "MATCHED LOC : " << matchedLocation << endl;
-    if (!this->pathExists(matchedLocation)) 
-    {
-        cout << "111111111111\n"; 
-        std::string finalResponse = GenerateResErr(404);
-        return finalResponse;
-        // return ;
-    }
-    // if (matchedLocation.empty()) 
-    // {
-    //     std::cout << "No matching location found.";
-    //     throw std::runtime_error("");
-    // }
-    bool found = false;
-    LocationStruct locationMatched;
-    for (size_t i = 0; i < this->config.location.size(); ++i) {
-        if (this->_name_location == this->config.location[i].first) {
-            locationMatched = this->config.location[i].second;
-            found = true;
-            break;
-        }
-    }
-    if (!found){ 
-        std::cerr << "No exact match for location: " << matchedLocation << std::endl;
-        throw std::runtime_error("");
-    };
-    if (!this->pathExists(matchedLocation)) 
-    {
-        cout << "2222222222\n";
-        std::string finalResponse = GenerateResErr(404);
-        // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return finalResponse;
-    }
-    if (this->isFile(matchedLocation)) 
-    {
-        cout << "FIIIIIIIIIIILE\n";
-        std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
-        if (!file.is_open())
-        {
-            std::string finalResponse = GenerateResErr(500);
-            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            // return ;
-        return finalResponse;
-
-        }
-        std::stringstream buffer;
-        buffer << file.rdbuf();
-        std::string fileContent = buffer.str();
-        file.close();
-        std::ostringstream response;
-        response << "HTTP/1.1 200 OK\r\n";
-        response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
-        // response << "Connection: close" << "\r\n";
-        response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
-        response << fileContent;
-        std::string finalResponse = response.str();
-        // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return finalResponse;
-        // return;
-    }
-    else if (this->isDirectory(matchedLocation)) 
-    {
-        std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
-        if (this->pathExists(indexPath) && this->isFile(indexPath)) 
-        {
-            std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
-            if (!file.is_open())
-            {
-                std::string finalResponse = GenerateResErr(500);
-                // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-                return finalResponse;
-            }
-            std::stringstream buffer;
-            buffer << file.rdbuf();
-            std::string fileContent = buffer.str();
-            file.close();
-
-            std::ostringstream response;
-            response << "HTTP/1.1 200 OK\r\n";
-            // response << "Content-Type: "<< this->getMimeType(matchedLocation)<<"\r\n";
-            response << "Content-Type: "<< "text/html"<<"\r\n";
-            // std::cout << "Serving file: " << matchedLocation << std::endl;
-            // std::cout << this->getMimeType(matchedLocation) << std::endl;
-            response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
-            response << fileContent;
-
-            std::string finalResponse = response.str();
-            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            // return;
-        return finalResponse;
-
-        }
-        else if (locationMatched.autoIndex == true ) 
-        {
-            std::string listing = this->generateAutoIndex(matchedLocation);
-            std::ostringstream response;
-            response << "HTTP/1.1 200 OK\r\n";
-            response << "Content-Type: " <<"text/html"<<"\r\n";
-            response << "Content-Length: " << listing.size() << "\r\n\r\n";
-            response << listing;
-
-            std::string finalResponse = response.str();
-            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            // return;
-        return finalResponse;
-
-        }
-        else 
-        {
-            std::string finalResponse = GenerateResErr(403);
-            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            // return ;
-            return finalResponse;
-
-        }
-    }
-    return "";
-}
-
-=======
->>>>>>> ilyass
 std::string Get::getMimeType(const std::string& path)
 {
     size_t dot = path.find_last_of(".");
@@ -349,7 +223,7 @@ string Get::pathIsFile(string matchLocation)
     ostringstream response;
     response << "HTTP/1.1 200 OK \r\n";
     response << "Content-type: " << this->getMimeType(matchLocation) << "\r\n";
-    std::cout << RED "Mime TYPPPE" RESET << getMimeType(matchLocation) << std::endl;
+    // std::cout << RED "Mime TYPPPE" RESET << getMimeType(matchLocation) << std::endl;
     response << "Content-length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
     return (response.str());
@@ -441,7 +315,7 @@ string Get::setupChunkedSending(const std::string& filePath)
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
-        std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
+        // std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();
