@@ -327,7 +327,6 @@ bool is_chunked_transfer_complete()
 	// Use a special call to query the status
 	string dummy_buffer;
 	refactor_data(dummy_buffer, NULL, (size_t)-1);
-	// The function will set buffer to "complete" or "incomplete"
 	return dummy_buffer == "complete";
 }
 
@@ -343,7 +342,7 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 	static string headers;
 	static string chunk_buffer;
 	
-	// Special case: if data is NULL and len is 0, reset static variables
+	// reset static variables
 	if (data == NULL && len == 0) {
 		current_chunk_size = 0;
 		reading_size = true;
@@ -353,27 +352,20 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 		return;
 	}
 	
-	// Special case: if data is NULL and len is (size_t)-1, query completion status
+	// query completion status
 	if (data == NULL && len == (size_t)-1) {
 		buffer = chunked_complete ? "complete" : "incomplete";
 		return;
 	}
-	
 	// Reset static variables if we detect start of a new request
-	// Check if this looks like the start of a new HTTP request
 	if (len > 0 && data[0] >= 'A' && data[0] <= 'Z' && headers.empty() && chunk_buffer.empty()) {
-		// Looks like start of new request (HTTP method starts with capital letter)
 		current_chunk_size = 0;
 		reading_size = true;
 		headers.clear();
 		chunk_buffer.clear();
 	}
 	
-	// Append newly received data
 	chunk_buffer.append(data, len);
-	// cout << "****BUFFER****\n";
-	// write(1, chunk_buffer.c_str(), chunk_buffer.length());
-	// cout << "****BUFFER_END****\n";
 
 	// Detect headers first only once at the beginning
 	if (headers.empty())
@@ -415,12 +407,8 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 					// Check if there's any remaining data that might be a new request
 					if (!chunk_buffer.empty()) {
 						cout << "=== LEFTOVER DATA AFTER CHUNKS (" << chunk_buffer.size() << " bytes) ===" << endl;
-						// There's leftover data - it might be the start of a new request
-						// Append it to the main buffer for the next request parsing
 						buffer.append(chunk_buffer);
 					}
-					
-					// reset state for next request
 					headers.clear();
 					chunk_buffer.clear();
 					current_chunk_size = 0;
@@ -429,45 +417,31 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 				}
 				reading_size = false;
 			}
-			// Wait until we have the full chunk (data + CRLF)
 			if (chunk_buffer.size() < current_chunk_size + 2)
 			{
 				cout << "=== WAITING FOR FULL CHUNK (" << chunk_buffer.size() << "/" << (current_chunk_size + 2) << ") ===" << endl;
-				return ; // not enough data yet
+				return ;
 			}
-			// Append chunk data to buffer
 			buffer.append(chunk_buffer, 0, current_chunk_size);
-			// Erase consumed bytes + trailing CRLF
 			chunk_buffer.erase(0, current_chunk_size + 2);
-			// Ready for next chunk size
 			reading_size = true;
 		}
 	}
 	else
 	{
-		cout << "=== PROCESSING NON-CHUNKED DATA ===" << endl;
-		// Not chunked or headers not complete yet: just append directly
+		//none chunked or headers not complete yet
 		buffer.append(chunk_buffer);
 		chunk_buffer.clear();
-		
-		// If we have complete headers and content-length, check if request is complete
 		if (!headers.empty() && headers.find("Content-Length:") != string::npos)
 		{
 			int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
-			cout << "=== NON-CHUNKED: Content-Length=" << content_length << ", buffer.size()=" << buffer.size() << ", headers.size()=" << headers.length() << " ===" << endl;
 			if(buffer.size() >= content_length + headers.length())
 			{
-				cout << "=== NON-CHUNKED REQUEST COMPLETE ===" << endl;
-				// Request is complete, reset state for next request
 				headers.clear();
 				chunk_buffer.clear();
 				current_chunk_size = 0;
 				reading_size = true;
 			}
-		}
-		else
-		{
-			cout << "=== NON-CHUNKED: Headers not complete or no Content-Length ===" << endl;
 		}
 	}
 }
