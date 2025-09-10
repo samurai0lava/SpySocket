@@ -16,8 +16,6 @@ void Servers::getServersFds(Config* configFile, Servers& serv)
             perror("socket creation failed");
             continue;
         }
-        
-        // Set SO_REUSEADDR to avoi d "Address already in use" errors
 
         // Set SO_REUSEADDR to avoid "Address already in use" errors
         int opt = 1;
@@ -33,7 +31,6 @@ void Servers::getServersFds(Config* configFile, Servers& serv)
         unsigned short port = *((*it).second.listen.begin());
         sockStruct.sin_port = htons(port); // check if the port is valid
 
-            
         if (bind(serverFd, (sockaddr*)&sockStruct, sizeof(sockStruct)) < 0) {
             perror("bind failed");
             close(serverFd);
@@ -68,7 +65,6 @@ void Servers::epollFds(Servers& serv)
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
         throw runtime_error("Error creating epoll!");
-
     struct epoll_event event;
     for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
     {
@@ -91,13 +87,21 @@ void Servers::epollFds(Servers& serv)
     }
 
     std::map<int, Client> clients;
+    // CClient client_data;
+    std::map<int, CClient> client_data_map;
     struct epoll_event events[10];
-    std::map<int, ParsingRequest*> clientParsers;  // Map client FD to parser instance
+    std::map<int, ParsingRequest*> clientParsers;
 
+    int i = -1;
 
     while (true)
     {
+        i++;
+        //epoll wait returns 2 fds that are ready when only one client is connected ???
         int ready_fds = epoll_wait(epollFd, events, 10, -1);
+
+        // std::cout << "READY FDS : " << ready_fds << std::endl;
+
         if (ready_fds == -1)
         {
             std::cerr << "Error occured in epoll wait!" << std::endl;
@@ -142,29 +146,27 @@ void Servers::epollFds(Servers& serv)
                     tmp.ready_to_respond = false;
                     clients[client_fd] = tmp;
                     clientParsers[client_fd] = new ParsingRequest();
+                    client_data_map[client_fd] = CClient();
+                    client_data_map[client_fd].FdClient = client_fd;
                     std::cout << "New client connected on FD " << client_fd << std::endl;
                 }
                 continue;
             }
 
             Client& c = clients[fd];
-            string body_file = "";
             if (events[i].events & EPOLLIN)
             {
-                memset(&serv.buffer, 0, READ_SIZE);
-                
-                //READ_SIZE = 8000
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
-                // cout << "********************************************\n";
-                // write(1, serv.buffer, serv.bufferLength);
-                // cout << "***************END**************************\n";
+                // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+                // cout << serv.buffer;
+                // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 if (serv.bufferLength <= 0)
                 {
                     if (serv.bufferLength == 0)
-                    std::cout << "Client disconnected.\n";
+                        std::cout << "Client disconnected.\n";
                     else
-                    cerr << "Error occured while reading sent data!\n";
-                    
+                        cerr << "Error occured while reading sent data!\n";
+
                     if (clientParsers.find(fd) != clientParsers.end())
                     {
                         delete clientParsers[fd];
@@ -173,7 +175,6 @@ void Servers::epollFds(Servers& serv)
                     close(fd);
                     continue;
                 }
-
                 // Get the parser for this specific client
                 ParsingRequest* parser = NULL;
                 if (clientParsers.find(fd) != clientParsers.end())
@@ -182,7 +183,6 @@ void Servers::epollFds(Servers& serv)
                 }
                 else
                 {
-                    access_error(500, "No parser found for client");
                     std::cerr << "No parser found for client FD " << fd << std::endl;
                     close(fd);
                     continue;
@@ -192,12 +192,9 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    // printRequestInfo(*parser, fd);
+                    printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    c.response = handleMethod(fd, parser, config, serv); 
-                    // cout << "********RESPONSE********\n";
-                    // cout << c.response;
-                    // cout << "********END_RESPONSE********\n";
+                    handleMethod(fd, parser, config, serv, client_data_map[fd]);
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;
@@ -230,20 +227,69 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
-                size_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), 0);
-                if (bytes_sent > 0)
-                    c.response.erase(0, bytes_sent);
-                if (c.response.empty())
+                if (client_data_map[fd].NameMethod == "GET")
                 {
-                    c.ready_to_respond = false;
-                    epoll_event ev;
-                    ev.events = EPOLLIN;
-                    ev.data.fd = fd;
-                    epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                    if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
+                        // std::cout<<"****Building response for fd : "<< fd << std::endl;
+                            // Build response only once (headers + first chunk)
+                        c.response = client_data_map[fd].HandleAllMethod();
+                    }
+                    ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
+                    if (bytes_sent == -1) {
+                        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                            // Socket not ready yet, try again later
+                            continue;
+                        }
+                    }
+                    if (bytes_sent > 0)
+                    {
+                        client_data_map[fd].bytesSent += bytes_sent;
+                        c.response.erase(0, bytes_sent);
+                    }
+                    if (c.response.empty())
+                    {
+                        c.ready_to_respond = false;
+                        if (client_data_map[fd].chunkedSending == true)
+                        {
+                            std::cout << "Finished sending response to fd : " << fd << std::endl;
+                            epoll_event ev;
+                            ev.events = EPOLLIN;//hadi nhydha ta nsali response 
+                            ev.data.fd = fd;
+                            client_data_map.erase(fd);
+                            epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                        }
+
+                    }
+                }
+                else
+                {
+                    // std::cout << "Ready to send response to fd : " << fd << std::endl;
+                    if (c.response.empty())
+                        c.response = client_data_map[fd].HandleAllMethod();
+                    ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
+                    if (bytes_sent == -1) {
+                        if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                            // Socket not ready yet, try again later
+                            continue;
+                        }
+                    }
+                    if (bytes_sent > 0)
+                    {
+                        client_data_map[fd].bytesSent += bytes_sent;
+                        c.response.erase(0, bytes_sent);
+                    }
+                    if (c.response.empty())
+                    {
+                        c.ready_to_respond = false;
+                        std::cout << "Finished sending response to fd : " << fd << std::endl;
+                        epoll_event ev;
+                        ev.events = EPOLLIN;//hadi nhydha ta nsali response 
+                        ev.data.fd = fd;
+                        client_data_map.erase(fd);
+                        epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                    }
                 }
             }
-
-
         }
     }
 

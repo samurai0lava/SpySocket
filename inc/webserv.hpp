@@ -1,6 +1,7 @@
 #ifndef WEBSERV_HPP
 # define WEBSERV_HPP
 
+#include "CClient.hpp"
 #include <unistd.h>
 #include <iostream>
 #include <string>
