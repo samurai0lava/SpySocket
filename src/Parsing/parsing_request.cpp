@@ -650,7 +650,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	// write(1, data, len);
 	// cout << "******END******\n";
 	refactor_data(buffer, data, len);
-	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
+	cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		

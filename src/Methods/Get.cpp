@@ -52,15 +52,16 @@ void printLocationStruct(const LocationStruct& loc) {
     std::cout << "}" << std::endl;
 }
 
-void Get::MethodGet()
+string Get::MethodGet()
 {
-   
     std::string matchedLocation = matchLocation(this->uri , this->config);
+    cout << "MATCHED LOC : " << matchedLocation << endl;
     if (!this->pathExists(matchedLocation)) 
     {
+        cout << "111111111111\n"; 
         std::string finalResponse = GenerateResErr(404);
-        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return ;
+        return finalResponse;
+        // return ;
     }
     // if (matchedLocation.empty()) 
     // {
@@ -82,18 +83,22 @@ void Get::MethodGet()
     };
     if (!this->pathExists(matchedLocation)) 
     {
+        cout << "2222222222\n";
         std::string finalResponse = GenerateResErr(404);
-        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return ;
+        // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        return finalResponse;
     }
     if (this->isFile(matchedLocation)) 
     {
+        cout << "FIIIIIIIIIIILE\n";
         std::ifstream file(matchedLocation.c_str(), std::ios::in | std::ios::binary);
         if (!file.is_open())
         {
             std::string finalResponse = GenerateResErr(500);
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return ;
+            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            // return ;
+        return finalResponse;
+
         }
         std::stringstream buffer;
         buffer << file.rdbuf();
@@ -102,11 +107,13 @@ void Get::MethodGet()
         std::ostringstream response;
         response << "HTTP/1.1 200 OK\r\n";
         response << "Content-Type: " << this->getMimeType(matchedLocation) << "\r\n";
+        // response << "Connection: close" << "\r\n";
         response << "Content-Length: " << fileContent.size() << "\r\n\r\n";
         response << fileContent;
         std::string finalResponse = response.str();
-        send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-        return;
+        // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+        return finalResponse;
+        // return;
     }
     else if (this->isDirectory(matchedLocation)) 
     {
@@ -117,8 +124,8 @@ void Get::MethodGet()
             if (!file.is_open())
             {
                 std::string finalResponse = GenerateResErr(500);
-                send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-                return ;
+                // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+                return finalResponse;
             }
             std::stringstream buffer;
             buffer << file.rdbuf();
@@ -135,8 +142,10 @@ void Get::MethodGet()
             response << fileContent;
 
             std::string finalResponse = response.str();
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return;
+            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            // return;
+        return finalResponse;
+
         }
         else if (locationMatched.autoIndex == true ) 
         {
@@ -148,16 +157,21 @@ void Get::MethodGet()
             response << listing;
 
             std::string finalResponse = response.str();
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return;
+            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            // return;
+        return finalResponse;
+
         }
         else 
         {
             std::string finalResponse = GenerateResErr(403);
-            send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
-            return ;
+            // send(this->client_fd, finalResponse.c_str(), finalResponse.length(), 0);
+            // return ;
+            return finalResponse;
+
         }
     }
+    return "";
 }
 
 std::string Get::getMimeType(const std::string& path)

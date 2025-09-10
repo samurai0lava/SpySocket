@@ -9,7 +9,7 @@ string handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& co
     if(method == "GET")
     {
         Get MGet(client_fd,parser, mutableConfig, serv, uri);
-        MGet.MethodGet();
+        return MGet.MethodGet();
     }
     // else if (method == "DELETE")
     // {

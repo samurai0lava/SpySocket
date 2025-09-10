@@ -18,7 +18,7 @@ class Get
         std::string uri;
         Get(int client_fd,ParsingRequest * parser,ConfigStruct &config,Servers &serv,std::string uri);
         ~Get();
-        void MethodGet();
+        string MethodGet();
         std::string getMimeType(const std::string& path);
         std::string matchLocation(const std::string &requestPath, const ConfigStruct &server);
         std::string generateAutoIndex(const std::string &directoryPath);

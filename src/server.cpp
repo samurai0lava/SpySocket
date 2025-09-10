@@ -192,9 +192,9 @@ void Servers::epollFds(Servers& serv)
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     c.response = handleMethod(fd, parser, config, serv); 
-                    // cout << "********RESPONSE********\n";
-                    // cout << c.response;
-                    // cout << "********END_RESPONSE********\n";
+                    cout << "********RESPONSE********\n";
+                    cout << c.response;
+                    cout << "********END_RESPONSE********\n";
                     c.ready_to_respond = true;
                     epoll_event ev;
                     ev.events = EPOLLOUT;
