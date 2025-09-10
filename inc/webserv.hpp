@@ -1,7 +1,6 @@
 #ifndef WEBSERV_HPP
 # define WEBSERV_HPP
 
-#include "CClient.hpp"
 #include <unistd.h>
 #include <iostream>
 #include <string>
@@ -9,11 +8,19 @@
 #include <map>
 #include <fstream>
 #include <sstream>
+#include <cstring>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <sstream>
 #include <algorithm>
 #include <cctype>
+#include <sys/wait.h>
+#include <signal.h>
+#include <ctime>
+#include <sys/stat.h>
+#include <fcntl.h>
+#include <errno.h>
+#include <sys/select.h>
+#include <sys/time.h>
 #include "Methods.hpp"
 #include "parsing_request.hpp"
 #include "../include/Config.hpp"
@@ -23,23 +30,12 @@
 #include "Get.hpp"
 #include "RespondError.hpp"
 #include "MethodHandler.hpp"
-#include "../inc/RespondError.hpp"
-#include "Get.hpp"
 #include "CGI.hpp"
 #include "Delete.hpp"
-#include <sys/wait.h>
-#include <unistd.h>
-#include <signal.h>
-#include <ctime>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <errno.h>
-#include <sys/select.h>
-#include <sys/time.h>
 #include "ft_time.hpp"
 #include "logs.hpp"
-
 #include "POST.hpp"
+#include "CClient.hpp"
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
