@@ -360,7 +360,7 @@ bool ParsingRequest::parse_headers()
 	{
 		error_code = 400;
 		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
-		access_error(error_code, error_message);
+	access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}

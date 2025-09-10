@@ -2,13 +2,19 @@
 #include "../inc/Get.hpp"
 // #include "CClient.hpp"
 // #include "../inc/RespondError.hpp"
-CClient::CClient()
+CClient::CClient() :
+    _name_location(""), NameMethod(""), uri(""), FdClient(-1), mutableConfig(), serv(), parser(NULL),
+    SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), 
+    chunkSize(0), bytesSent(0), response(""), filePath(""), fileSize(0), 
+    offset(0), fileFd(-1), intialized(false), Chunked(false)
 {
 
 }
 
 CClient::CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConfig, Servers serv, ParsingRequest* parser) :
-    NameMethod(NameMethod), uri(uri), FdClient(FdClient), mutableConfig(MConfig), serv(serv), parser(parser)
+    _name_location(""), NameMethod(NameMethod), uri(uri), FdClient(FdClient), mutableConfig(MConfig), serv(serv), parser(parser),
+    SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), chunkSize(0), bytesSent(0),
+    response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false)
 
 {
 }
