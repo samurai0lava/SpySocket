@@ -1026,3 +1026,229 @@ button:focus-visible {
     gap: 20px;
   }
 }
+
+/* EXPLORE PAGE STYLES */
+.explore-page {
+  min-height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.explore-page .hero-content {
+  justify-content: center;
+  max-width: 1000px;
+}
+
+.hero-center {
+  text-align: center;
+  width: 100%;
+}
+
+.explore-description {
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  margin: 0 auto 50px auto;
+  max-width: 600px;
+  font-family: "Roboto Mono", monospace;
+}
+
+.explore-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 30px;
+  margin-top: 40px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.explore-card {
+  background: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.explore-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+  border-color: #ff9a52;
+}
+
+.explore-card:hover .card-icon img {
+  transform: scale(1.1);
+}
+
+.card-icon {
+  width: 60px;
+  height: 60px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #ff9a52, #ffb366);
+  box-shadow: 0 4px 15px rgba(255, 154, 82, 0.3);
+}
+
+.card-icon img {
+  width: 30px;
+  height: 30px;
+  transition: transform 0.3s ease;
+  filter: brightness(0) invert(1);
+}
+
+.explore-card h3 {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 10px;
+  font-family: "Comfortaa", cursive;
+  font-weight: 700;
+}
+
+.explore-card p {
+  color: #666;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  font-family: "Roboto Mono", monospace;
+}
+
+.explore-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 154, 82, 0.1), transparent);
+  transition: left 0.5s;
+}
+
+.explore-card:hover::before {
+  left: 100%;
+}
+
+.explore-decorations {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  top: 0;
+  left: 0;
+}
+
+.explore-decorations .decoration-dot {
+  animation: fadeInUp 1s ease-out 1s forwards,
+    floatGentle 6s ease-in-out 2s infinite;
+}
+
+.explore-decorations .dot-1 {
+  top: 20%;
+  left: 10%;
+  background: #4a90e2;
+  width: 15px;
+  height: 15px;
+}
+
+.explore-decorations .dot-2 {
+  top: 60%;
+  right: 15%;
+  background: #ff9a52;
+  width: 20px;
+  height: 20px;
+  animation: fadeInUp 1s ease-out 1.2s forwards,
+    floatCircular 8s ease-in-out 2.2s infinite;
+}
+
+.explore-decorations .dot-3 {
+  bottom: 30%;
+  left: 20%;
+  background: #4a90e2;
+  width: 12px;
+  height: 12px;
+  animation: fadeInUp 1s ease-out 1.4s forwards,
+    floatFigure8 7s ease-in-out 2.4s infinite;
+}
+
+.explore-decorations .dot-4 {
+  top: 40%;
+  right: 25%;
+  background: #ff9a52;
+  width: 8px;
+  height: 8px;
+  animation: fadeInUp 1s ease-out 1.6s forwards,
+    floatGentle 5s ease-in-out 2.6s infinite reverse;
+}
+
+.explore-decorations .dot-5 {
+  bottom: 20%;
+  right: 10%;
+  background: #4a90e2;
+  width: 18px;
+  height: 18px;
+  animation: fadeInUp 1s ease-out 1.8s forwards,
+    floatCircular 9s ease-in-out 2.8s infinite reverse;
+}
+
+/* Responsive styles for explore page */
+@media screen and (max-width: 768px) {
+  .explore-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    margin-top: 30px;
+  }
+  
+  .explore-card {
+    padding: 25px 15px;
+  }
+  
+  .card-icon {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 15px;
+  }
+  
+  .card-icon img {
+    width: 25px;
+    height: 25px;
+  }
+  
+  .explore-card h3 {
+    font-size: 1.3rem;
+  }
+  
+  .explore-description {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .explore-grid {
+    margin-top: 20px;
+  }
+  
+  .explore-card {
+    padding: 20px 15px;
+  }
+  
+  .explore-card h3 {
+    font-size: 1.2rem;
+  }
+  
+  .explore-card p {
+    font-size: 0.9rem;
+  }
+  
+  .explore-description {
+    font-size: 0.9rem;
+    margin-bottom: 25px;
+  }
+}
