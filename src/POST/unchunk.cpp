@@ -315,16 +315,60 @@ string	unchunk_data(char *chunk, size_t chunk_size)
 // 	//maybe there's \r\n after the 0 check this later
 // }
 
+void reset_refactor_data_state()
+{
+	// Reset by calling refactor_data with a special reset marker
+	string dummy_buffer;
+	refactor_data(dummy_buffer, NULL, 0);
+}
+
+bool is_chunked_transfer_complete()
+{
+	// Use a special call to query the status
+	string dummy_buffer;
+	refactor_data(dummy_buffer, NULL, (size_t)-1);
+	// The function will set buffer to "complete" or "incomplete"
+	return dummy_buffer == "complete";
+}
+
 void	refactor_data(string &buffer, const char *data, size_t len)
 {
 	static size_t	current_chunk_size = 0;
 	static bool		reading_size = true;
+	static bool		chunked_complete = false;
 	size_t			headers_end;
 	size_t			eol;
 	size_t			end_marker;
 
 	static string headers;
 	static string chunk_buffer;
+	
+	// Special case: if data is NULL and len is 0, reset static variables
+	if (data == NULL && len == 0) {
+		current_chunk_size = 0;
+		reading_size = true;
+		chunked_complete = false;
+		headers.clear();
+		chunk_buffer.clear();
+		return;
+	}
+	
+	// Special case: if data is NULL and len is (size_t)-1, query completion status
+	if (data == NULL && len == (size_t)-1) {
+		buffer = chunked_complete ? "complete" : "incomplete";
+		return;
+	}
+	
+	// Reset static variables if we detect start of a new request
+	// Check if this looks like the start of a new HTTP request
+	if (len > 0 && data[0] >= 'A' && data[0] <= 'Z' && headers.empty() && chunk_buffer.empty()) {
+		// Looks like start of new request (HTTP method starts with capital letter)
+		current_chunk_size = 0;
+		reading_size = true;
+		headers.clear();
+		chunk_buffer.clear();
+	}
+	
 	// Append newly received data
 	chunk_buffer.append(data, len);
 	// cout << "****BUFFER****\n";
@@ -342,27 +386,40 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 		chunk_buffer.erase(0, headers_end + 4);
 	}
 
-	if (headers.find("Transfer-Encoding") != string::npos)
+	if (headers.find("Transfer-Encoding") != string::npos && headers.find("chunked") != string::npos)
 	{
-		// cout << 1111111111 << endl;
+		cout << "=== PROCESSING CHUNKED DATA ===" << endl;
 		while (true)
 		{
 			if (reading_size)
 			{
 				eol = chunk_buffer.find("\r\n");
 				if (eol == string::npos)
+				{
+					cout << "=== WAITING FOR CHUNK SIZE LINE ===" << endl;
 					return ; // not enough data yet still waiting for size line
+				}
 				string hex_str = chunk_buffer.substr(0, eol);
 				current_chunk_size = hex_to_dec(hex_str);
-				// cout << "CHUNK SIZE ------------------> " << current_chunk_size << endl;
+				cout << "CHUNK SIZE: " << current_chunk_size << " (hex: " << hex_str << ")" << endl;
 				chunk_buffer.erase(0, eol + 2); // remove size line
 				if (current_chunk_size == 0)
 				{
 					cout << "///////////EEEEEEEEEEEEEEEEEEEEEEEEEND//////////////////\n";
-					// End of chunks: expect "\r\n"
+					chunked_complete = true;
+					// End of chunks: expect final "\r\n"
 					end_marker = chunk_buffer.find("\r\n");
 					if (end_marker != string::npos)
 						chunk_buffer.erase(0, end_marker + 2);
+					
+					// Check if there's any remaining data that might be a new request
+					if (!chunk_buffer.empty()) {
+						cout << "=== LEFTOVER DATA AFTER CHUNKS (" << chunk_buffer.size() << " bytes) ===" << endl;
+						// There's leftover data - it might be the start of a new request
+						// Append it to the main buffer for the next request parsing
+						buffer.append(chunk_buffer);
+					}
+					
 					// reset state for next request
 					headers.clear();
 					chunk_buffer.clear();
@@ -374,7 +431,10 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 			}
 			// Wait until we have the full chunk (data + CRLF)
 			if (chunk_buffer.size() < current_chunk_size + 2)
+			{
+				cout << "=== WAITING FOR FULL CHUNK (" << chunk_buffer.size() << "/" << (current_chunk_size + 2) << ") ===" << endl;
 				return ; // not enough data yet
+			}
 			// Append chunk data to buffer
 			buffer.append(chunk_buffer, 0, current_chunk_size);
 			// Erase consumed bytes + trailing CRLF
@@ -385,16 +445,29 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 	}
 	else
 	{
-		// Not chunked: just append directly
-		if(headers.find("Content-Length:") == string::npos)
-		{
-			// buffer = malformed_req;
-			return;
-		}
-		int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
+		cout << "=== PROCESSING NON-CHUNKED DATA ===" << endl;
+		// Not chunked or headers not complete yet: just append directly
 		buffer.append(chunk_buffer);
 		chunk_buffer.clear();
-		if(buffer.size() == content_length + headers.length())
-			headers.clear();
+		
+		// If we have complete headers and content-length, check if request is complete
+		if (!headers.empty() && headers.find("Content-Length:") != string::npos)
+		{
+			int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
+			cout << "=== NON-CHUNKED: Content-Length=" << content_length << ", buffer.size()=" << buffer.size() << ", headers.size()=" << headers.length() << " ===" << endl;
+			if(buffer.size() >= content_length + headers.length())
+			{
+				cout << "=== NON-CHUNKED REQUEST COMPLETE ===" << endl;
+				// Request is complete, reset state for next request
+				headers.clear();
+				chunk_buffer.clear();
+				current_chunk_size = 0;
+				reading_size = true;
+			}
+		}
+		else
+		{
+			cout << "=== NON-CHUNKED: Headers not complete or no Content-Length ===" << endl;
+		}
 	}
 }

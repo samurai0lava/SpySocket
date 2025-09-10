@@ -699,13 +699,24 @@ bool ParsingRequest::parse_body()
 	// cout << buffer << endl;
 	// cout << "xxxxxxxxxxxxxxxxx\n";
 
-	size_t available = buffer.length() - buffer_pos;
-	if (available < expected_body_length)
-		return false;
-	body_content = buffer.substr(buffer_pos, expected_body_length);
-	buffer_pos += expected_body_length;
-
-	return true;
+	if (transfer_encoding_exists) {
+		// For chunked transfer encoding, check if transfer is complete
+		if (!is_chunked_transfer_complete()) {
+			cout << "=== CHUNKED TRANSFER NOT YET COMPLETE ===" << endl;
+			return false;
+		}
+		cout << "=== CHUNKED TRANSFER COMPLETE ===" << endl;
+		// For chunked, body_content is handled by refactor_data
+		return true;
+	} else {
+		// For Content-Length based bodies
+		size_t available = buffer.length() - buffer_pos;
+		if (available < expected_body_length)
+			return false;
+		body_content = buffer.substr(buffer_pos, expected_body_length);
+		buffer_pos += expected_body_length;
+		return true;
+	}
 }
 
 
@@ -716,8 +727,8 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	// // cout << "CHUNK SIZE : " << len << endl;
 	// write(1, data, len);
 	// cout << "******END******\n";
-	buffer.append(data, len);	
-	// refactor_data(buffer, data, len);	
+	// Use refactor_data to handle both chunked and regular data
+	refactor_data(buffer, data, len);	
 	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
@@ -743,7 +754,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
-			if (expected_body_length > 0)
+			if (expected_body_length > 0 || transfer_encoding_exists)
 				current_state = PARSE_BODY;
 			else
 				current_state = PARSE_COMPLETE;
@@ -800,6 +811,12 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 void ParsingRequest::reset()
 {
+    // If there's leftover data in buffer after current request, preserve it
+    std::string leftover_data;
+    if (buffer_pos < buffer.length()) {
+        leftover_data = buffer.substr(buffer_pos);
+    }
+    
     // Reset all state variables for a new request
     start_line.clear();
     headers.clear();
@@ -816,5 +833,13 @@ void ParsingRequest::reset()
     error_message.clear();
     status_code = 200;
     status_phrase.clear();
+    
+    // Restore any leftover data that might belong to the next request
+    if (!leftover_data.empty()) {
+        buffer = leftover_data;
+    }
+    
+    // Reset the static state in refactor_data function
+    reset_refactor_data_state();
 }
 	
