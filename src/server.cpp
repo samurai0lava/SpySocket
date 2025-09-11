@@ -219,7 +219,8 @@ void Servers::epollFds(Servers& serv)
                     ev.data.fd = fd;
                     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
 
-                    parser->reset();
+                    // Don't reset parser here - reset it after response is sent
+                    // parser->reset();
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)
                 {
@@ -299,6 +300,10 @@ void Servers::epollFds(Servers& serv)
                             // Reset client data for keep-alive instead of erasing
                             client_data_map[fd] = CClient();
                             client_data_map[fd].FdClient = fd;
+                            // Reset parser for next request on keep-alive connection
+                            if (clientParsers.find(fd) != clientParsers.end()) {
+                                clientParsers[fd]->reset();
+                            }
                             epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                         }
                         else
@@ -310,6 +315,10 @@ void Servers::epollFds(Servers& serv)
                             ev.data.fd = fd;
                             client_data_map[fd] = CClient();
                             client_data_map[fd].FdClient = fd;
+                            // Reset parser for next request on keep-alive connection
+                            if (clientParsers.find(fd) != clientParsers.end()) {
+                                clientParsers[fd]->reset();
+                            }
                             epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                         }
 
@@ -355,6 +364,10 @@ void Servers::epollFds(Servers& serv)
                         // Reset client data for keep-alive instead of erasing
                         client_data_map[fd] = CClient();
                         client_data_map[fd].FdClient = fd;
+                        // Reset parser for next request on keep-alive connection
+                        if (clientParsers.find(fd) != clientParsers.end()) {
+                            clientParsers[fd]->reset();
+                        }
                         epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                     }
                 }

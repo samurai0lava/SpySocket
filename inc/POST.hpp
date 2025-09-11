@@ -18,6 +18,10 @@ std::string generate_filename(string type, string termination);
 
 // string	refactor_data(const char *buffer, size_t buffer_size);
 
+// string	refactor_data(const char *buffer, size_t buffer_size);
+// void	refactor_data(string& buffer, const char* data, size_t len);
+void reset_refactor_data_state();
+bool is_chunked_transfer_complete();
 void	refactor_data(string& buffer, const char* data, size_t len);
 
 
