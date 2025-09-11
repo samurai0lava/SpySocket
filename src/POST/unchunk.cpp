@@ -429,23 +429,6 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 	}
 	else
 	{
-<<<<<<< HEAD
-		// Not chunked: just append directly
-		if(headers.find("Content-Length:") == string::npos)
-		{
-			//no body
-			buffer.append("");
-			headers.clear();
-		}
-		else
-		{
-			int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
-			// cout << "CONTENT LENGTH : " << content_length << endl;
-			buffer.append(chunk_buffer);
-			chunk_buffer.clear();
-			if(buffer.size() == content_length + headers.length())
-				headers.clear();
-=======
 		//none chunked or headers not complete yet
 		buffer.append(chunk_buffer);
 		chunk_buffer.clear();
@@ -459,7 +442,6 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 				current_chunk_size = 0;
 				reading_size = true;
 			}
->>>>>>> ilyass
 		}
 	}
 }
