@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpySocket - Upload</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+    <header class="main-header">
+        <div class="header-left">
+            <img src="img/1337.png" alt="1337 Logo" class="logo-1337" />
+        </div>
+        <div class="header-right">
+            <div class="nav-button home-btn" onclick="window.location.href='index.html'">
+                <img src="img/home.png" alt="Home" class="nav-icon" />
+                <span class="nav-text">Home</span>
+            </div>
+            <div class="nav-button" onclick="window.location.href='main-page.html'">
+                <img src="img/application.png" alt="Explore" class="nav-icon" />
+                <span class="nav-text">Explore</span>
+            </div>
+            <div class="nav-button team-btn" onclick="window.location.href='team-page.html'">
+                <img src="img/group-chat.png" alt="Our Team" class="nav-icon" />
+                <span class="nav-text">Our Team</span>
+            </div>
+            <div class="nav-button github-btn"
+                onclick="window.open('https://github.com/samurai0lava/Webserv-42#', '_blank')">
+                <img src="img/Github.png" alt="GitHub" class="nav-icon" />
+                <span class="nav-text">GitHub</span>
+            </div>
+        </div>
+    </header>
+    
+    <main class="hero-section upload-page">
+        <div class="hero-content">
+            <div class="upload-container">
+                <div class="upload-header">
+                    <div class="upload-icon">
+                        <img src="img/upload.png" alt="Upload" />
+                    </div>
+                    <h1 class="upload-title">File Upload Test</h1>
+                    <p class="upload-description">
+                        Test the POST method functionality by uploading files to the server
+                    </p>
+                </div>
+
+                <div class="upload-form-container">
+                    <form class="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="file-input" class="file-label">
+                                <div class="file-drop-zone" id="drop-zone">
+                                    <div class="drop-content">
+                                        <img src="img/upload.png" alt="Upload" class="drop-icon" />
+                                        <p class="drop-text">Click to select files or drag and drop</p>
+                                        <p class="drop-subtext">Supports multiple files</p>
+                                    </div>
+                                </div>
+                                <input type="file" id="file-input" name="files" multiple accept="*/*" />
+                            </label>
+                        </div>
+
+                        <div class="file-list" id="file-list"></div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="upload-btn" id="upload-btn" disabled>
+                                <img src="img/upload.png" alt="Upload" class="btn-icon" />
+                                Upload Files
+                            </button>
+                            <button type="button" class="clear-btn" id="clear-btn">
+                                Clear All
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="upload-status" id="upload-status"></div>
+                </div>
+
+                <div class="test-info">
+                    <h3>Test Information</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Method:</strong> POST
+                        </div>
+                        <div class="info-item">
+                            <strong>Endpoint:</strong> /upload
+                        </div>
+                        <div class="info-item">
+                            <strong>Content-Type:</strong> multipart/form-data
+                        </div>
+                        <div class="info-item">
+                            <strong>Max File Size:</strong> Check server config
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="upload-decorations">
+            <div class="decoration-dot dot-1"></div>
+            <div class="decoration-dot dot-2"></div>
+            <div class="decoration-dot dot-3"></div>
+            <div class="decoration-dot dot-4"></div>
+            <div class="decoration-dot dot-5"></div>
+        </div>
+    </main>
+    
+    <div class="mountain-background">
+        <img src="img/Vector-2.png" alt="Mountain 2" class="mountain mountain-2" />
+        <img src="img/Vector-1.png" alt="Mountain 1" class="mountain mountain-1" />
+    </div>
+    <div class="bottom-blue-bar"></div>
+    <script src="upload-script.js"></script>
+</body>
+
+</html>
