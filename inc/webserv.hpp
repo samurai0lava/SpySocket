@@ -1,7 +1,7 @@
 #ifndef WEBSERV_HPP
 # define WEBSERV_HPP
 
-
+#include <unistd.h>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -23,7 +23,6 @@
 #include "RespondError.hpp"
 #include "MethodHandler.hpp"
 #include "../inc/RespondError.hpp"
-#include "CClient.hpp"
 #include "Get.hpp"
 #include "CGI.hpp"
 #include "Delete.hpp"
@@ -36,7 +35,9 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
-#define limit 1024*1024
+#include "ft_time.hpp"
+#include "logs.hpp"
+
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"
@@ -46,5 +47,4 @@
 
 
 
-
-#endif 
+#endif

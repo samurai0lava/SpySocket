@@ -1,11 +1,23 @@
 CC = c++
 
-FLAGS = -std=c++98 -g3 -fsanitize=address -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -std=c++98
 
-SRCS = main.cpp src/Parsing/parsing_request.cpp src/Config.cpp src/server.cpp src/singleserver.cpp src/Parsing/utils/utils.cpp src/MethodHandler.cpp src/Methods/Get.cpp src/utils/RespondError.cpp src/Methods/DELETE.cpp \
-src/POST/pwist.cpp src/POST/match_location.cpp src/CClient.cpp
+SRCS = src/main.cpp \
+	src/Parsing/parsing_request.cpp\
+	src/Config.cpp\
+	src/server.cpp\
+	src/singleserver.cpp\
+	src/Parsing/utils/utils.cpp\
+	src/MethodHandler.cpp\
+	src/Methods/Get.cpp\
+	src/utils/RespondError.cpp\
+	src/Methods/DELETE.cpp\
+	src/utils/log_gen.cpp\
+	src/utils/ft_time.cpp
 
-OBJS = $(SRCS:.cpp=.o)
+
+OBJDIR = obj
+OBJS = $(SRCS:src/%.cpp=$(OBJDIR)/%.o)
 
 NAME = webserv
 
@@ -17,12 +29,15 @@ CYAN = \033[0;36m
 WHITE = \033[0;37m
 RESET = \033[0m
 
-all: $(NAME)
+all: $(OBJDIR) $(NAME)
+
+$(OBJDIR):
+	@mkdir -p $(OBJDIR)
 
 $(NAME): $(OBJS)
 	$(CC) $(FLAGS) -o $(NAME) $(OBJS)
 	@echo "$(YELLOW)Webserv compilation completed successfully $(RESET)"
-	@echo "$(MAGENTA)"
+	@echo "$(BLUE)"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠙⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⡆⠀⠀⠀⠀⠀⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 	@echo "⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⡇⠀⠀⠀⠀⠀⠀⣾⢡⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢢⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
@@ -57,14 +72,16 @@ $(NAME): $(OBJS)
 	@echo "$(YELLOW) 1337 Bengrir $(RESET)"
 	@echo "$(RESET)"
 
-%.o: %.cpp
+$(OBJDIR)/%.o: src/%.cpp | $(OBJDIR)
+	@mkdir -p $(dir $@)
 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@rm -rf	 $(OBJS)
+	@rm -rf	 $(OBJDIR)
 
 fclean: clean
 	@rm -rf $(NAME)
+	@echo "$(YELLOW)Objs and webserv has been successfully removed.$(RESET)"
 
 run: all clean
 	@./$(NAME)

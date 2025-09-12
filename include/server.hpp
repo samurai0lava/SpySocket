@@ -17,24 +17,16 @@
 #include <sys/stat.h>
 #include <dirent.h>   // Required for DIR, opendir(), readdir(), closedir()
 #include <sys/stat.h> // Required for stat()
-#include <map>
+
 #define READ_SIZE 1024
 
 using namespace std;
 
-struct Client {
-    int fd;
-    // std::string request;
-    std::string response;
-    bool ready_to_respond;
-};
-
 class Servers
 {
 public:
-    std::map<int, ClientSendState> clientSendStates;
     char buffer[READ_SIZE];
-    ssize_t bufferLength;
+    size_t bufferLength;
     Servers() : bufferLength(0) {
         memset(buffer, 0, READ_SIZE);
     }
