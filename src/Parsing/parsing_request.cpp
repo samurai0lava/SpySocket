@@ -734,7 +734,10 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	// write(1, data, len);
 	// cout << "******END******\n";
 	// Use refactor_data to handle both chunked and regular data
-	refactor_data(buffer, data, len);	
+	// if(getStartLine().at("method") == "POST")
+		refactor_data(buffer, data, len);
+	// else
+	// 	buffer.append(data, len);	
 	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
