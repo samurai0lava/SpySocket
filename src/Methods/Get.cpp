@@ -315,7 +315,7 @@ string Get::setupChunkedSending(const std::string& filePath)
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
-        std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
+        // std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();

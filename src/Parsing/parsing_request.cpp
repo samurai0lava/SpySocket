@@ -626,19 +626,19 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			access_error(error_code, error_message);
 			return false;
 		}
-		if(transfer_encoding_exists == 0)
-		{
-			if (content_length > 8000)
-			{
-				connection_status = 0;
-				error_code = 413;
-				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
-				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
-				return false;
-			}
-		}
-		return true;
+		// if(transfer_encoding_exists == 0)
+		// {
+		// 	if (content_length > 8000)
+		// 	{
+		// 		connection_status = 0;
+		// 		error_code = 413;
+		// 		error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+		// 		current_state = PARSE_ERROR;
+		// 		access_error(error_code, error_message);
+		// 		return false;
+		// 	}
+		// }
+		// return true;
 	}
 	content_lenght_exists = 0;
 	return true;

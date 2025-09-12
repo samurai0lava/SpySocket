@@ -18,29 +18,14 @@
 </head>
 
 <body>
+    <video autoplay muted loop id="myVideo">
+  <source src="media/3129671-uhd_3840_2160_30fps.mp4" type="video/mp4">
+</video>
     <header class="main-header">
-        <div class="header-left">
-            <img src="img/1337.png" alt="1337 Logo" class="logo-1337" />
-        </div>
-        <div class="header-right">
-            <div class="nav-button home-btn" onclick="window.location.href='index.html'">
-                <img src="img/home.png" alt="Home" class="nav-icon" />
-                <span class="nav-text">Home</span>
-            </div>
-            <div class="nav-button" onclick="window.location.href='main-page.html'">
-                <img src="img/application.png" alt="Explore" class="nav-icon" />
-                <span class="nav-text">Explore</span>
-            </div>
-            <div class="nav-button team-btn" onclick="window.location.href='team-page.html'">
-                <img src="img/group-chat.png" alt="Our Team" class="nav-icon" />
-                <span class="nav-text">Our Team</span>
-            </div>
-            <div class="nav-button github-btn"
-                onclick="window.open('https://github.com/samurai0lava/Webserv-42#', '_blank')">
-                <img src="img/Github.png" alt="GitHub" class="nav-icon" />
-                <span class="nav-text">GitHub</span>
-            </div>
-        </div>
+            <div class="back-button" onclick="window.location.href='index.html'"">
+        <img src=" img/arrow_back.png" class="back-butt" />
+    <span class="Back-text">Back</span>
+    </div>
     </header>
     
     <main class="hero-section upload-page">
@@ -52,7 +37,7 @@
                     </div>
                     <h1 class="upload-title">File Upload Test</h1>
                     <p class="upload-description">
-                        Test the POST method functionality by uploading files to the server
+                        Test the POST method functionality by uploading files to the server (SpySocket)
                     </p>
                 </div>
 
@@ -115,12 +100,6 @@
             <div class="decoration-dot dot-5"></div>
         </div>
     </main>
-    
-    <div class="mountain-background">
-        <img src="img/Vector-2.png" alt="Mountain 2" class="mountain mountain-2" />
-        <img src="img/Vector-1.png" alt="Mountain 1" class="mountain mountain-1" />
-    </div>
-    <div class="bottom-blue-bar"></div>
     <script src="upload-script.js"></script>
 </body>
 
