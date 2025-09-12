@@ -528,7 +528,13 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
 			content_type_value != "image/png" && 
-			content_type_value != "video/mp4")
+			content_type_value != "video/mp4" &&
+			content_type_value != "image/jpeg" &&
+			content_type_value != "image/gif" &&
+			content_type_value != "application/xml" &&
+			content_type_value != "application/pdf" &&
+			content_type_value != "application/octet-stream"	
+		)
 		{
 			connection_status = 0;
 			error_code = 415;
