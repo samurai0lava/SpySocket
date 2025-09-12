@@ -1,3 +1,78 @@
+/* Team Section Styles */
+.team-section {
+  bottom : -120px;
+  padding: 60px 0 40px 0;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+.team-title {
+  font-size: 2.5rem;
+  font-family: 'Comfortaa', cursive;
+  color: #002d61;
+  margin-bottom: 40px;
+  font-weight: 900;
+}
+
+.team-members {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  flex-wrap: wrap;
+}
+
+.team-member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #f6faff;
+  border-radius: 20px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  padding: 30px 24px 24px 24px;
+  width: 220px;
+  transition: transform 0.2s;
+}
+.team-member:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+}
+.team-img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #002d61;
+  margin-bottom: 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.team-desc {
+  font-size: 1.1rem;
+  color: #002d61;
+  font-family: 'Roboto Mono', monospace;
+  margin-top: 8px;
+}
+.desc {
+  display: block;
+  font-size: 0.95rem;
+  color: #555;
+  margin-top: 6px;
+  font-family: 'Comfortaa', cursive;
+}
+
+@media screen and (max-width: 900px) {
+  .team-members {
+    gap: 30px;
+  }
+  .team-member {
+    width: 180px;
+    padding: 20px 12px 16px 12px;
+  }
+  .team-img {
+    width: 90px;
+    height: 90px;
+  }
+}
 * {
   margin: 0;
   padding: 0;

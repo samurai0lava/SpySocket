@@ -1389,3 +1389,507 @@
 [2025-09-11 13:05:52] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/138.0.0.0 safari/537.36 keep-alive 
 [2025-09-11 13:05:52] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/138.0.0.0 safari/537.36 keep-alive 
 [2025-09-11 13:05:52] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/138.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:17:34] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:25:22] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Frame 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Frame 6.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /jjj HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /500.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/500.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /403.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/403.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 14:31:11] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 19:46:45] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[2025-09-11 20:04:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
