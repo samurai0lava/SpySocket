@@ -34,6 +34,7 @@ enum
 	upload_enabled,
 	upload_path
 };
+
 struct LocationStruct
 {
 	bool autoIndex;
@@ -46,9 +47,12 @@ struct LocationStruct
 	std::vector<std::string> cgi_ext;
 	bool upload_enabled;
 	std::string upload_path;
+	std::map<std::string, std::string> url_encoded; //heeepa
 	// std::vector<std::pair<std::string,std::string> > cgi_path;
 	// std::vector<std::pair<std::string,std::string> > cgi_ext;
 };
+
+// config->_cluster
 
 struct ConfigStruct
 {
@@ -60,7 +64,7 @@ struct ConfigStruct
 	size_t									clientMaxBodySize;
 	std::vector<unsigned short> listen;
 	// std::vector<std::pair<std::string, unsigned short> > listen;
-	std::vector<std::pair<std::string,LocationStruct> > location;
+	std::vector<std::pair<std::string,LocationStruct> > location; //switch to map maybe?
 	std::vector<std::pair<std::string,std::string> > errorPage;
 };
 

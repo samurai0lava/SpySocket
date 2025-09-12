@@ -1,3 +1,4 @@
 #pragma once
 #include "webserv.hpp"
-void handleMethod(int client_fd,ParsingRequest* parser, const ConfigStruct& config,Servers &serv);
+class CClient;
+void handleMethod(int client_fd, ParsingRequest* parser, const ConfigStruct& config, Servers& serv, CClient& client_data);

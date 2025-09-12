@@ -1,6 +1,6 @@
 CC = c++
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g
 
 SRCS = src/main.cpp \
 	src/Parsing/parsing_request.cpp\
@@ -13,7 +13,13 @@ SRCS = src/main.cpp \
 	src/utils/RespondError.cpp\
 	src/Methods/DELETE.cpp\
 	src/utils/log_gen.cpp\
-	src/utils/ft_time.cpp
+	src/utils/ft_time.cpp\
+	src/POST/pwist.cpp src/POST/match_location.cpp src/POST/unchunk.cpp\
+	src/CClient.cpp
+# 	src/CGI/cgi.cpp src/CGI/cgi_utils.cpp
+# FLAGS = -std=c++98 -Wall -Wextra -Werror -fsanitize=address -g3 
+
+
 
 
 OBJDIR = obj
