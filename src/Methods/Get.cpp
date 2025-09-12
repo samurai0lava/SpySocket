@@ -185,10 +185,10 @@ string Get::pathIsFile(string matchLocation)
         return GenerateResErr(500);
     }
 
-    // Check if file is larger than 1MB, use chunked sending
+   // Check if file is larger than 1MB, use chunked sending
     if (fileStat.st_size > 1024 * 1024)
     {
-
+        
         if (client.intialized == false)
         {
             client.intialized = true;
