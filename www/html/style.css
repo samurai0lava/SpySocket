@@ -1,9 +1,13 @@
 #myVideo {
   position: fixed;
+  top: 0;
+  left: 0;
   right: 0;
   bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  object-fit: cover;
 }
 /* Team Section Styles */
 .team-section {
@@ -95,6 +99,10 @@ body {
   color: #333;
   overflow-x: hidden;
   background: #ffefe4;
+}
+
+body.upload-page-body {
+  background: transparent;
 }
 
 /* Animations */
@@ -283,6 +291,11 @@ body {
   align-items: center;
   padding: 0 60px;
   /* overflow: hidden; */
+}
+
+.hero-section.upload-page {
+  background-color: transparent;
+  background: transparent;
 }
 
 .hero-content {
@@ -1341,6 +1354,7 @@ button:focus-visible {
   justify-content: center;
   align-items: center;
   padding: 40px 60px;
+  background: transparent;
 }
 
 .upload-page .hero-content {
@@ -1394,11 +1408,12 @@ button:focus-visible {
 }
 
 .upload-form-container {
-  background: white;
+  background: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
   padding: 40px;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
   margin-bottom: 30px;
+  backdrop-filter: blur(10px);
 }
 
 .form-group {

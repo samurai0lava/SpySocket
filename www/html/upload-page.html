@@ -17,13 +17,14 @@
         rel="stylesheet" />
 </head>
 
-<body>
-    <video autoplay muted loop id="myVideo">
-  <source src="media/3129671-uhd_3840_2160_30fps.mp4" type="video/mp4">
-</video>
+<body class="upload-page-body">
+    <video autoplay muted loop id="myVideo" playsinline preload="auto">
+        <source src="media/3129671-uhd_3840_2160_30fps.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
     <header class="main-header">
-            <div class="back-button" onclick="window.location.href='index.html'"">
-        <img src=" img/arrow_back.png" class="back-butt" />
+            <div class="back-button" onclick="window.location.href='index.html'">
+        <img src="img/arrow_back.png" class="back-butt" />
     <span class="Back-text">Back</span>
     </div>
     </header>
