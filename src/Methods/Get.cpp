@@ -211,7 +211,6 @@ string Get::pathIsFile(string matchLocation)
         return (setupChunkedSending(client.filePath));
     }
 
-    // For small files, read normally
     ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
     {
@@ -227,6 +226,7 @@ string Get::pathIsFile(string matchLocation)
     // std::cout << RED "Mime TYPPPE" RESET << getMimeType(matchLocation) << std::endl;
     response << "Content-length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
+    this->client.chunkedSending = true;
     return (response.str());
 }
 
@@ -293,7 +293,6 @@ string Get::MethodGet()
     {
         string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath))
-            // return (this->handleDirectoryWithIndex(indexPath));
             return(pathIsFile(indexPath));
         else if (locationMatched.autoIndex == true)
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
@@ -316,17 +315,15 @@ string Get::setupChunkedSending(const std::string& filePath)
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
-        // std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();
-        this->client.SendHeader = true; // Ensure headers are sent only once
+        this->client.SendHeader = true; 
     }
     else
     {
-        // std::cout<<"setupChunkedSending called again\n";
         char buffer[this->client.chunkSize + 1];
-        memset(buffer, 0, this->client.chunkSize + 1);  // Clear buffer
+        memset(buffer, 0, this->client.chunkSize + 1);
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
@@ -343,7 +340,6 @@ string Get::setupChunkedSending(const std::string& filePath)
             oss.write(buffer, bytesRead);
             oss << "\r\n";
             this->client.response = oss.str();
-            // this->client.bytesSent += bytesRead;
         }
     }
     return this->client.response;
