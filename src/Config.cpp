@@ -55,8 +55,9 @@ void Config::_parseServerBlock(std::string serverBlock)
 		}
 		if (buffer.length() > 0)
 		{
-			server.append(buffer);
-			server.append("\n");
+			server.append(buffer, 0, buffer.length());
+			server.append("\n", 0, 1);
+			
 		}
 	}
 	this->_createConfigStruct(server);

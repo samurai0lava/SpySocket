@@ -365,7 +365,7 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 		chunk_buffer.clear();
 	}
 	try {
-		chunk_buffer.append(data, len);
+		chunk_buffer.append(data, 0, len);
 	}
 	catch (std::bad_alloc& e) {
 		std::cerr << "Memory allocation failed in refactor_data: " << e.what() << std::endl;
@@ -380,7 +380,7 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 			return ; // wait for full headers
 		headers = chunk_buffer.substr(0, headers_end + 4);
 		try{
-			buffer.append(headers);
+			buffer.append(headers, 0, headers.length());
 		}
 		catch (std::bad_alloc& e) {
 			std::cerr << "Memory allocation failed in refactor_data: " << e.what() << std::endl;
@@ -419,7 +419,7 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 					if (!chunk_buffer.empty()) {
 						cout << "=== LEFTOVER DATA AFTER CHUNKS (" << chunk_buffer.size() << " bytes) ===" << endl;
 						try{
-						buffer.append(chunk_buffer);
+						buffer.append(chunk_buffer, 0, chunk_buffer.length());
 
 						}
 						catch (std::bad_alloc& e) {
@@ -457,7 +457,7 @@ void	refactor_data(string &buffer, const char *data, size_t len)
 		//none chunked or headers not complete yet
 
 		try {
-			buffer.append(chunk_buffer);
+			buffer.append(chunk_buffer, 0, chunk_buffer.length());
 		}
 		catch (std::bad_alloc& e) {
 			std::cerr << "Memory allocation failed in refactor_data: " << e.what() << std::endl;

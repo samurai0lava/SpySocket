@@ -75,7 +75,7 @@ void server() {
                     continue;
                 }
 
-                c.request.append(buffer, bytes);
+                c.request.append(buffer, 0, bytes);
                 // Generate response, but DO NOT send now
                 c.response = handle_request(c.request);
                 c.ready_to_respond = true;

@@ -164,7 +164,12 @@ void Servers::epollFds(Servers& serv)
             Client& c = clients[fd];
             if (events[i].events & EPOLLIN)
             {
-                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
+                // Clear buffer before receiving new data
+                memset(serv.buffer, 0, READ_SIZE);
+                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE - 1, 0);  // Leave space for null terminator
+                if (serv.bufferLength > 0) {
+                    serv.buffer[serv.bufferLength] = '\0';  // Null terminate the buffer
+                }
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
@@ -284,10 +289,17 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         }
                     }
-                    else if (bytes_sent > 0)
+                    if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
-                        c.response.erase(0, bytes_sent);
+                        // Safety check to prevent invalid erase
+                        if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
+                            c.response.erase(0, bytes_sent);
+                        } else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
+                                      << c.response.size() << "), clearing response" << std::endl;
+                            c.response.clear();
+                        }
                     }
                     if (c.response.empty())
                     {
@@ -351,7 +363,14 @@ void Servers::epollFds(Servers& serv)
                     if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
-                        c.response.erase(0, bytes_sent);
+                        // Safety check to prevent invalid erase
+                        if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
+                            c.response.erase(0, bytes_sent);
+                        } else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
+                                      << c.response.size() << "), clearing response" << std::endl;
+                            c.response.clear();
+                        }
                     }
                     if (c.response.empty())
                     {
