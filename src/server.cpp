@@ -261,6 +261,7 @@ void Servers::epollFds(Servers& serv)
                     if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
                         // std::cout<<"****Building response for fd : "<< fd << std::endl;
                             // Build response only once (headers + first chunk)
+                        c.response.clear();
                         c.response = client_data_map[fd].HandleAllMethod();
                     }
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
@@ -270,7 +271,8 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         } else {
                             // Connection error, clean up this client
-                            std::cout << "Send failed for fd " << fd << ", cleaning up" << std::endl;
+                            
+                            std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
@@ -282,7 +284,7 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         }
                     }
-                    if (bytes_sent > 0)
+                    else if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
                         c.response.erase(0, bytes_sent);
@@ -334,7 +336,7 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         } else {
                             // Connection error, clean up this client
-                            std::cout << "Send failed for fd " << fd << ", cleaning up" << std::endl;
+                            std::cout << "Send failed for fd " << fd << ", cleaning up2" << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
