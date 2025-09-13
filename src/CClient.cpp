@@ -1,5 +1,6 @@
 #include "../inc/CClient.hpp"
 #include "../inc/Get.hpp"
+#include "../inc/webserv.hpp"
 // #include "CClient.hpp"
 // #include "../inc/RespondError.hpp"
 CClient::CClient() :
@@ -69,8 +70,10 @@ string CClient::HandleAllMethod()
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
     }
-    //  else if(this->NameMethod == "POST")
-    //  {}
+    else if(this->NameMethod == "POST")
+    {
+        return postMethod(this->uri, this->mutableConfig, *this->parser);
+    }
     else
         return GenerateResErr(405); // Method Not Allowed
     return string();
