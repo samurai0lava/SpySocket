@@ -528,7 +528,13 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
 			content_type_value != "image/png" && 
-			content_type_value != "video/mp4")
+			content_type_value != "video/mp4" &&
+			content_type_value != "image/jpeg" &&
+			content_type_value != "image/gif" &&
+			content_type_value != "application/xml" &&
+			content_type_value != "application/pdf" &&
+			content_type_value != "application/octet-stream"	
+		)
 		{
 			connection_status = 0;
 			error_code = 415;
@@ -620,19 +626,19 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			access_error(error_code, error_message);
 			return false;
 		}
-		if(transfer_encoding_exists == 0)
-		{
-			if (content_length > 8000)
-			{
-				connection_status = 0;
-				error_code = 413;
-				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
-				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
-				return false;
-			}
-		}
-		return true;
+		// if(transfer_encoding_exists == 0)
+		// {
+		// 	if (content_length > 8000)
+		// 	{
+		// 		connection_status = 0;
+		// 		error_code = 413;
+		// 		error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+		// 		current_state = PARSE_ERROR;
+		// 		access_error(error_code, error_message);
+		// 		return false;
+		// 	}
+		// }
+		// return true;
 	}
 	content_lenght_exists = 0;
 	return true;
@@ -728,7 +734,10 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	// write(1, data, len);
 	// cout << "******END******\n";
 	// Use refactor_data to handle both chunked and regular data
-	refactor_data(buffer, data, len);	
+	// if(getStartLine().at("method") == "POST")
+		refactor_data(buffer, data, len);
+	// else
+	// 	buffer.append(data, len);	
 	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
