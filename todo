@@ -25,3 +25,5 @@ TODO : i got some presistent issues with the fucking binary files for some reaso
 ----------------------------446770823980657957764960
 Content-Disposition: form-data; name=""; filename="bye.txt"
 Content-Type: text/plain
+
+Problem in the parser reset when sending request since it doesn't enter the if block to initialize parser for response

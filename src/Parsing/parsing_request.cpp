@@ -368,12 +368,15 @@ bool ParsingRequest::parse_headers()
 	// Check content length for body parsing
 	if (content_lenght_exists == 1)
 	{
+		//wtf is this (transfer encoding you'll never know the size of the body you getting)
 		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
-
+	else
+		expected_body_length = 1;
+	// printMap(headers);
 	return true;
 }
 
@@ -640,8 +643,9 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		// 	}
 		// }
 		// return true;
+		// cout << RED "Content length val : " << 
 	}
-	content_lenght_exists = 0;
+	// content_lenght_exists = 0;
 	return true;
 }
 
@@ -703,15 +707,24 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 bool ParsingRequest::parse_body()
 {
 
-	std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
+	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
     std::string method = start_line.at("method");
+
+    
+    // GET, HEAD, DELETE typically don't have request bodies
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
         return true;
     }
 
-    if (method == "POST") {
-        if (transfer_encoding_exists) {
+    if (method == "POST") 
+	{
+		// cout << RED "POST" RESET << endl;
+        if (transfer_encoding_exists) 
+		{
             std::string temp_buffer = buffer.substr(buffer_pos);
+			cout << "***********\n";
+			write(1, temp_buffer.data(), temp_buffer.length());
+			cout << "***BUFFER_END***\n";
             std::string processed_data;
         
             if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
@@ -720,7 +733,9 @@ bool ParsingRequest::parse_body()
                 return true;
             }
             return false;
-        } else if (content_lenght_exists) {
+        }
+		else if (content_lenght_exists) 
+		{
             size_t available = buffer.length() - buffer_pos;
             if (available < expected_body_length)
                 return false;
@@ -739,6 +754,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 	try{
 		buffer.append(data, len);
+		
 	}
 	catch(std::exception& e)
 	{
@@ -771,6 +787,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
+			cout << "---------------> " << getHeaders()["content-length"] << endl;
 			if (expected_body_length > 0)
 				current_state = PARSE_BODY;
 			else
@@ -778,6 +795,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 
 		case PARSE_BODY:
+			cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)

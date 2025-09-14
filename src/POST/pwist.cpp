@@ -75,9 +75,11 @@ string created_success()
 
 string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
+    // cout << RED "UPLOAAAAAAAAD\n" RESET << endl;
     if (location.upload_enabled == false)
     {
         // 403 Forbidden
+        // cout << "Forbiddeeeeeeeeeeeeeeeeeeeeeeeeeen\n";
         return forbidden_403();
     }
     if (location.upload_path.empty())
@@ -87,6 +89,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     std::string boundary = parser.getHeaders().at("boundary");
     std::string request = parser.getBody();
 
+    // cout << "BODY :::::: " << request << "BODY ENDDDDDD\n";
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
@@ -162,6 +165,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         std::cerr << "stat failed: " << strerror(errno) << "\n";
         return internal_error();
     }
+    cout << RED << "FILENAME : " << filename << RESET << endl;
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
@@ -260,6 +264,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         filename = generate_filename("file_", ".txt");
     }
     struct stat st;
+    cout << "UPLOAD_PATH : " << location.upload_path << endl;
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
         // it's a directory
@@ -311,19 +316,25 @@ string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
     string response = "";
+    // cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
     try
     {
+        // cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
         
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
             response = handle_upload(location.second, parser);
         else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
+        {
+            cout << "ENTRAAAAAAAADO\n";
             response = handle_url_encoded(location.second, parser);
+        }
         else
             response = main_response(location.second, parser);
 
-        // cout << location.first << endl;
+        cout << "***RESPONSE***\n" << response << "************\n";
+            // cout << location.first << endl;
     }
     catch (exception& e)
     {
