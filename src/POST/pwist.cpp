@@ -75,9 +75,11 @@ string created_success()
 
 string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
+    // cout << RED "UPLOAAAAAAAAD\n" RESET << endl;
     if (location.upload_enabled == false)
     {
         // 403 Forbidden
+        // cout << "Forbiddeeeeeeeeeeeeeeeeeeeeeeeeeen\n";
         return forbidden_403();
     }
     if (location.upload_path.empty())
@@ -162,6 +164,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         std::cerr << "stat failed: " << strerror(errno) << "\n";
         return internal_error();
     }
+    cout << RED << "FILENAME : " << filename << RESET << endl;
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
@@ -314,7 +317,7 @@ string	postMethod(string uri, ConfigStruct config,
     string response = "";
     try
     {
-        cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
+        // cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
         

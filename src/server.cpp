@@ -210,7 +210,7 @@ void Servers::epollFds(Servers& serv)
                 {
                     printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    access_log(*parser);
+                    // access_log(*parser);
                     handleMethod(fd, parser, config, serv, client_data_map[fd]);
                     c.ready_to_respond = true;
                     epoll_event ev;
@@ -297,30 +297,28 @@ void Servers::epollFds(Servers& serv)
                             memset(&ev, 0, sizeof(ev));
                             ev.events = EPOLLIN; // Reset to listen for new requests
                             ev.data.fd = fd;
-                            // Reset client data for keep-alive instead of erasing
                             client_data_map[fd] = CClient();
                             client_data_map[fd].FdClient = fd;
-                            // Reset parser for next request on keep-alive connection
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 clientParsers[fd]->reset();
                             }
                             epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                         }
-                        else
-                        {
-                            // For non-chunked responses, also reset for keep-alive
-                            epoll_event ev;
-                            memset(&ev, 0, sizeof(ev));
-                            ev.events = EPOLLIN;
-                            ev.data.fd = fd;
-                            client_data_map[fd] = CClient();
-                            client_data_map[fd].FdClient = fd;
-                            // Reset parser for next request on keep-alive connection
-                            if (clientParsers.find(fd) != clientParsers.end()) {
-                                clientParsers[fd]->reset();
-                            }
-                            epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
-                        }
+                        // else
+                        // {
+                        //     // For non-chunked responses, also reset for keep-alive
+                        //     epoll_event ev;
+                        //     memset(&ev, 0, sizeof(ev));
+                        //     ev.events = EPOLLIN;
+                        //     ev.data.fd = fd;
+                        //     client_data_map[fd] = CClient();
+                        //     client_data_map[fd].FdClient = fd;
+                        //     // Reset parser for next request on keep-alive connection
+                        //     if (clientParsers.find(fd) != clientParsers.end()) {
+                        //         clientParsers[fd]->reset();
+                        //     }
+                        //     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                        // }
 
                     }
                 }

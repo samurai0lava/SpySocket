@@ -61,6 +61,7 @@ std::string Get::getMimeType(const std::string& path)
     if (ext == ".js") return "application/javascript";
     if (ext == ".png") return "image/png";
     if (ext == ".jpg" || ext == ".jpeg") return "image/jpeg";
+    if (ext == ".gif") return "image/gif";
     return "application/octet-stream";
 }
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
@@ -185,10 +186,10 @@ string Get::pathIsFile(string matchLocation)
         return GenerateResErr(500);
     }
 
-    // Check if file is larger than 1MB, use chunked sending
+   // Check if file is larger than 1MB, use chunked sending
     if (fileStat.st_size > 1024 * 1024)
     {
-
+        
         if (client.intialized == false)
         {
             client.intialized = true;

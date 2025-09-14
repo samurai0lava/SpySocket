@@ -360,19 +360,23 @@ bool ParsingRequest::parse_headers()
 	{
 		error_code = 400;
 		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
-	access_error(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
 
 	// Check content length for body parsing
-	if (content_lenght_exists)
+	if (content_lenght_exists || transfer_encoding_exists)
 	{
+		//wtf is this (transfer encoding you'll never know the size of the body you getting)
+		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
-
+	else
+		expected_body_length = 1;
+	// printMap(headers);
 	return true;
 }
 
@@ -528,7 +532,13 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
 			content_type_value != "image/png" && 
-			content_type_value != "video/mp4")
+			content_type_value != "video/mp4" &&
+			content_type_value != "image/jpeg" &&
+			content_type_value != "image/gif" &&
+			content_type_value != "application/xml" &&
+			content_type_value != "application/pdf" &&
+			content_type_value != "application/octet-stream"	
+		)
 		{
 			connection_status = 0;
 			error_code = 415;
@@ -620,21 +630,22 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			access_error(error_code, error_message);
 			return false;
 		}
-		if(transfer_encoding_exists == 0)
-		{
-			if (content_length > 8000)
-			{
-				connection_status = 0;
-				error_code = 413;
-				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
-				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
-				return false;
-			}
-		}
-		return true;
+		// if(transfer_encoding_exists == 0)
+		// {
+		// 	if (content_length > 8000)
+		// 	{
+		// 		connection_status = 0;
+		// 		error_code = 413;
+		// 		error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+		// 		current_state = PARSE_ERROR;
+		// 		access_error(error_code, error_message);
+		// 		return false;
+		// 	}
+		// }
+		// return true;
+		// cout << RED "Content length val : " << 
 	}
-	content_lenght_exists = 0;
+	// content_lenght_exists = 0;
 	return true;
 }
 
@@ -695,41 +706,57 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-	// cout << "xxxxxxxxxxxxxxxxx\n";
-	// cout << buffer << endl;
-	// cout << "xxxxxxxxxxxxxxxxx\n";
 
-	if (transfer_encoding_exists) {
-		// For chunked transfer encoding, check if transfer is complete
-		if (!is_chunked_transfer_complete()) {
-			cout << "=== CHUNKED TRANSFER NOT YET COMPLETE ===" << endl;
-			return false;
-		}
-		cout << "=== CHUNKED TRANSFER COMPLETE ===" << endl;
-		// For chunked, body_content is handled by refactor_data
-		return true;
-	} else {
-		// For Content-Length based bodies
-		size_t available = buffer.length() - buffer_pos;
-		if (available < expected_body_length)
-			return false;
-		body_content = buffer.substr(buffer_pos, expected_body_length);
-		buffer_pos += expected_body_length;
-		return true;
-	}
+	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
+    std::string method = start_line.at("method");
+    if (method == "GET" || method == "HEAD" || method == "DELETE") {
+        return true;
+    }
+
+    if (method == "POST") 
+	{
+		// cout << RED "POST" RESET << endl;
+        if (transfer_encoding_exists) 
+		{
+            std::string temp_buffer = buffer.substr(buffer_pos);
+            std::string processed_data;
+        
+            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
+                body_content = processed_data;
+                buffer_pos = buffer.length();
+                return true;
+            }
+            return false;
+        }
+		else if (content_lenght_exists) 
+		{
+            size_t available = buffer.length() - buffer_pos;
+            if (available < expected_body_length)
+                return false;
+            body_content = buffer.substr(buffer_pos, expected_body_length);
+            buffer_pos += expected_body_length;
+            return true;
+        }
+    }
+    return true;
 }
 
 
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	// cout << "***************\n";
-	// // cout << "CHUNK SIZE : " << len << endl;
-	// write(1, data, len);
-	// cout << "******END******\n";
-	// Use refactor_data to handle both chunked and regular data
-	refactor_data(buffer, data, len);	
-	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
+
+	try{
+		buffer.append(data, len);
+	}
+	catch(std::exception& e)
+	{
+		error_code = 500;
+		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
+		current_state = PARSE_ERROR;
+		access_error(error_code, error_message);
+		return PARSE_ERROR_RESULT;
+	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		
@@ -751,10 +778,10 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
-			if (expected_body_length > 0 || transfer_encoding_exists)
+			cout << "---------------> " << getHeaders()["content-length"] << endl;
+			if (expected_body_length > 0)
 				current_state = PARSE_BODY;
 			else
 				current_state = PARSE_COMPLETE;
@@ -765,7 +792,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "BOOOOOOOOOOOOOODY\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;

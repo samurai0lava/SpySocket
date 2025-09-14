@@ -55,8 +55,14 @@ void Config::_parseServerBlock(std::string serverBlock)
 		}
 		if (buffer.length() > 0)
 		{
-			server.append(buffer);
-			server.append("\n");
+			try{
+				server.append(buffer);
+				server.append("\n");
+			}
+			catch(std::exception& e)
+			{
+				throw std::runtime_error("Memory allocation error while parsing server block");
+			}
 		}
 	}
 	this->_createConfigStruct(server);

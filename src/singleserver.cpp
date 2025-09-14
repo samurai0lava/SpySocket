@@ -248,7 +248,7 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 {
     LocationStruct location_tmp;
     location_tmp.autoIndex = false;
-    location_tmp.upload_enabled = false;
+    location_tmp.upload_enabled = true; //was false ta nrj3ha
     location_tmp.indexPage = "";
     location_tmp.root = "";
     std::stringstream bstream;

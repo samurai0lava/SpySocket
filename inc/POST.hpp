@@ -22,7 +22,7 @@ std::string generate_filename(string type, string termination);
 // void	refactor_data(string& buffer, const char* data, size_t len);
 void reset_refactor_data_state();
 bool is_chunked_transfer_complete();
-void	refactor_data(string& buffer, const char* data, size_t len);
+bool refactor_data(string& buffer, const char* data, size_t len);
 
 
 // class POST
