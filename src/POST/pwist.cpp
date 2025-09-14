@@ -313,7 +313,7 @@ string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
     string response = "";
-    cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
+    // cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
     try
     {
         // cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";

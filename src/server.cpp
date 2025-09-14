@@ -208,9 +208,9 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    printRequestInfo(*parser, fd);
+                    // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    access_log(*parser);
+                    // access_log(*parser);
                     handleMethod(fd, parser, config, serv, client_data_map[fd]);
                     c.ready_to_respond = true;
                     epoll_event ev;

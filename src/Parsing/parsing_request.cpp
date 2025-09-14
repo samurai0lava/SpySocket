@@ -703,6 +703,7 @@ bool ParsingRequest::parse_body()
 {
     // Check if this is a method that should have a body
     std::string method = start_line.at("method");
+	cout << "Poooooooooooooooooooost\n";
     
     // GET, HEAD, DELETE typically don't have request bodies
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
@@ -715,6 +716,9 @@ bool ParsingRequest::parse_body()
         if (transfer_encoding_exists) {
             // Handle chunked transfer encoding
             std::string temp_buffer = buffer.substr(buffer_pos);
+			cout << "***********\n";
+			write(1, temp_buffer.data(), temp_buffer.length());
+			cout << "***BUFFER_END***\n";
             std::string processed_data;
             
             // Use refactor_data ONLY for chunked POST requests
@@ -787,6 +791,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 
 		case PARSE_BODY:
+			cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)
