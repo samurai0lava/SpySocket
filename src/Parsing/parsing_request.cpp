@@ -701,44 +701,61 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-	// cout << "xxxxxxxxxxxxxxxxx\n";
-	// cout << buffer << endl;
-	// cout << "xxxxxxxxxxxxxxxxx\n";
-
-	if (transfer_encoding_exists) {
-		// For chunked transfer encoding, check if transfer is complete
-		if (!is_chunked_transfer_complete()) {
-			cout << "=== CHUNKED TRANSFER NOT YET COMPLETE ===" << endl;
-			return false;
-		}
-		cout << "=== CHUNKED TRANSFER COMPLETE ===" << endl;
-		// For chunked, body_content is handled by refactor_data
-		return true;
-	} else {
-		// For Content-Length based bodies
-		size_t available = buffer.length() - buffer_pos;
-		if (available < expected_body_length)
-			return false;
-		body_content = buffer.substr(buffer_pos, expected_body_length);
-		buffer_pos += expected_body_length;
-		return true;
-	}
+    // Check if this is a method that should have a body
+    std::string method = start_line.at("method");
+    
+    // GET, HEAD, DELETE typically don't have request bodies
+    if (method == "GET" || method == "HEAD" || method == "DELETE") {
+        // No body expected for these methods
+        return true;
+    }
+    
+    // For POST requests
+    if (method == "POST") {
+        if (transfer_encoding_exists) {
+            // Handle chunked transfer encoding
+            std::string temp_buffer = buffer.substr(buffer_pos);
+            std::string processed_data;
+            
+            // Use refactor_data ONLY for chunked POST requests
+            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
+                body_content = processed_data;
+                buffer_pos = buffer.length(); // Consumed all data
+                return true;
+            }
+            return false; // Need more data
+        } else if (content_lenght_exists) {
+            // Handle Content-Length based bodies
+            size_t available = buffer.length() - buffer_pos;
+            if (available < expected_body_length)
+                return false;
+            body_content = buffer.substr(buffer_pos, expected_body_length);
+            buffer_pos += expected_body_length;
+            return true;
+        }
+    }
+    
+    // If no body is expected or method doesn't require body processing
+    return true;
 }
 
 
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	// cout << "***************\n";
-	// // cout << "CHUNK SIZE : " << len << endl;
-	// write(1, data, len);
-	// cout << "******END******\n";
-	// Use refactor_data to handle both chunked and regular data
-	// if(getStartLine().at("method") == "POST")
-		refactor_data(buffer, data, len);
-	// else
-	// 	buffer.append(data, len);	
-	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
+
+	try{
+		buffer.append(data, len);
+		
+	}
+	catch(std::exception& e)
+	{
+		error_code = 500;
+		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
+		current_state = PARSE_ERROR;
+		access_error(error_code, error_message);
+		return PARSE_ERROR_RESULT;
+	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		

@@ -87,6 +87,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     std::string boundary = parser.getHeaders().at("boundary");
     std::string request = parser.getBody();
 
+    // cout << "BODY :::::: " << request << "BODY ENDDDDDD\n";
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
@@ -312,9 +313,10 @@ string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
     string response = "";
+    cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
     try
     {
-        cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
+        // cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
         
@@ -328,7 +330,8 @@ string	postMethod(string uri, ConfigStruct config,
         else
             response = main_response(location.second, parser);
 
-        // cout << location.first << endl;
+        cout << "***RESPONSE***\n" << response << "************\n";
+            // cout << location.first << endl;
     }
     catch (exception& e)
     {

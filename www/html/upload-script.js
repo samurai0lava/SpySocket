@@ -1,7 +1,6 @@
 // Upload page functionality
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('file-input');
-    const dropZone = document.getElementById('drop-zone');
     const fileList = document.getElementById('file-list');
     const uploadBtn = document.getElementById('upload-btn');
     const clearBtn = document.getElementById('clear-btn');
@@ -12,23 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // File input change handler
     fileInput.addEventListener('change', function(e) {
         handleFiles(e.target.files);
-    });
-
-    // Drag and drop handlers
-    dropZone.addEventListener('dragover', function(e) {
-        e.preventDefault();
-        dropZone.classList.add('dragover');
-    });
-
-    dropZone.addEventListener('dragleave', function(e) {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-    });
-
-    dropZone.addEventListener('drop', function(e) {
-        e.preventDefault();
-        dropZone.classList.remove('dragover');
-        handleFiles(e.dataTransfer.files);
     });
 
     // Handle file selection
