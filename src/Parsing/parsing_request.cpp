@@ -701,31 +701,24 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-    // Check if this is a method that should have a body
     std::string method = start_line.at("method");
     
-    // GET, HEAD, DELETE typically don't have request bodies
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
-        // No body expected for these methods
         return true;
     }
-    
-    // For POST requests
+
     if (method == "POST") {
         if (transfer_encoding_exists) {
-            // Handle chunked transfer encoding
             std::string temp_buffer = buffer.substr(buffer_pos);
             std::string processed_data;
-            
-            // Use refactor_data ONLY for chunked POST requests
+        
             if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
                 body_content = processed_data;
-                buffer_pos = buffer.length(); // Consumed all data
+                buffer_pos = buffer.length();
                 return true;
             }
-            return false; // Need more data
+            return false;
         } else if (content_lenght_exists) {
-            // Handle Content-Length based bodies
             size_t available = buffer.length() - buffer_pos;
             if (available < expected_body_length)
                 return false;
@@ -734,8 +727,6 @@ bool ParsingRequest::parse_body()
             return true;
         }
     }
-    
-    // If no body is expected or method doesn't require body processing
     return true;
 }
 
