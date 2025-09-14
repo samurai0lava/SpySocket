@@ -61,6 +61,7 @@ std::string Get::getMimeType(const std::string& path)
     if (ext == ".js") return "application/javascript";
     if (ext == ".png") return "image/png";
     if (ext == ".jpg" || ext == ".jpeg") return "image/jpeg";
+    if (ext == ".gif") return "image/gif";
     return "application/octet-stream";
 }
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)

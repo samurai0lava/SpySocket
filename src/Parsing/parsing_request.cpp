@@ -360,19 +360,23 @@ bool ParsingRequest::parse_headers()
 	{
 		error_code = 400;
 		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
-	access_error(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
 
 	// Check content length for body parsing
-	if (content_lenght_exists)
+	if (content_lenght_exists || transfer_encoding_exists)
 	{
+		//wtf is this (transfer encoding you'll never know the size of the body you getting)
+		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
-
+	else
+		expected_body_length = 1;
+	// printMap(headers);
 	return true;
 }
 
@@ -639,8 +643,9 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		// 	}
 		// }
 		// return true;
+		// cout << RED "Content length val : " << 
 	}
-	content_lenght_exists = 0;
+	// content_lenght_exists = 0;
 	return true;
 }
 
@@ -701,35 +706,36 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-    // Check if this is a method that should have a body
+
+	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
     std::string method = start_line.at("method");
-	cout << "Poooooooooooooooooooost\n";
+
     
     // GET, HEAD, DELETE typically don't have request bodies
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
-        // No body expected for these methods
         return true;
     }
-    
-    // For POST requests
-    if (method == "POST") {
-        if (transfer_encoding_exists) {
-            // Handle chunked transfer encoding
+
+    if (method == "POST") 
+	{
+		// cout << RED "POST" RESET << endl;
+        if (transfer_encoding_exists) 
+		{
             std::string temp_buffer = buffer.substr(buffer_pos);
 			cout << "***********\n";
 			write(1, temp_buffer.data(), temp_buffer.length());
 			cout << "***BUFFER_END***\n";
             std::string processed_data;
-            
-            // Use refactor_data ONLY for chunked POST requests
+        
             if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
                 body_content = processed_data;
-                buffer_pos = buffer.length(); // Consumed all data
+                buffer_pos = buffer.length();
                 return true;
             }
-            return false; // Need more data
-        } else if (content_lenght_exists) {
-            // Handle Content-Length based bodies
+            return false;
+        }
+		else if (content_lenght_exists) 
+		{
             size_t available = buffer.length() - buffer_pos;
             if (available < expected_body_length)
                 return false;
@@ -738,8 +744,6 @@ bool ParsingRequest::parse_body()
             return true;
         }
     }
-    
-    // If no body is expected or method doesn't require body processing
     return true;
 }
 
@@ -781,10 +785,10 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
-			if (expected_body_length > 0 || transfer_encoding_exists)
+			cout << "---------------> " << getHeaders()["content-length"] << endl;
+			if (expected_body_length > 0)
 				current_state = PARSE_BODY;
 			else
 				current_state = PARSE_COMPLETE;
@@ -796,7 +800,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "BOOOOOOOOOOOOOODY\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;
