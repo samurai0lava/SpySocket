@@ -366,7 +366,7 @@ bool ParsingRequest::parse_headers()
 	}
 
 	// Check content length for body parsing
-	if (content_lenght_exists || transfer_encoding_exists)
+	if (content_lenght_exists == 1)
 	{
 		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
