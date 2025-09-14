@@ -263,18 +263,16 @@ string Get::MethodGet()
         return (GenerateResErr(400));
     }
     string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
-    if (!this->pathExists(matchedLocation))
-    {
-        string finalResponce = GenerateResErr(404);
-        return (finalResponce);
-    }
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->client.mutableConfig.location.size(); i++)
     {
-        locationMatched = this->client.mutableConfig.location[i].second;
-        found = true;
-        break;
+        if (this->client.mutableConfig.location[i].first == this->client._name_location)
+        {
+            locationMatched = this->client.mutableConfig.location[i].second;
+            found = true;
+            break;
+        }
     }
     if (!found)
     {
@@ -284,7 +282,13 @@ string Get::MethodGet()
     if (!locationMatched._return.empty()) {
         int statusCode = atoi(locationMatched._return[0].first.c_str());
         std::string target = locationMatched._return[0].second;
+        this->client.chunkedSending = true;
         return buildRedirectResponse(statusCode, target);
+    }
+    if (!this->pathExists(matchedLocation))
+    {
+        string finalResponce = GenerateResErr(404);
+        return (finalResponce);
     }
     if (this->isFile(matchedLocation)) {
         return(pathIsFile(matchedLocation));
@@ -306,7 +310,6 @@ string Get::setupChunkedSending(const std::string& filePath)
 
     if (this->client.SendHeader == false)
     {
-
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
             return GenerateResErr(500);
