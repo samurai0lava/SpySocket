@@ -360,14 +360,15 @@ bool ParsingRequest::parse_headers()
 	{
 		error_code = 400;
 		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
-	access_error(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
 
 	// Check content length for body parsing
-	if (content_lenght_exists)
+	if (content_lenght_exists || transfer_encoding_exists)
 	{
+		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
@@ -701,8 +702,9 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
+
+	std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
     std::string method = start_line.at("method");
-    
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
         return true;
     }
@@ -767,10 +769,9 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
-			if (expected_body_length > 0 || transfer_encoding_exists)
+			if (expected_body_length > 0)
 				current_state = PARSE_BODY;
 			else
 				current_state = PARSE_COMPLETE;
@@ -781,7 +782,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "BOOOOOOOOOOOOOODY\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;
