@@ -1,4 +1,5 @@
 #include "../include/Config.hpp"
+// #include "Config.hpp"
 
 
 std::string parseArgv(int argc, char** argv)
@@ -102,6 +103,9 @@ void Config::StartToSet(std::string configPath)
 	this->_configFile.close();
 	std::string buffer = streamBuffer.str();
 	this->_checkBrackets(buffer);
+	this->_checkRedirectionLoops();
+	std::cout <<"Configuration file parsed successfully!"  << std::endl;
+	
 }
 
 void Config::_checkBrackets(std::string all)
@@ -137,7 +141,6 @@ void Config::_checkBrackets(std::string all)
 			}
 			else if(openServer == false)
 			{
-				
 				throw Config::WrongBlockException();
 			}
 			else if(openLocation == true)
@@ -239,6 +242,41 @@ void Config::printCluster() const {
 int Config::getAutoindex()
 {
     return _cluster.begin()->second.autoIndex;
+}
+
+
+void Config::_checkRedirectionLoops()
+{
+	for (std::map<std::string, ConfigStruct>::iterator it = _cluster.begin(); it != _cluster.end(); ++it) 
+	{
+		ConfigStruct &conf = it->second;
+		for (size_t i = 0; i < conf.location.size(); ++i) 
+		{
+			LocationStruct &loc = conf.location[i].second;
+			for (size_t j = 0; j < loc._return.size(); ++j)
+			{
+				const std::string &target = loc._return[j].second;
+				if (target.find("http://") == 0 || target.find("https://") == 0)
+					continue;
+				bool found = false;
+				for (std::map<std::string, ConfigStruct>::iterator it2 = _cluster.begin(); it2 != _cluster.end(); ++it2) {
+					ConfigStruct &conf2 = it2->second;
+
+					for (size_t k = 0; k < conf2.location.size(); ++k) {
+						const std::string &locPath = conf2.location[k].first;
+						if (target == locPath) {
+							found = true;
+							break;
+						}
+					}
+					if (found) break;
+				}
+				if (!found) 
+					throw std::runtime_error("Redirection loop detected for target: " + target);
+			}
+		}
+	}
+	
 }
 const char* Config::FileOpenException::what(void) const throw()
 {

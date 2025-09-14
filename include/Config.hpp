@@ -10,6 +10,7 @@
 #include <map>
 #include <vector>
 #include <stdexcept>
+// #include "../inc/webserv.hpp"
 #include "singleserver.hpp"
 #include "Struct.hpp"
 
@@ -31,6 +32,7 @@ class Config
         void setConfigPath(std::string configPath);
         void printCluster() const;
         int getAutoindex();
+        void _checkRedirectionLoops();
         class FileOpenException : public std::exception
 		{
 			public:
