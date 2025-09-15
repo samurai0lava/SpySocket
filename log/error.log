@@ -39,10 +39,10 @@
 [2025-09-14 17:43:46] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryWdS4AMBtdFfdf6tC'
 [2025-09-14 17:43:46] Error: 500 - Internal Server Error: No parser found for client.
 [2025-09-14 17:43:46] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
-
 [2025-09-14 20:11:29] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryXzuD8nS1Wt1ArNrF'
 [2025-09-14 20:14:11] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundary2FiTcBPHdhqi1ODn'
-=======
->>>>>>> hepa
 [2025-09-15 14:49:13] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
 [2025-09-15 14:53:29] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-15 15:01:54] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-15 19:47:45] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-15 19:47:45] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
