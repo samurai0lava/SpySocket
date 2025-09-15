@@ -363,12 +363,12 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             }
             case(upload_enabled):
             {
-                // std::cout<<"1"<<std::endl;
                 if (foundUpload_enabled == true)
                     throw std::runtime_error("Duplicate Location Upload enabled");
 			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.upload_enabled = (value.compare("on") == 0);
-			    foundUpload_enabled = true;
+                if(value.compare("on") == 0)
+                    location_tmp.upload_enabled = true;
+                foundUpload_enabled = true;
                 break;
             }
             case(upload_path):

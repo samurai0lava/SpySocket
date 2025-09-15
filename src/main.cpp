@@ -8,11 +8,12 @@ int main(int argc, char** argv)
     try
     {
         config->StartToSet(parseArgv(argc, argv));
-        // config->printCluster();
-        Servers serv;
-        serv.getServersFds(config, serv);
-        serv.epollFds(serv);
+        config->printCluster();
+        // Servers serv;
+        // serv.getServersFds(config, serv);
+        // serv.epollFds(serv);
     }
+    
     catch (std::exception& e)
     {
         std::cout << e.what() << std::endl;
