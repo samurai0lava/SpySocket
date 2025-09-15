@@ -98,7 +98,7 @@ void	handle_redirect(int fd, std::pair<std::string, LocationStruct> location)
 	send(fd, response.c_str(), response.length(), 0);
 }
 
-void	handle_notAllowed(int fd, std::pair<std::string,
+string	handle_notAllowed(std::pair<std::string,
 		LocationStruct> location)
 {
 	std::string res = "HTTP/1.1 405 Method Not Allowed\r\nAllow: ";
@@ -118,8 +118,8 @@ void	handle_notAllowed(int fd, std::pair<std::string,
 	res += "Content-Length: " + ss.str() + "\r\n";
 	res += "\r\n";
 	res += body;
-	cout << res << endl;
-	send(fd, res.c_str(), res.length(), 0);
+	return res;
+	// send(fd, res.c_str(), res.length(), 0);
 }
 
 void	notFound(int fd)

@@ -24,6 +24,8 @@ void reset_refactor_data_state();
 bool is_chunked_transfer_complete();
 bool refactor_data(string& buffer, const char* data, size_t len);
 
+string	handle_notAllowed(std::pair<std::string,
+		LocationStruct> location);
 
 // class POST
 // {

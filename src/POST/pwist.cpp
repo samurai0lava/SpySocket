@@ -75,11 +75,8 @@ string created_success()
 
 string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
-    // cout << RED "UPLOAAAAAAAAD\n" RESET << endl;
     if (location.upload_enabled == false)
     {
-        // 403 Forbidden
-        // cout << "Forbiddeeeeeeeeeeeeeeeeeeeeeeeeeen\n";
         return forbidden_403();
     }
     if (location.upload_path.empty())
@@ -92,13 +89,13 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
-        cout << "!!!!!!!!!!!!!!!\n";
+        // cout << "!!!!!!!!!!!!!!!\n";
         return bad_request();
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
-        cout << "???????\n";
+        // cout << "???????\n";
         return bad_request();
     }
     std::string body = request.substr(body_start + boundary.length() + 4, body_end - body_start - boundary.length() - 4);
@@ -122,7 +119,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         if (fn_end == std::string::npos)
         {
             //400 bad request
-            cout << ":3333333333333333\n";
+            // cout << ":3333333333333333\n";
             return bad_request();
         }
     }
@@ -138,7 +135,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     if (content_start == std::string::npos)
     {
         //400 bad request (need to check if an upload request can be bodyless)
-        cout << "AAAAAAAAAAAAAAAAAA\n";
+        // cout << "AAAAAAAAAAAAAAAAAA\n";
         return bad_request();
     }
     content_start += 4; // Skip past the "\r\n\r\n"
@@ -164,12 +161,12 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         std::cerr << "stat failed: " << strerror(errno) << "\n";
         return internal_error();
     }
-    cout << RED << "FILENAME : " << filename << RESET << endl;
+    // cout << RED << "FILENAME : " << filename << RESET << endl;
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
         //500 internal
-        cout << "DDDDDDDDDDDDDDDDDDD\n";
+        // cout << "DDDDDDDDDDDDDDDDDDD\n";
         return internal_error();
     }
 
@@ -177,7 +174,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     if (!file)
     {
         //internal server error
-        cout << "CCCCCCCCCCCCCCCCCC\n";
+        // cout << "CCCCCCCCCCCCCCCCCC\n";
 
         return internal_error();
     }
@@ -263,7 +260,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         filename = generate_filename("file_", ".txt");
     }
     struct stat st;
-    cout << "UPLOAD_PATH : " << location.upload_path << endl;
+    // cout << "UPLOAD_PATH : " << location.upload_path << endl;
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
         // it's a directory
@@ -281,14 +278,14 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     {
         // cout << location.upload_path << endl;
         // std::cerr << "stat failed: " << strerror(errno) << "\n";
-        cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
+        // cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
         return internal_error();
     }
 
     std::fstream file(filename.c_str(), std::ios::binary | std::ios::out);
     if (!file)
     {
-        cout << "EEEEEEEEEEEEEEEEEEEEEEEEE\n";
+        // cout << "EEEEEEEEEEEEEEEEEEEEEEEEE\n";
         cout << filename << endl;
         return internal_error();
     }
@@ -297,7 +294,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     if (!file)
     {
         //internal server error
-        cout  << "UUUUUUUUUUUUUUUUUUUUUUUUUUUU\n";
+        // cout  << "UUUUUUUUUUUUUUUUUUUUUUUUUUUU\n";
         return internal_error();
     }
     file.close();
@@ -317,15 +314,18 @@ string	postMethod(string uri, ConfigStruct config,
     string response = "";
     try
     {
-        // cout << "------> " << parser.getHeaders().at("content-type-value")<< " <-----\n";
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
-        
+        //check if method allowed and check for redirection
+        if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
+            return handle_notAllowed(location);
+        // for (std::vector<std::pair<std::string, std::string>>::iterator it = location.second._return.begin(); it != location.second._return.end(); ++it)
+            // cout << YELLOW << *it << RESET << endl;
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
             response = handle_upload(location.second, parser);
         else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
         {
-            cout << "ENTRAAAAAAAADO\n";
+            // cout << "ENTRAAAAAAAADO\n";
             response = handle_url_encoded(location.second, parser);
         }
         else

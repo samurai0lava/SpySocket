@@ -270,7 +270,7 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         } else {
                             // Connection error, clean up this client
-                            std::cout << "Send failed for fd " << fd << ", cleaning up" << std::endl;
+                            std::cout << RED "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
@@ -334,7 +334,7 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         } else {
                             // Connection error, clean up this client
-                            std::cout << "Send failed for fd " << fd << ", cleaning up" << std::endl;
+                            std::cout << GREEN "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);

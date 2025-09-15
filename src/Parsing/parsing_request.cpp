@@ -369,7 +369,7 @@ bool ParsingRequest::parse_headers()
 	if (content_lenght_exists || transfer_encoding_exists)
 	{
 		//wtf is this (transfer encoding you'll never know the size of the body you getting)
-		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
+		// std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
