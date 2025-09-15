@@ -1,8 +1,7 @@
 #include "../inc/CClient.hpp"
 #include "../inc/Get.hpp"
 #include "../inc/webserv.hpp"
-// #include "CClient.hpp"
-// #include "../inc/RespondError.hpp"
+
 CClient::CClient() :
     _name_location(""), NameMethod(""), uri(""), FdClient(-1), mutableConfig(), serv(), parser(NULL),
     SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), 
