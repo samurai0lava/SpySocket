@@ -10,6 +10,8 @@ CGI::CGI()
     path_info = "";
     query_string = "";
     is_cgi = 0;
+    error_code = 0;
+    error_message = "";
 }
 
 CGI::~CGI()
@@ -19,61 +21,84 @@ CGI::~CGI()
 
 bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request)
 {
-    env_vars["REQUEST_METHOD"] = request.getStartLine().at("method");
-    env_vars["SCRIPT_NAME"] = script_path;
-    env_vars["PATH_INFO"] = path_info;
-    env_vars["QUERY_STRING"] = query_string;
-    env_vars["HTTP_VERSION"] = request.getStartLine().at("version");
-    env_vars["SERVER_PROTOCOL"] = request.getStartLine().at("version");
-    if (request.getHeaders().find("host") != request.getHeaders().end())
-        env_vars["SERVER_NAME"] = request.getHeaders().at("host");
-    else
-        env_vars["SERVER_NAME"] = "localhost";
-    if (request.getHeaders().find("content-type") != request.getHeaders().end())
-        env_vars["CONTENT_TYPE"] = request.getHeaders().at("content-type");
-    else
-        env_vars["CONTENT_TYPE"] = "";
+    this->env_vars.clear();
+    
 
-    if (request.getHeaders().find("content-length") != request.getHeaders().end())
-        env_vars["CONTENT_LENGTH"] = request.getHeaders().at("content-length");
+    std::map<std::string, std::string> startLine = request.getStartLine();
+    std::map<std::string, std::string> headers = request.getHeaders();
+    
+    if (startLine.find("method") != startLine.end())
+        this->env_vars["REQUEST_METHOD"] = startLine.at("method");
     else
-        env_vars["CONTENT_LENGTH"] = "0";
-
-    if (request.getHeaders().find("user-agent") != request.getHeaders().end())
-        env_vars["HTTP_USER_AGENT"] = request.getHeaders().at("user-agent");
+        this->env_vars["REQUEST_METHOD"] = "GET";
+        
+    this->env_vars["SCRIPT_NAME"] = script_path;
+    this->env_vars["PATH_INFO"] = path_info;
+    this->env_vars["QUERY_STRING"] = query_string;
+    
+    if (startLine.find("version") != startLine.end()) {
+        this->env_vars["HTTP_VERSION"] = startLine.at("version");
+        this->env_vars["SERVER_PROTOCOL"] = startLine.at("version");
+    } else {
+        this->env_vars["HTTP_VERSION"] = "HTTP/1.1";
+        this->env_vars["SERVER_PROTOCOL"] = "HTTP/1.1";
+    }
+    
+    if (headers.find("host") != headers.end())
+        this->env_vars["SERVER_NAME"] = headers.at("host");
     else
-        env_vars["HTTP_USER_AGENT"] = "";
+        this->env_vars["SERVER_NAME"] = "localhost";
+        
+    if (headers.find("content-type") != headers.end())
+        this->env_vars["CONTENT_TYPE"] = headers.at("content-type");
+    else
+        this->env_vars["CONTENT_TYPE"] = "";
 
-    env_vars["GATEWAY_INTERFACE"] = "CGI/1.1";
-    env_vars["SERVER_SOFTWARE"] = "Webserv/1.0";
-    // env_vars["REMOTE_ADDR"] = "127.0.0.1"; // i need to get this from the socket
-    env_vars["REMOTE_HOST"] = "localhost";
-    if (request.getHeaders().find("transfer-encoding") != request.getHeaders().end())
+    if (headers.find("content-length") != headers.end())
+        this->env_vars["CONTENT_LENGTH"] = headers.at("content-length");
+    else
+        this->env_vars["CONTENT_LENGTH"] = "0";
+
+    if (headers.find("user-agent") != headers.end())
+        this->env_vars["HTTP_USER_AGENT"] = headers.at("user-agent");
+    else
+        this->env_vars["HTTP_USER_AGENT"] = "";
+
+    this->env_vars["GATEWAY_INTERFACE"] = "CGI/1.1";
+    this->env_vars["SERVER_SOFTWARE"] = "SpySocket";
+    this->env_vars["REMOTE_HOST"] = "localhost";
+    this->env_vars["SERVER_PORT"] = "1080";
+    
+    if (headers.find("transfer-encoding") != headers.end())
     {
-        std::string transfer_encoding = request.getHeaders().at("transfer-encoding");
+        std::string transfer_encoding = headers.at("transfer-encoding");
         if (transfer_encoding == "chunked")
         {
-            // Note: The request parser should have already un-chunked the body
-            // CGI should receive the complete body without chunk headers
-            env_vars["TRANSFER_ENCODING"] = "";  // Clear for CGI
+            this->env_vars["TRANSFER_ENCODING"] = "";  // Clear for CGI
         }
     }
+    
     if (!path_info.empty())
     {
-        env_vars["PATH_TRANSLATED"] = "/www/html" + path_info;
+        this->env_vars["PATH_TRANSLATED"] = "www/html" + path_info;
     }
     else
     {
-        env_vars["PATH_TRANSLATED"] = "";
+        this->env_vars["PATH_TRANSLATED"] = "";
     }
 
+    env_vars = this->env_vars;
     return true;
 }
 
 
 bool CGI::execute(std::map<std::string, std::string>& env_vars)
 {
-    std::string full_script_path = "/www/html" + script_path; // this sould be getting from the config file
+    // Use absolute path for the script
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    std::string full_script_path = std::string(cwd) + "/" + "www/html" + script_path;
+    
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
         error_code = 404;
@@ -102,12 +127,14 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     std::vector<std::string> env_strings;
     std::vector<char*> envp;
 
-    // Build environment variables
     for (std::map<std::string, std::string>::const_iterator it = env_vars.begin(); it != env_vars.end(); ++it)
     {
         std::string env_var = it->first + "=" + it->second;
         env_strings.push_back(env_var);
-        envp.push_back(&env_strings.back()[0]);
+    }
+    
+    for (size_t i = 0; i < env_strings.size(); ++i) {
+        envp.push_back(&env_strings[i][0]);
     }
     envp.push_back(NULL);
 
@@ -206,145 +233,167 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     return true;
 }
 
-// use excute with body for POST requests
 
 
-// bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
-// {
-//     // Validate script existence first
-//     std::string full_script_path = "/var/www/html" + script_path;
-//     if (access(full_script_path.c_str(), F_OK) != 0)
-//     {
-//         std::cerr << "CGI script not found: " << full_script_path << std::endl;
-//         return false;
-//     }
+bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
+{
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    std::string full_script_path = std::string(cwd) + "/" + "www/html" + script_path;
     
-//     if (access(full_script_path.c_str(), X_OK) != 0)
-//     {
-//         std::cerr << "CGI script not executable: " << full_script_path << std::endl;
-//         return false;
-//     }
+    if (access(full_script_path.c_str(), F_OK) != 0)
+    {
+        error_code = 404;
+        error_message = "CGI script not found: " + full_script_path;
+        std::cerr << "CGI script not found: " << full_script_path << std::endl;
+        return false;
+    }
+    
+    if (access(full_script_path.c_str(), X_OK) != 0)
+    {
+        error_code = 403;
+        error_message = "CGI script not executable: " + full_script_path;
+        std::cerr << "CGI script not executable: " + full_script_path << std::endl;
+        return false;
+    }
 
-//     int pipe_in[2];
-//     int pipe_out[2];
+    int pipe_in[2];
+    int pipe_out[2];
 
-//     if (pipe(pipe_in) == -1 || pipe(pipe_out) == -1)
-//     {
-//         perror("pipe failed");
-//         return false;
-//     }
+    if (pipe(pipe_in) == -1 || pipe(pipe_out) == -1)
+    {
+        perror("pipe failed");
+        return false;
+    }
 
-//     std::vector<std::string> env_strings;
-//     std::vector<char*> envp;
+    std::vector<std::string> env_strings;
+    std::vector<char*> envp;
 
-//     for (std::map<std::string, std::string>::const_iterator it = env_vars.begin(); it != env_vars.end(); ++it)
-//     {
-//         std::string env_var = it->first + "=" + it->second;
-//         env_strings.push_back(env_var);
-//         envp.push_back(&env_strings.back()[0]);
-//     }
-//     envp.push_back(NULL);
+    for (std::map<std::string, std::string>::const_iterator it = env_vars.begin(); it != env_vars.end(); ++it)
+    {
+        std::string env_var = it->first + "=" + it->second;
+        env_strings.push_back(env_var);
+        envp.push_back(&env_strings.back()[0]);
+    }
+    envp.push_back(NULL);
 
-//     cgi_pid = fork();
-//     if (cgi_pid < 0)
-//     {
-//         perror("fork failed");
-//         close(pipe_in[0]);
-//         close(pipe_in[1]);
-//         close(pipe_out[0]);
-//         close(pipe_out[1]);
-//         return false;
-//     }
+    cgi_pid = fork();
+    if (cgi_pid < 0)
+    {
+        perror("fork failed");
+        close(pipe_in[0]);
+        close(pipe_in[1]);
+        close(pipe_out[0]);
+        close(pipe_out[1]);
+        return false;
+    }
 
-//     if (cgi_pid == 0)
-//     {
-//         // Child process
-//         close(pipe_in[1]);
-//         close(pipe_out[0]);
+    if (cgi_pid == 0)
+    {
+        // Child process
+        close(pipe_in[1]);
+        close(pipe_out[0]);
 
-//         if (dup2(pipe_in[0], STDIN_FILENO) == -1 ||
-//             dup2(pipe_out[1], STDOUT_FILENO) == -1)
-//         {
-//             perror("dup2 failed in child");
-//             exit(EXIT_FAILURE);
-//         }
+        if (dup2(pipe_in[0], STDIN_FILENO) == -1 ||
+            dup2(pipe_out[1], STDOUT_FILENO) == -1)
+        {
+            perror("dup2 failed in child");
+            exit(EXIT_FAILURE);
+        }
 
-//         close(pipe_in[0]);
-//         close(pipe_out[1]);
+        close(pipe_in[0]);
+        close(pipe_out[1]);
 
-//         std::vector<char*> argv;
-//         std::string interpreter = get_interpreter(full_script_path);
+        std::vector<char*> argv;
+        std::string interpreter = get_interpreter(full_script_path);
         
-//         if (!interpreter.empty())
-//         {
-//             argv.push_back(const_cast<char*>(interpreter.c_str()));
-//             argv.push_back(const_cast<char*>(full_script_path.c_str()));
-//         }
-//         else
-//         {
-//             argv.push_back(const_cast<char*>(full_script_path.c_str()));
-//         }
-//         argv.push_back(NULL);
+        if (!interpreter.empty())
+        {
+            argv.push_back(const_cast<char*>(interpreter.c_str()));
+            argv.push_back(const_cast<char*>(full_script_path.c_str()));
+        }
+        else
+        {
+            argv.push_back(const_cast<char*>(full_script_path.c_str()));
+        }
+        argv.push_back(NULL);
 
-//         if (!interpreter.empty())
-//         {
-//             execve(interpreter.c_str(), &argv[0], &envp[0]);
-//         }
-//         else
-//         {
-//             execve(full_script_path.c_str(), &argv[0], &envp[0]);
-//         }
+        if (!interpreter.empty())
+        {
+            execve(interpreter.c_str(), &argv[0], &envp[0]);
+        }
+        else
+        {
+            execve(full_script_path.c_str(), &argv[0], &envp[0]);
+        }
         
-//         perror("execve failed");
-//         exit(EXIT_FAILURE);
-//     }
-//     else
-//     {
-//         // Parent process
-//         close(pipe_in[0]);
-//         close(pipe_out[1]);
+        perror("execve failed");
+        exit(EXIT_FAILURE);
+    }
+    else
+    {
+        // Parent process
+        close(pipe_in[0]);
+        close(pipe_out[1]);
 
-//         int input_fd = pipe_in[1];
-//         cgi_fd = pipe_out[0];
+        int input_fd = pipe_in[1];
+        cgi_fd = pipe_out[0];
 
-//         // Send POST data
-//         if (!body_data.empty())
-//         {
-//             if (!send_post_data(input_fd, body_data))
-//             {
-//                 close(input_fd);
-//                 close(cgi_fd);
-//                 kill(cgi_pid, SIGKILL);
-//                 waitpid(cgi_pid, NULL, 0);
-//                 return false;
-//             }
-//         }
-//         close(input_fd);
+        // Send POST data
+        if (!body_data.empty())
+        {
+            if (!send_post_data(input_fd, body_data))
+            {
+                close(input_fd);
+                close(cgi_fd);
+                kill(cgi_pid, SIGKILL);
+                waitpid(cgi_pid, NULL, 0);
+                return false;
+            }
+        }
+        close(input_fd);
 
-//         // // Wait for CGI process with timeout
-//         // bool process_finished = wait_with_timeout(10); // 10 second timeout for POST
+        // // Wait for CGI process with timeout
+        // bool process_finished = wait_with_timeout(10); // 10 second timeout for POST
         
-//         // if (!process_finished)
-//         // {
-//         //     std::cerr << "CGI script timeout" << std::endl;
-//         //     kill(cgi_pid, SIGKILL);
-//         //     waitpid(cgi_pid, &status, 0);
-//         //     close(cgi_fd);
-//         //     cgi_fd = -1;
-//         //     return false;
-//         // }
+        // if (!process_finished)
+        // {
+        //     std::cerr << "CGI script timeout" << std::endl;
+        //     kill(cgi_pid, SIGKILL);
+        //     waitpid(cgi_pid, &status, 0);
+        //     close(cgi_fd);
+        //     cgi_fd = -1;
+        //     return false;
+        // }
 
-//         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
-//         {
-//             std::cerr << "CGI script failed with status: " << WEXITSTATUS(status) << std::endl;
-//             close(cgi_fd);
-//             cgi_fd = -1;
-//             return false;
-//         }
-//     }
+        // Wait for CGI process to finish - we still need to wait for the process
+        bool process_finished = wait_with_timeout(10); // 10 second timeout for POST
+        
+        if (!process_finished)
+        {
+            error_code = 504;
+            error_message = "CGI script timeout";
+            std::cerr << "CGI script timeout" << std::endl;
+            kill(cgi_pid, SIGKILL);
+            waitpid(cgi_pid, &status, 0);
+            close(cgi_fd);
+            cgi_fd = -1;
+            return false;
+        }
 
-//     return true;
-// }
+        if (!WIFEXITED(status) || WEXITSTATUS(status) != 0)
+        {
+            error_code = 500;
+            error_message = "CGI script execution failed";
+            std::cerr << "CGI script failed with status: " << WEXITSTATUS(status) << std::endl;
+            close(cgi_fd);
+            cgi_fd = -1;
+            return false;
+        }
+    }
+
+    return true;
+}
 
 bool CGI::read_output()
 {
@@ -491,6 +540,28 @@ bool CGI::wait_with_timeout(int timeout_seconds)
     return false; // Timeout
 }
 
+bool CGI::send_post_data(int fd, const std::string& body_data)
+{
+    if (body_data.empty())
+        return true;
+        
+    size_t total_sent = 0;
+    size_t data_size = body_data.length();
+    
+    while (total_sent < data_size)
+    {
+        ssize_t sent = write(fd, body_data.c_str() + total_sent, data_size - total_sent);
+        if (sent <= 0)
+        {
+            perror("Failed to send POST data to CGI");
+            return false;
+        }
+        total_sent += sent;
+    }
+    
+    return true;
+}
+
 // bool CGI::send_post_data(int fd, const std::string& body_data)
 // {
 //     if (body_data.empty())
@@ -513,7 +584,3 @@ bool CGI::wait_with_timeout(int timeout_seconds)
 //     return true;
 // }
 
-void CGI::handleCGI(ParsingRequest *parser)
-{
-    (void)parser; // Avoid unused parameter warning
-}

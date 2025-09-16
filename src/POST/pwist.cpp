@@ -1,4 +1,5 @@
 #include "../../inc/POST.hpp"
+#include "../../inc/webserv.hpp"
 
 std::string generate_filename(string type, string termination)
 {
@@ -282,7 +283,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     {
         // cout << location.upload_path << endl;
         // std::cerr << "stat failed: " << strerror(errno) << "\n";
-        cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
+        // cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
         return internal_error();
     }
 
@@ -316,6 +317,78 @@ string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
     string response = "";
+    
+    // Check if this is a CGI request first
+    CGI cgi;
+    if (cgi.check_is_cgi(parser))
+    {
+        std::map<std::string, std::string> env_vars;
+        if (cgi.set_env_var(env_vars, parser))
+        {
+            if (cgi.execute_with_body(env_vars, parser.getBody()))
+            {
+                if (cgi.read_output())
+                {
+                    std::string cgi_output = cgi.get_output();
+                    
+                    // Parse CGI output to separate headers and body
+                    size_t header_end = cgi_output.find("\r\n\r\n");
+                    if (header_end == std::string::npos)
+                        header_end = cgi_output.find("\n\n");
+                    
+                    if (header_end != std::string::npos)
+                    {
+                        std::string cgi_headers = cgi_output.substr(0, header_end);
+                        std::string cgi_body = cgi_output.substr(header_end + (cgi_output.find("\r\n\r\n") != std::string::npos ? 4 : 2));
+                        
+                        std::ostringstream response_stream;
+                        response_stream << "HTTP/1.1 200 OK\r\n";
+                        
+                        // Check if CGI provided Content-Type, if not add default
+                        if (cgi_headers.find("Content-Type:") == std::string::npos)
+                        {
+                            response_stream << "Content-Type: text/html\r\n";
+                        }
+                        
+                        response_stream << cgi_headers << "\r\n";
+                        
+                        // Add Content-Length if not provided by CGI
+                        if (cgi_headers.find("Content-Length:") == std::string::npos)
+                        {
+                            response_stream << "Content-Length: " << cgi_body.size() << "\r\n";
+                        }
+                        
+                        response_stream << "\r\n" << cgi_body;
+                        
+                        return response_stream.str();
+                    }
+                    else
+                    {
+                        // No proper headers from CGI, treat as plain output
+                        std::ostringstream response_stream;
+                        response_stream << "HTTP/1.1 200 OK\r\n";
+                        response_stream << "Content-Type: text/html\r\n";
+                        response_stream << "Content-Length: " << cgi_output.size() << "\r\n\r\n";
+                        response_stream << cgi_output;
+                        return response_stream.str();
+                    }
+                }
+                else
+                {
+                    return GenerateResErr(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
+                }
+            }
+            else
+            {
+                return GenerateResErr(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
+            }
+        }
+        else
+        {
+            return GenerateResErr(500);
+        }
+    }
+    
     // cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
     try
     {
@@ -323,9 +396,14 @@ string	postMethod(string uri, ConfigStruct config,
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
         
-        if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
+        std::map<std::string, std::string> headers = parser.getHeaders();
+        std::string content_type = "";
+        if (headers.find("content-type-value") != headers.end())
+            content_type = headers["content-type-value"];
+        
+        if (content_type == "multipart/form-data")
             response = handle_upload(location.second, parser);
-        else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
+        else if(content_type == "application/x-www-form-urlencoded")
         {
             cout << "ENTRAAAAAAAADO\n";
             response = handle_url_encoded(location.second, parser);
@@ -338,6 +416,15 @@ string	postMethod(string uri, ConfigStruct config,
     }
     catch (exception& e)
     {
+        std::string error_msg = e.what();
+        if (error_msg.find("Method not allowed") != std::string::npos)
+            response = GenerateResErr(405);
+        else if (error_msg.find("Location not found") != std::string::npos)
+            response = GenerateResErr(404);
+        else if (error_msg.find("Redirection") != std::string::npos)
+            response = GenerateResErr(302);
+        else
+            response = internal_error(); // 500 Internal Server Error
     }
     return response;
 }

@@ -3,7 +3,7 @@
 
 #include "webserv.hpp"
 #include "CClient.hpp"
-class Get
+class Get : public ParsingRequest
 {
 
 private:
@@ -27,7 +27,7 @@ public:
     std::string pathIsFile(std::string matchLocation);
     std::string handleDirectoryWithIndex(std::string indexPath);
     std::string handleDirectoryWithAutoIndex(std::string matchLocation);
-    std::string MethodGet();
+    std::string MethodGet(ParsingRequest& parser);
     string setupChunkedSending(const std::string& filePath);
     void printLocationStruct(const LocationStruct& loc);
     string buildRedirectResponse(int statusCode, const std::string& target);

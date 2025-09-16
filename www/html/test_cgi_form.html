@@ -22,8 +22,16 @@
         </div>  
     </header>
     <h1 class="crt-text" style="color: rgb(0, 197, 0);">Common Gateway Interface</h1>
+    <div class="crt-text" style="color: rgb(0, 197, 0); margin-top: 20px; font-size: 18px;">
+        <p>Loading system information...</p>
+    </div>
     <span class="blink">_</span>
     <div id="interlaced"></div> 
     <div id="glare"></div>
+    <script>
+        setTimeout(function() {
+            window.location.href = 'cgi_bin/info-dash.py';
+        }, 2000);
+    </script>
   </body>
 </html

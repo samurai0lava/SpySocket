@@ -51,7 +51,7 @@ string CClient::HandleAllMethod()
 
         Get _MGet(*this);
         try {
-            return (_MGet.MethodGet());
+            return (_MGet.MethodGet(*this->parser));
         }
         catch (const std::runtime_error& e) {
             std::string errMsg = e.what();

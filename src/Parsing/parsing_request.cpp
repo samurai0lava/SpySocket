@@ -344,7 +344,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" ||key == "transfer-encoding" || key == "content-length" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type")
 			header_map[key] = value;
 	}
 
@@ -369,13 +369,12 @@ bool ParsingRequest::parse_headers()
 	if (content_lenght_exists == 1)
 	{
 		//wtf is this (transfer encoding you'll never know the size of the body you getting)
-		std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
 	else
-		expected_body_length = 1;
+		expected_body_length = 0;
 	// printMap(headers);
 	return true;
 }
@@ -788,10 +787,14 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 				return PARSE_AGAIN;
 			}
 			cout << "---------------> " << getHeaders()["content-length"] << endl;
-			if (expected_body_length > 0)
-				current_state = PARSE_BODY;
-			else
-				current_state = PARSE_COMPLETE;
+			// For POST requests, always try to parse body regardless of expected_body_length
+			{
+				std::string method = start_line.at("method");
+				if (method == "POST" || expected_body_length > 0)
+					current_state = PARSE_BODY;
+				else
+					current_state = PARSE_COMPLETE;
+			}
 			break;
 
 		case PARSE_BODY:
