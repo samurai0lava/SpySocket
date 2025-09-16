@@ -719,7 +719,7 @@ bool ParsingRequest::parse_body()
     if (method == "POST") 
 	{
 		// cout << RED "POST" RESET << endl;
-        if (transfer_encoding_exists) 
+        if (transfer_encoding_exists == 1) 
 		{
             std::string temp_buffer = buffer.substr(buffer_pos);
 			cout << "***********\n";
@@ -734,7 +734,7 @@ bool ParsingRequest::parse_body()
             }
             return false;
         }
-		else if (content_lenght_exists) 
+		else if (content_lenght_exists == 1) 
 		{
             size_t available = buffer.length() - buffer_pos;
             if (available < expected_body_length)
