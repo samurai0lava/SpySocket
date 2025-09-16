@@ -31,6 +31,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
 	{
         case (listen_):
         {
+            
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             if (value.find_first_not_of(DECIMAL) != std::string::npos)
 		    {
@@ -41,7 +42,6 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             if (iport <= 0 || iport > 65535) {
                 throw std::runtime_error("Invalid listen port: must be between 1 and 65535");
             }
-
             std::stringstream ss(value);
             unsigned short port;
             ss >> port;
@@ -52,9 +52,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
                     throw std::runtime_error("Duplicate listen port: " + value);
             }
             if (!exists)
-            {
                 this->_conf->listen.push_back(port);
-            }
             break;
 
             
@@ -67,7 +65,6 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
                 throw std::runtime_error("Invalid host format: " + value);
             }
             this->_conf->host = value;
-            // if(this->_conf.listen)
             break;
 
         }
@@ -78,10 +75,11 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
                 throw SingleServerConfig::DublicateRootException();
             }
 		    value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
-            if (value[0] != '/' || value[value.length() - 1] != '/')
-            {
-                throw SingleServerConfig::InvalidPathException();
-            }
+            // tanswal chey hed ....
+            // if (value[0] != '/' || value[value.length() - 1] != '/')
+            // {
+            //     throw SingleServerConfig::InvalidPathException();
+            // }
             this->_conf->root = value;
             break;
 
@@ -190,6 +188,7 @@ void SingleServerConfig::_setVariables(std::string config)
 			buffer.clear();
 			buffer = locationBlock.str();
 		}
+        // std::cout<<"Buffer : "<<buffer.c_str()<<std::endl;
 		this->_parseKeyValue(buffer);
 		buffer.clear();
 	}
