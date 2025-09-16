@@ -24,6 +24,10 @@ class SingleServerConfig
 		void _handleLocation(std::string line);
 		void _handleErrorPage(std::string line);
 		LocationStruct _fillLocationStruct(std::string block);
+		bool _isValidHost(const std::string& host) const;
+		bool _isValidIPv4(const std::string& ip) const;
+		bool _isValidDomain(const std::string& domain) const;
+
 	public:
 		SingleServerConfig(std::string server, ConfigStruct *conf);
 		class NoListenException : public std::exception

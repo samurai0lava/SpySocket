@@ -1,4 +1,5 @@
 #include "../include/Config.hpp"
+
 // #include "Config.hpp"
 
 
@@ -38,9 +39,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 			continue ;
 		size_t start = buffer.find_first_not_of("\n\r\t\f\v ");
 		if (start == std::string::npos)
-		{
 			continue ;
-		}
 		size_t end = buffer.find_first_of(";");
 		if (end == std::string::npos)
 		{
@@ -104,10 +103,30 @@ void Config::StartToSet(std::string configPath)
 	std::string buffer = streamBuffer.str();
 	this->_checkBrackets(buffer);
 	this->_checkRedirectionLoops();
+	this->_checkDuplicateListenAddresses();
 	std::cout <<"Configuration file parsed successfully!"  << std::endl;
 	
 }
 
+
+void Config::_checkDuplicateListenAddresses()
+{
+    std::map<std::string, std::set<int> > listenAddresses;
+    for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it)
+    {
+        const ConfigStruct& conf = it->second;
+        for (size_t i = 0; i < conf.listen.size(); ++i)
+        {
+            int port = conf.listen[i];
+            if (listenAddresses[conf.host].count(port))
+            {
+                std::cerr << "Duplicate listen address found for server: " << conf.host << " on port: " << port << std::endl;
+                throw std::runtime_error("Duplicate listen address found");
+            }
+            listenAddresses[conf.host].insert(port);
+        }
+    }
+}
 void Config::_checkBrackets(std::string all)
 {
 	bool openServer = false;
@@ -125,28 +144,18 @@ void Config::_checkBrackets(std::string all)
 		if(buffer.find("server {") != std::string::npos )
 		{
 			if(openServer == true)
-			{
 				throw Config::ServerInsideServerException();
-			}
 			else
-			{
 				openServer = true;
-			}
 		}
 		else if(buffer.find("location ") != std::string::npos)
 		{
 			if(buffer.find(" {") == std::string::npos)
-			{
 				throw Config::WrongBlockException();
-			}
 			else if(openServer == false)
-			{
 				throw Config::WrongBlockException();
-			}
 			else if(openLocation == true)
-			{
 				throw Config::WrongBlockException();
-			}
 			else
 				openLocation = true;
 		}

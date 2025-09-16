@@ -37,6 +37,11 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
                 std::cout << keyValue << std::endl;
                 throw SingleServerConfig::NoListenException();
 		    }
+            int iport = atoi(value.c_str());
+            if (iport <= 0 || iport > 65535) {
+                throw std::runtime_error("Invalid listen port: must be between 1 and 65535");
+            }
+
             std::stringstream ss(value);
             unsigned short port;
             ss >> port;
@@ -44,10 +49,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             for (size_t i = 0; i < this->_conf->listen.size(); ++i)
             {
                 if (this->_conf->listen[i] == port)
-                {
-                    exists = true;
-                    break;
-                }
+                    throw std::runtime_error("Duplicate listen port: " + value);
             }
             if (!exists)
             {
@@ -60,7 +62,12 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         case(host):
         {
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
+             if (!_isValidHost(value))
+            {
+                throw std::runtime_error("Invalid host format: " + value);
+            }
             this->_conf->host = value;
+            // if(this->_conf.listen)
             break;
 
         }
@@ -391,6 +398,97 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
     return LocationStruct(location_tmp);
 }
 
+
+bool SingleServerConfig::_isValidHost(const std::string& host) const
+{
+    if (host.empty() || host.length() > 253)
+        return false;
+        
+    std::string hostToCheck = host;
+    if (host[0] == '*')
+    {
+        if (host.length() < 2 || host[1] != '.')
+            return false;
+        hostToCheck = host.substr(2);
+    }
+    
+    // Check if it looks like an IPv4 (contains only digits and dots)
+    bool looksLikeIP = true;
+    for (size_t i = 0; i < hostToCheck.length(); ++i)
+    {
+        if (!std::isdigit(hostToCheck[i]) && hostToCheck[i] != '.')
+        {
+            looksLikeIP = false;
+            break;
+        }
+    }
+    
+    // If it looks like an IP, validate ONLY as IP
+    if (looksLikeIP)
+    {
+        return _isValidIPv4(hostToCheck);
+    }
+    
+    // Otherwise, validate as domain
+    return _isValidDomain(hostToCheck);
+}
+bool SingleServerConfig::_isValidIPv4(const std::string& ip) const
+{
+    std::istringstream iss(ip);
+    std::string octet;
+    int count = 0;
+    
+    while (std::getline(iss, octet, '.'))
+    {
+        count++;
+        if (count > 4)
+            return false;
+        
+        if (octet.empty() || octet.length() > 3)
+            return false;
+        
+        for (size_t i = 0; i < octet.length(); ++i)
+        {
+            if (!std::isdigit(octet[i]))
+                return false;
+        }
+        if (octet.length() > 1 && octet[0] == '0')
+            return false;
+        
+        int num = std::atoi(octet.c_str());
+        if (num < 0 || num > 255){
+            return false;}
+    }
+    bool result = (count == 4);
+    return result;
+}
+bool SingleServerConfig::_isValidDomain(const std::string& domain) const
+{
+      if (domain.empty() || domain.length() > 253)
+        return false;
+    if (domain[0] == '.' || domain[0] == '-' || 
+        domain[domain.length() - 1] == '.' || domain[domain.length() - 1] == '-')
+        return false;
+    
+    std::istringstream iss(domain);
+    std::string label;
+    
+    while (std::getline(iss, label, '.'))
+    {
+        if (label.empty() || label.length() > 63)
+            return false;
+        if (label[0] == '-' || label[label.length() - 1] == '-')
+            return false;
+        for (size_t i = 0; i < label.length(); ++i)
+        {
+            char c = label[i];
+            if (!std::isalnum(c) && c != '-')
+                return false;
+        }
+    }
+    
+    return true;
+}
 SingleServerConfig::SingleServerConfig(std::string server, ConfigStruct *conf) : _conf(conf)
 {
 	this->cbbsSet = false;

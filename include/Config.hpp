@@ -28,6 +28,7 @@ class Config
         Config();
         ~Config();
         void StartToSet(std::string configPath);
+        void _checkDuplicateListenAddresses();
         void _checkBrackets(std::string buffer);
         void setConfigPath(std::string configPath);
         void printCluster() const;
