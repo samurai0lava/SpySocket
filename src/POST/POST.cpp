@@ -72,7 +72,7 @@ string	getClosest(vector<string> locationsName, string uri)
 //     return (location);
 // }
 
-void	handle_redirect(int fd, std::pair<std::string, LocationStruct> location)
+string	handle_redirect(std::pair<std::string, LocationStruct> location)
 {
 	std::string status = (*location.second._return.begin()).first;
 	// Not sure why there is a vector i'll work with the first one for now
@@ -95,7 +95,8 @@ void	handle_redirect(int fd, std::pair<std::string, LocationStruct> location)
 		"\r\n"
 		"Content-Length: 0\r\n"
 		"\r\n";
-	send(fd, response.c_str(), response.length(), 0);
+	return response;
+	// send(fd, response.c_str(), response.length(), 0);
 }
 
 string	handle_notAllowed(std::pair<std::string,
@@ -122,14 +123,15 @@ string	handle_notAllowed(std::pair<std::string,
 	// send(fd, res.c_str(), res.length(), 0);
 }
 
-void	notFound(int fd)
+string	notFound()
 {
 	string response = "HTTP/1.1 404 Not Found\r\n"
 						"Content-Type: text/html\r\n"
 						"Content-Length: 48\r\n"
 						"\r\n"
 						"<html><body><h1>404 Not Found</h1></body></html>";
-	send(fd, response.c_str(), response.length(), 0);
+	return response;
+	// send(fd, response.c_str(), response.length(), 0);
 }
 
 // std::pair<std::string, LocationStruct> get_location(int fd,

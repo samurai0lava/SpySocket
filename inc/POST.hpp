@@ -26,6 +26,10 @@ bool refactor_data(string& buffer, const char* data, size_t len);
 
 string	handle_notAllowed(std::pair<std::string,
 		LocationStruct> location);
+string	notFound();
+string	handle_redirect(std::pair<std::string, LocationStruct> location);
+
+
 
 // class POST
 // {

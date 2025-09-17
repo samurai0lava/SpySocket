@@ -75,8 +75,10 @@ string created_success()
 
 string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
+
     if (location.upload_enabled == false)
     {
+        cout << RED "HEEEEERE\n" RESET;
         return forbidden_403();
     }
     if (location.upload_path.empty())
@@ -158,7 +160,8 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     else
     {
         cout << location.upload_path << endl;
-        std::cerr << "stat failed: " << strerror(errno) << "\n";
+        // std::cerr << "stat failed: " << strerror(errno) << "\n";
+        cout << RED "111111111111111\n" RESET ;
         return internal_error();
     }
     // cout << RED << "FILENAME : " << filename << RESET << endl;
@@ -167,6 +170,8 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     {
         //500 internal
         // cout << "DDDDDDDDDDDDDDDDDDD\n";
+        cout << RED "22222222222222\n" RESET ;
+
         return internal_error();
     }
 
@@ -175,6 +180,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     {
         //internal server error
         // cout << "CCCCCCCCCCCCCCCCCC\n";
+        cout << RED "33333333333333\n" RESET ;
 
         return internal_error();
     }
@@ -279,6 +285,8 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         // cout << location.upload_path << endl;
         // std::cerr << "stat failed: " << strerror(errno) << "\n";
         // cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
+        cout << RED "44444444444444444\n" RESET ;
+
         return internal_error();
     }
 
@@ -287,6 +295,8 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     {
         // cout << "EEEEEEEEEEEEEEEEEEEEEEEEE\n";
         cout << filename << endl;
+        cout << RED "55555555555555\n" RESET ;
+
         return internal_error();
     }
 
@@ -295,6 +305,8 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     {
         //internal server error
         // cout  << "UUUUUUUUUUUUUUUUUUUUUUUUUUUU\n";
+        cout << RED "6666666666666666\n" RESET ;
+
         return internal_error();
     }
     file.close();
@@ -311,30 +323,41 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
 string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
+    cout << BLUE "'" << parser.getHeaders()["content-type-value"] << "'" RESET << endl;
     string response = "";
     try
     {
         std::pair<std::string, LocationStruct> location = get_location(uri,
             config);
+        if(location.first.empty())
+            return notFound();
         //check if method allowed and check for redirection
+        if(!location.second._return.empty())
+        {
+            return handle_redirect(location);
+        }
+
         if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
+        {
             return handle_notAllowed(location);
-        // for (std::vector<std::pair<std::string, std::string>>::iterator it = location.second._return.begin(); it != location.second._return.end(); ++it)
-            // cout << YELLOW << *it << RESET << endl;
+        }
+        
+
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
+        {
             response = handle_upload(location.second, parser);
+        }
         else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
         {
-            // cout << "ENTRAAAAAAAADO\n";
             response = handle_url_encoded(location.second, parser);
         }
         else
             response = main_response(location.second, parser);
 
-        // cout << location.first << endl;
     }
     catch (exception& e)
     {
     }
+    // cout << YELLOW << response << RESET << endl;
     return response;
 }

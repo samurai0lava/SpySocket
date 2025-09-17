@@ -199,7 +199,7 @@ void Servers::epollFds(Servers& serv)
                 else
                 {
                     std::cerr << "No parser found for client FD " << fd << std::endl;
-                    access_error(500, "Internal Server Error: No parser found for client.");
+                    // access_error(500, "Internal Server Error: No parser found for client.");
                     close(fd);
                     continue;
                 }
@@ -208,7 +208,7 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    printRequestInfo(*parser, fd);
+                    // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     // access_log(*parser);
                     handleMethod(fd, parser, config, serv, client_data_map[fd]);
@@ -292,7 +292,7 @@ void Servers::epollFds(Servers& serv)
                         c.ready_to_respond = false;
                         if (client_data_map[fd].chunkedSending == true)
                         {
-                            std::cout << "Finished sending response to fd : " << fd << std::endl;
+                            std::cout << RED "Finished sending response to fd : " << fd << RESET << std::endl;
                             epoll_event ev;
                             memset(&ev, 0, sizeof(ev));
                             ev.events = EPOLLIN; // Reset to listen for new requests
@@ -327,6 +327,7 @@ void Servers::epollFds(Servers& serv)
                     // std::cout << "Ready to send response to fd : " << fd << std::endl;
                     if (c.response.empty())
                         c.response = client_data_map[fd].HandleAllMethod();
+                    // cout << c.response() << endl;
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
                     if (bytes_sent == -1) {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
