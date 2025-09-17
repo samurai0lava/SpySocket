@@ -123,6 +123,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         }
         case(location):
         {
+            
             this->_handleLocation(keyValue);
             break;
         }
@@ -139,13 +140,28 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             }
             else
             {
-                cbbsSet = true;}
-            size_t out = 0;
-		    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-            if(value.find_first_not_of(DECIMAL) != std::string::npos )
-                throw std::runtime_error("this does not fit the required argument type.");
-            std::istringstream(value.c_str()) >> out;
-		    this->_conf->clientMaxBodySize = out;
+                cbbsSet = true;
+            }
+
+             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
+    
+    // Trim whitespace
+            size_t start = value.find_first_not_of(" \t\n\r\f\v");
+            if (start != std::string::npos) {
+                size_t end = value.find_last_not_of(" \t\n\r\f\v");
+                value = value.substr(start, end - start + 1);
+            }
+    
+            // Parse size with suffix
+
+            size_t bodySize = _parseBodySize(value);
+            this->_conf->clientMaxBodySize = bodySize;
+            // size_t out = 0;
+		    // value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+            // if(value.find_first_not_of(DECIMAL) != std::string::npos )
+            //     throw std::runtime_error("this does not fit the required argument type.");
+            // std::istringstream(value.c_str()) >> out;
+		    // this->_conf->clientMaxBodySize = out;
 
             break;
         }
@@ -216,6 +232,8 @@ void SingleServerConfig::_handleLocation(std::string block)
         else
             blockStream << line << std::endl;
     }
+    if(!_isValidLocationPath(key))
+       throw std::runtime_error("Invalid location path: " + key);
     LocationStruct tmp = this->_fillLocationStruct(blockStream.str());
     this->_conf->location.push_back(std::make_pair(key, tmp));
 
@@ -410,8 +428,6 @@ bool SingleServerConfig::_isValidHost(const std::string& host) const
             return false;
         hostToCheck = host.substr(2);
     }
-    
-    // Check if it looks like an IPv4 (contains only digits and dots)
     bool looksLikeIP = true;
     for (size_t i = 0; i < hostToCheck.length(); ++i)
     {
@@ -421,14 +437,10 @@ bool SingleServerConfig::_isValidHost(const std::string& host) const
             break;
         }
     }
-    
-    // If it looks like an IP, validate ONLY as IP
     if (looksLikeIP)
     {
         return _isValidIPv4(hostToCheck);
     }
-    
-    // Otherwise, validate as domain
     return _isValidDomain(hostToCheck);
 }
 bool SingleServerConfig::_isValidIPv4(const std::string& ip) const
@@ -488,6 +500,92 @@ bool SingleServerConfig::_isValidDomain(const std::string& domain) const
     
     return true;
 }
+
+
+size_t SingleServerConfig::_parseBodySize(const std::string& sizeStr) const
+{
+    if (sizeStr.empty())
+        throw std::runtime_error("Empty client_max_body_size value");
+    std::string numberPart;
+    char suffix = '\0';
+    
+    for (size_t i = 0; i < sizeStr.length(); ++i)
+    {
+        if (std::isdigit(sizeStr[i]))
+        {
+            numberPart += sizeStr[i];
+        }
+        else if (i == sizeStr.length() - 1) 
+        {
+            suffix = std::tolower(sizeStr[i]);
+            if (suffix != 'k' && suffix != 'm' && suffix != 'g')
+                throw std::runtime_error("Invalid size suffix in client_max_body_size: " + sizeStr);
+        }
+        else
+        {
+            throw std::runtime_error("Invalid format in client_max_body_size: " + sizeStr);
+        }
+    }
+    if (numberPart.empty())
+        throw std::runtime_error("No numeric value in client_max_body_size: " + sizeStr);
+    long long number = std::atoll(numberPart.c_str());
+    if (number < 0)
+        throw std::runtime_error("Negative value not allowed in client_max_body_size");
+    size_t result = number;
+    switch (suffix)
+    {
+        case 'k':
+            result *= 1024;
+            break;
+        case 'm':
+            result *= 1024 * 1024;
+            break;
+        case 'g':
+            result *= 1024 * 1024 * 1024;
+            break;
+        case '\0':
+            break;
+    }
+    if (result > 2147483648UL) 
+        throw std::runtime_error("client_max_body_size too large (max 2GB)");
+    return result;
+}
+
+
+bool SingleServerConfig::_isValidLocationPath(const std::string& path) const
+{
+    if (path.empty())
+    return false;
+    
+    if (path[0] != '/')
+        return false;
+    
+    if (path.find('\0') != std::string::npos)
+        return false;
+    if (path.find("../") != std::string::npos || path.find("/..") != std::string::npos)
+        return false;
+    if (path.find("//") != std::string::npos)
+        return false;
+    return true;
+
+}
+
+void SingleServerConfig::_initializeLocationStruct(LocationStruct& loc) const
+{
+    loc.autoIndex = false;
+    loc.root = "";
+    loc.indexPage = "";
+    loc.upload_enabled = false;
+    loc.upload_path = "";
+    loc.allowedMethods.clear();
+    loc._return.clear();
+    loc.cgi_path.clear();
+    loc.cgi_ext.clear();
+    loc.url_encoded.clear();
+}
+
+
+
 SingleServerConfig::SingleServerConfig(std::string server, ConfigStruct *conf) : _conf(conf)
 {
 	this->cbbsSet = false;

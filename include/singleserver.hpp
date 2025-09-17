@@ -27,6 +27,9 @@ class SingleServerConfig
 		bool _isValidHost(const std::string& host) const;
 		bool _isValidIPv4(const std::string& ip) const;
 		bool _isValidDomain(const std::string& domain) const;
+		size_t _parseBodySize(const std::string& sizeStr) const;
+		bool _isValidLocationPath(const std::string& path) const;
+    	void _initializeLocationStruct(LocationStruct& loc) const;
 
 	public:
 		SingleServerConfig(std::string server, ConfigStruct *conf);
