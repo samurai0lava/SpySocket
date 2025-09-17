@@ -190,63 +190,88 @@ void Config::setConfigPath(std::string configPath)
     this->_configPath = configPath;
 }
 
-void Config::printCluster() const {
-	for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it) {
-		const std::string &serverName = it->first;
-		const ConfigStruct &conf = it->second;
+void Config::printCluster() const 
+{
+    for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it) {
+        const std::string &serverName = it->first;
+        const ConfigStruct &conf = it->second;
+        std::cout << "Server: " << serverName << std::endl;
+        if (!conf.host.empty())
+            std::cout << "\tHost: " << conf.host << std::endl;
+        if (!conf.root.empty())
+            std::cout << "\tRoot: " << conf.root << std::endl;
+        if (!conf.indexPage.empty())
+            std::cout << "\tIndex Page: " << conf.indexPage << std::endl;
+        if (conf.autoIndex)
+            std::cout << "\tAutoIndex: true" << std::endl;
+        if (conf.clientMaxBodySize != 0)
+            std::cout << "\tClient Max Body Size: " << conf.clientMaxBodySize << std::endl;
+        if (!conf.listen.empty()) {
+            std::cout << "\tListen Ports: ";
+            for (size_t i = 0; i < conf.listen.size(); ++i)
+                std::cout << conf.listen[i] << " ";
+            std::cout << std::endl;
+        }
+        if (!conf.errorPage.empty()) {
+            std::cout << "\tError Pages:" << std::endl;
+            for (size_t i = 0; i < conf.errorPage.size(); ++i)
+                std::cout << "\t\t" << conf.errorPage[i].first << " => " << conf.errorPage[i].second << std::endl;
+        }
+        if (!conf.location.empty()) {
+            std::cout << "\tLocation blocks:" << std::endl;
+            for (size_t i = 0; i < conf.location.size(); ++i) {
+                std::cout << "\t\tLocation: " << conf.location[i].first << std::endl;
+                const LocationStruct &loc = conf.location[i].second;
+                if (!loc.root.empty())
+                    std::cout << "\t\t\tRoot: " << loc.root << std::endl;
+                
+                if (!loc.indexPage.empty())
+                    std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
+                
+                if (loc.autoIndex)
+                    std::cout << "\t\t\tAutoIndex: on" << std::endl;
+                
+                if (!loc._return.empty()) {
+                    std::cout << "\t\t\tReturn: ";
+                    for (size_t j = 0; j < loc._return.size(); ++j) {
+                        std::cout << "(" << loc._return[j].first << ", " << loc._return[j].second << ")";
+                        if (j != loc._return.size() - 1)
+                            std::cout << ", ";
+                    }
+                    std::cout << std::endl;
+                }
+                
+                if (!loc.allowedMethods.empty()) {
+                    std::cout << "\t\t\tAllowed Methods: ";
+                    for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
+                        std::cout << *mit << " ";
+                    std::cout << std::endl;
+                }
 
-		std::cout << "Server: " << serverName << std::endl;
-		std::cout << "\tHost: " << conf.host << std::endl;
-		std::cout << "\tRoot: " << conf.root << std::endl;
-		std::cout << "\tIndex Page: " << conf.indexPage << std::endl;
-		std::cout << "\tAutoIndex: " << (conf.autoIndex ? "true" : "false") << std::endl;
-		std::cout << "\tClient Max Body Size: " << conf.clientMaxBodySize << std::endl;
+                if (!loc.cgi_path.empty()) {
+                    std::cout << "\t\t\tCGI Paths: ";
+                    for (size_t j = 0; j < loc.cgi_path.size(); ++j)
+                        std::cout << loc.cgi_path[j] << " ";
+                    std::cout << std::endl;
+                }
 
-		std::cout << "\tListen Ports: ";
-		for (size_t i = 0; i < conf.listen.size(); ++i)
-			std::cout << conf.listen[i] << " ";
-		std::cout << std::endl;
-
-		std::cout << "\tError Pages:" << std::endl;
-		for (size_t i = 0; i < conf.errorPage.size(); ++i)
-			std::cout << "\t\t" << conf.errorPage[i].first << " => " << conf.errorPage[i].second << std::endl;
-
-		std::cout << "\tLocation blocks:" << std::endl;
-		for (size_t i = 0; i < conf.location.size(); ++i) {
-			std::cout << "\t\tLocation: " << conf.location[i].first << std::endl;
-			const LocationStruct &loc = conf.location[i].second;
-			std::cout << "\t\t\tRoot: " << loc.root << std::endl;
-			std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
-			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
-			std::cout << "\t\t\tReturn: ";
-			for (size_t i = 0; i < loc._return.size(); ++i)
-			{
-				std::cout << "(" << loc._return[i].first << ", " << loc._return[i].second << ")";
-				if (i != loc._return.size() - 1)
-					std::cout << ", ";
-			}
-			std::cout << std::endl;
-			std::cout << "\t\t\tAllowed Methods: ";
-			for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
-				std::cout << *mit << " ";
-			std::cout << std::endl;
-
-			std::cout << "\t\t\tCGI Paths: ";
-			for (size_t j = 0; j < loc.cgi_path.size(); ++j)
-				std::cout << loc.cgi_path[j] << " ";
-			std::cout << std::endl;
-
-			std::cout << "\t\t\tCGI Extensions: ";
-			for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
-				std::cout << loc.cgi_ext[j] << " ";
-			std::cout << std::endl;
-			std::cout << "\t\t\tUpload_enabled: " << (loc.upload_enabled ? "on" : "off") << std::endl;
-			std::cout << "\t\t\tUpload_path : " << loc.upload_path << std::endl;
-		}
-		std::cout << std::endl;
-	}
+                if (!loc.cgi_ext.empty()) {
+                    std::cout << "\t\t\tCGI Extensions: ";
+                    for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
+                        std::cout << loc.cgi_ext[j] << " ";
+                    std::cout << std::endl;
+                }
+                
+                if (loc.upload_enabled)
+                    std::cout << "\t\t\tUpload_enabled: on" << std::endl;
+                
+                if (!loc.upload_path.empty())
+                    std::cout << "\t\t\tUpload_path: " << loc.upload_path << std::endl;
+            }
+        }
+        std::cout << std::endl;
+    }
 }
-
 
 int Config::getAutoindex()
 {

@@ -270,152 +270,198 @@ std::string locationVariables1[] =
     };
 LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 {
-    LocationStruct location_tmp;
-    location_tmp.autoIndex = false;
-    location_tmp.upload_enabled = false;
-    location_tmp.indexPage = "";
-    location_tmp.root = "";
-    std::stringstream bstream;
-    bstream << block;
-    std::string keyValue;
-    std::string key;
-    bool foundRoot = false;
-	bool foundMethod = false;
-	bool foundIndex = false;
-	bool foundAutoIndex = false;
-    bool foundUpload_enabled = false;
-    std::string value;
-
-    while(bstream.good())
+  LocationStruct loc;
+    _initializeLocationStruct(loc);
+    
+    std::istringstream iss(block);
+    std::string line;
+    
+    while (std::getline(iss, line))
     {
-
-        std::getline(bstream, keyValue);
-		key = keyValue.substr(0, keyValue.find_first_of(WHITESPACE));
-        if(key =="method" &&  keyValue.find_first_of(WHITESPACE) == std::string::npos && foundMethod == false)
-        {
-            foundMethod = true;
+      
+        size_t start = line.find_first_not_of(" \t\n\r\f\v");
+        if (start == std::string::npos)
             continue;
-        }
-		size_t foundKey = location_root;
-        for (; foundKey < upload_path  + 1; ++foundKey)
-		{
-			if (locationVariables1[foundKey] == key){
-				break ;}
-		}
-        switch (foundKey)
-		{
-            case (location_root):
-            {
-                if (foundRoot == true)
-				    throw std::runtime_error ("Duplicate location root.");
-			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.root = value;
-			    foundRoot = true;
-                break;
-
-            }
-            case (method):
-		    { 
-                if (foundMethod == true)
-                    throw std::runtime_error("Duplicate Method Exception .");
-			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                for (; value.length() > 0;)
-			    {
-                    std::string tempValue = value.substr(0, value.find_first_of(WHITESPACE));
-                    if((tempValue == "GET" || tempValue == "POST" || tempValue == "DELETE") && location_tmp.allowedMethods.count(tempValue) == 0)
-					    location_tmp.allowedMethods.insert(tempValue);
-                    if (value.find_first_of(WHITESPACE) != std::string::npos)
-					    value = value.substr(value.find_first_of(WHITESPACE) + 1);
-				    else
-					    value = "";
-                }
-			    foundMethod = true;
-                break;
-            }
-            case(location_index):
-            {
-                if (foundIndex == true)
-                    throw std::runtime_error("Duplicate Location Index");
-			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.indexPage = value;
-			    foundIndex = true;
-			    break ;
-            }
-            case(location_auto_index):
-            {
-                if (foundAutoIndex == true)
-                    throw std::runtime_error("Duplicate Location auto index");
-			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.autoIndex = (value.compare("true") == 0);
-			    foundAutoIndex = true;
-                break;
-            }
-            case(_return):
-            {
-                std::istringstream iss(keyValue);
-                std::string directive, statusCode, redirectUrl;
-                iss >> directive >> statusCode >> redirectUrl;
-                std::string extra;
-
-                iss >> extra;
-                // if (statusCode.empty() || redirectUrl.empty() || !extra.empty())
-                //     throw std::runtime_error("Error: _return must have exactly 2 arguments: status_code and URL.");
-
-                if (!location_tmp._return.empty())
-                    throw std::runtime_error("Error: Multiple return directives are not allowed in one location block.");
-
-                location_tmp._return.push_back(std::make_pair(statusCode, redirectUrl));
-                break;
-            }
-            case(cgi_path):
-            {
-               std::string value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                std::stringstream ss(value);
-                std::string path;
-                while (ss >> path)
-                    location_tmp.cgi_path.push_back(path);
-                break;
-            }
-            case(cgi_ext):
-            {
-                std::string value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                std::stringstream ss(value);
-                std::string path;
-                while (ss >> path)
-                    location_tmp.cgi_ext.push_back(path);
-                break;
-            }
-            case(upload_enabled):
-            {
-                if (foundUpload_enabled == true)
-                    throw std::runtime_error("Duplicate Location Upload enabled");
-			    value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                if(value.compare("on") == 0)
-                    location_tmp.upload_enabled = true;
-                foundUpload_enabled = true;
-                break;
-            }
-            case(upload_path):
-            {
-                // std::cout<<"KeyValue : "<<keyValue.c_str()<<std::endl;
-                value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-                location_tmp.upload_path = value;                
-                break;
-
-            }
-            // default: /// trj3 liha waaaaa
-            // {
-            //     std::cout<<"key is : "<<keyValue<<"hello"<<std::endl;
-            //     throw std::runtime_error("Invalid key for location ");
-            //     break ;
-            // }
-        }
-
+        size_t end = line.find_last_not_of(" \t\n\r\f\v");
+        line = line.substr(start, end - start + 1);
+        
+        if (line.empty() || line[0] == '#')
+            continue; 
+        if (!line.empty() && line[line.length() - 1] == ';')
+            line = line.substr(0, line.length() - 1);
+        _parseLocationDirective(loc, line);
     }
-    return LocationStruct(location_tmp);
+    
+    return loc;
 }
 
 
+void SingleServerConfig::_parseLocationDirective(LocationStruct& loc, const std::string& directive)
+{
+    std::string locationDirectives[] = {
+        "root",           
+        "autoindex",      
+        "method",         
+        "index_page",     
+        "_return",        
+        "cgi_path",       
+        "cgi_ext",        
+        "upload_enabled", 
+        "upload_path"     
+    };
+    
+    if (directive.find_first_of(" \t") == std::string::npos)
+    {
+        throw std::runtime_error("Invalid location directive format: " + directive);
+    }
+    std::string key = directive.substr(0, directive.find_first_of(" \t"));
+    std::string value = directive.substr(directive.find_first_of(" \t") + 1);
+    size_t start = value.find_first_not_of(" \t\n\r\f\v");
+    if (start != std::string::npos) {
+        size_t end = value.find_last_not_of(" \t\n\r\f\v");
+        value = value.substr(start, end - start + 1);
+    }
+    int nKey = 0;
+    for (; nKey < 9; ++nKey)
+    {
+        if (locationDirectives[nKey] == key)
+            break;
+    }
+    
+    switch (nKey)
+    {
+        case 0: // root
+            _parseLocationRoot(loc, value);
+            break;
+        case 1: // autoindex
+            _parseLocationAutoindex(loc, value);
+            break;
+        case 2: // method
+            _parseLocationMethod(loc, value);
+            break;
+        case 3: // index_page
+            _parseLocationIndexPage(loc, value);
+            break;
+        case 4: // _return
+            _parseLocationReturn(loc, value);
+            break;
+        case 5: // cgi_path
+            _parseLocationCgiPath(loc, value);
+            break;
+        case 6: // cgi_ext
+            _parseLocationCgiExt(loc, value);
+            break;
+        case 7: // upload_enabled
+            _parseLocationUploadEnabled(loc, value);
+            break;
+        case 8: // upload_path
+            _parseLocationUploadPath(loc, value);
+            break;
+        default:
+            throw std::runtime_error("Unknown location directive: " + key);
+    }
+
+}
+
+void SingleServerConfig::_parseLocationRoot(LocationStruct& loc, const std::string& value)
+{
+    if (!loc.root.empty())
+        throw std::runtime_error("Duplicate root directive in location");
+    
+    if (value.empty())
+        throw std::runtime_error("Empty root value in location");
+    
+    loc.root = value;
+}
+
+void SingleServerConfig::_parseLocationAutoindex(LocationStruct& loc, const std::string& value)
+{
+    if (value == "on")
+        loc.autoIndex = true;
+    else if (value == "off")
+        loc.autoIndex = false;
+    else
+        throw std::runtime_error("Invalid autoindex value: " + value + " (use on/off)");
+}
+
+void SingleServerConfig::_parseLocationMethod(LocationStruct& loc, const std::string& value)
+{
+    std::istringstream iss(value);
+    std::string method;
+    
+    while (iss >> method)
+    {
+        if (method != "GET" && method != "POST" && method != "DELETE" )
+            throw std::runtime_error("Invalid HTTP method: " + method);
+        loc.allowedMethods.insert(method);
+    }
+    if (loc.allowedMethods.empty())
+        throw std::runtime_error("No methods specified in method directive");
+}
+
+void SingleServerConfig::_parseLocationIndexPage(LocationStruct& loc, const std::string& value)
+{
+    if (!loc.indexPage.empty())
+        throw std::runtime_error("Duplicate index_page directive in location");
+    
+    if (value.empty())
+        throw std::runtime_error("Empty index_page value in location");
+    
+    loc.indexPage = value;
+}
+
+void SingleServerConfig::_parseLocationReturn(LocationStruct& loc, const std::string& value)
+{
+    std::istringstream iss(value);
+    std::string code, url;
+    
+    if (!(iss >> code >> url))
+        throw std::runtime_error("Invalid _return format: expected 'code url'");
+    int statusCode = std::atoi(code.c_str());
+    if (statusCode < 300 || statusCode > 399)
+        throw std::runtime_error("Invalid redirect status code: " + code);
+    loc._return.push_back(std::make_pair(code, url));
+}
+void SingleServerConfig::_parseLocationCgiPath(LocationStruct& loc, const std::string& value)
+{
+    std::istringstream iss(value);
+    std::string path;
+    
+    while (iss >> path)
+    {
+        loc.cgi_path.push_back(path);
+    }
+}
+
+void SingleServerConfig::_parseLocationCgiExt(LocationStruct& loc, const std::string& value)
+{
+    std::istringstream iss(value);
+    std::string ext;
+    while (iss >> ext)
+    {
+        if (ext[0] != '.')
+            ext = "." + ext; 
+        loc.cgi_ext.push_back(ext);
+    }
+}
+
+void SingleServerConfig::_parseLocationUploadEnabled(LocationStruct& loc, const std::string& value)
+{
+    if (value == "on" || value == "true")
+        loc.upload_enabled = true;
+    else if (value == "off" || value == "false")
+        loc.upload_enabled = false;
+    else
+        throw std::runtime_error("Invalid upload_enabled value: " + value + " (use on/off)");
+}
+
+void SingleServerConfig::_parseLocationUploadPath(LocationStruct& loc, const std::string& value)
+{
+    if (!loc.upload_path.empty())
+        throw std::runtime_error("Duplicate upload_path directive in location");
+    
+    loc.upload_path = value;
+}
 bool SingleServerConfig::_isValidHost(const std::string& host) const
 {
     if (host.empty() || host.length() > 253)
