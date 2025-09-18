@@ -101,8 +101,6 @@ void Servers::epollFds(Servers& serv)
         //epoll wait returns 2 fds that are ready when only one client is connected ???
         int ready_fds = epoll_wait(epollFd, events, 10, -1);
 
-        // std::cout << "READY FDS : " << ready_fds << std::endl;
-
         if (ready_fds == -1)
         {
             std::cerr << "Error occured in epoll wait!" << std::endl;
@@ -117,6 +115,7 @@ void Servers::epollFds(Servers& serv)
             std::vector<int>::iterator it = std::find(serv.serversFd.begin(), serv.serversFd.end(), fd);
             if (it != serv.serversFd.end())
             {
+                //Need to add a timeout for client connection maybe
                 int client_fd = accept(fd, NULL, NULL);
                 if (client_fd == -1)
                 {
@@ -156,6 +155,7 @@ void Servers::epollFds(Servers& serv)
             }
 
             // Check if client still exists in our maps
+            //what is this????? hepa
             if (clients.find(fd) == clients.end()) {
                 std::cout << "Client fd " << fd << " no longer exists, skipping event" << std::endl;
                 continue;
@@ -164,6 +164,7 @@ void Servers::epollFds(Servers& serv)
             Client& c = clients[fd];
             if (events[i].events & EPOLLIN)
             {
+                //Timeout for the request
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
@@ -208,6 +209,7 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
+                    // cout << buffer << endl;
                     // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     // access_log(*parser);
@@ -249,6 +251,8 @@ void Servers::epollFds(Servers& serv)
             }
             else if (events[i].events & EPOLLOUT)
             {
+                //timeout for the response?
+
                 // Check if client still exists in our maps
                 if (client_data_map.find(fd) == client_data_map.end() || 
                     clients.find(fd) == clients.end()) {
@@ -264,7 +268,9 @@ void Servers::epollFds(Servers& serv)
                         c.response = client_data_map[fd].HandleAllMethod();
                     }
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
-                    if (bytes_sent == -1) {
+                    if (bytes_sent == -1) 
+                    {
+                        //THIS IS SUS WE SHOULDN"T CHECK ERRNO IG AFTER READ OR WRITE OPS
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
                             // Socket not ready yet, try again later
                             continue;

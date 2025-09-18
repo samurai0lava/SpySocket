@@ -14,71 +14,11 @@ std::string generate_filename(string type, string termination)
     return result;
 }
 
-string bad_request()
-{
-    return "HTTP/1.1 400 Bad Request\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 113\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>400 Bad Request</title></head>\n"
-    "<body><h1>400 Bad Request</h1><p>Your request is invalid.</p></body>\n"
-    "</html>\n";
-}
-
-string forbidden_403()
-{
-   return "HTTP/1.1 403 Forbidden\r\n"
-						"Content-Type: text/html\r\n"
-						"Content-Length: 112\r\n"
-						"Connection: close\r\n"
-						"\r\n"
-						"<html>"
-						"<head><title>403 Forbidden</title></head>"
-						"<body>"
-						"<h1>Forbidden</h1>"
-						"<p>You don't have permission to access this resource.</p>"
-						"</body>"
-						"</html>";
-}
-
-string internal_error()
-{
-    return "HTTP/1.1 500 Internal Server Error\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 164\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>500 Internal Server Error</title></head>\n"
-    "<body><h1>500 Internal Server Error</h1><p>Unexpected server error.</p></body>\n"
-    "</html>\n";
-}
-
-string created_success()
-{
-    return "HTTP/1.1 201 Created\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 142\r\n"
-    "Connection: keep-alive\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>201 Created</title></head>\n"
-    "<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
-    "</html>\n";
-}
-
 
 string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
-
     if (location.upload_enabled == false)
     {
-        cout << RED "HEEEEERE\n" RESET;
         return forbidden_403();
     }
     if (location.upload_path.empty())
@@ -91,13 +31,11 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
-        // cout << "!!!!!!!!!!!!!!!\n";
         return bad_request();
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
-        // cout << "???????\n";
         return bad_request();
     }
     std::string body = request.substr(body_start + boundary.length() + 4, body_end - body_start - boundary.length() - 4);
@@ -120,8 +58,6 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         fn_end = body.find('"', fn_pos);
         if (fn_end == std::string::npos)
         {
-            //400 bad request
-            // cout << ":3333333333333333\n";
             return bad_request();
         }
     }
@@ -130,14 +66,10 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     std::string filename = body.substr(fn_pos, fn_end - fn_pos);
     if (filename.empty())
         filename = generate_filename("upload_", "");
-    // cout << "FILENAME ::::: " << filename << endl;
 
-    // don't forget it's \r\n in real requests now we only working with \n\n
     size_t content_start = body.find("\r\n\r\n");
     if (content_start == std::string::npos)
     {
-        //400 bad request (need to check if an upload request can be bodyless)
-        // cout << "AAAAAAAAAAAAAAAAAA\n";
         return bad_request();
     }
     content_start += 4; // Skip past the "\r\n\r\n"
@@ -160,32 +92,21 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     else
     {
         cout << location.upload_path << endl;
-        // std::cerr << "stat failed: " << strerror(errno) << "\n";
         cout << RED "111111111111111\n" RESET ;
         return internal_error();
     }
-    // cout << RED << "FILENAME : " << filename << RESET << endl;
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
-        //500 internal
-        // cout << "DDDDDDDDDDDDDDDDDDD\n";
-        cout << RED "22222222222222\n" RESET ;
-
         return internal_error();
     }
 
     file.write(body.c_str() + content_start, body.size() - content_start);
     if (!file)
     {
-        //internal server error
-        // cout << "CCCCCCCCCCCCCCCCCC\n";
-        cout << RED "33333333333333\n" RESET ;
-
         return internal_error();
     }
     file.close();
-    // cout << "?????????????????????\n";
     return created_success();
 }
 
@@ -215,19 +136,6 @@ std::vector<std::string> split(std::string s, std::string delimiters)
 	return (tokens);
 }
 
-std::string OK_200(std::string &body)
-{
-    std::stringstream ss;
-    ss << "HTTP/1.1 200 OK\r\n"
-       << "Content-Type: text/html; charset=UTF-8\r\n"
-       << "Content-Length: " << body.size() << "\r\n"
-       << "Connection: close\r\n"
-       << "\r\n"
-       << body;
-    return ss.str();
-}
-
-
 string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
 {
     string body = parser.getBody();
@@ -250,9 +158,7 @@ string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
 string main_response(LocationStruct &location, ParsingRequest &parser)
 {
     string body = parser.getBody();
-//here
     string filename = "";
-    // string filename = generate_filename(parser.getHeaders()["content-type-value"] + "_", "");
     if(parser.getHeaders()["content-type-value"].find("image") != string::npos)
     {
         filename = generate_filename("image_", ".png");
@@ -266,7 +172,10 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         filename = generate_filename("file_", ".txt");
     }
     struct stat st;
-    // cout << "UPLOAD_PATH : " << location.upload_path << endl;
+    if(location.upload_enabled == true && location.upload_path.empty())
+    {
+        location.upload_path = location.root;
+    }
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
         // it's a directory
@@ -282,48 +191,27 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     }
     else
     {
-        // cout << location.upload_path << endl;
-        // std::cerr << "stat failed: " << strerror(errno) << "\n";
-        // cout << "WAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA\n";
-        cout << RED "44444444444444444\n" RESET ;
-
         return internal_error();
     }
 
     std::fstream file(filename.c_str(), std::ios::binary | std::ios::out);
     if (!file)
     {
-        // cout << "EEEEEEEEEEEEEEEEEEEEEEEEE\n";
-        cout << filename << endl;
-        cout << RED "55555555555555\n" RESET ;
-
         return internal_error();
     }
 
     file.write(body.c_str(), body.length());
     if (!file)
     {
-        //internal server error
-        // cout  << "UUUUUUUUUUUUUUUUUUUUUUUUUUUU\n";
-        cout << RED "6666666666666666\n" RESET ;
-
         return internal_error();
     }
     file.close();
     return created_success();
 }
 
-
-
-// string unchunked_content(ParsingRequest &parser)
-// {
-
-// }
-
 string	postMethod(string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
-    cout << BLUE "'" << parser.getHeaders()["content-type-value"] << "'" RESET << endl;
     string response = "";
     try
     {
@@ -358,6 +246,5 @@ string	postMethod(string uri, ConfigStruct config,
     catch (exception& e)
     {
     }
-    // cout << YELLOW << response << RESET << endl;
     return response;
 }
