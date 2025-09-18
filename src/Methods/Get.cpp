@@ -1,4 +1,5 @@
 #include "../../inc/Get.hpp"
+#include "Get.hpp"
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -384,4 +385,43 @@ string Get::buildRedirectResponse(int statusCode, const std::string& target)
     oss << "Connection: close\r\n\r\n";
 
     return oss.str();
+}
+
+std::string Get::getErrorPageFromConfig(int statusCode)
+{
+    for (size_t i = 0; i < this->client.mutableConfig.errorPage.size(); ++i)
+    {
+        if (std::atoi(this->client.mutableConfig.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string errorPagePath = this->client.mutableConfig.root + this->client.mutableConfig.errorPage[i].second;
+            
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                
+                std::ostringstream response;
+                response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                return response.str();
+            }
+        }
+    }
+    return GenerateResErr(statusCode);
+}
+std::string Get::getStatusMessage(int statusCode)
+{
+    switch(statusCode)
+    {
+        case 400: return "Bad Request";
+        case 403: return "Forbidden";
+        case 404: return "Not Found";
+        case 405: return "Method Not Allowed";
+        case 500: return "Internal Server Error";
+        default: return "Error";
+    }
 }
