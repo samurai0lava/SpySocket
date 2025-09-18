@@ -27,10 +27,10 @@ print("""<!DOCTYPE html>
             position: relative;
             font-size: 18px;
             # margin-bottom: 25px; 
-            color: rgb(0, 255, 0);
+            color: hsl(154 84% 70%);
             font-family: 'Courier New', monospace;
             text-align: left;
-            text-shadow: 0 0 8px rgb(0, 255, 0), 0 0 12px rgb(0, 255, 0);
+            text-shadow: 0 0 8px hsl(154 84% 70%), 0 0 12px hsl(154 84% 70%);
             font-weight: bold;
             padding: 10px;
             top : 170px;
@@ -39,27 +39,14 @@ print("""<!DOCTYPE html>
         .info-title {
             font-size: 18px;
             margin-bottom: 10px;
-            color: rgb(0, 197, 0);
+            color: hsl(154 84% 70%);
         }
         .refresh-indicator {
             position: absolute;
             top: 20px;
             right: 20px;
-            color: rgb(0, 197, 0);
+            color: hsl(154 84% 70%);
             font-size: 12px;
-        }
-        .ascii-art {
-            position: fixed;
-            top: 50px;
-            right: 20px;
-            color: rgb(0, 255, 0);
-            font-family: 'Courier New', monospace;
-            font-size: 8px;
-            line-height: 1;
-            text-shadow: 0 0 4px rgb(0, 255, 0);
-            opacity: 0.7;
-            z-index: 5;
-            white-space: pre;
         }
         .fade-in {
             animation: fadeIn 0.5s ease-in;
@@ -71,7 +58,7 @@ print("""<!DOCTYPE html>
         .Back-text-crt {
         font-size: 25px;
         font-weight: 500;
-        color: rgb(0, 170, 0);
+        color: hsl(154 84% 70%);
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
             Ubuntu, Cantarell, sans-serif;
         }
@@ -158,11 +145,11 @@ print("""<!DOCTYPE html>
 
         .crt-text {
         /* retro stuff */
-        color: #00ff00;
+        color: hsl(154 84% 70%);
         font-family: "Courier New", monospace;
         font-size: 40px;
         text-align: center;
-        text-shadow: 0 0 10px #00ff00;
+        text-shadow: 0 0 10px hsl(154 84% 70%);
 
         /* flex stuff */
         display: flex;
@@ -194,8 +181,7 @@ print("""<!DOCTYPE html>
             <span class="Back-text-crt">&lt;Back</span>
         </div>  
     </header>
-    <div class="refresh-indicator">Auto-refresh: 10s</div>
-    <h1 class="crt-text" style="color: rgb(0, 197, 0);">System Information</h1>
+    <h1 class="crt-text" style="color: hsl(154 84% 70%);">System Information</h1>
     <div class="info-container">
 """)
 

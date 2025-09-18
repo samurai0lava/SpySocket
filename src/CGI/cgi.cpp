@@ -74,7 +74,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
         std::string transfer_encoding = headers.at("transfer-encoding");
         if (transfer_encoding == "chunked")
         {
-            this->env_vars["TRANSFER_ENCODING"] = "";  // Clear for CGI
+            this->env_vars["TRANSFER_ENCODING"] = "";
         }
     }
     
