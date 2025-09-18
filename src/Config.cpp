@@ -5,14 +5,9 @@
 
 std::string parseArgv(int argc, char** argv)
 {
-	std::string defaultConfPath = "config/file.conf";
-	if (argc == 1)
+	if (argc > 2 || argc < 2)
 	{
-		return (defaultConfPath);
-	}
-	else if (argc > 2)
-	{
-		std::cout << "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>" << std::endl;
+		std::cout << RED "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>"   RESET<< std::endl;
 		exit(1);
 	}
 	std::string sArgv = argv[1];

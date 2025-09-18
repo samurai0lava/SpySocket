@@ -34,14 +34,10 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             if (value.find_first_not_of(DECIMAL) != std::string::npos)
-		    {
-                std::cout << keyValue << std::endl;
                 throw SingleServerConfig::NoListenException();
-		    }
             int iport = atoi(value.c_str());
-            if (iport <= 0 || iport > 65535) {
+            if (iport <= 0 || iport > 65535) 
                 throw std::runtime_error("Invalid listen port: must be between 1 and 65535");
-            }
             std::stringstream ss(value);
             unsigned short port;
             ss >> port;
@@ -61,19 +57,15 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         {
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
              if (!_isValidHost(value))
-            {
                 throw std::runtime_error("Invalid host format: " + value);
-            }
             this->_conf->host = value;
             break;
 
         }
         case(root):
         {
-            if(this->_conf->root.length() != 0)//check Prevents multiple root directives
-            {
+            if(this->_conf->root.length() != 0)
                 throw SingleServerConfig::DublicateRootException();
-            }
 		    value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             // tanswal chey hed ....
             // if (value[0] != '/' || value[value.length() - 1] != '/')
@@ -87,9 +79,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         case(server_name):
         {
             if (this->_conf->serverName.length() != 0)
-		    {
 			    throw SingleServerConfig::DuplicateServerNameException();
-		    }
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             this->_conf->serverName = value;
             break;
@@ -97,9 +87,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         case(index_page):
         {
             if (this->_conf->indexPage.length() != 0)
-		    {
                 throw std::runtime_error("Duplicate 'index_page' directive.");
-		    }
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             this->_conf->indexPage = value;
             break;
@@ -113,11 +101,10 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             value.erase(value.find_last_not_of(WHITESPACE) + 1);
             if (value != "true" && value != "false")
                 throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
-            if (value == "true") {
+            if (value == "true") 
                 this->_conf->autoIndex = true;
-            } else {
+            else 
                 this->_conf->autoIndex = false;
-            }
 		    break ;
 
         }
@@ -135,25 +122,15 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         case(client_max_body_size):
         {
             if (cbbsSet == true)
-		    {
                 throw std::runtime_error("Duplicate Client Max Body Size.");
-            }
             else
-            {
                 cbbsSet = true;
-            }
-
              value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
-    
-    // Trim whitespace
             size_t start = value.find_first_not_of(" \t\n\r\f\v");
             if (start != std::string::npos) {
                 size_t end = value.find_last_not_of(" \t\n\r\f\v");
                 value = value.substr(start, end - start + 1);
             }
-    
-            // Parse size with suffix
-
             size_t bodySize = _parseBodySize(value);
             this->_conf->clientMaxBodySize = bodySize;
             // size_t out = 0;
@@ -246,7 +223,10 @@ void SingleServerConfig::_handleErrorPage(std::string line)
     iss >> extra;
     if (statusCode.empty() || path.empty() || !extra.empty())
         throw std::runtime_error("Error: 'error_page' must have exactly 2 arguments: status_code and file_path.");
-
+    
+    int code = std::atoi(statusCode.c_str());
+    if (code < 400 || code > 599)
+        throw std::runtime_error("Invalid error status code: " + statusCode);
     for (size_t i = 0; i < this->_conf->errorPage.size(); ++i)
     {
         if (this->_conf->errorPage[i].first == statusCode)
@@ -270,9 +250,8 @@ std::string locationVariables1[] =
     };
 LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 {
-  LocationStruct loc;
+    LocationStruct loc;
     _initializeLocationStruct(loc);
-    
     std::istringstream iss(block);
     std::string line;
     
