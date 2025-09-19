@@ -2,8 +2,64 @@
 
 
 // NGINX-style incremental parsing implementation
+int parse_hex(const std::string& s)
+{
+	std::istringstream iss(s);
+	int n;
+	iss >> std::uppercase >> std::hex >> n;
+	return n;
+}
 
-bool ParsingRequest::checkURI(const std::string& uri)
+std::string url_Decode(const std::string& s)
+{
+	std::string result;
+	result.reserve(s.size());
+	for (std::size_t i = 0; i < s.size();) {
+		if (s[i] != '%') {
+			result.push_back(s[i]);
+			++i;
+		}
+		else {
+			result.push_back(parse_hex(s.substr(i + 1, 2)));
+			i += 3;
+		}
+	}
+	return result;
+}
+
+std::string normalizePath(const std::string& path)
+{
+	std::vector<std::string> stack;
+	std::istringstream iss(path);
+	std::string token;
+
+	while (std::getline(iss, token, '/')) {
+		if (token.empty() || token == ".") {
+			continue;
+		}
+		if (token == "..") {
+			if (!stack.empty()) {
+				stack.pop_back();
+			}
+		}
+		else {
+			stack.push_back(token);
+		}
+	}
+
+	std::string normalized = "/";
+	for (size_t i = 0; i < stack.size(); ++i) {
+		normalized += stack[i];
+		if (i + 1 < stack.size()) {
+			normalized += "/";
+		}
+	}
+	return normalized;
+}
+
+
+
+bool ParsingRequest::checkURI(std::string& uri)
 {
 	if (uri.empty())
 	{
@@ -54,7 +110,8 @@ bool ParsingRequest::checkURI(const std::string& uri)
 			return false;
 		}
 	}
-
+	std::string decoded_uri = url_Decode(uri);
+	uri = normalizePath(decoded_uri);
 	return true;
 }
 bool ParsingRequest::checkVersion(const std::string& version)
@@ -103,7 +160,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 	}
 	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
 	{
-		connection_status = 0;
+ 		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: Invalid HTTP method: '" + method + "'";
 		current_state = PARSE_ERROR;
@@ -123,19 +180,19 @@ bool ParsingRequest::parse_start_line()
 	std::string start_line_str = buffer.substr(buffer_pos, crlf_pos - buffer_pos);
 	buffer_pos = crlf_pos + 2;
 
-	// Parse start line directly
 	std::istringstream ss(start_line_str);
 	std::string method, uri, version;
-
-	ss >> method >> uri >> version;
+	
+	std::getline(ss, method, ' ');
+	std::getline(ss, uri, ' ');
+	std::getline(ss, version, ' ');
+	
+	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
+		return false;
 
 	start_line["method"] = method;
 	start_line["uri"] = uri;
 	start_line["version"] = version;
-
-	// Validate method directly
-	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
-		return false;
 
 	return true;
 }
@@ -205,7 +262,9 @@ bool ParsingRequest::parse_headers()
 
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
+	{
 		return false;
+	}
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
 	buffer_pos = double_crlf + 4;
 
@@ -285,7 +344,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" ||key == "transfer-encoding" || key == "content-length" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type")
 			header_map[key] = value;
 	}
 
@@ -297,17 +356,73 @@ bool ParsingRequest::parse_headers()
 		current_state = PARSE_ERROR;
 		return false;
 	}
+	if(content_lenght_exists == 1 && transfer_encoding_exists == 1)
+	{
+		error_code = 400;
+		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
+		access_error(error_code, error_message);
+		current_state = PARSE_ERROR;
+		return false;
+	}
 
 	// Check content length for body parsing
-	if (content_lenght_exists)
+	if (content_lenght_exists == 1)
 	{
+		//wtf is this (transfer encoding you'll never know the size of the body you getting)
+		// std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
-
+	else
+		expected_body_length = 0;
+	// printMap(headers);
 	return true;
 }
+
+
+// bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
+// {
+// 	if (headers.find("content-type") != headers.end())
+// 	{
+// 		std::string content_type = headers.at("content-type");
+// 		// cout << "-----> " << content_type << endl;
+// 		if (content_type.empty())
+// 		{
+// 			connection_status = 0;
+// 			current_state = PARSE_ERROR;
+// 			error_code = 400;
+// 			error_message = "Bad Request: Content-Type header cannot be empty";
+// 			logError(error_code, error_message);
+// 			return false;
+// 		}
+// 		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0 || content_type.find("multipart/") == 0)
+// 		{
+// 			if(content_type.find("multipart/") == 0)
+// 			{
+// 				boundary = content_type.substr(content_type.find(';') + 1);
+// 				if(boundary.empty())
+// 				{
+// 					logError(400, "Bad Request: No boundary found.");
+// 					return false;
+// 				}
+// 				cout << "----> " << boundary << endl;
+// 			}
+// 			return true;
+// 		}
+// 		else
+// 		{
+// 			connection_status = 0;
+// 			error_code = 415;
+// 			error_message = "Unsupported Media Type: Content-Type '" + content_type + "' is not supported";
+// 			current_state = PARSE_ERROR;
+// 			logError(error_code, error_message);
+// 			return false;
+// 		}
+// 	}
+// 	return true;
+// }
+
 
 
 bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
@@ -397,7 +512,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter is required for multipart content types";
 				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
+				// access_error(error_code, error_message);
 				return false;
 			}
 			std::string boundary = content_type_directives["boundary"];
@@ -407,7 +522,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter cannot be empty for multipart content types";
 				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
+				// access_error(error_code, error_message);
 				return false;
 			}
 		}
@@ -416,19 +531,27 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
-			content_type_value != "image/png"
+			content_type_value != "image/png" && 
+			content_type_value != "video/mp4" &&
+			content_type_value != "image/jpeg" &&
+			content_type_value != "image/gif" &&
+			content_type_value != "application/xml" &&
+			content_type_value != "application/pdf" &&
+			content_type_value != "application/octet-stream"	
 		)
 		{
 			connection_status = 0;
 			error_code = 415;
 			error_message = "Unsupported Media Type: Content-Type '" + content_type_value + "' is not supported";
 			current_state = PARSE_ERROR;
-			access_error(error_code, error_message);
+			// access_error(error_code, error_message);
 			return false;
 		}
 	}
 	return true;
 }
+
+
 
 bool ParsingRequest::checkConnection(const std::map<std::string, std::string>& headers)
 {
@@ -507,21 +630,22 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 			access_error(error_code, error_message);
 			return false;
 		}
-		if(transfer_encoding_exists == 0)
-		{
-			if (content_length > 8000)
-			{
-				connection_status = 0;
-				error_code = 413;
-				error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
-				current_state = PARSE_ERROR;
-				access_error(error_code, error_message);
-				return false;
-			}
-		}
-		return true;
+		// if(transfer_encoding_exists == 0)
+		// {
+		// 	if (content_length > 8000)
+		// 	{
+		// 		connection_status = 0;
+		// 		error_code = 413;
+		// 		error_message = "Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '" + content_length_str + "'";
+		// 		current_state = PARSE_ERROR;
+		// 		access_error(error_code, error_message);
+		// 		return false;
+		// 	}
+		// }
+		// return true;
+		// cout << RED "Content length val : " << 
 	}
-	content_lenght_exists = 0;
+	// content_lenght_exists = 0;
 	return true;
 }
 
@@ -547,6 +671,9 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 {
 	if (headers.find("transfer-encoding") != headers.end())
 	{
+		// cout << "***********\n";
+		// write(1, buffer.data(), buffer.length());
+		// cout << "***BUFFER_END***\n";
 		std::string transfer_encoding_value = headers.at("transfer-encoding");
 		transfer_encoding_exists = 1;
 		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")
@@ -579,23 +706,67 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-	size_t available = buffer.length() - buffer_pos;
-	if (available < expected_body_length)
-		return false;
-	body_content = buffer.substr(buffer_pos, expected_body_length);
-	buffer_pos += expected_body_length;
 
-	return true;
+	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
+    std::string method = start_line.at("method");
+
+    
+    // GET, HEAD, DELETE typically don't have request bodies
+    if (method == "GET" || method == "HEAD" || method == "DELETE") {
+        return true;
+    }
+
+    if (method == "POST") 
+	{
+		// cout << RED "POST" RESET << endl;
+        if (transfer_encoding_exists == 1) 
+		{
+            std::string temp_buffer = buffer.substr(buffer_pos);
+			cout << "***********\n";
+			write(1, temp_buffer.data(), temp_buffer.length());
+			cout << "***BUFFER_END***\n";
+            std::string processed_data;
+        
+            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
+                body_content = processed_data;
+                buffer_pos = buffer.length();
+                return true;
+            }
+            return false;
+        }
+		else if (content_lenght_exists == 1) 
+		{
+            size_t available = buffer.length() - buffer_pos;
+            if (available < expected_body_length)
+                return false;
+            body_content = buffer.substr(buffer_pos, expected_body_length);
+            buffer_pos += expected_body_length;
+            return true;
+        }
+    }
+    return true;
 }
 
 
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	buffer.append(data, len);
 
+	try{
+		buffer.append(data, len );
+		
+	}
+	catch(std::exception& e)
+	{
+		error_code = 500;
+		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
+		current_state = PARSE_ERROR;
+		access_error(error_code, error_message);
+		return PARSE_ERROR_RESULT;
+	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
+		
 		switch (current_state)
 		{
 		case PARSE_START_LINE:
@@ -603,6 +774,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
+				cout << "STAAAAAAAAAAAAAAART\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_HEADERS;
@@ -615,13 +787,19 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
-			if (expected_body_length > 0)
-				current_state = PARSE_BODY;
-			else
-				current_state = PARSE_COMPLETE;
+			cout << "---------------> " << getHeaders()["content-length"] << endl;
+			// For POST requests, always try to parse body regardless of expected_body_length
+			{
+				std::string method = start_line.at("method");
+				if (method == "POST" || expected_body_length > 0)
+					current_state = PARSE_BODY;
+				else
+					current_state = PARSE_COMPLETE;
+			}
 			break;
 
 		case PARSE_BODY:
+			cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)
@@ -671,6 +849,12 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 void ParsingRequest::reset()
 {
+    // If there's leftover data in buffer after current request, preserve it
+    std::string leftover_data;
+    if (buffer_pos < buffer.length()) {
+        leftover_data = buffer.substr(buffer_pos);
+    }
+    
     // Reset all state variables for a new request
     start_line.clear();
     headers.clear();
@@ -687,5 +871,13 @@ void ParsingRequest::reset()
     error_message.clear();
     status_code = 200;
     status_phrase.clear();
+    
+    // Restore any leftover data that might belong to the next request
+    if (!leftover_data.empty()) {
+        buffer = leftover_data;
+    }
+    
+    // Reset the static state in refactor_data function
+    reset_refactor_data_state();
 }
 	

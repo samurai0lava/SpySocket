@@ -1,39 +1,47 @@
-[2025-08-13 22:06:53] Error: 400 - Bad Request: Invalid HTTP method: 'dhhfhfhf'
-[2025-08-13 22:12:37] Error: 400 - Bad Request: Invalid HTTP method: 'ahdhdhdh'
-[2025-08-13 22:12:37] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/1.2'
-[2025-08-13 22:12:37] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
-[2025-08-13 22:14:15] Error: 400 - Bad Request: Invalid HTTP method: 'jdjdjdjd'
-[2025-08-13 22:14:15] Error: 400 - Bad Request: Host header is missing
-[2025-08-13 22:31:33] Error: 400 - Bad Request: Invalid HTTP method: '����'
-[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
-[2025-08-14 11:45:21] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '100000000'
-[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
-[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
-[2025-08-14 11:45:21] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/0.1'
-[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
-[2025-08-14 11:45:21] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
-[2025-08-14 11:45:21] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/0.1'
-[2025-08-15 18:11:58] Error: 415 - Unsupported Media Type: Content-Type 'html/text; charset=8-utf' is not supported
-[2025-08-15 18:41:25] Error: 400 - Bad Request: Invalid header format - no colon found in line: '����edjdj'
-[2025-08-15 18:41:25] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 18:55:51] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 18:55:51] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 18:55:51] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 19:56:57] Error: 415 - Unsupported Media Type: Charset '8utf' is not supported
-[2025-08-15 19:56:57] Error: 400 - Bad Request: HTTP method cannot be empty
-[2025-08-15 19:56:57] Error: 400 - Bad Request: Invalid header format - no colon found in line: '����'
-[2025-08-15 20:07:37] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 20:11:10] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 20:11:10] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 20:11:10] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-15 20:40:34] Error: 400 - Bad Request: Boundary parameter is required for multipart content types
-[2025-08-19 16:45:04] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:02:02] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:10:18] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:27:17] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:28:48] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:30:53] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:31:22] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:31:22] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
-[2025-08-19 17:34:58] Error: 415 - Unsupported Media Type: Content-Type 'image/png' is not supported
-[2025-08-19 17:36:24] Error: 413 - Content Too Large: Content-Length exceeds maximum allowed size (8000 bytes) - got: '10413'
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryUQgCBQej0lJZiugE'
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-12 16:43:14] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryUQgCBQej0lJZiugE'
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:43:14] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryPXEUZzOZ5BYTreJv'
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-12 16:52:48] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-14 12:55:26] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-14 17:21:52] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundarytsKgJgqXwvwuRHyY'
+[2025-09-14 17:21:52] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:21:52] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-14 17:21:52] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-14 17:23:44] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryIzDhFpwvtF1RDYL9'
+[2025-09-14 17:23:44] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:24:26] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundarymCM3CFljZpKIvYDX'
+[2025-09-14 17:24:26] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:26:13] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryOaSc9xfRjgmArf0S'
+[2025-09-14 17:26:13] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:28:00] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryviHTN8aHIYOYM7aT'
+[2025-09-14 17:28:00] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:42:27] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryLjCFf8RcakqOkr6u'
+[2025-09-14 17:42:27] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:43:46] Error: 400 - Bad Request: Invalid HTTP method: '------WebKitFormBoundaryWdS4AMBtdFfdf6tC'
+[2025-09-14 17:43:46] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-14 17:43:46] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-16 18:24:15] Error: 400 - Bad Request: Content-Length and Transfer-Encoding headers cannot be used together
+[2025-09-16 18:24:15] Error: 500 - Internal Server Error: No parser found for client.
+[2025-09-17 16:50:57] Error: 501 - Not Implemented: HTTP method 'OPTIONS' is not implemented
+[2025-09-19 14:38:15] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-19 14:41:28] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-09-19 14:58:20] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer

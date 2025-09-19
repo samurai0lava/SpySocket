@@ -10,7 +10,7 @@
 class ParsingRequest
 {
     public:    
-        enum ParseState {
+        enum ParseState { 
             PARSE_START_LINE,
             PARSE_HEADERS,
             PARSE_BODY,
@@ -52,6 +52,7 @@ class ParsingRequest
         int status_code; // Status code for the successful request
         std::string status_phrase; // Status phrase for the successful request
 
+        std::string boundary; //mandatory in upload POST
         // State machine 
         ParseState current_state;
         ParseResult result_p;
@@ -91,7 +92,7 @@ public:
     std::string getStatusPhrase() const { return status_phrase; }
     std::string getQueryString() const { return query_string; }
     bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
-    bool checkURI(const std::string& uri);
+    bool checkURI(std::string& uri);
     bool checkVersion(const std::string& verion);
     bool checkContentLength(const std::map<std::string, std::string>& headers);
     bool checkConnection(const std::map<std::string, std::string>& headers);

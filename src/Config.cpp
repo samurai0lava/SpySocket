@@ -3,7 +3,7 @@
 
 std::string parseArgv(int argc, char** argv)
 {
-	std::string defaultConfPath = "file.conf";
+	std::string defaultConfPath = "config/file.conf";
 	if (argc == 1)
 	{
 		return (defaultConfPath);
@@ -55,8 +55,14 @@ void Config::_parseServerBlock(std::string serverBlock)
 		}
 		if (buffer.length() > 0)
 		{
-			server.append(buffer);
-			server.append("\n");
+			try{
+				server.append(buffer);
+				server.append("\n");
+			}
+			catch(std::exception& e)
+			{
+				throw std::runtime_error("Memory allocation error while parsing server block");
+			}
 		}
 	}
 	this->_createConfigStruct(server);
