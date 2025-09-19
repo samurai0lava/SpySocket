@@ -24,6 +24,23 @@ class SingleServerConfig
 		void _handleLocation(std::string line);
 		void _handleErrorPage(std::string line);
 		LocationStruct _fillLocationStruct(std::string block);
+		void _parseLocationDirective(LocationStruct& loc, const std::string& directive);
+		void _parseLocationRoot(LocationStruct& loc, const std::string& value);
+		void _parseLocationAutoindex(LocationStruct& loc, const std::string& value);
+		void _parseLocationMethod(LocationStruct& loc, const std::string& value);
+		void _parseLocationIndexPage(LocationStruct& loc, const std::string& value);
+		void _parseLocationReturn(LocationStruct& loc, const std::string& value);
+		void _parseLocationCgiPath(LocationStruct& loc, const std::string& value);
+		void _parseLocationCgiExt(LocationStruct& loc, const std::string& value);
+		void _parseLocationUploadEnabled(LocationStruct& loc, const std::string& value);
+		void _parseLocationUploadPath(LocationStruct& loc, const std::string& value);
+		bool _isValidHost(const std::string& host) const;
+		bool _isValidIPv4(const std::string& ip) const;
+		bool _isValidDomain(const std::string& domain) const;
+		size_t _parseBodySize(const std::string& sizeStr) const;
+		bool _isValidLocationPath(const std::string& path) const;
+    	void _initializeLocationStruct(LocationStruct& loc) const;
+
 	public:
 		SingleServerConfig(std::string server, ConfigStruct *conf);
 		class NoListenException : public std::exception

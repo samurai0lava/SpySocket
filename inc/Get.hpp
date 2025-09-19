@@ -27,10 +27,13 @@ public:
     std::string pathIsFile(std::string matchLocation);
     std::string handleDirectoryWithIndex(std::string indexPath);
     std::string handleDirectoryWithAutoIndex(std::string matchLocation);
-    std::string MethodGet(ParsingRequest& parser);
+    std::string MethodGet();
     string setupChunkedSending(const std::string& filePath);
     void printLocationStruct(const LocationStruct& loc);
     string buildRedirectResponse(int statusCode, const std::string& target);
+    std::string getErrorPageFromConfig(int statusCode);
+    std::string getStatusMessage(int statusCode);
+
 
 };
 

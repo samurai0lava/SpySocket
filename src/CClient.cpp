@@ -17,7 +17,7 @@ CClient::CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConf
     response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false)
 
 {
-    // cout << "PARSER CCLIENT : " << parser->getHeaders()["connection"] << endl;
+
 }
 
 CClient::~CClient()
@@ -51,7 +51,7 @@ string CClient::HandleAllMethod()
 
         Get _MGet(*this);
         try {
-            return (_MGet.MethodGet(*this->parser));
+            return (_MGet.MethodGet());
         }
         catch (const std::runtime_error& e) {
             std::string errMsg = e.what();
