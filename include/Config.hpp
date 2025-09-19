@@ -10,15 +10,8 @@
 #include <map>
 #include <vector>
 #include <stdexcept>
-// #include "../inc/webserv.hpp"
 #include "singleserver.hpp"
 #include "Struct.hpp"
-
-#define RED "\033[31m"
-#define GREEN "\033[32m"
-#define BLUE "\033[34m"
-#define YELLOW "\033[33m"
-#define RESET "\033[0m"
 
 
 class Config
@@ -34,12 +27,10 @@ class Config
         Config();
         ~Config();
         void StartToSet(std::string configPath);
-        void _checkDuplicateListenAddresses();
         void _checkBrackets(std::string buffer);
         void setConfigPath(std::string configPath);
         void printCluster() const;
         int getAutoindex();
-        void _checkRedirectionLoops();
         class FileOpenException : public std::exception
 		{
 			public:

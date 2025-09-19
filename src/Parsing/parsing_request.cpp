@@ -344,7 +344,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" ||key == "transfer-encoding" || key == "content-length" || key == "host" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type")
 			header_map[key] = value;
 	}
 
@@ -360,19 +360,23 @@ bool ParsingRequest::parse_headers()
 	{
 		error_code = 400;
 		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
-	access_error(error_code, error_message);
+		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
 	}
 
 	// Check content length for body parsing
-	if (content_lenght_exists)
+	if (content_lenght_exists == 1)
 	{
+		//wtf is this (transfer encoding you'll never know the size of the body you getting)
+		// std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
-
+	else
+		expected_body_length = 0;
+	// printMap(headers);
 	return true;
 }
 
@@ -639,8 +643,9 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		// 	}
 		// }
 		// return true;
+		// cout << RED "Content length val : " << 
 	}
-	content_lenght_exists = 0;
+	// content_lenght_exists = 0;
 	return true;
 }
 
@@ -701,44 +706,64 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 //parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-	// cout << "xxxxxxxxxxxxxxxxx\n";
-	// cout << buffer << endl;
-	// cout << "xxxxxxxxxxxxxxxxx\n";
 
-	if (transfer_encoding_exists) {
-		// For chunked transfer encoding, check if transfer is complete
-		if (!is_chunked_transfer_complete()) {
-			cout << "=== CHUNKED TRANSFER NOT YET COMPLETE ===" << endl;
-			return false;
-		}
-		cout << "=== CHUNKED TRANSFER COMPLETE ===" << endl;
-		// For chunked, body_content is handled by refactor_data
-		return true;
-	} else {
-		// For Content-Length based bodies
-		size_t available = buffer.length() - buffer_pos;
-		if (available < expected_body_length)
-			return false;
-		body_content = buffer.substr(buffer_pos, expected_body_length);
-		buffer_pos += expected_body_length;
-		return true;
-	}
+	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
+    std::string method = start_line.at("method");
+
+    
+    // GET, HEAD, DELETE typically don't have request bodies
+    if (method == "GET" || method == "HEAD" || method == "DELETE") {
+        return true;
+    }
+
+    if (method == "POST") 
+	{
+		// cout << RED "POST" RESET << endl;
+        if (transfer_encoding_exists == 1) 
+		{
+            std::string temp_buffer = buffer.substr(buffer_pos);
+			cout << "***********\n";
+			write(1, temp_buffer.data(), temp_buffer.length());
+			cout << "***BUFFER_END***\n";
+            std::string processed_data;
+        
+            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
+                body_content = processed_data;
+                buffer_pos = buffer.length();
+                return true;
+            }
+            return false;
+        }
+		else if (content_lenght_exists == 1) 
+		{
+            size_t available = buffer.length() - buffer_pos;
+            if (available < expected_body_length)
+                return false;
+            body_content = buffer.substr(buffer_pos, expected_body_length);
+            buffer_pos += expected_body_length;
+            return true;
+        }
+    }
+    return true;
 }
 
 
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
-	// cout << "***************\n";
-	// // cout << "CHUNK SIZE : " << len << endl;
-	// write(1, data, len);
-	// cout << "******END******\n";
-	// Use refactor_data to handle both chunked and regular data
-	// if(getStartLine().at("method") == "POST")
-		refactor_data(buffer, data, len);
-	// else
-	// 	buffer.append(data, len);	
-	// cout << "REFACTORED DATA : " << buffer << "XxXxXxXxXx\n" << endl;
+
+	try{
+		buffer.append(data, len );
+		
+	}
+	catch(std::exception& e)
+	{
+		error_code = 500;
+		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
+		current_state = PARSE_ERROR;
+		access_error(error_code, error_message);
+		return PARSE_ERROR_RESULT;
+	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
 		
@@ -760,21 +785,25 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "HEAAAAAAAAAAAAAAAAADERS\n";
 				return PARSE_AGAIN;
 			}
-			if (expected_body_length > 0 || transfer_encoding_exists)
-				current_state = PARSE_BODY;
-			else
-				current_state = PARSE_COMPLETE;
+			cout << "---------------> " << getHeaders()["content-length"] << endl;
+			// For POST requests, always try to parse body regardless of expected_body_length
+			{
+				std::string method = start_line.at("method");
+				if (method == "POST" || expected_body_length > 0)
+					current_state = PARSE_BODY;
+				else
+					current_state = PARSE_COMPLETE;
+			}
 			break;
 
 		case PARSE_BODY:
+			cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "BOOOOOOOOOOOOOODY\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_COMPLETE;
