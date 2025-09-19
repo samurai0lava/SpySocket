@@ -19,8 +19,6 @@ class CGI : public ParsingRequest
         std::string output_buffer; // Buffer to store CGI output
         int status; // Status of the CGI execution
         int is_cgi; // Flag to indicate if the request is a CGI request
-        int error_code; // Error code for CGI errors
-        std::string error_message; // Error message for CGI errors
 
     public:
         CGI();
@@ -41,8 +39,6 @@ class CGI : public ParsingRequest
         std::map<std::string, std::string> get_env_vars() const { return env_vars; }
         bool check_is_cgi(const ParsingRequest &request);
         void handleCGI(ParsingRequest *parser);
-        int get_error_code() const { return error_code; }
-        std::string get_error_message() const { return error_message; }
         
     private:
         std::string get_interpreter(const std::string& script_path);

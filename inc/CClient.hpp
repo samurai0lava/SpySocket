@@ -8,7 +8,7 @@
 #include <string>
 
 
-class CClient : public ParsingRequest
+class CClient
 {
 public:
     std::string _name_location;

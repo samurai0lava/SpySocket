@@ -1,4 +1,5 @@
 #include "../../inc/Get.hpp"
+// #include "Get.hpp"
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -66,13 +67,7 @@ std::string Get::getMimeType(const std::string& path)
 }
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
 {
-    // Remove query string from path for location matching
     std::string path = requestPath;
-    size_t queryPos = path.find('?');
-    if (queryPos != std::string::npos) {
-        path = path.substr(0, queryPos);
-    }
-    
     std::string removedSegment;
     std::string removedPath;
     while (true) {
@@ -217,7 +212,6 @@ string Get::pathIsFile(string matchLocation)
         return (setupChunkedSending(client.filePath));
     }
 
-    // For small files, read normally
     ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
     {
@@ -263,25 +257,23 @@ string Get::handleDirectoryWithAutoIndex(string matchLocation)
     response << listing;
     return (response.str());
 }
-string Get::MethodGet(ParsingRequest &parser)
+string Get::MethodGet()
 {
     if (this->client.uri.empty()) {
         std::cerr << "Empty URI in GET method" << std::endl;
         return (GenerateResErr(400));
     }
     string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
-    if (!this->pathExists(matchedLocation))
-    {
-        string finalResponce = GenerateResErr(404);
-        return (finalResponce);
-    }
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->client.mutableConfig.location.size(); i++)
     {
-        locationMatched = this->client.mutableConfig.location[i].second;
-        found = true;
-        break;
+        if (this->client.mutableConfig.location[i].first == this->client._name_location)
+        {
+            locationMatched = this->client.mutableConfig.location[i].second;
+            found = true;
+            break;
+        }
     }
     if (!found)
     {
@@ -291,87 +283,21 @@ string Get::MethodGet(ParsingRequest &parser)
     if (!locationMatched._return.empty()) {
         int statusCode = atoi(locationMatched._return[0].first.c_str());
         std::string target = locationMatched._return[0].second;
+        this->client.chunkedSending = true;
         return buildRedirectResponse(statusCode, target);
     }
+    if (!this->pathExists(matchedLocation))
+    {
+        string finalResponce = GenerateResErr(404);
+        return (finalResponce);
+    }
     if (this->isFile(matchedLocation)) {
-        
-        // Check if this is a CGI request
-        CGI cgi;
-        bool is_cgi = cgi.check_is_cgi(parser);
-        if (is_cgi)
-        {
-            std::map<std::string, std::string> env_vars;
-            if (cgi.set_env_var(env_vars, parser))
-            {
-                if (cgi.execute(env_vars))
-                {
-                    if (cgi.read_output())
-                    {
-                        std::string cgi_output = cgi.get_output();
-                        
-                        // Parse CGI output to separate headers and body
-                        size_t header_end = cgi_output.find("\r\n\r\n");
-                        if (header_end == std::string::npos)
-                            header_end = cgi_output.find("\n\n");
-                        
-                        if (header_end != std::string::npos)
-                        {
-                            std::string cgi_headers = cgi_output.substr(0, header_end);
-                            std::string cgi_body = cgi_output.substr(header_end + (cgi_output.find("\r\n\r\n") != std::string::npos ? 4 : 2));
-                            
-                            std::ostringstream response;
-                            response << "HTTP/1.1 200 OK\r\n";
-                            
-                            if (cgi_headers.find("Content-Type:") == std::string::npos)
-                            {
-                                response << "Content-Type: text/html\r\n";
-                            }
-                            
-                            response << cgi_headers << "\r\n";
-                            
-                            if (cgi_headers.find("Content-Length:") == std::string::npos)
-                            {
-                                response << "Content-Length: " << cgi_body.size() << "\r\n";
-                            }
-                            
-                            response << "\r\n" << cgi_body;
-                            
-                            return response.str();
-                        }
-                        else
-                        {
-                            // No proper headers from CGI, treat as plain output
-                            std::ostringstream response;
-                            response << "HTTP/1.1 200 OK\r\n";
-                            response << "Content-Type: text/html\r\n";
-                            response << "Content-Length: " << cgi_output.size() << "\r\n\r\n";
-                            response << cgi_output;
-                            return response.str();
-                        }
-                    }
-                    else
-                    {
-                        return GenerateResErr(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
-                    }
-                }
-                else
-                {
-                    return GenerateResErr(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
-                }
-            }
-            else
-            {
-                return GenerateResErr(500);
-            }
-        }
-        
         return(pathIsFile(matchedLocation));
     }
     else if (this->isDirectory(matchedLocation))
     {
         string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath))
-            // return (this->handleDirectoryWithIndex(indexPath));
             return(pathIsFile(indexPath));
         else if (locationMatched.autoIndex == true)
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
@@ -385,7 +311,6 @@ string Get::setupChunkedSending(const std::string& filePath)
 
     if (this->client.SendHeader == false)
     {
-
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
             return GenerateResErr(500);
@@ -394,16 +319,15 @@ string Get::setupChunkedSending(const std::string& filePath)
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
-        // std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();
-        this->client.SendHeader = true; // Ensure headers are sent only once
+        this->client.SendHeader = true; 
     }
     else
     {
-        // std::cout<<"setupChunkedSending called again\n";
         char buffer[this->client.chunkSize + 1];
+        memset(buffer, 0, this->client.chunkSize + 1);
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
@@ -420,7 +344,6 @@ string Get::setupChunkedSending(const std::string& filePath)
             oss.write(buffer, bytesRead);
             oss << "\r\n";
             this->client.response = oss.str();
-            // this->client.bytesSent += bytesRead;
         }
     }
     return this->client.response;
@@ -462,4 +385,43 @@ string Get::buildRedirectResponse(int statusCode, const std::string& target)
     oss << "Connection: close\r\n\r\n";
 
     return oss.str();
+}
+
+std::string Get::getErrorPageFromConfig(int statusCode)
+{
+    for (size_t i = 0; i < this->client.mutableConfig.errorPage.size(); ++i)
+    {
+        if (std::atoi(this->client.mutableConfig.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string errorPagePath = this->client.mutableConfig.root + this->client.mutableConfig.errorPage[i].second;
+            
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                
+                std::ostringstream response;
+                response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                return response.str();
+            }
+        }
+    }
+    return GenerateResErr(statusCode);
+}
+std::string Get::getStatusMessage(int statusCode)
+{
+    switch(statusCode)
+    {
+        case 400: return "Bad Request";
+        case 403: return "Forbidden";
+        case 404: return "Not Found";
+        case 405: return "Method Not Allowed";
+        case 500: return "Internal Server Error";
+        default: return "Error";
+    }
 }

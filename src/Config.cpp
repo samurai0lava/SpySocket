@@ -1,16 +1,13 @@
 #include "../include/Config.hpp"
 
+// #include "Config.hpp"
+
 
 std::string parseArgv(int argc, char** argv)
 {
-	std::string defaultConfPath = "config/file.conf";
-	if (argc == 1)
+	if (argc > 2 || argc < 2)
 	{
-		return (defaultConfPath);
-	}
-	else if (argc > 2)
-	{
-		std::cout << "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>" << std::endl;
+		std::cout << RED "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>"   RESET<< std::endl;
 		exit(1);
 	}
 	std::string sArgv = argv[1];
@@ -37,9 +34,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 			continue ;
 		size_t start = buffer.find_first_not_of("\n\r\t\f\v ");
 		if (start == std::string::npos)
-		{
 			continue ;
-		}
 		size_t end = buffer.find_first_of(";");
 		if (end == std::string::npos)
 		{
@@ -55,14 +50,9 @@ void Config::_parseServerBlock(std::string serverBlock)
 		}
 		if (buffer.length() > 0)
 		{
-			try{
-				server.append(buffer);
-				server.append("\n");
-			}
-			catch(std::exception& e)
-			{
-				throw std::runtime_error("Memory allocation error while parsing server block");
-			}
+			server.append(buffer, 0, buffer.length());
+			server.append("\n", 0, 1);
+			
 		}
 	}
 	this->_createConfigStruct(server);
@@ -107,8 +97,31 @@ void Config::StartToSet(std::string configPath)
 	this->_configFile.close();
 	std::string buffer = streamBuffer.str();
 	this->_checkBrackets(buffer);
+	this->_checkRedirectionLoops();
+	this->_checkDuplicateListenAddresses();
+	std::cout <<"Configuration file parsed successfully!"  << std::endl;
+	
 }
 
+
+void Config::_checkDuplicateListenAddresses()
+{
+    std::map<std::string, std::set<int> > listenAddresses;
+    for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it)
+    {
+        const ConfigStruct& conf = it->second;
+        for (size_t i = 0; i < conf.listen.size(); ++i)
+        {
+            int port = conf.listen[i];
+            if (listenAddresses[conf.host].count(port))
+            {
+                std::cerr << "Duplicate listen address found for server: " << conf.host << " on port: " << port << std::endl;
+                throw std::runtime_error("Duplicate listen address found");
+            }
+            listenAddresses[conf.host].insert(port);
+        }
+    }
+}
 void Config::_checkBrackets(std::string all)
 {
 	bool openServer = false;
@@ -126,29 +139,18 @@ void Config::_checkBrackets(std::string all)
 		if(buffer.find("server {") != std::string::npos )
 		{
 			if(openServer == true)
-			{
 				throw Config::ServerInsideServerException();
-			}
 			else
-			{
 				openServer = true;
-			}
 		}
 		else if(buffer.find("location ") != std::string::npos)
 		{
 			if(buffer.find(" {") == std::string::npos)
-			{
 				throw Config::WrongBlockException();
-			}
 			else if(openServer == false)
-			{
-				
 				throw Config::WrongBlockException();
-			}
 			else if(openLocation == true)
-			{
 				throw Config::WrongBlockException();
-			}
 			else
 				openLocation = true;
 		}
@@ -183,67 +185,127 @@ void Config::setConfigPath(std::string configPath)
     this->_configPath = configPath;
 }
 
-void Config::printCluster() const {
-	for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it) {
-		const std::string &serverName = it->first;
-		const ConfigStruct &conf = it->second;
+void Config::printCluster() const 
+{
+    for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it) {
+        const std::string &serverName = it->first;
+        const ConfigStruct &conf = it->second;
+        std::cout << "Server: " << serverName << std::endl;
+        if (!conf.host.empty())
+            std::cout << "\tHost: " << conf.host << std::endl;
+        if (!conf.root.empty())
+            std::cout << "\tRoot: " << conf.root << std::endl;
+        if (!conf.indexPage.empty())
+            std::cout << "\tIndex Page: " << conf.indexPage << std::endl;
+        if (conf.autoIndex)
+            std::cout << "\tAutoIndex: true" << std::endl;
+        if (conf.clientMaxBodySize != 0)
+            std::cout << "\tClient Max Body Size: " << conf.clientMaxBodySize << std::endl;
+        if (!conf.listen.empty()) {
+            std::cout << "\tListen Ports: ";
+            for (size_t i = 0; i < conf.listen.size(); ++i)
+                std::cout << conf.listen[i] << " ";
+            std::cout << std::endl;
+        }
+        if (!conf.errorPage.empty()) {
+            std::cout << "\tError Pages:" << std::endl;
+            for (size_t i = 0; i < conf.errorPage.size(); ++i)
+                std::cout << "\t\t" << conf.errorPage[i].first << " => " << conf.errorPage[i].second << std::endl;
+        }
+        if (!conf.location.empty()) {
+            std::cout << "\tLocation blocks:" << std::endl;
+            for (size_t i = 0; i < conf.location.size(); ++i) {
+                std::cout << "\t\tLocation: " << conf.location[i].first << std::endl;
+                const LocationStruct &loc = conf.location[i].second;
+                if (!loc.root.empty())
+                    std::cout << "\t\t\tRoot: " << loc.root << std::endl;
+                
+                if (!loc.indexPage.empty())
+                    std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
+                
+                if (loc.autoIndex)
+                    std::cout << "\t\t\tAutoIndex: on" << std::endl;
+                
+                if (!loc._return.empty()) {
+                    std::cout << "\t\t\tReturn: ";
+                    for (size_t j = 0; j < loc._return.size(); ++j) {
+                        std::cout << "(" << loc._return[j].first << ", " << loc._return[j].second << ")";
+                        if (j != loc._return.size() - 1)
+                            std::cout << ", ";
+                    }
+                    std::cout << std::endl;
+                }
+                
+                if (!loc.allowedMethods.empty()) {
+                    std::cout << "\t\t\tAllowed Methods: ";
+                    for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
+                        std::cout << *mit << " ";
+                    std::cout << std::endl;
+                }
 
-		std::cout << "Server: " << serverName << std::endl;
-		std::cout << "\tHost: " << conf.host << std::endl;
-		std::cout << "\tRoot: " << conf.root << std::endl;
-		std::cout << "\tIndex Page: " << conf.indexPage << std::endl;
-		std::cout << "\tAutoIndex: " << (conf.autoIndex ? "true" : "false") << std::endl;
-		std::cout << "\tClient Max Body Size: " << conf.clientMaxBodySize << std::endl;
+                if (!loc.cgi_path.empty()) {
+                    std::cout << "\t\t\tCGI Paths: ";
+                    for (size_t j = 0; j < loc.cgi_path.size(); ++j)
+                        std::cout << loc.cgi_path[j] << " ";
+                    std::cout << std::endl;
+                }
 
-		std::cout << "\tListen Ports: ";
-		for (size_t i = 0; i < conf.listen.size(); ++i)
-			std::cout << conf.listen[i] << " ";
-		std::cout << std::endl;
-
-		std::cout << "\tError Pages:" << std::endl;
-		for (size_t i = 0; i < conf.errorPage.size(); ++i)
-			std::cout << "\t\t" << conf.errorPage[i].first << " => " << conf.errorPage[i].second << std::endl;
-
-		std::cout << "\tLocation blocks:" << std::endl;
-		for (size_t i = 0; i < conf.location.size(); ++i) {
-			std::cout << "\t\tLocation: " << conf.location[i].first << std::endl;
-			const LocationStruct &loc = conf.location[i].second;
-			std::cout << "\t\t\tRoot: " << loc.root << std::endl;
-			std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
-			std::cout << "\t\t\tAutoIndex: " << (loc.autoIndex ? "true" : "false") << std::endl;
-			std::cout << "\t\t\tReturn: ";
-			for (size_t i = 0; i < loc._return.size(); ++i)
-			{
-				std::cout << "(" << loc._return[i].first << ", " << loc._return[i].second << ")";
-				if (i != loc._return.size() - 1)
-					std::cout << ", ";
-			}
-			std::cout << std::endl;
-			std::cout << "\t\t\tAllowed Methods: ";
-			for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
-				std::cout << *mit << " ";
-			std::cout << std::endl;
-
-			std::cout << "\t\t\tCGI Paths: ";
-			for (size_t j = 0; j < loc.cgi_path.size(); ++j)
-				std::cout << loc.cgi_path[j] << " ";
-			std::cout << std::endl;
-
-			std::cout << "\t\t\tCGI Extensions: ";
-			for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
-				std::cout << loc.cgi_ext[j] << " ";
-			std::cout << std::endl;
-			std::cout << "\t\t\tUpload_enabled: " << (loc.upload_enabled ? "on" : "off") << std::endl;
-			std::cout << "\t\t\tUpload_path : " << loc.upload_path << std::endl;
-		}
-		std::cout << std::endl;
-	}
+                if (!loc.cgi_ext.empty()) {
+                    std::cout << "\t\t\tCGI Extensions: ";
+                    for (size_t j = 0; j < loc.cgi_ext.size(); ++j)
+                        std::cout << loc.cgi_ext[j] << " ";
+                    std::cout << std::endl;
+                }
+                
+                if (loc.upload_enabled)
+                    std::cout << "\t\t\tUpload_enabled: on" << std::endl;
+                
+                if (!loc.upload_path.empty())
+                    std::cout << "\t\t\tUpload_path: " << loc.upload_path << std::endl;
+            }
+        }
+        std::cout << std::endl;
+    }
 }
-
 
 int Config::getAutoindex()
 {
     return _cluster.begin()->second.autoIndex;
+}
+
+
+void Config::_checkRedirectionLoops()
+{
+	for (std::map<std::string, ConfigStruct>::iterator it = _cluster.begin(); it != _cluster.end(); ++it) 
+	{
+		ConfigStruct &conf = it->second;
+		for (size_t i = 0; i < conf.location.size(); ++i) 
+		{
+			LocationStruct &loc = conf.location[i].second;
+			for (size_t j = 0; j < loc._return.size(); ++j)
+			{
+				const std::string &target = loc._return[j].second;
+				if (target.find("http://") == 0 || target.find("https://") == 0)
+					continue;
+				bool found = false;
+				for (std::map<std::string, ConfigStruct>::iterator it2 = _cluster.begin(); it2 != _cluster.end(); ++it2) {
+					ConfigStruct &conf2 = it2->second;
+
+					for (size_t k = 0; k < conf2.location.size(); ++k) {
+						const std::string &locPath = conf2.location[k].first;
+						if (target == locPath) {
+							found = true;
+							break;
+						}
+					}
+					if (found) break;
+				}
+				if (!found) 
+					throw std::runtime_error("Redirection loop detected for target: " + target);
+			}
+		}
+	}
+	
 }
 const char* Config::FileOpenException::what(void) const throw()
 {

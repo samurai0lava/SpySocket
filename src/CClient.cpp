@@ -1,7 +1,7 @@
 #include "../inc/CClient.hpp"
 #include "../inc/Get.hpp"
-#include "../inc/webserv.hpp"
-
+// #include "CClient.hpp"
+// #include "../inc/RespondError.hpp"
 CClient::CClient() :
     _name_location(""), NameMethod(""), uri(""), FdClient(-1), mutableConfig(), serv(), parser(NULL),
     SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), 
@@ -17,7 +17,6 @@ CClient::CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConf
     response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false)
 
 {
-    // cout << "PARSER CCLIENT : " << parser->getHeaders()["connection"] << endl;
 }
 
 CClient::~CClient()
@@ -45,13 +44,12 @@ void CClient::printInfo() const {
 
 string CClient::HandleAllMethod()
 {
-    // cout << "PARSER METHOD : " << parser->getHeaders()["connection"] << endl;
     if (this->NameMethod == "GET")
     {
 
         Get _MGet(*this);
         try {
-            return (_MGet.MethodGet(*this->parser));
+            return (_MGet.MethodGet());
         }
         catch (const std::runtime_error& e) {
             std::string errMsg = e.what();
@@ -71,10 +69,8 @@ string CClient::HandleAllMethod()
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
     }
-    else if(this->NameMethod == "POST")
-    {
-        return postMethod(this->uri, this->mutableConfig, *this->parser);
-    }
+    //  else if(this->NameMethod == "POST")
+    //  {}
     else
         return GenerateResErr(405); // Method Not Allowed
     return string();

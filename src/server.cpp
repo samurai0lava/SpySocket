@@ -101,6 +101,8 @@ void Servers::epollFds(Servers& serv)
         //epoll wait returns 2 fds that are ready when only one client is connected ???
         int ready_fds = epoll_wait(epollFd, events, 10, -1);
 
+        // std::cout << "READY FDS : " << ready_fds << std::endl;
+
         if (ready_fds == -1)
         {
             std::cerr << "Error occured in epoll wait!" << std::endl;
@@ -115,7 +117,6 @@ void Servers::epollFds(Servers& serv)
             std::vector<int>::iterator it = std::find(serv.serversFd.begin(), serv.serversFd.end(), fd);
             if (it != serv.serversFd.end())
             {
-                //Need to add a timeout for client connection maybe
                 int client_fd = accept(fd, NULL, NULL);
                 if (client_fd == -1)
                 {
@@ -155,7 +156,6 @@ void Servers::epollFds(Servers& serv)
             }
 
             // Check if client still exists in our maps
-            //what is this????? hepa
             if (clients.find(fd) == clients.end()) {
                 std::cout << "Client fd " << fd << " no longer exists, skipping event" << std::endl;
                 continue;
@@ -164,8 +164,12 @@ void Servers::epollFds(Servers& serv)
             Client& c = clients[fd];
             if (events[i].events & EPOLLIN)
             {
-                //Timeout for the request
-                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
+                // Clear buffer before receiving new data
+                memset(serv.buffer, 0, READ_SIZE);
+                serv.bufferLength = recv(fd, serv.buffer, READ_SIZE - 1, 0);  // Leave space for null terminator
+                if (serv.bufferLength > 0) {
+                    serv.buffer[serv.bufferLength] = '\0';  // Null terminate the buffer
+                }
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
@@ -191,7 +195,6 @@ void Servers::epollFds(Servers& serv)
                     close(fd);
                     continue;
                 }
-                // Get the parser for this specific client
                 ParsingRequest* parser = NULL;
                 if (clientParsers.find(fd) != clientParsers.end())
                 {
@@ -200,7 +203,7 @@ void Servers::epollFds(Servers& serv)
                 else
                 {
                     std::cerr << "No parser found for client FD " << fd << std::endl;
-                    // access_error(500, "Internal Server Error: No parser found for client.");
+                    access_error(500, "Internal Server Error: No parser found for client.");
                     close(fd);
                     continue;
                 }
@@ -209,10 +212,9 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    // cout << buffer << endl;
                     // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    // access_log(*parser);
+                    access_log(*parser);
                     handleMethod(fd, parser, config, serv, client_data_map[fd]);
                     c.ready_to_respond = true;
                     epoll_event ev;
@@ -220,9 +222,6 @@ void Servers::epollFds(Servers& serv)
                     ev.events = EPOLLOUT;
                     ev.data.fd = fd;
                     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
-
-                    // Don't reset parser here - reset it after response is sent
-                    // parser->reset();
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)
                 {
@@ -230,7 +229,6 @@ void Servers::epollFds(Servers& serv)
                 }
                 else if (result == ParsingRequest::PARSE_ERROR_RESULT)
                 {
-                    // Handle any error result - send the error response
                     std::cout << "Error Code: " << parser->getErrorCode() << " - " << parser->getErrorMessage() << std::endl;
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     c.response = errorResponse;
@@ -240,20 +238,15 @@ void Servers::epollFds(Servers& serv)
                     ev.events = EPOLLOUT;
                     ev.data.fd = fd;
                     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
-                    // Proper cleanup
                     if (clientParsers.find(fd) != clientParsers.end()) {
                         delete clientParsers[fd];
                         clientParsers.erase(fd);
                     }
-                    // Note: Don't erase from other maps here as we still need to send the response
                 }
 
             }
             else if (events[i].events & EPOLLOUT)
             {
-                //timeout for the response?
-
-                // Check if client still exists in our maps
                 if (client_data_map.find(fd) == client_data_map.end() || 
                     clients.find(fd) == clients.end()) {
                     std::cout << "Client fd " << fd << " no longer exists, skipping EPOLLOUT" << std::endl;
@@ -262,21 +255,17 @@ void Servers::epollFds(Servers& serv)
                 
                 if (client_data_map[fd].NameMethod == "GET")
                 {
+                    
                     if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
-                        // std::cout<<"****Building response for fd : "<< fd << std::endl;
-                            // Build response only once (headers + first chunk)
+                        c.response.clear();
                         c.response = client_data_map[fd].HandleAllMethod();
                     }
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
-                    if (bytes_sent == -1) 
-                    {
-                        //THIS IS SUS WE SHOULDN"T CHECK ERRNO IG AFTER READ OR WRITE OPS
+                    if (bytes_sent == -1) {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                            // Socket not ready yet, try again later
                             continue;
-                        } else {
-                            // Connection error, clean up this client
-                            std::cout << RED "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
+                        } else if(bytes_sent == 0) {
+                            std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
@@ -291,17 +280,23 @@ void Servers::epollFds(Servers& serv)
                     if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
-                        c.response.erase(0, bytes_sent);
+                        if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
+                            c.response.erase(0, bytes_sent);
+                        } else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
+                                      << c.response.size() << "), clearing response" << std::endl;
+                            c.response.clear();
+                        }
                     }
                     if (c.response.empty())
                     {
                         c.ready_to_respond = false;
                         if (client_data_map[fd].chunkedSending == true)
                         {
-                            std::cout << RED "Finished sending response to fd : " << fd << RESET << std::endl;
+                            std::cout << "Finished sending response to fd : " << fd << std::endl;
                             epoll_event ev;
                             memset(&ev, 0, sizeof(ev));
-                            ev.events = EPOLLIN; // Reset to listen for new requests
+                            ev.events = EPOLLIN; 
                             ev.data.fd = fd;
                             client_data_map[fd] = CClient();
                             client_data_map[fd].FdClient = fd;
@@ -330,18 +325,14 @@ void Servers::epollFds(Servers& serv)
                 }
                 else
                 {
-                    // std::cout << "Ready to send response to fd : " << fd << std::endl;
                     if (c.response.empty())
                         c.response = client_data_map[fd].HandleAllMethod();
-                    // cout << c.response() << endl;
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
                     if (bytes_sent == -1) {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                            // Socket not ready yet, try again later
                             continue;
                         } else {
-                            // Connection error, clean up this client
-                            std::cout << GREEN "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
+                            std::cout << "Send failed for fd " << fd << ", cleaning up2" << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
@@ -356,7 +347,13 @@ void Servers::epollFds(Servers& serv)
                     if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
-                        c.response.erase(0, bytes_sent);
+                        if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
+                            c.response.erase(0, bytes_sent);
+                        } else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
+                                      << c.response.size() << "), clearing response" << std::endl;
+                            c.response.clear();
+                        }
                     }
                     if (c.response.empty())
                     {
@@ -364,12 +361,10 @@ void Servers::epollFds(Servers& serv)
                         std::cout << "Finished sending response to fd : " << fd << std::endl;
                         epoll_event ev;
                         memset(&ev, 0, sizeof(ev));
-                        ev.events = EPOLLIN; // Reset to listen for new requests
+                        ev.events = EPOLLIN; 
                         ev.data.fd = fd;
-                        // Reset client data for keep-alive instead of erasing
                         client_data_map[fd] = CClient();
                         client_data_map[fd].FdClient = fd;
-                        // Reset parser for next request on keep-alive connection
                         if (clientParsers.find(fd) != clientParsers.end()) {
                             clientParsers[fd]->reset();
                         }
