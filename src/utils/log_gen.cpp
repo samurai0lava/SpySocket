@@ -53,19 +53,19 @@ std::string generate_error_line(int error_code, const std::string& error_message
     return error_line;
 }
 
-// void access_log(ParsingRequest& request)
-// {
-//     std::string access_message;
-//     access_message = generate_access_line(request);
-//     std::ofstream access_log_file("log/access.log", std::ios::app);
-//     if (!access_log_file)
-//     {
-//         std::cerr << "Failed to open access log file" << std::endl;
-//         return;
-//     }
-//     access_log_file << access_message;
-//     access_log_file.close();
-// }
+void access_log(ParsingRequest& request)
+{
+    std::string access_message;
+    access_message = generate_access_line(request);
+    std::ofstream access_log_file("log/access.log", std::ios::app);
+    if (!access_log_file)
+    {
+        std::cerr << "Failed to open access log file" << std::endl;
+        return;
+    }
+    access_log_file << access_message;
+    access_log_file.close();
+}
 
 
 void access_error(int error_code, const std::string& error_message)

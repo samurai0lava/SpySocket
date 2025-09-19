@@ -233,6 +233,7 @@ string Get::pathIsFile(string matchLocation)
     // std::cout << RED "Mime TYPPPE" RESET << getMimeType(matchLocation) << std::endl;
     response << "Content-length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
+    this->client.chunkedSending = true;
     return (response.str());
 }
 
