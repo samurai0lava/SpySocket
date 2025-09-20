@@ -1,3 +1,7 @@
+.delete-page-body {
+  background-color: white;
+}
+
 .retro-pc
 {
   display: flex;
@@ -753,6 +757,26 @@ body.upload-page-body {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.mountain-2-black
+{
+  position: absolute;
+  bottom: 0;
+  height: 300px;
+  width: auto; 
+  left: 0;
+}
+
+.mountain-1-black
+{
+  position: absolute;
+  bottom: 0;
+  height: auto;
+  z-index: 5;
+  width: 60%;
+  right: 0;
+}
+
+
 /*STYLE THE LOGIN PAGE*/
 
 .back-button {
@@ -773,9 +797,40 @@ body.upload-page-body {
   z-index: 100;
 }
 
+.back-button-delete {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  padding: 10px 10px;
+  border-radius: 25px;
+
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 80px;
+  height: 51px;
+  position: absolute;
+  top: 47px;
+  left: 51px;
+  z-index: 100;
+}
+.back-button-delete:hover {
+  transform: translateY(-4px);
+}
 .back-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.Back-text-delete{
+  font-size: 20px;
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.8);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
 }
 
 .Back-text {

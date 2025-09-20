@@ -1,11 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpySocket - Explore</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
 </head>
-<body>
-    <h1>Test Delete Endpoint(Working on it)</h1>
+
+<body class="delete-page-body">
+    <header class="upload-header-up">
+        <div class="back-button-delete" onclick="window.location.href='main-page.html'">
+            <img src="img/chevron_backward.png" class="back-butt" />
+        </div>
+    </header>
+    <div class="SS-red">
+        <div class="SPY-red">Spy</div><div class="SOCKET-red">Socket</div>
+    </div>
+    <form action="action_page.php" method="post">
+
+        <div class="container">
+            <label for="uname"><b>Username</b></label>
+            <input type="text" placeholder="Enter Username" name="uname" required>
+
+            <label for="psw"><b>Password</b></label>
+            <input type="password" placeholder="Enter Password" name="psw" required>
+
+            <button type="submit">Login</button>
+        </div>
+
+    </form>
+    <div class="mountain-background">
+        <img src="img/mountain-left.png" alt="Mountain 2" class="mountain-black mountain-2-black" />
+        <img src="img/mountain-right.png" alt="Mountain 1" class="mountain-black mountain-1-black" />
+    </div>
 </body>
+
 </html>
