@@ -301,7 +301,7 @@ void Servers::epollFds(Servers& serv)
                         c.ready_to_respond = false;
                         if (client_data_map[fd].chunkedSending == true)
                         {
-                            std::cout << RED "Finished sending response to fd : " << fd << RESET << std::endl;
+                            std::cout << GREEN "Finished sending response to fd : " << fd << RESET << std::endl;
                             epoll_event ev;
                             memset(&ev, 0, sizeof(ev));
                             ev.events = EPOLLIN; // Reset to listen for new requests
