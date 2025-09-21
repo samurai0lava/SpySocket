@@ -1,0 +1,49 @@
+POST /api/login HTTP/1.1
+Host: localhost:8080
+Content-Type: multipart/form-data; boundary=**** 
+Content-Length: 178
+
+--****
+Content-Disposition: form-data; name="file"; filename="hello.txt"
+Content-Type: text/plain
+
+Hello from my uploaded file!
+Lets try with 
+other
+l
+i
+n
+e
+s
+--****--
+
+
+
+POST /api/login HTTP/1.1
+Host: localhost:8080
+Content-Type: multipart/form-data; boundary=----X
+Content-Length: 430
+
+------X
+Content-Disposition: form-data; name="username"
+
+hiba
+------X
+Content-Disposition: form-data; name="email"
+
+hiba@example.com
+------X
+Content-Disposition: form-data; name="avatar"; filename="pic.png"
+Content-Type: image/png
+
+<PNG BYTES>
+------X
+Content-Disposition: form-data; name="resume"; filename="cv.pdf"
+Content-Type: application/pdf
+
+<PDF BYTES>
+------X
+Content-Disposition: form-data; name="token"
+
+xyz123
+------X--

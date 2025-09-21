@@ -165,6 +165,7 @@ void Servers::epollFds(Servers& serv)
             if (events[i].events & EPOLLIN)
             {
                 //Timeout for the request
+                // memset(serv.buffer, 0, READ_SIZE);
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
@@ -263,20 +264,16 @@ void Servers::epollFds(Servers& serv)
                 if (client_data_map[fd].NameMethod == "GET")
                 {
                     if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
-                        // std::cout<<"****Building response for fd : "<< fd << std::endl;
-                            // Build response only once (headers + first chunk)
+                        c.response.clear();
                         c.response = client_data_map[fd].HandleAllMethod();
                     }
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
                     if (bytes_sent == -1) 
                     {
-                        //THIS IS SUS WE SHOULDN"T CHECK ERRNO IG AFTER READ OR WRITE OPS
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                            // Socket not ready yet, try again later
                             continue;
-                        } else {
-                            // Connection error, clean up this client
-                            std::cout << RED "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
+                        } else if(bytes_sent == 0) {
+                            std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
@@ -291,7 +288,13 @@ void Servers::epollFds(Servers& serv)
                     if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
-                        c.response.erase(0, bytes_sent);
+                        if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
+                            c.response.erase(0, bytes_sent);
+                        } else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
+                                      << c.response.size() << "), clearing response" << std::endl;
+                            c.response.clear();
+                        }
                     }
                     if (c.response.empty())
                     {
@@ -356,7 +359,13 @@ void Servers::epollFds(Servers& serv)
                     if (bytes_sent > 0)
                     {
                         client_data_map[fd].bytesSent += bytes_sent;
-                        c.response.erase(0, bytes_sent);
+                        if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
+                            c.response.erase(0, bytes_sent);
+                        } else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
+                                      << c.response.size() << "), clearing response" << std::endl;
+                            c.response.clear();
+                        }
                     }
                     if (c.response.empty())
                     {

@@ -66,13 +66,7 @@ std::string Get::getMimeType(const std::string& path)
 }
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
 {
-    // Remove query string from path for location matching
     std::string path = requestPath;
-    size_t queryPos = path.find('?');
-    if (queryPos != std::string::npos) {
-        path = path.substr(0, queryPos);
-    }
-    
     std::string removedSegment;
     std::string removedPath;
     while (true) {
@@ -217,7 +211,6 @@ string Get::pathIsFile(string matchLocation)
         return (setupChunkedSending(client.filePath));
     }
 
-    // For small files, read normally
     ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
     {
@@ -263,25 +256,23 @@ string Get::handleDirectoryWithAutoIndex(string matchLocation)
     response << listing;
     return (response.str());
 }
-string Get::MethodGet(ParsingRequest &parser)
+string Get::MethodGet()
 {
     if (this->client.uri.empty()) {
         std::cerr << "Empty URI in GET method" << std::endl;
         return (GenerateResErr(400));
     }
     string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
-    if (!this->pathExists(matchedLocation))
-    {
-        string finalResponce = GenerateResErr(404);
-        return (finalResponce);
-    }
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->client.mutableConfig.location.size(); i++)
     {
-        locationMatched = this->client.mutableConfig.location[i].second;
-        found = true;
-        break;
+        if (this->client.mutableConfig.location[i].first == this->client._name_location)
+        {
+            locationMatched = this->client.mutableConfig.location[i].second;
+            found = true;
+            break;
+        }
     }
     if (!found)
     {
@@ -291,17 +282,24 @@ string Get::MethodGet(ParsingRequest &parser)
     if (!locationMatched._return.empty()) {
         int statusCode = atoi(locationMatched._return[0].first.c_str());
         std::string target = locationMatched._return[0].second;
+        this->client.chunkedSending = true;
         return buildRedirectResponse(statusCode, target);
     }
+    if (!this->pathExists(matchedLocation))
+    {
+        string finalResponce = GenerateResErr(404);
+        return (finalResponce);
+    }
     if (this->isFile(matchedLocation)) {
+        // this->client.parser;
         
         // Check if this is a CGI request
         CGI cgi;
-        bool is_cgi = cgi.check_is_cgi(parser);
+        bool is_cgi = cgi.check_is_cgi(*this->client.parser);
         if (is_cgi)
         {
             std::map<std::string, std::string> env_vars;
-            if (cgi.set_env_var(env_vars, parser))
+            if (cgi.set_env_var(env_vars, *this->client.parser))
             {
                 if (cgi.execute(env_vars))
                 {
@@ -371,7 +369,6 @@ string Get::MethodGet(ParsingRequest &parser)
     {
         string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath))
-            // return (this->handleDirectoryWithIndex(indexPath));
             return(pathIsFile(indexPath));
         else if (locationMatched.autoIndex == true)
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
@@ -382,10 +379,8 @@ string Get::MethodGet(ParsingRequest &parser)
 
 string Get::setupChunkedSending(const std::string& filePath)
 {
-
     if (this->client.SendHeader == false)
     {
-
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
             return GenerateResErr(500);
@@ -394,16 +389,15 @@ string Get::setupChunkedSending(const std::string& filePath)
         std::ostringstream oss;
         oss << "HTTP/1.1 200 OK\r\n";
         oss << "Content-Type: " << getMimeType(filePath) << "\r\n";
-        // std::cout << RED "Mime TYPPPE" RESET << getMimeType(filePath) << std::endl;
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();
-        this->client.SendHeader = true; // Ensure headers are sent only once
+        this->client.SendHeader = true; 
     }
     else
     {
-        // std::cout<<"setupChunkedSending called again\n";
         char buffer[this->client.chunkSize + 1];
+        memset(buffer, 0, this->client.chunkSize + 1);
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
@@ -420,7 +414,6 @@ string Get::setupChunkedSending(const std::string& filePath)
             oss.write(buffer, bytesRead);
             oss << "\r\n";
             this->client.response = oss.str();
-            // this->client.bytesSent += bytesRead;
         }
     }
     return this->client.response;
