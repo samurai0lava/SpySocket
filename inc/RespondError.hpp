@@ -11,7 +11,6 @@ std::string generateErrorPageHTML(int errorCode, const std::string& errorMessage
 std::string getDefaultErrorMessage(int errorCode);
 void ResERROR(const int ErrorStat);
 const std::string GenerateResErr(const int ErrorStat);
-std::string getErrorPageFromServerConfig(int statusCode, const ConfigStruct& config);
 
 
 #endif

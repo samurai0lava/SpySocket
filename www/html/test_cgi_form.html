@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SpySocket - Explore</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300..700&family=M+PLUS+Rounded+1c:wght@400;900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+        rel="stylesheet" />
+</head>
+  <body class="crt">
+    <header>
+        <div class="back-button-crt" onclick="window.location.href='main-page.html'"">
+        <span class="Back-text-crt">&lt;Back</span>
+        </div>  
+    </header>
+    <div class="retro-pc">
+      <img src="img/retro.png" class="retro-img"/>
+      <span class="blink">_</span>
+    </div>
+    <div class="crt-text" style="color:hsl(154 84% 70%); position: relative; top: -80px; font-size:80px; font-weight: 900;">
+      <p>SpySocket</p>
+    </div>
+    <h1 class="crt-text" style="color: hsl(154 84% 70%)">Common Gateway Interface</h1>
+    <div class="crt-text" style="color:hsl(154 84% 70%); position: relative; top: 0px; font-size: 18px;">
+        <p>Loading system information</p>
+    </div>
+    <div id="interlaced"></div>
+    <div id="glare"></div>
+    <script>
+        setTimeout(function() {
+            window.location.href = 'cgi_bin/info-dash.py';
+        }, 2000);
+    </script>
+  </body>
+</html

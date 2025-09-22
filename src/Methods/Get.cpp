@@ -1,5 +1,4 @@
 #include "../../inc/Get.hpp"
-// #include "Get.hpp"
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -11,7 +10,7 @@ Get::~Get()
 
 void printLocationStruct(const LocationStruct& loc) {
     std::cout << "LocationStruct {" << std::endl;
-   
+
     if (loc.autoIndex == true)
         std::cout << "  autoIndex: true" << std::endl;
     else
@@ -235,7 +234,7 @@ string Get::handleDirectoryWithIndex(string indexPath)
 {
     ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
-        return getErrorPageFromConfig(500);
+        return (getErrorPageFromConfig(500));
     stringstream buffer;
     buffer << file.rdbuf();
     file.close();
@@ -261,7 +260,7 @@ string Get::MethodGet()
 {
     if (this->client.uri.empty()) {
         std::cerr << "Empty URI in GET method" << std::endl;
-        return getErrorPageFromConfig(400);
+        return (getErrorPageFromConfig(400));
     }
     string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
     bool found = false;
@@ -292,6 +291,78 @@ string Get::MethodGet()
         return (finalResponce);
     }
     if (this->isFile(matchedLocation)) {
+        // this->client.parser;
+        
+        // Check if this is a CGI request
+        CGI cgi;
+        bool is_cgi = cgi.check_is_cgi(*this->client.parser);
+        if (is_cgi)
+        {
+            std::map<std::string, std::string> env_vars;
+            if (cgi.set_env_var(env_vars, *this->client.parser))
+            {
+                if (cgi.execute(env_vars))
+                {
+                    if (cgi.read_output())
+                    {
+                        std::string cgi_output = cgi.get_output();
+                        
+                        // Parse CGI output to separate headers and body
+                        size_t header_end = cgi_output.find("\r\n\r\n");
+                        if (header_end == std::string::npos)
+                            header_end = cgi_output.find("\n\n");
+                        
+                        if (header_end != std::string::npos)
+                        {
+                            std::string cgi_headers = cgi_output.substr(0, header_end);
+                            std::string cgi_body = cgi_output.substr(header_end + (cgi_output.find("\r\n\r\n") != std::string::npos ? 4 : 2));
+                            
+                            std::ostringstream response;
+                            response << "HTTP/1.1 200 OK\r\n";
+                            
+                            if (cgi_headers.find("Content-Type:") == std::string::npos)
+                            {
+                                response << "Content-Type: text/html\r\n";
+                            }
+                            
+                            response << cgi_headers << "\r\n";
+                            
+                            if (cgi_headers.find("Content-Length:") == std::string::npos)
+                            {
+                                response << "Content-Length: " << cgi_body.size() << "\r\n";
+                            }
+                            
+                            response << "\r\n" << cgi_body;
+                            
+                            return response.str();
+                        }
+                        else
+                        {
+                            // No proper headers from CGI, treat as plain output
+                            std::ostringstream response;
+                            response << "HTTP/1.1 200 OK\r\n";
+                            response << "Content-Type: text/html\r\n";
+                            response << "Content-Length: " << cgi_output.size() << "\r\n\r\n";
+                            response << cgi_output;
+                            return response.str();
+                        }
+                    }
+                    else
+                    {
+                        return getErrorPageFromConfig(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
+                    }
+                }
+                else
+                {
+                    return getErrorPageFromConfig(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
+                }
+            }
+            else
+            {
+                return getErrorPageFromConfig(500);
+            }
+        }
+        
         return(pathIsFile(matchedLocation));
     }
     else if (this->isDirectory(matchedLocation))
@@ -302,13 +373,12 @@ string Get::MethodGet()
         else if (locationMatched.autoIndex == true)
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
     }
-    return getErrorPageFromConfig(403);
+    return (getErrorPageFromConfig(403));
 }
 
 
 string Get::setupChunkedSending(const std::string& filePath)
 {
-
     if (this->client.SendHeader == false)
     {
         struct stat s;
@@ -386,11 +456,8 @@ string Get::buildRedirectResponse(int statusCode, const std::string& target)
 
     return oss.str();
 }
-
 std::string Get::getErrorPageFromConfig(int statusCode)
 {
-
-    std::cout<<"hello \n";
     for (size_t i = 0; i < this->client.mutableConfig.errorPage.size(); ++i)
     {
         if (std::atoi(this->client.mutableConfig.errorPage[i].first.c_str()) == statusCode)
@@ -399,11 +466,9 @@ std::string Get::getErrorPageFromConfig(int statusCode)
             std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
             if (file.is_open())
             {
-                 std::cout<<"hello  open \n";
                 std::stringstream buffer;
                 buffer << file.rdbuf();
                 file.close();
-                
                 std::ostringstream response;
                 response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
                 response << "Content-Type: text/html\r\n";
@@ -412,10 +477,8 @@ std::string Get::getErrorPageFromConfig(int statusCode)
                 this->client.chunkedSending = true;
                 return response.str();
             }
-            
         }
     }
-    std::cout<<"123 \n";
     this->client.chunkedSending = true;
     return GenerateResErr(statusCode);
 }

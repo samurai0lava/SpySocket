@@ -8,7 +8,7 @@
 #include <string>
 
 
-class CClient
+class CClient : public ParsingRequest
 {
 public:
     std::string _name_location;
@@ -37,7 +37,7 @@ public:
     ~CClient();
     // string setupChunkedSending(const std::string & filePath);
     string HandleAllMethod();
-    std::string getErrorPageFromConfig(int statusCode);
+    // std::string GenerateResErr(int errorCode);
     void printInfo() const;
 
 

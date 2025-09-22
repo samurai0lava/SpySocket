@@ -63,6 +63,7 @@ struct ConfigStruct
 	bool									autoIndex;
 	size_t									clientMaxBodySize;
 	std::vector<unsigned short> listen;
+	// std::vector<std::pair<std::string, unsigned short> > listen;
 	std::vector<std::pair<std::string,LocationStruct> > location; //switch to map maybe?
 	std::vector<std::pair<std::string,std::string> > errorPage;
 };

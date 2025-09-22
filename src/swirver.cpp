@@ -74,8 +74,17 @@ void server() {
                     clients.erase(event_fd);
                     continue;
                 }
-
-                c.request.append(buffer, 0, bytes);
+                try
+                {
+                    c.request.append(buffer, bytes);
+                }
+                catch(std::exception& e)
+                {
+                    std::cerr << "Memory allocation error while appending to request buffer" << std::endl;
+                    close(event_fd);
+                    clients.erase(event_fd);
+                    continue;
+                }
                 // Generate response, but DO NOT send now
                 c.response = handle_request(c.request);
                 c.ready_to_respond = true;
