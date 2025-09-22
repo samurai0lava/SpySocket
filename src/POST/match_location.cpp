@@ -22,7 +22,18 @@ std::pair<std::string, LocationStruct> get_location(const std::string &requestPa
 	}
 	if (!bestMatch.empty())
 	{
+		if (!bestLocation._return.empty())
+		{
+			// handle_redirect(fd, std::make_pair(bestMatch, bestLocation));
+			throw runtime_error("Redirection");
+		}
+		if (bestLocation.allowedMethods.find("POST") == bestLocation.allowedMethods.end())
+		{
+			// handle_notAllowed(fd, std::make_pair(bestMatch, bestLocation));
+			throw runtime_error("Method not allowed");
+		}
 		return (std::make_pair(bestMatch, bestLocation));
 	}
-	return (make_pair("", bestLocation));
+	// notFound(fd);
+	throw runtime_error("Location not found");
 }

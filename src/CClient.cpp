@@ -1,6 +1,5 @@
 #include "../inc/CClient.hpp"
 #include "../inc/Get.hpp"
-#include "../inc/webserv.hpp"
 
 CClient::CClient() :
     _name_location(""), NameMethod(""), uri(""), FdClient(-1), mutableConfig(), serv(), parser(NULL),
@@ -17,7 +16,6 @@ CClient::CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConf
     response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false)
 
 {
-
 }
 
 CClient::~CClient()
@@ -45,7 +43,6 @@ void CClient::printInfo() const {
 
 string CClient::HandleAllMethod()
 {
-    // cout << "PARSER METHOD : " << parser->getHeaders()["connection"] << endl;
     if (this->NameMethod == "GET")
     {
 
@@ -56,13 +53,13 @@ string CClient::HandleAllMethod()
         catch (const std::runtime_error& e) {
             std::string errMsg = e.what();
             if (errMsg.find("405") != std::string::npos) {
-                return GenerateResErr(405);
+                return getErrorPageFromConfig(405);
             }
             else if (errMsg.find("403") != std::string::npos) {
-                return GenerateResErr(403);
+                return getErrorPageFromConfig(403);
             }
             else {
-                return GenerateResErr(500); // Generic server error for other exceptions
+                return getErrorPageFromConfig(500); // Generic server error for other exceptions
             }
         }
     }
@@ -71,13 +68,39 @@ string CClient::HandleAllMethod()
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
     }
-    else if(this->NameMethod == "POST")
-    {
-        return postMethod(this->uri, this->mutableConfig, *this->parser);
-    }
+    //  else if(this->NameMethod == "POST")
+    //  {}
     else
-        return GenerateResErr(405); // Method Not Allowed
+        return getErrorPageFromConfig(405); // Method Not Allowed
     return string();
+}
+
+std::string CClient::getErrorPageFromConfig(int statusCode)
+{
+    for (size_t i = 0; i < this->mutableConfig.errorPage.size(); ++i)
+    {
+        if (std::atoi(this->mutableConfig.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string errorPagePath = this->mutableConfig.root + this->mutableConfig.errorPage[i].second;
+            
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                
+                std::ostringstream response;
+                std::string statusMessage = getStatusPhrase(statusCode);
+                response << "HTTP/1.1 " << statusCode << " " << statusMessage << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                return response.str();
+            }
+        }
+    }
+    return GenerateResErr(statusCode);
 }
 
 

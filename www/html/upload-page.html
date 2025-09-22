@@ -23,7 +23,7 @@
         Your browser does not support the video tag.
     </video>
     <header class="upload-header-up">
-            <div class="back-button" onclick="window.location.href='main-page.html'">
+            <div class="back-button" onclick="window.location.href='index.html'">
         <img src="img/arrow_back.png" class="back-butt" />
     <span class="Back-text">Back</span>
     </div>
@@ -45,13 +45,16 @@
                 <div class="upload-form-container">
                     <form class="upload-form" action="/upload" method="POST" enctype="multipart/form-data">
                         <div class="form-group">
-                            <div class="file-input-container">
-                                <label for="file-input" class="file-input-label">
-                                    <img src="img/upload.png" alt="Upload" class="upload-icon-btn" />
-                                    Choose Files
-                                </label>
+                            <label for="file-input" class="file-label">
+                                <div class="file-drop-zone" id="drop-zone">
+                                    <div class="drop-content">
+                                        <img src="img/upload.png" alt="Upload" class="drop-icon" />
+                                        <p class="drop-text">Click to select files or drag and drop</p>
+                                        <p class="drop-subtext">Supports multiple files</p>
+                                    </div>
+                                </div>
                                 <input type="file" id="file-input" name="files" multiple accept="*/*" />
-                            </div>
+                            </label>
                         </div>
 
                         <div class="file-list" id="file-list"></div>

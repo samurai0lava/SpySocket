@@ -133,3 +133,35 @@ std::string getDefaultErrorMessage(int errorCode) {
         return "An error occurred while processing your request.";
     }
 }
+
+// Utility function to get error page from server config
+std::string getErrorPageFromServerConfig(int statusCode, const ConfigStruct& config)
+{
+    // Look for custom error page in config
+    for (size_t i = 0; i < config.errorPage.size(); ++i)
+    {
+        if (std::atoi(config.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string errorPagePath = config.root + config.errorPage[i].second;
+            
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                
+                std::ostringstream response;
+                std::string statusMessage = getStatusPhrase(statusCode);
+                response << "HTTP/1.1 " << statusCode << " " << statusMessage << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                return response.str();
+            }
+        }
+    }
+    
+    // Fallback to default error generation
+    return GenerateResErr(statusCode);
+}

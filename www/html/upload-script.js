@@ -1,86 +1,111 @@
 // Upload page functionality
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('file-input');
+    const dropZone = document.getElementById('drop-zone');
     const fileList = document.getElementById('file-list');
     const uploadBtn = document.getElementById('upload-btn');
     const clearBtn = document.getElementById('clear-btn');
     const uploadStatus = document.getElementById('upload-status');
     
-    let selectedFile = null;
+    let selectedFiles = [];
 
     // File input change handler
     fileInput.addEventListener('change', function(e) {
-        handleFile(e.target.files[0]);
+        handleFiles(e.target.files);
     });
 
-    // Handle file selection (single file only)
-    function handleFile(file) {
-        selectedFile = file;
+    // Drag and drop handlers
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.classList.add('dragover');
+    });
+
+    dropZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('dragover');
+        handleFiles(e.dataTransfer.files);
+    });
+
+    // Handle file selection
+    function handleFiles(files) {
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            if (!selectedFiles.find(f => f.name === file.name && f.size === file.size)) {
+                selectedFiles.push(file);
+            }
+        }
         updateFileList();
         updateUploadButton();
     }
 
-    // Update file list display (single file)
+    // Update file list display
     function updateFileList() {
         fileList.innerHTML = '';
         
-        if (selectedFile) {
+        selectedFiles.forEach((file, index) => {
             const fileItem = document.createElement('div');
             fileItem.className = 'file-item';
             
             const fileName = document.createElement('span');
             fileName.className = 'file-name';
-            fileName.textContent = selectedFile.name;
+            fileName.textContent = file.name;
             
             const fileSize = document.createElement('span');
             fileSize.className = 'file-size';
-            fileSize.textContent = formatFileSize(selectedFile.size);
+            fileSize.textContent = formatFileSize(file.size);
             
             const removeBtn = document.createElement('button');
             removeBtn.className = 'remove-file';
             removeBtn.textContent = '×';
-            removeBtn.onclick = () => removeFile();
+            removeBtn.onclick = () => removeFile(index);
             
             fileItem.appendChild(fileName);
             fileItem.appendChild(fileSize);
             fileItem.appendChild(removeBtn);
             fileList.appendChild(fileItem);
-        }
+        });
     }
 
     // Remove file from selection
-    function removeFile() {
-        selectedFile = null;
+    function removeFile(index) {
+        selectedFiles.splice(index, 1);
         updateFileList();
         updateUploadButton();
     }
 
     // Update upload button state
     function updateUploadButton() {
-        uploadBtn.disabled = selectedFile === null;
+        uploadBtn.disabled = selectedFiles.length === 0;
     }
 
-    // Clear file
+    // Clear all files
     clearBtn.addEventListener('click', function() {
-        selectedFile = null;
+        selectedFiles = [];
         fileInput.value = '';
         updateFileList();
         updateUploadButton();
         hideStatus();
     });
 
-    // Upload file
+    // Upload files
     uploadBtn.addEventListener('click', function(e) {
         e.preventDefault();
         
-        if (!selectedFile) {
+        if (selectedFiles.length === 0) {
             return;
         }
 
         const formData = new FormData();
-        formData.append('file', selectedFile);
+        selectedFiles.forEach(file => {
+            formData.append('files', file);
+        });
 
-        showStatus('loading', 'Uploading file...');
+        showStatus('loading', 'Uploading files...');
         uploadBtn.disabled = true;
 
         // Send POST request
@@ -96,9 +121,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .then(data => {
-            showStatus('success', `File uploaded successfully! Server response: ${data}`);
-            // Clear file after successful upload
-            selectedFile = null;
+            showStatus('success', `Files uploaded successfully! Server response: ${data}`);
+            // Clear files after successful upload
+            selectedFiles = [];
             fileInput.value = '';
             updateFileList();
         })

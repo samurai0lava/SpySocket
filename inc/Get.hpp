@@ -3,7 +3,7 @@
 
 #include "webserv.hpp"
 #include "CClient.hpp"
-class Get : public ParsingRequest
+class Get
 {
 
 private:
@@ -33,7 +33,6 @@ public:
     string buildRedirectResponse(int statusCode, const std::string& target);
     std::string getErrorPageFromConfig(int statusCode);
     std::string getStatusMessage(int statusCode);
-
 
 };
 
