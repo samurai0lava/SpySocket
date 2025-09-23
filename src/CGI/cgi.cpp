@@ -97,8 +97,9 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     // Use absolute path for the script
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/" + "www/html" + script_path;
+    std::string full_script_path = std::string(cwd) + "/" + "www" + script_path;
     
+    std::cout << RED << full_script_path << RESET << std::endl;
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
         error_code = 404;
@@ -143,7 +144,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     {
         perror("fork failed");
         error_code = 500;
-        error_message = "Internal server error";
+        error_message = "Fork Failed : Internal server error";
         close(pipe_in[0]);
         close(pipe_in[1]);
         close(pipe_out[0]);
@@ -240,7 +241,9 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
     std::string full_script_path = std::string(cwd) + "/" + "www/html" + script_path;
+    std::cout << RED << full_script_path << RESET << std::endl;
     
+
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
         error_code = 404;
