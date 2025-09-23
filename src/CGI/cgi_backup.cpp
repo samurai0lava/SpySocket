@@ -4,8 +4,28 @@ CGI::CGI()
 {
     cgi_fd = -1;
     cgi_pid = -1;
-    output_buffer = "";
-    env_vars = std::map<std::string, std::string>();
+    output_bbool CGI::execute(std::map<std::string, std::string>& env_vars)
+{
+    char cwd[1024];
+    getcwd(cwd, sizeof(cwd));
+    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    
+    std::cout << RED << full_script_path << RESET << std::endl;
+    if (access(full_script_path.c_str(), F_OK) != 0)
+    {
+        error_code = 404;
+        error_message = "CGI script not found: " + full_script_path;
+        std::cerr << "CGI script not found: " << full_script_path << std::endl;
+        return false;
+    }
+    
+    if (access(full_script_path.c_str(), X_OK) != 0)
+    {
+        error_code = 403;
+        error_message = "CGI script not executable: " + full_script_path;
+        std::cerr << "CGI script not executable: " << full_script_path << std::endl;
+        return false;
+    }vars = std::map<std::string, std::string>();
     script_path = "";
     path_info = "";
     query_string = "";
@@ -91,11 +111,10 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     return true;
 }
 
+
 bool CGI::execute(std::map<std::string, std::string>& env_vars)
 {
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    std::string full_script_path = "/www" + script_path;
     
     std::cout << RED << full_script_path << RESET << std::endl;
     if (access(full_script_path.c_str(), F_OK) != 0)
@@ -218,6 +237,8 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
 
     return true;
 }
+
+
 
 bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
 {
@@ -348,6 +369,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 
     return true;
 }
+
 
 void CGI::close_cgi()
 {
@@ -489,3 +511,26 @@ bool CGI::read_output()
     
     return false;
 }
+
+// bool CGI::send_post_data(int fd, const std::string& body_data)
+// {
+//     if (body_data.empty())
+//         return true;
+        
+//     size_t total_sent = 0;
+//     size_t data_size = body_data.length();
+    
+//     while (total_sent < data_size)
+//     {
+//         ssize_t sent = write(fd, body_data.c_str() + total_sent, data_size - total_sent);
+//         if (sent <= 0)
+//         {
+//             perror("Failed to send POST data to CGI");
+//             return false;
+//         }
+//         total_sent += sent;
+//     }
+    
+//     return true;
+// }
+

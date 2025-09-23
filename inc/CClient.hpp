@@ -5,6 +5,7 @@
 #include "parsing_request.hpp"
 #include "../include/Config.hpp"
 #include "RespondError.hpp"
+#include "CGI.hpp"
 #include <string>
 
 
@@ -30,6 +31,13 @@ public:
     int fileFd;
     bool intialized;
     bool Chunked;
+    
+    // CGI-related fields
+    CGI* cgi_handler;
+    bool is_cgi_request;
+    bool cgi_headers_sent;
+    std::string cgi_body_buffer;
+    
     // bool               
     CClient();
     CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConfig,
@@ -37,6 +45,8 @@ public:
     ~CClient();
     // string setupChunkedSending(const std::string & filePath);
     string HandleAllMethod();
+    string HandleCGIMethod();
+    string formatCGIResponse(const std::string& cgi_output);
     // std::string GenerateResErr(int errorCode);
     void printInfo() const;
 

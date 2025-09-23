@@ -90,6 +90,7 @@ void Servers::epollFds(Servers& serv)
     std::map<int, Client> clients;
     // CClient client_data;
     std::map<int, CClient> client_data_map;
+    std::map<int, int> cgi_fd_to_client_fd; // Map CGI fd to client fd
     struct epoll_event events[10];
     std::map<int, ParsingRequest*> clientParsers;
 
@@ -99,12 +100,18 @@ void Servers::epollFds(Servers& serv)
     {
         i++;
         //epoll wait returns 2 fds that are ready when only one client is connected ???
-        int ready_fds = epoll_wait(epollFd, events, 10, -1);
+        int ready_fds = epoll_wait(epollFd, events, 10, 5000); // 1000ms = 1 second timeout
 
         if (ready_fds == -1)
         {
             std::cerr << "Error occured in epoll wait!" << std::endl;
             break;
+        }
+        else if (ready_fds == 0)
+        {
+            // Timeout occurred - no events ready
+            // You can add periodic maintenance tasks here
+            continue;
         }
 
         for (int i = 0; i < ready_fds; ++i)
@@ -157,6 +164,40 @@ void Servers::epollFds(Servers& serv)
             // Check if client still exists in our maps
             //what is this????? hepa
             if (clients.find(fd) == clients.end()) {
+                // Check if this is a CGI file descriptor
+                if (cgi_fd_to_client_fd.find(fd) != cgi_fd_to_client_fd.end()) {
+                    int client_fd = cgi_fd_to_client_fd[fd];
+                    if (clients.find(client_fd) != clients.end() && 
+                        client_data_map.find(client_fd) != client_data_map.end()) {
+                        
+                        // Handle CGI output
+                        CClient& client_data = client_data_map[client_fd];
+                        if (client_data.cgi_handler && events[i].events & EPOLLIN) {
+                            client_data.cgi_handler->read_output();
+                            
+                            // Check if CGI process finished
+                            std::string cgi_response = client_data.HandleCGIMethod();
+                            if (!cgi_response.empty()) {
+                                // CGI finished, set up response
+                                clients[client_fd].response = cgi_response;
+                                clients[client_fd].ready_to_respond = true;
+                                
+                                // Remove CGI fd from epoll
+                                epoll_ctl(epollFd, EPOLL_CTL_DEL, fd, NULL);
+                                cgi_fd_to_client_fd.erase(fd);
+                                
+                                // Set client fd to EPOLLOUT for sending response
+                                epoll_event ev;
+                                memset(&ev, 0, sizeof(ev));
+                                ev.events = EPOLLOUT;
+                                ev.data.fd = client_fd;
+                                epoll_ctl(epollFd, EPOLL_CTL_MOD, client_fd, &ev);
+                            }
+                        }
+                    }
+                    continue;
+                }
+                
                 std::cout << "Client fd " << fd << " no longer exists, skipping event" << std::endl;
                 continue;
             }
@@ -176,6 +217,18 @@ void Servers::epollFds(Servers& serv)
                         std::cout << "Client disconnected.";
                     else
                         cerr << "Error occured while reading sent data!";
+                    
+                    // Clean up CGI resources if any
+                    if (client_data_map.find(fd) != client_data_map.end()) {
+                        CClient& client_data = client_data_map[fd];
+                        if (client_data.cgi_handler) {
+                            int cgi_fd = client_data.cgi_handler->get_cgi_fd();
+                            if (cgi_fd >= 0) {
+                                epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
+                                cgi_fd_to_client_fd.erase(cgi_fd);
+                            }
+                        }
+                    }
                     
                     // Proper cleanup of all client data structures
                     if (clientParsers.find(fd) != clientParsers.end()) {
@@ -215,12 +268,33 @@ void Servers::epollFds(Servers& serv)
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     access_log(*parser);
                     handleMethod(fd, parser, config, serv, client_data_map[fd]);
-                    c.ready_to_respond = true;
-                    epoll_event ev;
-                    memset(&ev, 0, sizeof(ev));
-                    ev.events = EPOLLOUT;
-                    ev.data.fd = fd;
-                    epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                    
+                    // Check if this became a CGI request
+                    if (client_data_map[fd].is_cgi_request && client_data_map[fd].cgi_handler) {
+                        int cgi_fd = client_data_map[fd].cgi_handler->get_cgi_fd();
+                        if (cgi_fd >= 0) {
+                            // Add CGI fd to epoll for reading
+                            epoll_event cgi_ev;
+                            memset(&cgi_ev, 0, sizeof(cgi_ev));
+                            cgi_ev.events = EPOLLIN;
+                            cgi_ev.data.fd = cgi_fd;
+                            if (epoll_ctl(epollFd, EPOLL_CTL_ADD, cgi_fd, &cgi_ev) != -1) {
+                                cgi_fd_to_client_fd[cgi_fd] = fd;
+                                std::cout << "Added CGI fd " << cgi_fd << " to epoll for client " << fd << std::endl;
+                            } else {
+                                std::cerr << "Failed to add CGI fd to epoll" << std::endl;
+                            }
+                        }
+                        // Don't set ready_to_respond yet - wait for CGI to complete
+                        continue;
+                    } else {
+                        c.ready_to_respond = true;
+                        epoll_event ev;
+                        memset(&ev, 0, sizeof(ev));
+                        ev.events = EPOLLOUT;
+                        ev.data.fd = fd;
+                        epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                    }
 
                     // Don't reset parser here - reset it after response is sent
                     // parser->reset();
@@ -274,6 +348,17 @@ void Servers::epollFds(Servers& serv)
                             continue;
                         } else if(bytes_sent == 0) {
                             std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
+                            // Clean up CGI resources if any
+                            if (client_data_map.find(fd) != client_data_map.end()) {
+                                CClient& client_data = client_data_map[fd];
+                                if (client_data.cgi_handler) {
+                                    int cgi_fd = client_data.cgi_handler->get_cgi_fd();
+                                    if (cgi_fd >= 0) {
+                                        epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
+                                        cgi_fd_to_client_fd.erase(cgi_fd);
+                                    }
+                                }
+                            }
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
@@ -345,6 +430,17 @@ void Servers::epollFds(Servers& serv)
                         } else {
                             // Connection error, clean up this client
                             std::cout << GREEN "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
+                            // Clean up CGI resources if any
+                            if (client_data_map.find(fd) != client_data_map.end()) {
+                                CClient& client_data = client_data_map[fd];
+                                if (client_data.cgi_handler) {
+                                    int cgi_fd = client_data.cgi_handler->get_cgi_fd();
+                                    if (cgi_fd >= 0) {
+                                        epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
+                                        cgi_fd_to_client_fd.erase(cgi_fd);
+                                    }
+                                }
+                            }
                             if (clientParsers.find(fd) != clientParsers.end()) {
                                 delete clientParsers[fd];
                                 clientParsers.erase(fd);
