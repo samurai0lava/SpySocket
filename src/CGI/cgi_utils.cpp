@@ -11,6 +11,7 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
     }
     
     std::string uri = startLine.at("uri");
+    std::cout << uri << std::endl;
 
     if (uri.find("/cgi-bin/") != 0)
     {
@@ -50,6 +51,7 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
         script_path = cgi_prefix + script_part;
         path_info = "";
     }
+
     return true;
 }
 
