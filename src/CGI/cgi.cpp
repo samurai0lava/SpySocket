@@ -94,10 +94,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
 
 bool CGI::execute(std::map<std::string, std::string>& env_vars)
 {
-    // Use absolute path for the script
-    char cwd[1024];
-    getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/" + "www" + script_path;
+    std::string full_script_path = "/www" + script_path;
     
     std::cout << RED << full_script_path << RESET << std::endl;
     if (access(full_script_path.c_str(), F_OK) != 0)
