@@ -364,19 +364,14 @@ bool ParsingRequest::parse_headers()
 		current_state = PARSE_ERROR;
 		return false;
 	}
-
-	// Check content length for body parsing
 	if (content_lenght_exists == 1)
 	{
-		//wtf is this (transfer encoding you'll never know the size of the body you getting)
-		// std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
 	else
 		expected_body_length = 0;
-	// printMap(headers);
 	return true;
 }
 
@@ -703,11 +698,8 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 	return true;
 }
 
-//parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-
-	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
     std::string method = start_line.at("method");
 
     

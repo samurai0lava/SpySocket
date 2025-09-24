@@ -100,17 +100,16 @@ void Servers::epollFds(Servers& serv)
     {
         i++;
         //epoll wait returns 2 fds that are ready when only one client is connected ???
-        int ready_fds = epoll_wait(epollFd, events, 10, 5000); // 1000ms = 1 second timeout
+        int ready_fds = epoll_wait(epollFd, events, 10, 30000); // 1000ms = 1 second timeout
 
         if (ready_fds == -1)
         {
-            std::cerr << "Error occured in epoll wait!" << std::endl;
+            access_error(500, "Internal Server Error: epoll_wait failed!");
             break;
         }
         else if (ready_fds == 0)
         {
-            // Timeout occurred - no events ready
-            // You can add periodic maintenance tasks here
+            access_error(504, "Gateway Timeout");
             continue;
         }
 
@@ -122,7 +121,6 @@ void Servers::epollFds(Servers& serv)
             std::vector<int>::iterator it = std::find(serv.serversFd.begin(), serv.serversFd.end(), fd);
             if (it != serv.serversFd.end())
             {
-                //Need to add a timeout for client connection maybe
                 int client_fd = accept(fd, NULL, NULL);
                 if (client_fd == -1)
                 {

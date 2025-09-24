@@ -223,7 +223,6 @@ string Get::pathIsFile(string matchLocation)
     ostringstream response;
     response << "HTTP/1.1 200 OK \r\n";
     response << "Content-type: " << this->getMimeType(matchLocation) << "\r\n";
-    // std::cout << RED "Mime TYPPPE" RESET << getMimeType(matchLocation) << std::endl;
     response << "Content-length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
     this->client.chunkedSending = true;

@@ -96,8 +96,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
     std::string full_script_path = std::string(cwd) + "/www" + script_path;
-    
-    std::cout << RED << full_script_path << RESET << std::endl;
+
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
         error_code = 404;
@@ -213,7 +212,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         close(input_fd);
 
         // Don't wait for completion - let the epoll loop handle it
-        // The process will run in background and we'll read output asynchronously
     }
 
     return true;
@@ -398,34 +396,6 @@ std::string CGI::get_interpreter(const std::string& script_path)
     return "";
 }
 
-bool CGI::wait_with_timeout(int timeout_seconds)
-{
-    int wait_status;
-    
-    int total_intervals = timeout_seconds * 10; // Check every 100ms
-    
-    for (int i = 0; i < total_intervals; ++i)
-    {
-        pid_t result = waitpid(cgi_pid, &wait_status, WNOHANG);
-        
-        if (result == cgi_pid)
-        {
-            status = wait_status;
-            return true;
-        }
-        else if (result == -1)
-        {
-            perror("waitpid failed");
-            return false;
-        }
-        struct timeval tv;
-        tv.tv_sec = 0;
-        tv.tv_usec = 100000; // 100ms
-        select(0, NULL, NULL, NULL, &tv);
-    }
-    
-    return false; // Timeout
-}
 
 bool CGI::send_post_data(int fd, const std::string& body_data)
 {

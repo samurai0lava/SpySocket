@@ -9,13 +9,9 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
         is_cgi = 0;
         return false;
     }
-    
     std::string uri = startLine.at("uri");
-    std::cout << uri << std::endl;
-
     if (uri.find("/cgi-bin/") != 0)
     {
-        std::cout << RED "alklo" RESET << std::endl;
         is_cgi = 0;
         return false;
     }

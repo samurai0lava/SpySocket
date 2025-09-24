@@ -46,7 +46,6 @@ class CGI : public ParsingRequest
         
     private:
         std::string get_interpreter(const std::string& script_path);
-        bool wait_with_timeout(int timeout_seconds);
         bool send_post_data(int fd, const std::string& body_data);
 };
 
