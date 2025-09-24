@@ -1,4 +1,5 @@
 #include "../include/singleserver.hpp"
+#include "../inc/webserv.hpp"
 
 void SingleServerConfig::_parseKeyValue(std::string keyValue)
 {
@@ -373,8 +374,10 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
             }
             case(upload_path):
             {
+                // cout << RED << "HELLOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOo" << RESET << endl;
                 // std::cout<<"KeyValue : "<<keyValue.c_str()<<std::endl;
                 value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
+                // cout << RED << value << RESET << endl;
                 location_tmp.upload_path = value;                
                 break;
 

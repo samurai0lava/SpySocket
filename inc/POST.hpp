@@ -27,5 +27,5 @@ string	notFound(void);
 string	bad_request(void);
 string	forbidden_403(void);
 string	internal_error(void);
-string	created_success(void);
+string created_success(std::pair<std::string, LocationStruct> location);
 std::string OK_200(std::string &body);

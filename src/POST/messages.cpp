@@ -103,18 +103,23 @@ string internal_error()
     "</html>\n";
 }
 
-string created_success()
+string created_success(std::pair<std::string, LocationStruct> location)
 {
-    return "HTTP/1.1 201 Created\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 142\r\n"
-    "Connection: keep-alive\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>201 Created</title></head>\n"
-    "<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
-    "</html>\n";
+	std::stringstream ss;
+    ss << "HTTP/1.1 201 Created\r\n"
+		<< "Content-Type: text/html; charset=UTF-8\r\n"
+		<< "Content-Length: 142\r\n"
+		<< "Connection: close\r\n"
+		<< "Server: SpySocket/1.0\r\n"
+		<< "location: " << location.second.upload_path << "\r\n"
+		<< "Date: " << ft_time_format() << "\r\n"
+		<< "\r\n"
+		<< "<!DOCTYPE html>\n"
+		<< "<html>\n"
+		<< "<head><title>201 Created</title></head>\n"
+		<< "<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
+		<< "</html>\n";
+    return ss.str();
 }
 
 std::string OK_200(std::string &body)

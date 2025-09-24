@@ -149,7 +149,7 @@ void Servers::epollFds(Servers &serv)
 
 		for (int i = 0; i < ready_fds; ++i)
 		{
-			int fd = events[i].data.fd;
+			int fd = events[i].data.fd; //3
 
 			// Check if fd is a listening socket (*it) is a server socket fd
 			std::vector<int>::iterator it = std::find(serv.serversFd.begin(),

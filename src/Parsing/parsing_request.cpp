@@ -722,9 +722,9 @@ bool ParsingRequest::parse_body()
         if (transfer_encoding_exists == 1) 
 		{
             std::string temp_buffer = buffer.substr(buffer_pos);
-			cout << "***********\n";
-			write(1, temp_buffer.data(), temp_buffer.length());
-			cout << "***BUFFER_END***\n";
+			// cout << "***********\n";
+			// write(1, temp_buffer.data(), temp_buffer.length());
+			// cout << "***BUFFER_END***\n";
             std::string processed_data;
         
             if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {

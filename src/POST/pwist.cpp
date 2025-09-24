@@ -16,8 +16,9 @@ std::string generate_filename(string type, string termination)
 }
 
 
-string handle_upload(LocationStruct& location, ParsingRequest& parser)
+string handle_upload(std::pair<std::string, LocationStruct>& location_pair, ParsingRequest &parser)
 {
+    LocationStruct location = location_pair.second;
     if (location.upload_enabled == false)
     {
         return forbidden_403();
@@ -109,7 +110,7 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
         return internal_error();
     }
     file.close();
-    return created_success();
+    return created_success(location_pair);
 }
 
 std::vector<std::string> split(std::string s, std::string delimiters)
@@ -138,8 +139,9 @@ std::vector<std::string> split(std::string s, std::string delimiters)
 	return (tokens);
 }
 
-string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
+string handle_url_encoded(std::pair<std::string, LocationStruct>& location_pair, ParsingRequest &parser)
 {
+    LocationStruct location = location_pair.second;
     string body = parser.getBody();
 
     vector<string> tokens = split(body, "&");
@@ -157,8 +159,9 @@ string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
     return OK_200(res_body);
 }
 
-string main_response(LocationStruct &location, ParsingRequest &parser)
+string main_response(std::pair<std::string, LocationStruct>& location_pair, ParsingRequest &parser)
 {
+    LocationStruct location = location_pair.second;
     string body = parser.getBody();
     string filename = "";
     if(parser.getHeaders()["content-type-value"].find("image") != string::npos)
@@ -208,7 +211,7 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
         return internal_error();
     }
     file.close();
-    return created_success();
+    return created_success(location_pair);
 }
 
 string	postMethod(string uri, ConfigStruct config,
@@ -308,14 +311,14 @@ string	postMethod(string uri, ConfigStruct config,
 
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
         {
-            response = handle_upload(location.second, parser);
+            response = handle_upload(location, parser);
         }
         else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
         {
-            response = handle_url_encoded(location.second, parser);
+            response = handle_url_encoded(location, parser);
         }
         else
-            response = main_response(location.second, parser);
+            response = main_response(location, parser);
 
     }
     catch (exception& e)
