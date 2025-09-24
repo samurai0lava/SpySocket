@@ -222,6 +222,10 @@ string Get::pathIsFile(string matchLocation)
     file.close();
     ostringstream response;
     response << "HTTP/1.1 200 OK \r\n";
+    response << "Date: ";
+    response << ft_time_format();
+    response << "\r\n";
+    response << "Server: SpySocket/1.0\r\n";
     response << "Content-type: " << this->getMimeType(matchLocation) << "\r\n";
     response << "Content-length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();

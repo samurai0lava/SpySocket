@@ -105,8 +105,11 @@ std::string DeleteMethode::PerformDelete(const std::string& uri, const ConfigStr
 std::string DeleteMethode::generate_success_resp()
 {
     std::string response = "HTTP/1.1 204 No Content\r\n";
+    response += "Date: ";
+    response += ft_time_format();
+    response += "\r\n";
+    response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n";
-    response += "Content-Length: 0\r\n";
     response += "\r\n";
     return response;
 }

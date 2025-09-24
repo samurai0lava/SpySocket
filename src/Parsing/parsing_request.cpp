@@ -766,7 +766,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "STAAAAAAAAAAAAAAART\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_HEADERS;
@@ -779,7 +778,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
-			cout << "---------------> " << getHeaders()["content-length"] << endl;
+			cout << "> " << getHeaders()["content-length"] << endl;
 			// For POST requests, always try to parse body regardless of expected_body_length
 			{
 				std::string method = start_line.at("method");
@@ -791,7 +790,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 
 		case PARSE_BODY:
-			cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)

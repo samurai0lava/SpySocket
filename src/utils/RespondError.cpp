@@ -91,8 +91,11 @@ const std::string GenerateResErr(const int ErrorStat)
     std::string response = "HTTP/1.1 " + intToString(ErrorStat) + " " + statusPhrase + "\r\n";
     response += "Content-Type: text/html; charset=UTF-8\r\n";
     response += "Content-Length: " + intToString(htmlBody.length()) + "\r\n";
+    response += "Date: ";
+    response += ft_time_format();
+    response += "\r\n";
+    response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n";
-    response += "Server: SpySocket\r\n";
     response += "\r\n";
     response += htmlBody;
 

@@ -89,12 +89,11 @@ string CClient::HandleAllMethod()
             return GenerateResErr(error_code > 0 ? error_code : 500);
         }
         
-        // Return empty string - CGI is running, will be handled in subsequent calls
+        //CGI is running, will be handled in subsequent calls
         return "";
     }
     
     // Handle non-CGI requests as before
-    // cout << "PARSER METHOD : " << parser->getHeaders()["connection"] << endl;
     if (this->NameMethod == "GET")
     {
 
@@ -226,6 +225,10 @@ string CClient::formatCGIResponse(const std::string& cgi_output)
     std::ostringstream content_length_ss;
     content_length_ss << cgi_body.length();
     response += "Content-Length: " + content_length_ss.str() + "\r\n";
+    response += "Date: ";
+    response += ft_time_format();
+    response += "\r\n";
+    response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n\r\n";
     response += cgi_body;
     

@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadBtn.disabled = true;
 
         // Send POST request
-        fetch('/upload', {
+        fetch('/uploads', {
             method: 'POST',
             body: formData
         })

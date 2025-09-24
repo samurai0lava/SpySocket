@@ -48,3 +48,15 @@
 [2025-09-19 15:13:37] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
 [2025-09-21 20:10:56] Error: 400 - Bad Request: Invalid HTTP method: '16be7'
 [2025-09-21 20:25:34] Error: 400 - Bad Request: Invalid HTTP method: '16be7'
+[2025-09-24 14:34:08] Error: 400 - Bad Request: Invalid HTTP method: '16be7'
+[2025-09-24 14:34:08] Error: 504 - Gateway Timeout
+[2025-09-24 14:34:08] Error: 400 - Bad Request: Invalid HTTP method: '16be7'
+[2025-09-24 14:34:58] Error: 400 - Bad Request: Invalid HTTP method: '16be7'
+[2025-09-24 14:34:58] Error: 504 - Gateway Timeout
+[2025-09-24 14:34:58] Error: 400 - Bad Request: Invalid HTTP method: '16be7'
+[2025-09-24 14:35:38] Error: 400 - Bad Request: Host header is missing
+[2025-09-24 14:37:09] Error: 504 - Gateway Timeout
+[2025-09-24 14:37:09] Error: 504 - Gateway Timeout
+[2025-09-24 14:37:09] Error: 504 - Gateway Timeout
+[2025-09-24 14:37:09] Error: 504 - Gateway Timeout
+[2025-09-24 14:43:49] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
