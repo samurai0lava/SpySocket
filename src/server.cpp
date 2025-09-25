@@ -100,19 +100,53 @@ void Servers::epollFds(Servers& serv)
     {
         i++;
         //epoll wait returns 2 fds that are ready when only one client is connected ???
-        int ready_fds = epoll_wait(epollFd, events, 10, 10000); // 1000ms = 1 second timeout
+        int ready_fds = epoll_wait(epollFd, events, 10, 1000); // 1000ms = 1 second timeout
 
         if (ready_fds == -1)
         {
             access_error(500, "Internal Server Error: epoll_wait failed!");
             break;
         }
-        else if (ready_fds == 0)
-        {
-            access_error(504, "Gateway Timeout");
-            continue;
+        // Check for CGI timeouts
+        std::vector<int> timed_out_clients;
+        for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
+            int client_fd = it->first;
+            CClient& client_data = it->second;
+            if (client_data.cgi_handler && client_data.cgi_handler->is_cgi_timeout(30)) {
+                timed_out_clients.push_back(client_fd);
+            }
         }
 
+        for (size_t i = 0; i < timed_out_clients.size(); i++) {
+            int client_fd = timed_out_clients[i];
+            if (clients.find(client_fd) == clients.end()) {
+                // Client already disconnected, skip
+                continue;
+            }
+            CClient& client_data = client_data_map[client_fd];
+            std::cerr << "CGI timeout for client fd " << client_fd << std::endl;
+            client_data.cgi_handler->close_cgi(); // This will kill the process and set error_code to 504
+
+            // Remove the CGI fd from epoll if it exists
+            int cgi_fd = client_data.cgi_handler->get_cgi_fd();
+            if (cgi_fd >= 0) {
+                epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
+                cgi_fd_to_client_fd.erase(cgi_fd);
+            }
+
+            // Set the response to 504
+            client_data.cgi_handler = NULL; // We don't need it anymore
+            client_data.is_cgi_request = false;
+            clients[client_fd].response = GenerateResErr(504);
+            clients[client_fd].ready_to_respond = true;
+
+            // Modify the client fd to EPOLLOUT to send the response
+            epoll_event ev;
+            memset(&ev, 0, sizeof(ev));
+            ev.events = EPOLLOUT;
+            ev.data.fd = client_fd;
+            epoll_ctl(epollFd, EPOLL_CTL_MOD, client_fd, &ev);
+        }
         for (int i = 0; i < ready_fds; ++i)
         {
             int fd = events[i].data.fd;
@@ -165,25 +199,25 @@ void Servers::epollFds(Servers& serv)
                 // Check if this is a CGI file descriptor
                 if (cgi_fd_to_client_fd.find(fd) != cgi_fd_to_client_fd.end()) {
                     int client_fd = cgi_fd_to_client_fd[fd];
-                    if (clients.find(client_fd) != clients.end() && 
+                    if (clients.find(client_fd) != clients.end() &&
                         client_data_map.find(client_fd) != client_data_map.end()) {
-                        
+
                         // Handle CGI output
                         CClient& client_data = client_data_map[client_fd];
                         if (client_data.cgi_handler && events[i].events & EPOLLIN) {
                             client_data.cgi_handler->read_output();
-                            
+
                             // Check if CGI process finished
                             std::string cgi_response = client_data.HandleCGIMethod();
                             if (!cgi_response.empty()) {
                                 // CGI finished, set up response
                                 clients[client_fd].response = cgi_response;
                                 clients[client_fd].ready_to_respond = true;
-                                
+
                                 // Remove CGI fd from epoll
                                 epoll_ctl(epollFd, EPOLL_CTL_DEL, fd, NULL);
                                 cgi_fd_to_client_fd.erase(fd);
-                                
+
                                 // Set client fd to EPOLLOUT for sending response
                                 epoll_event ev;
                                 memset(&ev, 0, sizeof(ev));
@@ -195,7 +229,7 @@ void Servers::epollFds(Servers& serv)
                     }
                     continue;
                 }
-                
+
                 std::cout << "Client fd " << fd << " no longer exists, skipping event" << std::endl;
                 continue;
             }
@@ -215,7 +249,7 @@ void Servers::epollFds(Servers& serv)
                         std::cout << "Client disconnected.";
                     else
                         cerr << "Error occured while reading sent data!";
-                    
+
                     // Clean up CGI resources if any
                     if (client_data_map.find(fd) != client_data_map.end()) {
                         CClient& client_data = client_data_map[fd];
@@ -227,7 +261,7 @@ void Servers::epollFds(Servers& serv)
                             }
                         }
                     }
-                    
+
                     // Proper cleanup of all client data structures
                     if (clientParsers.find(fd) != clientParsers.end()) {
                         delete clientParsers[fd];
@@ -266,7 +300,7 @@ void Servers::epollFds(Servers& serv)
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     access_log(*parser);
                     handleMethod(fd, parser, config, serv, client_data_map[fd]);
-                    
+
                     // Check if this became a CGI request
                     if (client_data_map[fd].is_cgi_request && client_data_map[fd].cgi_handler) {
                         int cgi_fd = client_data_map[fd].cgi_handler->get_cgi_fd();
@@ -279,13 +313,15 @@ void Servers::epollFds(Servers& serv)
                             if (epoll_ctl(epollFd, EPOLL_CTL_ADD, cgi_fd, &cgi_ev) != -1) {
                                 cgi_fd_to_client_fd[cgi_fd] = fd;
                                 std::cout << "Added CGI fd " << cgi_fd << " to epoll for client " << fd << std::endl;
-                            } else {
+                            }
+                            else {
                                 std::cerr << "Failed to add CGI fd to epoll" << std::endl;
                             }
                         }
                         // Don't set ready_to_respond yet - wait for CGI to complete
                         continue;
-                    } else {
+                    }
+                    else {
                         c.ready_to_respond = true;
                         epoll_event ev;
                         memset(&ev, 0, sizeof(ev));
@@ -327,12 +363,12 @@ void Servers::epollFds(Servers& serv)
                 //timeout for the response?
 
                 // Check if client still exists in our maps
-                if (client_data_map.find(fd) == client_data_map.end() || 
+                if (client_data_map.find(fd) == client_data_map.end() ||
                     clients.find(fd) == clients.end()) {
                     std::cout << "Client fd " << fd << " no longer exists, skipping EPOLLOUT" << std::endl;
                     continue;
                 }
-                
+
                 if (client_data_map[fd].NameMethod == "GET")
                 {
                     if (c.response.empty() && client_data_map[fd].chunkedSending == false) {
@@ -340,11 +376,12 @@ void Servers::epollFds(Servers& serv)
                         c.response = client_data_map[fd].HandleAllMethod();
                     }
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
-                    if (bytes_sent == -1) 
+                    if (bytes_sent == -1)
                     {
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
                             continue;
-                        } else if(bytes_sent == 0) {
+                        }
+                        else if (bytes_sent == 0) {
                             std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
                             // Clean up CGI resources if any
                             if (client_data_map.find(fd) != client_data_map.end()) {
@@ -373,9 +410,10 @@ void Servers::epollFds(Servers& serv)
                         client_data_map[fd].bytesSent += bytes_sent;
                         if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
                             c.response.erase(0, bytes_sent);
-                        } else {
-                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
-                                      << c.response.size() << "), clearing response" << std::endl;
+                        }
+                        else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() ("
+                                << c.response.size() << "), clearing response" << std::endl;
                             c.response.clear();
                         }
                     }
@@ -425,7 +463,8 @@ void Servers::epollFds(Servers& serv)
                         if (errno == EAGAIN || errno == EWOULDBLOCK) {
                             // Socket not ready yet, try again later
                             continue;
-                        } else {
+                        }
+                        else {
                             // Connection error, clean up this client
                             std::cout << GREEN "Send failed for fd " << fd << ", cleaning up" RESET << std::endl;
                             // Clean up CGI resources if any
@@ -455,9 +494,10 @@ void Servers::epollFds(Servers& serv)
                         client_data_map[fd].bytesSent += bytes_sent;
                         if (static_cast<size_t>(bytes_sent) <= c.response.size()) {
                             c.response.erase(0, bytes_sent);
-                        } else {
-                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() (" 
-                                      << c.response.size() << "), clearing response" << std::endl;
+                        }
+                        else {
+                            std::cerr << "WARNING: bytes_sent (" << bytes_sent << ") > response.size() ("
+                                << c.response.size() << "), clearing response" << std::endl;
                             c.response.clear();
                         }
                     }

@@ -4,6 +4,7 @@ CGI::CGI()
 {
     cgi_fd = -1;
     cgi_pid = -1;
+    cgi_start_time = 0;
     output_buffer = "";
     env_vars = std::map<std::string, std::string>();
     script_path = "";
@@ -22,33 +23,34 @@ CGI::~CGI()
 bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request)
 {
     this->env_vars.clear();
-    
+
 
     std::map<std::string, std::string> startLine = request.getStartLine();
     std::map<std::string, std::string> headers = request.getHeaders();
-    
+
     if (startLine.find("method") != startLine.end())
         this->env_vars["REQUEST_METHOD"] = startLine.at("method");
     else
         this->env_vars["REQUEST_METHOD"] = "GET";
-        
+
     this->env_vars["SCRIPT_NAME"] = script_path;
     this->env_vars["PATH_INFO"] = path_info;
     this->env_vars["QUERY_STRING"] = query_string;
-    
+
     if (startLine.find("version") != startLine.end()) {
         this->env_vars["HTTP_VERSION"] = startLine.at("version");
         this->env_vars["SERVER_PROTOCOL"] = startLine.at("version");
-    } else {
+    }
+    else {
         this->env_vars["HTTP_VERSION"] = "HTTP/1.1";
         this->env_vars["SERVER_PROTOCOL"] = "HTTP/1.1";
     }
-    
+
     if (headers.find("host") != headers.end())
         this->env_vars["SERVER_NAME"] = headers.at("host");
     else
         this->env_vars["SERVER_NAME"] = "localhost";
-        
+
     if (headers.find("content-type") != headers.end())
         this->env_vars["CONTENT_TYPE"] = headers.at("content-type");
     else
@@ -68,7 +70,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     this->env_vars["SERVER_SOFTWARE"] = "SpySocket";
     this->env_vars["REMOTE_HOST"] = "localhost";
     this->env_vars["SERVER_PORT"] = "1080";
-    
+
     if (headers.find("transfer-encoding") != headers.end())
     {
         std::string transfer_encoding = headers.at("transfer-encoding");
@@ -77,7 +79,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
             this->env_vars["TRANSFER_ENCODING"] = "";
         }
     }
-    
+
     if (!path_info.empty())
     {
         this->env_vars["PATH_TRANSLATED"] = "www/html" + path_info;
@@ -104,7 +106,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         std::cerr << "CGI script not found: " << full_script_path << std::endl;
         return false;
     }
-    
+
     if (access(full_script_path.c_str(), X_OK) != 0)
     {
         error_code = 403;
@@ -130,7 +132,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         std::string env_var = it->first + "=" + it->second;
         env_strings.push_back(env_var);
     }
-    
+
     for (size_t i = 0; i < env_strings.size(); ++i) {
         envp.push_back(&env_strings[i][0]);
     }
@@ -167,7 +169,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
 
         std::vector<char*> argv;
         std::string interpreter = get_interpreter(full_script_path);
-        
+
         if (!interpreter.empty())
         {
             argv.push_back(const_cast<char*>(interpreter.c_str()));
@@ -192,7 +194,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         {
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
-        
+
         perror("execve failed");
         exit(EXIT_FAILURE);
     }
@@ -202,6 +204,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         close(pipe_out[1]);
         int input_fd = pipe_in[1];
         cgi_fd = pipe_out[0];
+        cgi_start_time = time(NULL);  // Record when CGI started
 
         // Make the CGI output pipe non-blocking
         int flags = fcntl(cgi_fd, F_GETFL, 0);
@@ -223,7 +226,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
     getcwd(cwd, sizeof(cwd));
     std::string full_script_path = std::string(cwd) + "/www" + script_path;
     std::cout << RED << full_script_path << RESET << std::endl;
-    
+
 
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
@@ -232,7 +235,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         std::cerr << "CGI script not found: " << full_script_path << std::endl;
         return false;
     }
-    
+
     if (access(full_script_path.c_str(), X_OK) != 0)
     {
         error_code = 403;
@@ -290,7 +293,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 
         std::vector<char*> argv;
         std::string interpreter = get_interpreter(full_script_path);
-        
+
         if (!interpreter.empty())
         {
             argv.push_back(const_cast<char*>(interpreter.c_str()));
@@ -310,7 +313,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         {
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
-        
+
         perror("execve failed");
         exit(EXIT_FAILURE);
     }
@@ -322,6 +325,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 
         int input_fd = pipe_in[1];
         cgi_fd = pipe_out[0];
+        cgi_start_time = time(NULL);  // Record when CGI started
 
         // Make the CGI output pipe non-blocking
         int flags = fcntl(cgi_fd, F_GETFL, 0);
@@ -361,6 +365,8 @@ void CGI::close_cgi()
         waitpid(cgi_pid, NULL, 0);
         cgi_pid = -1;
     }
+
+    cgi_start_time = 0;  // Reset start time
 }
 
 std::string CGI::get_interpreter(const std::string& script_path)
@@ -382,7 +388,7 @@ std::string CGI::get_interpreter(const std::string& script_path)
         std::string first_line;
         std::getline(file, first_line);
         file.close();
-        
+
         if (first_line.length() > 2 && first_line.substr(0, 2) == "#!")
         {
             std::string shebang = first_line.substr(2);
@@ -392,7 +398,7 @@ std::string CGI::get_interpreter(const std::string& script_path)
             return shebang;
         }
     }
-    
+
     return "";
 }
 
@@ -401,10 +407,10 @@ bool CGI::send_post_data(int fd, const std::string& body_data)
 {
     if (body_data.empty())
         return true;
-        
+
     size_t total_sent = 0;
     size_t data_size = body_data.length();
-    
+
     while (total_sent < data_size)
     {
         ssize_t sent = write(fd, body_data.c_str() + total_sent, data_size - total_sent);
@@ -415,18 +421,25 @@ bool CGI::send_post_data(int fd, const std::string& body_data)
         }
         total_sent += sent;
     }
-    
+
     return true;
 }
+bool CGI::is_cgi_timeout(int timeout_seconds)
+{
+    if (cgi_pid <= 0 || cgi_start_time == 0)
+        return false;
 
+    time_t current_time = time(NULL);
+    return (current_time - cgi_start_time) >= timeout_seconds;
+}
 bool CGI::read_output()
 {
     if (cgi_fd < 0)
         return false;
-        
+
     char buffer[8192];
     ssize_t bytes_read = read(cgi_fd, buffer, sizeof(buffer) - 1);
-    
+
     if (bytes_read > 0)
     {
         buffer[bytes_read] = '\0';
@@ -456,6 +469,6 @@ bool CGI::read_output()
             return false;
         }
     }
-    
+
     return false;
 }
