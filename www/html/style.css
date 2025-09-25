@@ -2,15 +2,13 @@
   background-color: white;
 }
 
-.retro-pc
-{
+.retro-pc {
   display: flex;
   justify-content: center; /* Centers horizontally */
-  align-items: center;  
-  margin-top: 200px;  
+  align-items: center;
+  margin-top: 200px;
 }
-.retro-img
-{
+.retro-img {
   width: 300px;
   height: auto;
 }
@@ -58,9 +56,8 @@
 .blink {
   animation: blink 0.4s linear infinite;
   position: relative;
-  top:420px;
-  left:0px;
-
+  top: 420px;
+  left: 0px;
 }
 /* low-resolution screen overlay interlacing */
 @keyframes lines {
@@ -114,7 +111,7 @@
   /* flex stuff */
   display: flex;
   justify-content: center; /* Centers horizontally */
-  align-items: center;  
+  align-items: center;
   margin-top: 0px;
   font-size: 35px;
 }
@@ -557,6 +554,57 @@ body.upload-page-body {
   font-size: 17px;
 }
 
+/* SpySocket Title Styles for Feedback Page */
+.SS-red {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0;
+  font-size: 80px;
+  font-weight: bolder;
+  font-family: "Comfortaa", cursive;
+  margin-top: 70px;
+  margin-bottom: -30px;
+}
+
+.SPY-red {
+  color: #ff0000; /* Red color for "Spy" */
+}
+
+.SOCKET-red {
+  color: #000000; /* Black color for "Socket" */
+}
+
+/* Feedback Description */
+.feedback-description {
+  max-width: 1000px;
+  margin: 30px auto 50px;
+  padding: 25px 30px;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  font-family: "Roboto Mono", monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #555;
+  text-align: center;
+  position: relative;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.feedback-description::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: black;
+  border-radius: 15px 15px 0 0;
+}
+
 /* Decorative Elements */
 .decoration-dot {
   position: absolute;
@@ -757,17 +805,15 @@ body.upload-page-body {
   box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
 }
 
-.mountain-2-black
-{
+.mountain-2-black {
   position: absolute;
   bottom: 0;
   height: 300px;
-  width: auto; 
+  width: auto;
   left: 0;
 }
 
-.mountain-1-black
-{
+.mountain-1-black {
   position: absolute;
   bottom: 0;
   height: auto;
@@ -775,7 +821,6 @@ body.upload-page-body {
   width: 60%;
   right: 0;
 }
-
 
 /*STYLE THE LOGIN PAGE*/
 
@@ -824,7 +869,7 @@ body.upload-page-body {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
-.Back-text-delete{
+.Back-text-delete {
   font-size: 20px;
   font-weight: bold;
   color: rgb(0, 0, 0);
@@ -846,19 +891,19 @@ body.upload-page-body {
 form {
   max-width: 450px;
   width: 90%;
-  margin: 100px auto 50px;
+  margin: 30px auto 50px;
   background: transparent;
   border-radius: 20px;
-  /* box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1); */
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   position: relative;
-  /* z-index: 10; */
+  z-index: 10;
   /* animation: fadeInUp 0.8s ease-out; */
 }
 
 /* Main Container */
 .container {
-  padding: 30px;
+  /* padding: 40px; */
   position: relative;
 }
 
@@ -881,12 +926,13 @@ label {
   color: #2c3e50;
   font-size: 14px;
   letter-spacing: 0.5px;
+  text-align: left;
 }
 
 /* Input Fields */
-input[type="text"],
-input[type="password"] {
+input[type="text"] {
   width: 100%;
+  height: 200px;
   padding: 15px 20px;
   margin-bottom: 20px;
   border: 2px solid #e1e8ed;
@@ -896,17 +942,44 @@ input[type="password"] {
   transition: all 0.3s ease;
   outline: none;
   font-family: inherit;
+  vertical-align: top;
+  resize: none;
 }
 
-input[type="text"]:focus,
-input[type="password"]:focus {
+input[type="text"]:focus {
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  transform: translateY(-2px);
+}
+input[type="text"]::placeholder {
+  color: #8e9aaf;
+  font-weight: 400;
+}
+
+/* Textarea Fields */
+textarea {
+  width: 100%;
+  height: 200px;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border: 2px solid #e1e8ed;
+  border-radius: 12px;
+  font-size: 16px;
+  background: #f8f9fa;
+  transition: all 0.3s ease;
+  outline: none;
+  font-family: inherit;
+  resize: vertical;
+  vertical-align: top;
+}
+
+textarea:focus {
   background: #fff;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   transform: translateY(-2px);
 }
 
-input[type="text"]::placeholder,
-input[type="password"]::placeholder {
+textarea::placeholder {
   color: #8e9aaf;
   font-weight: 400;
 }
@@ -915,7 +988,7 @@ input[type="password"]::placeholder {
 button[type="submit"] {
   width: 100%;
   padding: 15px;
-  background-color: #002d61;
+  background-color: #000000;
   color: white;
   border: none;
   border-radius: 12px;
@@ -955,12 +1028,6 @@ button[type="submit"]::before {
 
 button[type="submit"]:hover::before {
   left: 100%;
-}
-
-/* Forgot Password Link */
-.psw {
-  color: #5a6c7d;
-  font-size: 14px;
 }
 
 .psw a {
@@ -1340,11 +1407,11 @@ button:focus-visible {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
-  margin-top: 30px;
+  margin-top: 10px;
   max-width: 800px;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 150px;
+  margin-bottom: 30px;
 }
 
 .explore-card {
@@ -1358,6 +1425,34 @@ button:focus-visible {
   border: 1px solid #f0f0f0;
   position: relative;
   overflow: hidden;
+}
+
+.explore-card-delete {
+  background: white;
+  border-radius: 20px;
+  padding: 30px 20px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f0f0f0;
+  position: relative;
+  overflow: hidden;
+  height: fit-content;
+  margin-bottom: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 400px;
+  margin-top: 100px;
+  margin-left: 300px;
+}
+
+.explore-card-delete:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 40px rgba(0, 255, 60, 0.479);
+  border-color: #52ff72;
 }
 
 .explore-card:hover {
@@ -1390,7 +1485,7 @@ button:focus-visible {
 }
 
 .explore-card h3 {
-  font-size: 1.5rem;
+  font-size: 20px;
   color: #2c3e50;
   margin-bottom: 10px;
   font-family: "Comfortaa", cursive;
@@ -1399,9 +1494,25 @@ button:focus-visible {
 
 .explore-card p {
   color: #666;
-  font-size: 0.95rem;
+  font-size: 12px;
   line-height: 1.5;
   font-family: "Roboto Mono", monospace;
+}
+
+.explore-card-delete h3 {
+  font-size: 20px;
+  color: #2c3e50;
+  margin-bottom: 0px;
+  font-family: "Comfortaa", cursive;
+  font-weight: 700;
+}
+
+.explore-card-delete p {
+  color: #666;
+  font-size: 12px;
+  line-height: 1.5;
+  font-family: "Roboto Mono", monospace;
+  margin-top: 0px;
 }
 
 .explore-card::before {

@@ -718,7 +718,6 @@ bool ParsingRequest::parse_body()
 			write(1, temp_buffer.data(), temp_buffer.length());
 			cout << "***BUFFER_END***\n";
             std::string processed_data;
-        
             if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
                 body_content = processed_data;
                 buffer_pos = buffer.length();
