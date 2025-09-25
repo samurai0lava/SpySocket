@@ -100,7 +100,7 @@ void Servers::epollFds(Servers& serv)
     {
         i++;
         //epoll wait returns 2 fds that are ready when only one client is connected ???
-        int ready_fds = epoll_wait(epollFd, events, 10, 30000); // 1000ms = 1 second timeout
+        int ready_fds = epoll_wait(epollFd, events, 10, 10000); // 1000ms = 1 second timeout
 
         if (ready_fds == -1)
         {

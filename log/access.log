@@ -892,3 +892,39 @@
 [2025-09-24 15:01:46] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
 [2025-09-24 15:01:46] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
 [2025-09-24 15:01:46] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 19:05:41] GET /cgi-bin/timeout HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/file.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-09-24 20:03:00] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (windows nt 10.0; win64; x64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
