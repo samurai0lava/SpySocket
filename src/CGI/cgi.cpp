@@ -204,7 +204,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         close(pipe_out[1]);
         int input_fd = pipe_in[1];
         cgi_fd = pipe_out[0];
-        cgi_start_time = time(NULL);  // Record when CGI started
+        cgi_start_time = std::time(NULL);  // Record when CGI started
 
         // Make the CGI output pipe non-blocking
         int flags = fcntl(cgi_fd, F_GETFL, 0);
@@ -224,22 +224,21 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    std::string full_script_path = std::string(cwd) + "/www" + script_path;  // Keep this if getcwd() is forbidden
     std::cout << RED << full_script_path << RESET << std::endl;
 
-
-    if (access(full_script_path.c_str(), F_OK) != 0)
-    {
+    if (access(full_script_path.c_str(), F_OK) != 0) {
         error_code = 404;
         error_message = "CGI script not found: " + full_script_path;
+        access_error(error_code, error_message);
         std::cerr << "CGI script not found: " << full_script_path << std::endl;
         return false;
     }
 
-    if (access(full_script_path.c_str(), X_OK) != 0)
-    {
+    if (access(full_script_path.c_str(), X_OK) != 0) {
         error_code = 403;
         error_message = "CGI script not executable: " + full_script_path;
+        access_error(error_code, error_message);
         std::cerr << "CGI script not executable: " + full_script_path << std::endl;
         return false;
     }
@@ -247,8 +246,8 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
     int pipe_in[2];
     int pipe_out[2];
 
-    if (pipe(pipe_in) == -1 || pipe(pipe_out) == -1)
-    {
+    if (pipe(pipe_in) == -1 || pipe(pipe_out) == -1) {
+        access_error(500, "Internal Server Error: Pipe creation failed");
         perror("pipe failed");
         return false;
     }
@@ -256,17 +255,17 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
     std::vector<std::string> env_strings;
     std::vector<char*> envp;
 
-    for (std::map<std::string, std::string>::const_iterator it = env_vars.begin(); it != env_vars.end(); ++it)
-    {
+    for (std::map<std::string, std::string>::const_iterator it = env_vars.begin(); it != env_vars.end(); ++it) {
         std::string env_var = it->first + "=" + it->second;
         env_strings.push_back(env_var);
-        envp.push_back(&env_strings.back()[0]);
+    }
+    for (size_t i = 0; i < env_strings.size(); ++i) {
+        envp.push_back(&env_strings[i][0]);
     }
     envp.push_back(NULL);
 
     cgi_pid = fork();
-    if (cgi_pid < 0)
-    {
+    if (cgi_pid < 0) {
         perror("fork failed");
         close(pipe_in[0]);
         close(pipe_in[1]);
@@ -275,69 +274,62 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         return false;
     }
 
-    if (cgi_pid == 0)
-    {
+    if (cgi_pid == 0) {
         // Child process
         close(pipe_in[1]);
         close(pipe_out[0]);
 
         if (dup2(pipe_in[0], STDIN_FILENO) == -1 ||
-            dup2(pipe_out[1], STDOUT_FILENO) == -1)
-        {
+            dup2(pipe_out[1], STDOUT_FILENO) == -1) {
             perror("dup2 failed in child");
             exit(EXIT_FAILURE);
         }
 
         close(pipe_in[0]);
         close(pipe_out[1]);
+        std::string script_dir = full_script_path.substr(0, full_script_path.find_last_of('/'));
+        if (chdir(script_dir.c_str()) != 0) {
+            access_error(500, "Internal Server Error: chdir failed");
+            perror("chdir failed");
+        }
 
         std::vector<char*> argv;
         std::string interpreter = get_interpreter(full_script_path);
 
-        if (!interpreter.empty())
-        {
+        if (!interpreter.empty()) {
             argv.push_back(const_cast<char*>(interpreter.c_str()));
             argv.push_back(const_cast<char*>(full_script_path.c_str()));
         }
-        else
-        {
+        else {
             argv.push_back(const_cast<char*>(full_script_path.c_str()));
         }
         argv.push_back(NULL);
 
-        if (!interpreter.empty())
-        {
+        if (!interpreter.empty()) {
             execve(interpreter.c_str(), &argv[0], &envp[0]);
         }
-        else
-        {
+        else {
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
-
+        access_error(500, "Internal Server Error: execve failed");
         perror("execve failed");
         exit(EXIT_FAILURE);
     }
-    else
-    {
-        // Parent process
+    else {
         close(pipe_in[0]);
         close(pipe_out[1]);
 
         int input_fd = pipe_in[1];
         cgi_fd = pipe_out[0];
-        cgi_start_time = time(NULL);  // Record when CGI started
+        cgi_start_time = std::time(NULL);
 
-        // Make the CGI output pipe non-blocking
         int flags = fcntl(cgi_fd, F_GETFL, 0);
         if (flags != -1) {
             fcntl(cgi_fd, F_SETFL, flags | O_NONBLOCK);
         }
 
-        // Send POST data
-        if (!body_data.empty())
-        {
-            if (!send_post_data(input_fd, body_data))
-            {
+        if (!body_data.empty()) {
+            if (!send_post_data(input_fd, body_data)) {
                 close(input_fd);
                 close(cgi_fd);
                 kill(cgi_pid, SIGKILL);
@@ -416,6 +408,7 @@ bool CGI::send_post_data(int fd, const std::string& body_data)
         ssize_t sent = write(fd, body_data.c_str() + total_sent, data_size - total_sent);
         if (sent <= 0)
         {
+            access_error(500, "Internal Server Error: Failed to send POST data to CGI");
             perror("Failed to send POST data to CGI");
             return false;
         }
@@ -429,7 +422,7 @@ bool CGI::is_cgi_timeout(int timeout_seconds)
     if (cgi_pid <= 0 || cgi_start_time == 0)
         return false;
 
-    time_t current_time = time(NULL);
+    time_t current_time = std::time(NULL);
     return (current_time - cgi_start_time) >= timeout_seconds;
 }
 bool CGI::read_output()
@@ -444,6 +437,7 @@ bool CGI::read_output()
     {
         buffer[bytes_read] = '\0';
         output_buffer.append(buffer, bytes_read);
+        std::cout << "CGI Output (" << bytes_read << " bytes): [" << std::string(buffer, bytes_read) << "]" << std::endl;
         return true;
     }
     else if (bytes_read == 0)

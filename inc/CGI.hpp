@@ -4,7 +4,8 @@
 
 #include "parsing_request.hpp"
 
-
+#define CGI_TIMEOUT 30 // IN seconds
+#define EPOLL_TIMEOUT 1000 // 1 Second
 
 class CGI : public ParsingRequest
 {
@@ -35,7 +36,7 @@ public:
     pid_t get_cgi_pid() const { return cgi_pid; }
     int get_status() const { return status; }
     void close_cgi();
-    std::string get_output_buffer() const { return output_buffer; }
+    std::string get_outputoi_buffer() const { return output_buffer; }
     std::string get_script_path() const { return script_path; }
     std::string get_path_info() const { return path_info; }
     std::string get_query_string() const { return query_string; }

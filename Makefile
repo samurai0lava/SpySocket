@@ -1,6 +1,6 @@
 CC = c++
 
-FLAGS = -Wall -Wextra -Werror -std=c++98 -g -fsanitize=address
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g
 
 SRCS = src/main.cpp \
 	src/Parsing/parsing_request.cpp\

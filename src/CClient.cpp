@@ -6,8 +6,8 @@
 
 CClient::CClient() :
     _name_location(""), NameMethod(""), uri(""), FdClient(-1), mutableConfig(), serv(), parser(NULL),
-    SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), 
-    chunkSize(0), bytesSent(0), response(""), filePath(""), fileSize(0), 
+    SendHeader(false), readyToSendAllResponse(false), chunkedSending(false),
+    chunkSize(0), bytesSent(0), response(""), filePath(""), fileSize(0),
     offset(0), fileFd(-1), intialized(false), Chunked(false),
     cgi_handler(NULL), is_cgi_request(false), cgi_headers_sent(false), cgi_body_buffer("")
 {
@@ -57,15 +57,13 @@ string CClient::HandleAllMethod()
     if (is_cgi_request && cgi_handler) {
         return HandleCGIMethod();
     }
-    
+
     // Check if this is a new CGI request
-    CGI cgi_checker;
-    if (cgi_checker.check_is_cgi(*parser)) {
-        // Initialize CGI handling
+    cgi_handler = new CGI();
+    if (cgi_handler->check_is_cgi(*parser))
+    {
         is_cgi_request = true;
-        cgi_handler = new CGI();
-        cgi_handler->check_is_cgi(*parser);
-        
+
         std::map<std::string, std::string> env_vars;
         if (!cgi_handler->set_env_var(env_vars, *parser)) {
             delete cgi_handler;
@@ -73,14 +71,15 @@ string CClient::HandleAllMethod()
             is_cgi_request = false;
             return GenerateResErr(500);
         }
-        
+
         bool success = false;
         if (this->NameMethod == "POST") {
             success = cgi_handler->execute_with_body(env_vars, parser->getBody());
-        } else {
+        }
+        else {
             success = cgi_handler->execute(env_vars);
         }
-        
+
         if (!success) {
             int error_code = cgi_handler->get_error_code();
             delete cgi_handler;
@@ -88,11 +87,16 @@ string CClient::HandleAllMethod()
             is_cgi_request = false;
             return GenerateResErr(error_code > 0 ? error_code : 500);
         }
-        
+
         //CGI is running, will be handled in subsequent calls
         return "";
     }
-    
+    else
+    {
+        delete cgi_handler;
+        cgi_handler = NULL;
+    }
+
     // Handle non-CGI requests as before
     if (this->NameMethod == "GET")
     {
@@ -119,7 +123,7 @@ string CClient::HandleAllMethod()
         DeleteMethode MDelete;
         return (MDelete.PerformDelete(this->uri, this->mutableConfig));
     }
-    else if(this->NameMethod == "POST")
+    else if (this->NameMethod == "POST")
     {
         return postMethod(this->uri, this->mutableConfig, *this->parser);
     }
@@ -137,14 +141,15 @@ string CClient::HandleCGIMethod()
     // Check if CGI process has finished
     int status;
     pid_t result = waitpid(cgi_handler->get_cgi_pid(), &status, WNOHANG);
-    
+
     if (result == -1) {
         // Error occurred
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;
         return GenerateResErr(500);
-    } else if (result == cgi_handler->get_cgi_pid()) {
+    }
+    else if (result == cgi_handler->get_cgi_pid()) {
         // Process has finished
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
             delete cgi_handler;
@@ -152,20 +157,21 @@ string CClient::HandleCGIMethod()
             is_cgi_request = false;
             return GenerateResErr(500);
         }
-        
+
         // Read any remaining output
         while (cgi_handler->read_output()) {
             // Keep reading until no more data
         }
-        
+
         std::string cgi_output = cgi_handler->get_output_buffer();
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;
-        
+
         // Parse CGI output and build HTTP response
         return formatCGIResponse(cgi_output);
-    } else {
+    }
+    else {
         // Process still running - read available output
         cgi_handler->read_output();
         return ""; // Return empty - not ready yet
@@ -177,7 +183,7 @@ string CClient::formatCGIResponse(const std::string& cgi_output)
     if (cgi_output.empty()) {
         return GenerateResErr(500);
     }
-    
+
     // Find the end of headers (double CRLF)
     size_t headers_end = cgi_output.find("\r\n\r\n");
     if (headers_end == std::string::npos) {
@@ -186,41 +192,42 @@ string CClient::formatCGIResponse(const std::string& cgi_output)
             return GenerateResErr(500);
         }
         headers_end += 2;
-    } else {
+    }
+    else {
         headers_end += 4;
     }
-    
+
     std::string cgi_headers = cgi_output.substr(0, headers_end);
     std::string cgi_body = cgi_output.substr(headers_end);
-    
+
     // Build HTTP response
     std::string response = "HTTP/1.1 200 OK\r\n";
-    
+
     // Parse and add CGI headers
     std::istringstream header_stream(cgi_headers);
     std::string line;
     bool has_content_type = false;
-    
+
     while (std::getline(header_stream, line)) {
         if (line.empty() || line == "\r") continue;
-        
+
         // Remove trailing \r if present
         if (!line.empty() && line[line.length() - 1] == '\r') {
             line.erase(line.length() - 1);
         }
-        
+
         if (line.find("Content-Type:") == 0 || line.find("content-type:") == 0) {
             has_content_type = true;
         }
-        
+
         response += line + "\r\n";
     }
-    
+
     // Add default content-type if not present
     if (!has_content_type) {
         response += "Content-Type: text/html\r\n";
     }
-    
+
     // Add content-length
     std::ostringstream content_length_ss;
     content_length_ss << cgi_body.length();
@@ -231,7 +238,7 @@ string CClient::formatCGIResponse(const std::string& cgi_output)
     response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n\r\n";
     response += cgi_body;
-    
+
     return response;
 }
 

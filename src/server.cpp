@@ -99,20 +99,22 @@ void Servers::epollFds(Servers& serv)
     while (true)
     {
         i++;
-        //epoll wait returns 2 fds that are ready when only one client is connected ???
-        int ready_fds = epoll_wait(epollFd, events, 10, 1000); // 1000ms = 1 second timeout
-
+        int ready_fds = epoll_wait(epollFd, events, 10, EPOLL_TIMEOUT);
         if (ready_fds == -1)
         {
+            if (errno == EINTR) {
+                // A signal was caught. The epoll_wait call was interrupted.
+                // Continue the loop and call epoll_wait again.
+                continue;
+            }
             access_error(500, "Internal Server Error: epoll_wait failed!");
             break;
         }
-        // Check for CGI timeouts
         std::vector<int> timed_out_clients;
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
             int client_fd = it->first;
             CClient& client_data = it->second;
-            if (client_data.cgi_handler && client_data.cgi_handler->is_cgi_timeout(30)) {
+            if (client_data.cgi_handler && client_data.cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
                 timed_out_clients.push_back(client_fd);
             }
         }
@@ -188,7 +190,7 @@ void Servers::epollFds(Servers& serv)
                     clientParsers[client_fd] = new ParsingRequest();
                     client_data_map[client_fd] = CClient();
                     client_data_map[client_fd].FdClient = client_fd;
-                    std::cout << "New client connected on FD " << client_fd << std::endl;
+                    // std::cout << "New client connected on FD " << client_fd << std::endl;
                 }
                 continue;
             }
@@ -422,7 +424,7 @@ void Servers::epollFds(Servers& serv)
                         c.ready_to_respond = false;
                         if (client_data_map[fd].chunkedSending == true)
                         {
-                            std::cout << GREEN "Finished sending response to fd : " << fd << RESET << std::endl;
+                            // std::cout << GREEN "Finished sending response to fd : " << fd << RESET << std::endl;
                             epoll_event ev;
                             memset(&ev, 0, sizeof(ev));
                             ev.events = EPOLLIN; // Reset to listen for new requests
@@ -504,7 +506,7 @@ void Servers::epollFds(Servers& serv)
                     if (c.response.empty())
                     {
                         c.ready_to_respond = false;
-                        std::cout << "Finished sending response to fd : " << fd << std::endl;
+                        // std::cout << "Finished sending response to fd : " << fd << std::endl;
                         epoll_event ev;
                         memset(&ev, 0, sizeof(ev));
                         ev.events = EPOLLIN; // Reset to listen for new requests
