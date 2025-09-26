@@ -319,162 +319,253 @@ void reset_refactor_data_state()
 {
 	// Reset by calling refactor_data with a special reset marker
 	string dummy_buffer;
-	refactor_data(dummy_buffer, NULL, 0);
+    std::map<std::string, std::string> headers;
+
+	refactor_data(dummy_buffer, NULL, 0, headers);
 }
 
-bool is_chunked_transfer_complete()
-{
-	// Use a special call to query the status
-	string dummy_buffer;
-	refactor_data(dummy_buffer, NULL, (size_t)-1);
-	return dummy_buffer == "complete";
-}
-bool refactor_data(string& buffer, const char* data, size_t len)
-{
-    static size_t	current_chunk_size = 0;
-    static bool		reading_size = true;
-    static bool		chunked_complete = false;
-    size_t			headers_end;
-    size_t			eol;
-    size_t			end_marker;
+// bool is_chunked_transfer_complete()
+// {
+// 	// Use a special call to query the status
+// 	string dummy_buffer;
+// 	refactor_data(dummy_buffer, NULL, (size_t)-1);
+// 	return dummy_buffer == "complete";
+// }
 
-    static string headers;
-    static string chunk_buffer;
-    
-    // reset static variables
-    if (data == NULL && len == 0) {
-        current_chunk_size = 0;
-        reading_size = true;
-        chunked_complete = false;
-        headers.clear();
-        chunk_buffer.clear();
-        return true; // Reset successful
-    }
-    
-    // query completion status
-    if (data == NULL && len == (size_t)-1) {
-        buffer = chunked_complete ? "complete" : "incomplete";
-        return chunked_complete; // Return the completion status directly
-    }
-    
-    // Reset static variables if we detect start of a new request
-    if (len > 0 && data[0] >= 'A' && data[0] <= 'Z' && headers.empty() && chunk_buffer.empty()) {
-        current_chunk_size = 0;
-        reading_size = true;
-        headers.clear();
-        chunk_buffer.clear();
-    }
-    
-    try {
-        chunk_buffer.append(data, len);
-    }
-    catch (std::exception& e) {
-        std::cerr << "Memory allocation failed in refactor_data: 1 " << e.what() << std::endl;
-        return false; // Error occurred
-    }
 
-    // Detect headers first only once at the beginning
-    if (headers.empty())
-    {
-        headers_end = chunk_buffer.find("\r\n\r\n");
-        if (headers_end == string::npos)
-            return false; // wait for full headers - need more data
-        headers = chunk_buffer.substr(0, headers_end + 4);
-        try{
-            buffer.append(headers);
-        }
-        catch (std::exception& e) {
-            std::cerr << "Memory allocation failed in refactor_data: 2 " << e.what() << std::endl;
-            return false; // Error occurred
-        }
-        chunk_buffer.erase(0, headers_end + 4);
-    }
+// bool refactor_data(string& buffer, const char* data, size_t len, std::map<std::string, std::string> parsing_headers)
+// {
 
-    if (headers.find("Transfer-Encoding") != string::npos && headers.find("chunked") != string::npos)
-    {
-        cout << "=== PROCESSING CHUNKED DATA ===" << endl;
-        while (true)
-        {
-            if (reading_size)
-            {
-                eol = chunk_buffer.find("\r\n");
-                if (eol == string::npos)
-                {
-                    cout << "=== WAITING FOR CHUNK SIZE LINE ===" << endl;
-                    return false; // not enough data yet still waiting for size line
-                }
-                string hex_str = chunk_buffer.substr(0, eol);
-                current_chunk_size = hex_to_dec(hex_str);
-                cout << "CHUNK SIZE: " << current_chunk_size << " (hex: " << hex_str << ")" << endl;
-                chunk_buffer.erase(0, eol + 2); // remove size line
-                if (current_chunk_size == 0)
-                {
-                    cout << "///////////EEEEEEEEEEEEEEEEEEEEEEEEEND//////////////////\n";
-                    chunked_complete = true;
-                    // End of chunks: expect final "\r\n"
-                    end_marker = chunk_buffer.find("\r\n");
-                    if (end_marker != string::npos)
-                        chunk_buffer.erase(0, end_marker + 2);
+//     static size_t	current_chunk_size = 0;
+//     static bool		reading_size = true;
+//     static bool		chunked_complete = false;
+//     size_t			eol;
+//     size_t			end_marker;
+//     static string chunk_buffer;
+    
+//     // reset static variables
+//     if (data == NULL && len == 0) 
+//     {
+//         current_chunk_size = 0;
+//         reading_size = true;
+//         chunked_complete = false;
+//         chunk_buffer.clear();
+//         return true; // Reset successful
+//     }
+    
+//     // query completion status
+//     if (data == NULL && len == (size_t)-1) {
+//         buffer = chunked_complete ? "complete" : "incomplete";
+//         return chunked_complete; // Return the completion status directly
+//     }
+    
+//     // Reset static variables if we detect start of a new request
+//     // if (len > 0 && data[0] >= 'A' && data[0] <= 'Z' && chunk_buffer.empty()) 
+//     // {
+//     //     current_chunk_size = 0;
+//     //     reading_size = true;
+//     //     chunk_buffer.clear();
+//     // }
+    
+//     try {
+//         chunk_buffer.append(data, len);
+//     }
+//     catch (std::exception& e) {
+//         std::cerr << "Memory allocation failed in refactor_data: 1 " << e.what() << std::endl;
+//         return false; // Error occurred
+//     }
+
+//     if (parsing_headers.find("transfer-encoding") != parsing_headers.end())
+//     {
+//         while (true)
+//         {
+//             if (reading_size)
+//             {
+//                 eol = chunk_buffer.find("\r\n");
+//                 if (eol == string::npos)
+//                 {
+//                     return false; // not enough data yet still waiting for size line
+//                 }
+//                 // string hex_str = chunk_buffer.substr(0, eol);
+//                 // //HEEEEEEEEEEEEEEEEEEEEEEEEEERE
+//                 // current_chunk_size = hex_to_dec(hex_str);
+
+//                 string hex_str = chunk_buffer.substr(0, eol);
+//                 cout << RED <<hex_str << "\n" RESET;
+//                 // ✅ Check if hex_str contains only valid hex characters
+//                 bool valid_hex = true;
+//                 for (int i = 0; hex_str[i]; i++) {
+//                     if (!isxdigit(hex_str[i])) { // not 0-9, a-f, A-F
+//                         valid_hex = false;
+//                         break;
+//                     }
+//                 }
+
+//                 if (!valid_hex) {
+//                     // Probably binary data arrived early, wait for more
+//                     return false;
+//                 }
+
+//                 current_chunk_size = hex_to_dec(hex_str);
+
+
+//                 cout << YELLOW << hex_str << "\n" RESET;
+
+//                 chunk_buffer.erase(0, eol + 2); // remove size line
+//                 if (current_chunk_size == 0)
+//                 {
+//                     chunked_complete = true;
+//                     // End of chunks: expect final "\r\n"
+//                     end_marker = chunk_buffer.find("\r\n");
+//                     if (end_marker != string::npos)
+//                         chunk_buffer.erase(0, end_marker + 2);
                     
-                    // Check if there's any remaining data that might be a new request
-                    if (!chunk_buffer.empty()) {
-                        cout << "=== LEFTOVER DATA AFTER CHUNKS (" << chunk_buffer.size() << " bytes) ===" << endl;
-                        try{
-                            buffer.append(chunk_buffer);
-                        }
-                        catch (std::exception& e) {
-                            std::cerr << "Memory allocation failed in refactor_data: 000" << e.what() << std::endl;
-                            return false; // Error occurred
-                        }
-                    }
-                    headers.clear();
-                    chunk_buffer.clear();
-                    current_chunk_size = 0;
-                    reading_size = true;
-                    return true; // Chunked transfer complete
-                }
-                reading_size = false;
-            }
-            if (chunk_buffer.size() < current_chunk_size + 2)
-            {
-                cout << "=== WAITING FOR FULL CHUNK (" << chunk_buffer.size() << "/" << (current_chunk_size + 2) << ") ===" << endl;
-                return false; // Need more data
-            }
-            try {
-                buffer.append(chunk_buffer, 0, current_chunk_size);
-                chunk_buffer.erase(0, current_chunk_size + 2);
-                reading_size = true;
-            }
-            catch (std::exception& e) {
-                std::cerr << "Memory allocation failed in refactor_data: 3" << e.what() << std::endl;
-                return false; // Error occurred
-            }
-        }
-    }
-    else
-    {
-        //none chunked or headers not complete yet
-        try {
-            buffer.append(chunk_buffer);
-        }
-        catch (std::exception& e) {
-            std::cerr << "Memory allocation failed in refactor_data: 4" << e.what() << std::endl;
-            return false; // Error occurred
-        }
-        chunk_buffer.clear();
-        if (!headers.empty() && headers.find("Content-Length:") != string::npos)
-        {
-            int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
-            if(buffer.size() >= content_length + headers.length())
-            {
-                headers.clear();
-                chunk_buffer.clear();
-                current_chunk_size = 0;
-                reading_size = true;
-                return true; // Content-Length based transfer complete
-            }
-        }
-        return true; // Non-chunked data processed successfully
-    }
-}
+//                     // Check if there's any remaining data that might be a new request
+//                     if (!chunk_buffer.empty()) {
+//                         cout << "=== LEFTOVER DATA AFTER CHUNKS (" << chunk_buffer.size() << " bytes) ===" << endl;
+//                         try{
+//                             buffer.append(chunk_buffer);
+//                         }
+//                         catch (std::exception& e) {
+//                             std::cerr << "Memory allocation failed in refactor_data: 000" << e.what() << std::endl;
+//                             return false; // Error occurred
+//                         }
+//                     }
+//                     // headers.clear();
+//                     chunk_buffer.clear();
+//                     current_chunk_size = 0;
+//                     reading_size = true;
+//                     return true; // Chunked transfer complete
+//                 }
+//                 reading_size = false;
+//             }
+//             if (chunk_buffer.size() < current_chunk_size + 2)
+//             {
+//                 cout << "=== WAITING FOR FULL CHUNK (" << chunk_buffer.size() << "/" << (current_chunk_size + 2) << ") ===" << endl;
+//                 return false; // Need more data
+//             }
+//             try {
+//                 buffer.append(chunk_buffer, 0, current_chunk_size);
+//                 chunk_buffer.erase(0, current_chunk_size + 2);
+//                 reading_size = true;
+//             }
+//             catch (std::exception& e) {
+//                 std::cerr << "Memory allocation failed in refactor_data: 3" << e.what() << std::endl;
+//                 return false; // Error occurred
+//             }
+//         }
+//     }
+//     else
+//     {
+//         cout << "NOT CHUNKEEEEEEEEEEEEEEEEEEEEEEEEEED\n";
+//         //none chunked or headers not complete yet
+//         try {
+//             buffer.append(chunk_buffer);
+//         }
+//         catch (std::exception& e) {
+//             std::cerr << "Memory allocation failed in refactor_data: 4" << e.what() << std::endl;
+//             return false; // Error occurred
+//         }
+//         chunk_buffer.clear();
+//         if (parsing_headers.find("content-length") != parsing_headers.end())
+//         {
+//             size_t content_length = atoi(parsing_headers["Content-Length"].c_str());
+//             if(buffer.size() >= content_length)
+//             {
+//                 // headers.clear();
+//                 chunk_buffer.clear();
+//                 current_chunk_size = 0;
+//                 reading_size = true;
+//                 return true; // Content-Length based transfer complete
+//             }
+//         }
+//         return true; // Non-chunked data processed successfully
+//     }
+// }
 
+
+bool	refactor_data(string& buffer, const char* data, size_t len, std::map<std::string, std::string> headers)
+{
+	static size_t	current_chunk_size = 0;
+	static bool		reading_size = true;
+	// size_t			headers_end;
+	size_t			eol;
+	size_t			end_marker;
+
+	// static string headers;
+	static string chunk_buffer;
+	// Append newly received data
+	// cout << "****BUFFER****\n";
+	// write(1, chunk_buffer.c_str(), chunk_buffer.length());
+	// cout << "****BUFFER_END****\n";
+    
+	// Detect headers first only once at the beginning
+	// if (headers.empty())
+	// {
+        // 	headers_end = chunk_buffer.find("\r\n\r\n");
+        // 	if (headers_end == string::npos)
+        // 		return ; // wait for full headers
+        // 	headers = chunk_buffer.substr(0, headers_end + 4);
+        // 	buffer.append(headers);
+        // 	chunk_buffer.erase(0, headers_end + 4);
+        // }
+        
+    chunk_buffer.append(data, len);
+	if (headers.find("Transfer-Encoding") != headers.end())
+	{
+		// cout << 1111111111 << endl;
+		while (true)
+		{
+			if (reading_size)
+			{
+				eol = chunk_buffer.find("\r\n");
+				if (eol == string::npos)
+					return false; // not enough data yet still waiting for size line
+				string hex_str = chunk_buffer.substr(0, eol);
+				current_chunk_size = hex_to_dec(hex_str);
+				// cout << "CHUNK SIZE ------------------> " << current_chunk_size << endl;
+				chunk_buffer.erase(0, eol + 2); // remove size line
+				if (current_chunk_size == 0)
+				{
+					cout << "///////////EEEEEEEEEEEEEEEEEEEEEEEEEND//////////////////\n";
+					// End of chunks: expect "\r\n"
+					end_marker = chunk_buffer.find("\r\n");
+					if (end_marker != string::npos)
+						chunk_buffer.erase(0, end_marker + 2);
+					// reset state for next request
+					headers.clear();
+					chunk_buffer.clear();
+					current_chunk_size = 0;
+					reading_size = true;
+					return true;
+				}
+				reading_size = false;
+			}
+			// Wait until we have the full chunk (data + CRLF)
+			if (chunk_buffer.size() < current_chunk_size + 2)
+				return false; // not enough data yet
+			// Append chunk data to buffer
+			buffer.append(chunk_buffer, 0, current_chunk_size);
+			// Erase consumed bytes + trailing CRLF
+			chunk_buffer.erase(0, current_chunk_size + 2);
+			// Ready for next chunk size
+			reading_size = true;
+		}
+	}
+	else
+	{
+		// Not chunked: just append directly
+		// if(headers.find("Content-Length:") == headers.end())
+		// {
+		// 	// buffer = malformed_req;
+		// 	return;
+		// }
+		// int content_length = atoi(headers.substr(headers.find("Content-Length") + strlen("Content-Length: ")).c_str());
+        int content_length = atoi(headers["Content-Length"].c_str());
+		buffer.append(chunk_buffer, content_length);
+		chunk_buffer.clear();
+		// if(buffer.size() == content_length)
+		// 	headers.clear();
+	}
+    return true;
+}

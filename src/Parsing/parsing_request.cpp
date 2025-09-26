@@ -718,7 +718,7 @@ bool ParsingRequest::parse_body()
 
     if (method == "POST") 
 	{
-		// cout << RED "POST" RESET << endl;
+		// cout << RED "POOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOoST" RESET << endl;
         if (transfer_encoding_exists == 1) 
 		{
             std::string temp_buffer = buffer.substr(buffer_pos);
@@ -727,10 +727,13 @@ bool ParsingRequest::parse_body()
 			// cout << "***BUFFER_END***\n";
             std::string processed_data;
         
-            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
+            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length(), headers)) 
+			{
+				// cout << RED << processed_data << "\n" << RESET;
                 body_content = processed_data;
                 buffer_pos = buffer.length();
-                return true;
+				// cout << BLUE "Heeeeeeeeeeeeeeeeeeey\n" RESET;
+                return true; //check here
             }
             return false;
         }
@@ -787,7 +790,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
-			cout << "---------------> " << getHeaders()["content-length"] << endl;
+			// cout << "---------------> " << getHeaders()["content-length"] << endl;
 			// For POST requests, always try to parse body regardless of expected_body_length
 			{
 				std::string method = start_line.at("method");
@@ -799,7 +802,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 
 		case PARSE_BODY:
-			cout << "PARSE BODY CASE ***************\n";
+			// cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)

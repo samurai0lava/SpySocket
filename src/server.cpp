@@ -209,9 +209,9 @@ void Servers::epollFds(Servers &serv)
 			{
 				// Timeout for the request
 				serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
-				// cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+				// cout << RED "xxxxxxxxxxxxBUFFER_STARTxxxxxxxxxxxxx\n" RESET;
 				// cout << serv.buffer;
-				// cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
+				// cout << GREEN "xxxxxxxxxxxBUFFER_ENDxxxxxxxxxxxxxx\n" RESET;
 				if (serv.bufferLength <= 0)
 				{
 					if (serv.bufferLength == 0)

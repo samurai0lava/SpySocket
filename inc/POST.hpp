@@ -18,7 +18,7 @@ std::string generate_filename(string type, string termination);
 
 void	reset_refactor_data_state(void);
 bool	is_chunked_transfer_complete(void);
-bool	refactor_data(string &buffer, const char *data, size_t len);
+bool refactor_data(string& buffer, const char* data, size_t len, std::map<std::string, std::string> parsing_headers);
 
 // messages
 string	handle_redirect(std::pair<std::string, LocationStruct> location);
@@ -29,3 +29,4 @@ string	forbidden_403(void);
 string	internal_error(void);
 string created_success(std::pair<std::string, LocationStruct> location);
 std::string OK_200(std::string &body);
+
