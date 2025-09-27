@@ -102,11 +102,6 @@ void Servers::epollFds(Servers& serv)
         int ready_fds = epoll_wait(epollFd, events, 10, EPOLL_TIMEOUT);
         if (ready_fds == -1)
         {
-            if (errno == EINTR) {
-                // A signal was caught. The epoll_wait call was interrupted.
-                // Continue the loop and call epoll_wait again.
-                continue;
-            }
             access_error(500, "Internal Server Error: epoll_wait failed!");
             break;
         }

@@ -16,7 +16,7 @@
   position: relative;
   width: 100%;
   margin-top: auto;
-  z-index: 20;
+
 }
 .hero-text {
   background: #fff;
@@ -497,6 +497,19 @@ body.upload-page-body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  margin-top: -150px;
+  position: relative;
+  z-index: 10;
+  gap: 60px;
+}
+
+.hero-content-main{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   position: relative;
   z-index: 10;
   gap: 60px;
@@ -813,6 +826,11 @@ body.upload-page-body {
   background: #4a90e2;
   animation: fadeInUp 1s ease-out 4.8s forwards,
     floatFigure8 8.2s ease-in-out 5.8s infinite reverse;
+}
+.footer-feedback {
+  position: relative;
+  bottom: -85px;
+  left: 0;
 }
 
 /* Mountain Background */
@@ -1504,7 +1522,7 @@ button:focus-visible {
   justify-content: center;
   max-width: 400px;
   margin-top: 100px;
-  margin-left: 300px;
+  margin-left: 400px;
 }
 
 .explore-card-delete:hover {
