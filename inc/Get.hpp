@@ -15,7 +15,6 @@ public:
     void setupFromClient(const CClient& client) {
         this->client.uri = client.uri;
         this->client.mutableConfig = client.mutableConfig;
-        //  anything else you need
     }
     std::string getMimeType(const std::string& path);
     std::string matchLocation(const std::string& requestPath, const ConfigStruct& server);

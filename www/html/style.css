@@ -1,3 +1,56 @@
+ .hero-title.explore-title {
+  font-family: "Comfortaa", "M PLUS Rounded 1c", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 3.5vw + 1rem, 4.5rem);
+  line-height: 1.1;
+  margin: 0 0 0.5rem;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  letter-spacing: 0.02em;
+  background: black;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+#footer {
+  position: relative;
+  width: 100%;
+  margin-top: auto;
+  z-index: 20;
+}
+.hero-text {
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  display: inline-block;
+  width: fit-content;
+  margin: 10px 0;
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.terminal-gif {
+  width: 500px;
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  animation: fadeInUp 0.7s ease-out;
+  margin-top: 40 px;
+}
+
+.hero-main-description {
+  font-size: 0.9rem;
+  color: #666;
+  margin-bottom: 20px;
+  font-family: "Roboto Mono", monospace;
+  font-weight: 400;
+  text-align: left;
+  align-self: flex-start;
+  margin-bottom: 50px;
+}
+
 .delete-page-body {
   background-color: white;
 }
@@ -230,7 +283,11 @@ body {
   color: #333;
   overflow-x: hidden;
   background: #ffefe4;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
 
 body.upload-page-body {
   background: transparent;
@@ -417,11 +474,15 @@ body.upload-page-body {
   position: relative;
   background-color: white;
   background: #ffefe4;
-  min-height: 500px;
+  width: 100%;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
+  min-height: calc(100vh - 200px); /* Subtract header height */
   display: flex;
   align-items: center;
   padding: 0 60px;
-  /* overflow: hidden; */
+  flex: 1; /* This will make the hero section take available space */
 }
 
 .hero-section.upload-page {
@@ -521,17 +582,7 @@ body.upload-page-body {
   font-weight: 400;
 }
 
-.hero-description {
-  position: relative;
-  font-size: 1.1rem;
-  color: #000000;
-  margin-bottom: 70px;
-  line-height: 1.6;
-  font-family: "Roboto Mono", monospace;
-  text-align: center;
-  padding: 40px;
-  max-width: 400px;
-}
+
 
 .spy {
   font-family: "Comfortaa", cursive;
@@ -766,12 +817,12 @@ body.upload-page-body {
 
 /* Mountain Background */
 .mountain-background {
-  position: fixed;
-  bottom: 0;
+  position: relative;
+  bottom: -60px;
   left: 0;
   right: 0;
   width: 100%;
-  height: auto;
+  /* height: auto; */
   pointer-events: none;
 }
 
@@ -795,8 +846,8 @@ body.upload-page-body {
 
 /* Blue Bottom Bar */
 .bottom-blue-bar {
-  position: fixed;
-  bottom: 0;
+  position: relative;
+  bottom: -20px;
   left: 0;
   width: 100%;
   height: 40px;
@@ -1398,20 +1449,27 @@ button:focus-visible {
   text-align: center;
   font-size: 1.2rem;
   color: #666;
-  margin: 0 auto 50px auto;
+  margin: 70px auto 30px auto;
   max-width: 600px;
   font-family: "Roboto Mono", monospace;
 }
 
 .explore-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 30px;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 20px;
   margin-top: 10px;
-  max-width: 800px;
+  max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 30px;
+  justify-content: center;
+  align-items: center;
+}
+
+.explore-grid > .explore-card,
+.explore-grid > .explore-card-delete {
+  flex: 0 0 400px;
 }
 
 .explore-card {

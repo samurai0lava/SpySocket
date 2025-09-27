@@ -13,8 +13,8 @@ class CGI : public ParsingRequest
 private:
     std::map<std::string, std::string> env_vars;
     std::string script_path;
-    std::string path_info;      // PATH_INFO for CGI
-    std::string query_string;   // QUERY_STRING for CGI
+    std::string path_info;
+    std::string query_string;
     int cgi_fd; // File descriptor for the CGI process
     pid_t cgi_pid; // Process ID of the CGI process
     time_t cgi_start_time; // Time when CGI process started
@@ -36,7 +36,7 @@ public:
     pid_t get_cgi_pid() const { return cgi_pid; }
     int get_status() const { return status; }
     void close_cgi();
-    std::string get_outputoi_buffer() const { return output_buffer; }
+    std::string get_output_buffer() const { return output_buffer; }
     std::string get_script_path() const { return script_path; }
     std::string get_path_info() const { return path_info; }
     std::string get_query_string() const { return query_string; }
