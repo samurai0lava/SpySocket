@@ -27,6 +27,8 @@ CClient::CClient(std::string NameMethod, std::string uri, int FdClient, ConfigSt
 CClient::~CClient()
 {
     if (cgi_handler) {
+        // Ensure CGI process is properly closed before deletion
+        cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
     }
@@ -57,15 +59,16 @@ std::string CClient::HandleAllMethod()
     if (is_cgi_request && cgi_handler) {
         return HandleCGIMethod();
     }
-
-    // Check if this is a new CGI request
-    cgi_handler = new CGI();
+    if (!cgi_handler) {
+        cgi_handler = new CGI();
+    }
     if (cgi_handler->check_is_cgi(*parser))
     {
         is_cgi_request = true;
 
         std::map<std::string, std::string> env_vars;
         if (!cgi_handler->set_env_var(env_vars, *parser)) {
+            cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
@@ -82,6 +85,7 @@ std::string CClient::HandleAllMethod()
 
         if (!success) {
             int error_code = cgi_handler->get_error_code();
+            cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
@@ -93,6 +97,7 @@ std::string CClient::HandleAllMethod()
     }
     else
     {
+        cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
     }
@@ -138,12 +143,23 @@ std::string CClient::HandleCGIMethod()
         return GenerateResErr(500);
     }
 
+    // Check for CGI timeout
+    if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
+        std::cout << "CGI timeout for client fd " << FdClient << std::endl;
+        cgi_handler->close_cgi();
+        delete cgi_handler;
+        cgi_handler = NULL;
+        is_cgi_request = false;
+        return GenerateResErr(504); // Gateway Timeout
+    }
+
     // Check if CGI process has finished
     int status;
     pid_t result = waitpid(cgi_handler->get_cgi_pid(), &status, WNOHANG);
 
     if (result == -1) {
         // Error occurred
+        cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;
@@ -152,6 +168,7 @@ std::string CClient::HandleCGIMethod()
     else if (result == cgi_handler->get_cgi_pid()) {
         // Process has finished
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
+            cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
@@ -164,6 +181,7 @@ std::string CClient::HandleCGIMethod()
         }
 
         std::string cgi_output = cgi_handler->get_output_buffer();
+        cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;

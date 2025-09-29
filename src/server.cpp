@@ -44,8 +44,8 @@ void Servers::getServersFds(Config* configFile, Servers& serv)
             close(serverFd);
             continue;
         }
-
         std::cout << BLUE "Listening on " RESET << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
+        access_start_server(port);
         serv.serversFd.push_back(serverFd);
     }
 }

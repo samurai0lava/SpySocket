@@ -1,18 +1,23 @@
 #include "../../include/server.hpp"
-#include <signal.h>
 
 
 void handle_sigint(int sig)
 {
     (void)sig; // Unused parameter
-    std::cout << "\nShutting down server gracefully..." << std::endl;
+    std::cout << "\n╔════════════════════════════════════╗" << std::endl;
+    std::cout << "║   🌐 Webserv is shutting down...   ║" << std::endl;
+    std::cout << "╚════════════════════════════════════╝" << std::endl;
+    std::cout << "   ↳ Active sessions closed" << std::endl;
+    std::cout << "   ↳ Resources freed" << std::endl;
     Servers* serv = Servers::getInstance();
     serv->setIsRunning(false);
+    std::cout << "   ✅ Shutdown complete. Bye!" << std::endl;
 }
 
 
 
-void handle_signal() {
+void handle_signal()
+{
     if (signal(SIGINT, handle_sigint) == SIG_ERR) {
         std::cerr << "Error setting up signal handler" << std::endl;
     }

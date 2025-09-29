@@ -88,3 +88,16 @@
 [2025-09-29 12:56:19] Error: 500 - Internal Server Error: epoll_wait failed!
 [2025-09-29 12:56:23] Error: 500 - Internal Server Error: epoll_wait failed!
 [2025-09-29 12:56:32] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 12:58:51] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:02:29] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:02:41] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:02:44] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:13:38] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:13:41] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:18:06] Error: 500 - Internal Server Error: epoll_wait failed!
+[34m[[0mINFO[34m] [0mServer started on port 1080
+[2025-09-29 13:22:04] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 13:23:40] [INFO] Server started on port 1080
+[2025-09-29 13:25:52] [INFO] Server started on port 1080
+[2025-09-29 13:27:07] [INFO] Server started on port 1080
+[2025-09-29 13:30:32] [INFO] Server started on port 1080

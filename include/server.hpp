@@ -17,6 +17,7 @@
 #include <dirent.h>
 #include <sys/stat.h>
 #include <map>
+#include <signal.h>
 #define READ_SIZE 8000
 
 void ft_memset(void* b, int c, size_t len);
