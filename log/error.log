@@ -84,3 +84,7 @@
 [2025-09-24 20:03:00] Error: 504 - Gateway Timeout
 [2025-09-25 14:16:51] Error: 400 - Bad Request: Invalid HTTP method: '‰PNG'
 [2025-09-25 16:45:04] Error: 400 - Bad Request: Invalid HTTP method: '‰PNG'
+[2025-09-29 12:56:06] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 12:56:19] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 12:56:23] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-09-29 12:56:32] Error: 500 - Internal Server Error: epoll_wait failed!

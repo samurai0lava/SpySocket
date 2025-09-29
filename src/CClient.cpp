@@ -14,7 +14,7 @@ CClient::CClient() :
 
 }
 
-CClient::CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConfig, Servers serv, ParsingRequest* parser) :
+CClient::CClient(std::string NameMethod, std::string uri, int FdClient, ConfigStruct MConfig, Servers* serv, ParsingRequest* parser) :
     _name_location(""), NameMethod(NameMethod), uri(uri), FdClient(FdClient), mutableConfig(MConfig), serv(serv), parser(parser),
     SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), chunkSize(0), bytesSent(0),
     response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false),
@@ -51,7 +51,7 @@ void CClient::printInfo() const {
 }
 
 
-string CClient::HandleAllMethod()
+std::string CClient::HandleAllMethod()
 {
     // Check if this is already a CGI request in progress
     if (is_cgi_request && cgi_handler) {
@@ -129,10 +129,10 @@ string CClient::HandleAllMethod()
     }
     else
         return GenerateResErr(405); // Method Not Allowed
-    return string();
+    return std::string();
 }
 
-string CClient::HandleCGIMethod()
+std::string CClient::HandleCGIMethod()
 {
     if (!cgi_handler) {
         return GenerateResErr(500);
@@ -178,7 +178,7 @@ string CClient::HandleCGIMethod()
     }
 }
 
-string CClient::formatCGIResponse(const std::string& cgi_output)
+std::string CClient::formatCGIResponse(const std::string& cgi_output)
 {
     if (cgi_output.empty()) {
         return GenerateResErr(500);

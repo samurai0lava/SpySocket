@@ -1,6 +1,8 @@
 #include "../include/server.hpp"
 #include "../inc/webserv.hpp"
 
+Servers* Servers::instance = NULL;
+
 void Servers::getServersFds(Config* configFile, Servers& serv)
 {
     // Servers serv;
@@ -64,14 +66,14 @@ void Servers::epollFds(Servers& serv)
 {
     int epollFd = epoll_create1(0);
     if (epollFd == -1)
-        throw runtime_error("Error creating epoll!");
+        throw std::runtime_error("Error creating epoll!");
     struct epoll_event event;
-    memset(&event, 0, sizeof(event));
-    for (vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
+    ft_memset(&event, 0, sizeof(event));
+    for (std::vector<int>::iterator it = serv.serversFd.begin(); it != serv.serversFd.end(); it++)
     {
         if (set_non_blocking(*it) == -1)
         {
-            cerr << "Error : Cannot set non blocking mode on : " << *it << " (server's fd)!\n";
+            std::cerr << "Error : Cannot set non blocking mode on : " << *it << " (server's fd)!\n";
             close(*it);
             continue;
         }
@@ -81,7 +83,7 @@ void Servers::epollFds(Servers& serv)
 
         if (epoll_ctl(epollFd, EPOLL_CTL_ADD, *it, &event) == -1)
         {
-            cerr << "Cannot add server " << *it << " to epoll!\n";
+            std::cerr << "Cannot add server " << *it << " to epoll!\n";
             close(*it);
             continue;
         }
@@ -95,8 +97,8 @@ void Servers::epollFds(Servers& serv)
     std::map<int, ParsingRequest*> clientParsers;
 
     int i = -1;
-
-    while (true)
+    is_running = true;
+    while (is_running)
     {
         i++;
         int ready_fds = epoll_wait(epollFd, events, 10, EPOLL_TIMEOUT);
@@ -139,7 +141,7 @@ void Servers::epollFds(Servers& serv)
 
             // Modify the client fd to EPOLLOUT to send the response
             epoll_event ev;
-            memset(&ev, 0, sizeof(ev));
+            ft_memset(&ev, 0, sizeof(ev));
             ev.events = EPOLLOUT;
             ev.data.fd = client_fd;
             epoll_ctl(epollFd, EPOLL_CTL_MOD, client_fd, &ev);
@@ -167,7 +169,7 @@ void Servers::epollFds(Servers& serv)
                 }
 
                 epoll_event client_ev;
-                memset(&client_ev, 0, sizeof(client_ev));
+                ft_memset(&client_ev, 0, sizeof(client_ev));
                 client_ev.events = EPOLLIN;
                 client_ev.data.fd = client_fd;
                 if (epoll_ctl(epollFd, EPOLL_CTL_ADD, client_fd, &client_ev) == -1)
@@ -217,7 +219,7 @@ void Servers::epollFds(Servers& serv)
 
                                 // Set client fd to EPOLLOUT for sending response
                                 epoll_event ev;
-                                memset(&ev, 0, sizeof(ev));
+                                ft_memset(&ev, 0, sizeof(ev));
                                 ev.events = EPOLLOUT;
                                 ev.data.fd = client_fd;
                                 epoll_ctl(epollFd, EPOLL_CTL_MOD, client_fd, &ev);
@@ -235,7 +237,7 @@ void Servers::epollFds(Servers& serv)
             if (events[i].events & EPOLLIN)
             {
                 //Timeout for the request
-                // memset(serv.buffer, 0, READ_SIZE);
+                // ft_memset(serv.buffer, 0, READ_SIZE);
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
@@ -245,7 +247,7 @@ void Servers::epollFds(Servers& serv)
                     if (serv.bufferLength == 0)
                         std::cout << "Client disconnected.";
                     else
-                        cerr << "Error occured while reading sent data!";
+                        std::cerr << "Error occured while reading sent data!";
 
                     // Clean up CGI resources if any
                     if (client_data_map.find(fd) != client_data_map.end()) {
@@ -296,7 +298,7 @@ void Servers::epollFds(Servers& serv)
                     // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     access_log(*parser);
-                    handleMethod(fd, parser, config, serv, client_data_map[fd]);
+                    handleMethod(fd, parser, config, client_data_map[fd]);
 
                     // Check if this became a CGI request
                     if (client_data_map[fd].is_cgi_request && client_data_map[fd].cgi_handler) {
@@ -304,7 +306,7 @@ void Servers::epollFds(Servers& serv)
                         if (cgi_fd >= 0) {
                             // Add CGI fd to epoll for reading
                             epoll_event cgi_ev;
-                            memset(&cgi_ev, 0, sizeof(cgi_ev));
+                            ft_memset(&cgi_ev, 0, sizeof(cgi_ev));
                             cgi_ev.events = EPOLLIN;
                             cgi_ev.data.fd = cgi_fd;
                             if (epoll_ctl(epollFd, EPOLL_CTL_ADD, cgi_fd, &cgi_ev) != -1) {
@@ -315,20 +317,16 @@ void Servers::epollFds(Servers& serv)
                                 std::cerr << "Failed to add CGI fd to epoll" << std::endl;
                             }
                         }
-                        // Don't set ready_to_respond yet - wait for CGI to complete
                         continue;
                     }
                     else {
                         c.ready_to_respond = true;
                         epoll_event ev;
-                        memset(&ev, 0, sizeof(ev));
+                        ft_memset(&ev, 0, sizeof(ev));
                         ev.events = EPOLLOUT;
                         ev.data.fd = fd;
                         epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                     }
-
-                    // Don't reset parser here - reset it after response is sent
-                    // parser->reset();
                 }
                 else if (result == ParsingRequest::PARSE_AGAIN)
                 {
@@ -336,30 +334,25 @@ void Servers::epollFds(Servers& serv)
                 }
                 else if (result == ParsingRequest::PARSE_ERROR_RESULT)
                 {
-                    // Handle any error result - send the error response
                     std::cout << "Error Code: " << parser->getErrorCode() << " - " << parser->getErrorMessage() << std::endl;
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     c.response = errorResponse;
                     c.ready_to_respond = true;
                     epoll_event ev;
-                    memset(&ev, 0, sizeof(ev));
+                    ft_memset(&ev, 0, sizeof(ev));
                     ev.events = EPOLLOUT;
                     ev.data.fd = fd;
                     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
-                    // Proper cleanup
                     if (clientParsers.find(fd) != clientParsers.end()) {
                         delete clientParsers[fd];
                         clientParsers.erase(fd);
                     }
-                    // Note: Don't erase from other maps here as we still need to send the response
                 }
 
             }
             else if (events[i].events & EPOLLOUT)
             {
                 //timeout for the response?
-
-                // Check if client still exists in our maps
                 if (client_data_map.find(fd) == client_data_map.end() ||
                     clients.find(fd) == clients.end()) {
                     std::cout << "Client fd " << fd << " no longer exists, skipping EPOLLOUT" << std::endl;
@@ -421,7 +414,7 @@ void Servers::epollFds(Servers& serv)
                         {
                             // std::cout << GREEN "Finished sending response to fd : " << fd << RESET << std::endl;
                             epoll_event ev;
-                            memset(&ev, 0, sizeof(ev));
+                            ft_memset(&ev, 0, sizeof(ev));
                             ev.events = EPOLLIN; // Reset to listen for new requests
                             ev.data.fd = fd;
                             client_data_map[fd] = CClient();
@@ -435,7 +428,7 @@ void Servers::epollFds(Servers& serv)
                         // {
                         //     // For non-chunked responses, also reset for keep-alive
                         //     epoll_event ev;
-                        //     memset(&ev, 0, sizeof(ev));
+                        //     ft_memset(&ev, 0, sizeof(ev));
                         //     ev.events = EPOLLIN;
                         //     ev.data.fd = fd;
                         //     client_data_map[fd] = CClient();
@@ -503,7 +496,7 @@ void Servers::epollFds(Servers& serv)
                         c.ready_to_respond = false;
                         // std::cout << "Finished sending response to fd : " << fd << std::endl;
                         epoll_event ev;
-                        memset(&ev, 0, sizeof(ev));
+                        ft_memset(&ev, 0, sizeof(ev));
                         ev.events = EPOLLIN; // Reset to listen for new requests
                         ev.data.fd = fd;
                         // Reset client data for keep-alive instead of erasing

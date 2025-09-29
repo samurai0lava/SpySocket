@@ -8,16 +8,19 @@ int main(int argc, char** argv)
     try
     {
         config->StartToSet(parseArgv(argc, argv));
-        Servers serv;
-        serv.getServersFds(config, serv);
-        serv.epollFds(serv);
+        Servers* serv = Servers::getInstance();
+        handle_signal();
+        serv->getServersFds(config, *serv);
+        serv->epollFds(*serv);
     }
     catch (std::exception& e)
     {
         std::cout << e.what() << std::endl;
         delete config;
+        Servers::destroyInstance();
         return (EXIT_FAILURE);
     }
     delete config;
+    Servers::destroyInstance();
 }
 

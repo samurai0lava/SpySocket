@@ -75,7 +75,7 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
 
                 if (server.location[i].second.allowedMethods.find("GET") == server.location[i].second.allowedMethods.end())
                 {
-                    throw runtime_error("Error 405 Method Not Allowed");
+                    throw std::runtime_error("Error 405 Method Not Allowed");
                 }
                 this->client._name_location = server.location[i].first;
                 // printLocationStruct(server.location[i].second);
@@ -175,14 +175,14 @@ std::string Get::buildHttpHeaders(const std::string& path, size_t fileSize)
     oss << "Content-Length: " << fileSize << "\r\n\r\n";
     return oss.str();
 }
-string Get::pathIsFile(string matchLocation)
+std::string Get::pathIsFile(std::string matchLocation)
 {
     this->client.filePath = matchLocation;
 
     // Get file size using stat
     struct stat fileStat;
     if (stat(matchLocation.c_str(), &fileStat) == -1) {
-        cerr << "Error getting file stats!" << endl;
+        std::cerr << "Error getting file stats!" << std::endl;
         return GenerateResErr(500);
     }
 
@@ -201,7 +201,7 @@ string Get::pathIsFile(string matchLocation)
             client.Chunked = true;
             client.fileFd = open(client.filePath.c_str(), O_RDONLY);
             if (client.fileFd == -1) {
-                cerr << "Error opening file for chunked sending!" << endl;
+                std::cerr << "Error opening file for chunked sending!" << std::endl;
                 return GenerateResErr(500);
             }
             else
@@ -211,16 +211,16 @@ string Get::pathIsFile(string matchLocation)
         return (setupChunkedSending(client.filePath));
     }
 
-    ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
+    std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
     {
-        string finalResponse = GenerateResErr(500);
+        std::string finalResponse = GenerateResErr(500);
         return (finalResponse);
     }
-    stringstream buffer;
+    std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
-    ostringstream response;
+    std::ostringstream response;
     response << "HTTP/1.1 200 OK \r\n";
     response << "Date: ";
     response << ft_time_format();
@@ -233,39 +233,39 @@ string Get::pathIsFile(string matchLocation)
     return (response.str());
 }
 
-string Get::handleDirectoryWithIndex(string indexPath)
+std::string Get::handleDirectoryWithIndex(std::string indexPath)
 {
-    ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
+    std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
         return (GenerateResErr(500));
-    stringstream buffer;
+    std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
 
-    ostringstream response;
+    std::ostringstream response;
     response << "HTTP/1.1 200 OK\r\n";
     response << "Content-Type: " << this->getMimeType(indexPath) << "\r\n";
     response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
     return (response.str());
 }
-string Get::handleDirectoryWithAutoIndex(string matchLocation)
+std::string Get::handleDirectoryWithAutoIndex(std::string matchLocation)
 {
-    string listing = this->generateAutoIndex(matchLocation);
-    ostringstream response;
+    std::string listing = this->generateAutoIndex(matchLocation);
+    std::ostringstream response;
     response << "HTTP/1.1 200 OK\r\n";
     response << "Content-Type: " << "text/html" << "\r\n";
     response << "Content-Length: " << listing.size() << "\r\n\r\n";
     response << listing;
     return (response.str());
 }
-string Get::MethodGet()
+std::string Get::MethodGet()
 {
     if (this->client.uri.empty()) {
         std::cerr << "Empty URI in GET method" << std::endl;
         return (GenerateResErr(400));
     }
-    string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
+    std::string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->client.mutableConfig.location.size(); i++)
@@ -290,15 +290,15 @@ string Get::MethodGet()
     }
     if (!this->pathExists(matchedLocation))
     {
-        string finalResponce = GenerateResErr(404);
-        return (finalResponce);
+        std::string finalResponse = GenerateResErr(404);
+        return (finalResponse);
     }
     if (this->isFile(matchedLocation)) {
         return(pathIsFile(matchedLocation));
     }
     else if (this->isDirectory(matchedLocation))
     {
-        string indexPath = matchedLocation + "/" + locationMatched.indexPage;
+        std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath))
             return(pathIsFile(indexPath));
         else if (locationMatched.autoIndex == true)
@@ -308,7 +308,7 @@ string Get::MethodGet()
 }
 
 
-string Get::setupChunkedSending(const std::string& filePath)
+std::string Get::setupChunkedSending(const std::string& filePath)
 {
     if (this->client.SendHeader == false)
     {
@@ -328,7 +328,7 @@ string Get::setupChunkedSending(const std::string& filePath)
     else
     {
         char buffer[this->client.chunkSize + 1];
-        memset(buffer, 0, this->client.chunkSize + 1);
+        ft_memset(buffer, 0, this->client.chunkSize + 1);
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
@@ -373,7 +373,7 @@ void Get::printLocationStruct(const LocationStruct& loc)
     std::cout << "  }" << std::endl;
 }
 
-string Get::buildRedirectResponse(int statusCode, const std::string& target)
+std::string Get::buildRedirectResponse(int statusCode, const std::string& target)
 {
     std::ostringstream oss;
     std::string statusMessage = (statusCode == 301) ? "Moved Permanently" :

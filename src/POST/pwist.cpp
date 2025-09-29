@@ -1,7 +1,7 @@
 #include "../../inc/POST.hpp"
 #include "../../inc/webserv.hpp"
 
-std::string generate_filename(string type, string termination)
+std::string generate_filename(std::string type, std::string termination)
 {
     std::string result;
     static int counter = 0;
@@ -16,7 +16,7 @@ std::string generate_filename(string type, string termination)
 }
 
 
-string handle_upload(LocationStruct& location, ParsingRequest& parser)
+std::string handle_upload(LocationStruct& location, ParsingRequest& parser)
 {
     if (location.upload_enabled == false)
     {
@@ -93,8 +93,8 @@ string handle_upload(LocationStruct& location, ParsingRequest& parser)
     // else some error occured with stat
     else
     {
-        cout << location.upload_path << endl;
-        cout << RED "111111111111111\n" RESET ;
+        std::cout << location.upload_path << std::endl;
+        std::cout << RED "111111111111111\n" RESET ;
         return internal_error();
     }
     std::fstream file(filename.c_str(), std::ios::out);
@@ -138,34 +138,34 @@ std::vector<std::string> split(std::string s, std::string delimiters)
 	return (tokens);
 }
 
-string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
+std::string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
 {
-    string body = parser.getBody();
+    std::string body = parser.getBody();
 
-    vector<string> tokens = split(body, "&");
-    vector<string> pairs;
-    for(vector<string>::iterator it = tokens.begin(); it != tokens.end(); it++)
+    std::vector<std::string> tokens = split(body, "&");
+    std::vector<std::string> pairs;
+    for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++)
     {
         pairs = split((*it), "=");
         //check if there is a possiblity that we can assign to "" (e.g name="")
         location.url_encoded.insert(std::make_pair(pairs[0], pairs[1]));
     }
-    string res_body = "";
-    for(map<string, string>::iterator it = location.url_encoded.begin(); it != location.url_encoded.end(); it++)
+    std::string res_body = "";
+    for (std::map<std::string, std::string>::iterator it = location.url_encoded.begin(); it != location.url_encoded.end(); it++)
         res_body += (*it).first + " : " + (*it).second + "\r\n";
 
     return OK_200(res_body);
 }
 
-string main_response(LocationStruct &location, ParsingRequest &parser)
+std::string main_response(LocationStruct &location, ParsingRequest &parser)
 {
-    string body = parser.getBody();
-    string filename = "";
-    if(parser.getHeaders()["content-type-value"].find("image") != string::npos)
+    std::string body = parser.getBody();
+    std::string filename = "";
+    if (parser.getHeaders()["content-type-value"].find("image") != std::string::npos)
     {
         filename = generate_filename("image_", ".png");
     }
-    else if(parser.getHeaders()["content-type-value"].find("video") != string::npos)
+    else if (parser.getHeaders()["content-type-value"].find("video") != std::string::npos)
     {
         filename = generate_filename("video_", ".mp4");
     }
@@ -211,11 +211,11 @@ string main_response(LocationStruct &location, ParsingRequest &parser)
     return created_success();
 }
 
-string	postMethod(string uri, ConfigStruct config,
+std::string postMethod(std::string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
-    string response = "";
-    
+    std::string response = "";
+
     // cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
     try
     {
@@ -247,7 +247,7 @@ string	postMethod(string uri, ConfigStruct config,
             response = main_response(location.second, parser);
 
     }
-    catch (exception& e)
+    catch (std::exception& e)
     {
         std::string error_msg = e.what();
         if (error_msg.find("Method not allowed") != std::string::npos)

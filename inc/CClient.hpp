@@ -17,7 +17,7 @@ public:
     std::string uri;
     int FdClient;
     ConfigStruct mutableConfig;
-    Servers serv;
+    Servers *serv;
     ParsingRequest* parser;
     bool SendHeader;
     bool readyToSendAllResponse;
@@ -40,13 +40,13 @@ public:
     
     // bool               
     CClient();
-    CClient(string NameMethod, string uri, int FdClient, ConfigStruct MConfig,
-        Servers serv, ParsingRequest* parser);
+    CClient(std::string NameMethod, std::string uri, int FdClient, ConfigStruct MConfig,
+        Servers *serv, ParsingRequest* parser);
     ~CClient();
-    // string setupChunkedSending(const std::string & filePath);
-    string HandleAllMethod();
-    string HandleCGIMethod();
-    string formatCGIResponse(const std::string& cgi_output);
+    // std::string setupChunkedSending(const std::std::string & filePath);
+    std::string HandleAllMethod();
+    std::string HandleCGIMethod();
+    std::string formatCGIResponse(const std::string& cgi_output);
     // std::string GenerateResErr(int errorCode);
     void printInfo() const;
 
