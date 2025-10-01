@@ -18,7 +18,7 @@
 #include <sys/stat.h>
 #include <map>
 #include <signal.h>
-#define READ_SIZE 8000
+#define READ_SIZE 65536  // Increased from 8000 to 64KB for large file uploads
 
 void ft_memset(void* b, int c, size_t len);
 
@@ -64,7 +64,7 @@ public:
     char* getBuffer() {
         return buffer;
     }
-    size_t getBufferLength() const{
+    size_t getBufferLength() const {
         return bufferLength;
     }
     std::vector<int> serversFd;

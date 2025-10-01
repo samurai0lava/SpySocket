@@ -24,9 +24,13 @@ private:
     int error_code; // Error code for CGI errors
     std::string error_message; // Error message for CGI errors
 
+    std::string get_interpreter(const std::string& script_path);
+    bool send_post_data(int fd, const std::string& body_data);
+
 public:
     CGI();
     ~CGI();
+
     bool set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request);
     bool execute(std::map<std::string, std::string>& env_vars);
     bool execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data);
@@ -46,23 +50,6 @@ public:
     int get_error_code() const { return error_code; }
     std::string get_error_message() const { return error_message; }
     bool is_cgi_timeout(int timeout_seconds);
-
-private:
-    std::string get_interpreter(const std::string& script_path);
-    bool send_post_data(int fd, const std::string& body_data);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 #endif

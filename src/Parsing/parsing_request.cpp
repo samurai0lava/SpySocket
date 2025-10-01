@@ -701,35 +701,77 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 bool ParsingRequest::parse_body()
 {
     std::string method = start_line.at("method");
-
     
-    // GET, HEAD, DELETE typically don't have request bodies
+    // std::cout << "=== PARSE_BODY DEBUG ===" << std::endl;
+    // std::cout << "Method: " << method << std::endl;
+    // std::cout << "Buffer length: " << buffer.length() << std::endl;
+    // std::cout << "Buffer position (start): " << buffer_pos << std::endl;
+    // std::cout << "Expected body length: " << expected_body_length << std::endl;
+    // std::cout << "Transfer encoding exists: " << transfer_encoding_exists << std::endl;
+    // std::cout << "Content length exists: " << content_lenght_exists << std::endl;
+    
+
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
+        std::cout << "Method " << method << " - no body expected, returning true" << std::endl;
         return true;
     }
 
     if (method == "POST") 
 	{
-		// std::cout << RED "POST" RESET << std::endl;
         if (transfer_encoding_exists == 1) 
-		{
-            std::string temp_buffer = buffer.substr(buffer_pos);
-			std::cout << "***********\n";
-			write(1, temp_buffer.data(), temp_buffer.length());
-			std::cout << "***BUFFER_END***\n";
-            std::string processed_data;
-            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
-                body_content = processed_data;
+		{   
+            // std::cout << "CHUNKED TRANSFER - buffer size: " << buffer.length() << std::endl;
+            // std::cout << "CHUNKED TRANSFER - last processed size: " << chunked_last_processed_size << std::endl;
+            // std::cout << "CHUNKED TRANSFER - current accumulated size: " << chunked_accumulated_data.length() << std::endl;
+            
+            // Check if we have new data since last call
+            if (buffer.length() <= chunked_last_processed_size) {
+                // std::cout << "CHUNKED - No new data, checking completion status" << std::endl;
+                std::string dummy;
+                bool is_complete = refactor_data(dummy, NULL, (size_t)-1);
+                if (is_complete) {
+                    std::cout << "CHUNKED - Transfer complete! Final accumulated size: " << chunked_accumulated_data.length() << std::endl;
+                    body_content = chunked_accumulated_data;
+                    buffer_pos = buffer.length();
+                    chunked_last_processed_size = 0; // Reset for next request
+                    chunked_accumulated_data.clear(); // Reset for next request
+                    return true;
+                }                
+                // std::cout << "CHUNKED - Still waiting for more data" << std::endl;
+                return false;
+            }
+            
+            // Process only the new data since last call
+            size_t new_data_start = chunked_last_processed_size;
+            size_t new_data_size = buffer.length() - new_data_start;
+
+            // std::cout << "CHUNKED - Processing new data from position " << new_data_start << std::endl;
+            // std::cout << "CHUNKED - New data size: " << new_data_size << std::endl;
+
+            const char* new_data = buffer.c_str() + new_data_start;
+            
+            // Use the persistent accumulation buffer
+            if (refactor_data(chunked_accumulated_data, new_data, new_data_size)) {
+                // Transfer complete - chunked_accumulated_data now contains ALL processed chunks
+                body_content = chunked_accumulated_data;
+                std::cout << "CHUNKED - Transfer completed! Final body size: " << body_content.length() << std::endl;
                 buffer_pos = buffer.length();
+                chunked_last_processed_size = 0; // Reset for next request
+                chunked_accumulated_data.clear(); // Reset for next request
                 return true;
             }
-            return false;
+            else {
+                chunked_last_processed_size = buffer.length();
+                return false;
+            }
         }
 		else if (content_lenght_exists == 1) 
 		{
             size_t available = buffer.length() - buffer_pos;
-            if (available < expected_body_length)
+            if (available < expected_body_length) {
                 return false;
+            }
+            
             body_content = buffer.substr(buffer_pos, expected_body_length);
             buffer_pos += expected_body_length;
             return true;
@@ -851,6 +893,8 @@ void ParsingRequest::reset()
     buffer.clear();
     buffer_pos = 0;
     expected_body_length = 0;
+    chunked_last_processed_size = 0;
+    chunked_accumulated_data.clear();
     current_state = PARSE_START_LINE;
     connection_status = 1;
     content_lenght_exists = 0;

@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         })
         .then(data => {
-            showStatus('success', `File uploaded successfully! Server response: ${data}`);
+            showStatus('success', `File uploaded successfully!`);
             // Clear file after successful upload
             selectedFile = null;
             fileInput.value = '';

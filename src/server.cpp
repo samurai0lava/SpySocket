@@ -124,17 +124,23 @@ void Servers::epollFds(Servers& serv)
             }
             CClient& client_data = client_data_map[client_fd];
             std::cerr << "CGI timeout for client fd " << client_fd << std::endl;
-            client_data.cgi_handler->close_cgi(); // This will kill the process and set error_code to 504
+
+            // Get the CGI fd BEFORE deleting the handler
+            int cgi_fd = -1;
+            if (client_data.cgi_handler) {
+                cgi_fd = client_data.cgi_handler->get_cgi_fd();
+                client_data.cgi_handler->close_cgi();
+                delete client_data.cgi_handler;
+                client_data.cgi_handler = NULL;
+            }
 
             // Remove the CGI fd from epoll if it exists
-            int cgi_fd = client_data.cgi_handler->get_cgi_fd();
             if (cgi_fd >= 0) {
                 epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
                 cgi_fd_to_client_fd.erase(cgi_fd);
             }
 
             // Set the response to 504
-            client_data.cgi_handler = NULL; // We don't need it anymore
             client_data.is_cgi_request = false;
             clients[client_fd].response = GenerateResErr(504);
             clients[client_fd].ready_to_respond = true;

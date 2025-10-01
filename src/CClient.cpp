@@ -55,14 +55,13 @@ void CClient::printInfo() const {
 
 std::string CClient::HandleAllMethod()
 {
-    // Check if this is already a CGI request in progress
     if (is_cgi_request && cgi_handler) {
         return HandleCGIMethod();
     }
     if (!cgi_handler) {
         cgi_handler = new CGI();
     }
-    if (cgi_handler->check_is_cgi(*parser))
+    if (!is_cgi_request && cgi_handler->check_is_cgi(*parser))
     {
         is_cgi_request = true;
 
@@ -95,11 +94,14 @@ std::string CClient::HandleAllMethod()
         //CGI is running, will be handled in subsequent calls
         return "";
     }
-    else
+    else if (!is_cgi_request)
     {
-        cgi_handler->close_cgi();
-        delete cgi_handler;
-        cgi_handler = NULL;
+        // Not a CGI request, clean up the handler we created
+        if (cgi_handler) {
+            cgi_handler->close_cgi();
+            delete cgi_handler;
+            cgi_handler = NULL;
+        }
     }
 
     // Handle non-CGI requests as before
