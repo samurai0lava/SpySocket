@@ -384,8 +384,9 @@ bool refactor_data(std::string& buffer, const char* data, size_t len)
             buffer.append(headers);
         }
         catch (std::exception& e) {
+            access_error(500, "Internal Server Error: Memory allocation failed while appending headers to buffer");
             std::cerr << "Memory allocation failed in refactor_data: 2 " << e.what() << std::endl;
-            return false; // Error occurred
+            return false;
         }
         chunk_buffer.erase(0, headers_end + 4);
     }

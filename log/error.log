@@ -144,3 +144,14 @@
 [2025-10-01 14:12:57] [INFO] Server started on port 1080
 [2025-10-01 14:16:21] [INFO] Server started on port 1080
 [2025-10-01 14:18:02] [INFO] Server started on port 1080
+[2025-10-01 17:08:23] [INFO] Server started on port 1080
+[2025-10-01 17:08:23] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-01 17:36:23] [INFO] Server started on port 1080
+[2025-10-01 17:36:23] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-01 17:37:11] [INFO] Server started on port 1080
+[2025-10-01 17:37:11] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-01 17:39:00] [INFO] Server started on port 1080
+[2025-10-01 17:39:00] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-01 17:43:01] [INFO] Server started on port 1080
+[2025-10-01 17:43:01] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-01 17:44:40] [INFO] Server started on port 1080

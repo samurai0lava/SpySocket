@@ -1257,3 +1257,29 @@
 [2025-10-01 14:18:02] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
 [2025-10-01 14:18:02] GET /cgi-bin/info-dash.py HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
 [2025-10-01 14:18:02] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] [INFO] Server started on port 1080
+[2025-10-01 17:08:23] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:143.0) gecko/20100101 firefox/143.0 keep-alive 
+[2025-10-01 17:08:23] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:36:23] [INFO] Server started on port 1080
+[2025-10-01 17:36:23] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:36:23] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:37:11] [INFO] Server started on port 1080
+[2025-10-01 17:37:11] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:37:11] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:39:00] [INFO] Server started on port 1080
+[2025-10-01 17:39:00] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:39:00] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:43:01] [INFO] Server started on port 1080
+[2025-10-01 17:44:40] [INFO] Server started on port 1080
+[2025-10-01 17:44:40] POST /uploads HTTP/1.1 localhost:1080 
+[2025-10-01 17:44:40] POST /uploads HTTP/1.1 localhost:1080 
