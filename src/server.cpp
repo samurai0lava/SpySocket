@@ -300,17 +300,14 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    // cout << buffer << endl;
-                    // printRequestInfo(*parser, fd);
+                    printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     access_log(*parser);
                     handleMethod(fd, parser, config, client_data_map[fd]);
-
-                    // Check if this became a CGI request
+                    // If it's a CGI request, set up the CGI fd in epoll
                     if (client_data_map[fd].is_cgi_request && client_data_map[fd].cgi_handler) {
                         int cgi_fd = client_data_map[fd].cgi_handler->get_cgi_fd();
                         if (cgi_fd >= 0) {
-                            // Add CGI fd to epoll for reading
                             epoll_event cgi_ev;
                             ft_memset(&cgi_ev, 0, sizeof(cgi_ev));
                             cgi_ev.events = EPOLLIN;

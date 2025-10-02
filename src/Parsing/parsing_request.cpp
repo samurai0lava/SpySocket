@@ -701,18 +701,8 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 bool ParsingRequest::parse_body()
 {
     std::string method = start_line.at("method");
-    
-    // std::cout << "=== PARSE_BODY DEBUG ===" << std::endl;
-    // std::cout << "Method: " << method << std::endl;
-    // std::cout << "Buffer length: " << buffer.length() << std::endl;
-    // std::cout << "Buffer position (start): " << buffer_pos << std::endl;
-    // std::cout << "Expected body length: " << expected_body_length << std::endl;
-    // std::cout << "Transfer encoding exists: " << transfer_encoding_exists << std::endl;
-    // std::cout << "Content length exists: " << content_lenght_exists << std::endl;
-    
 
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
-        std::cout << "Method " << method << " - no body expected, returning true" << std::endl;
         return true;
     }
 
@@ -720,39 +710,24 @@ bool ParsingRequest::parse_body()
 	{
         if (transfer_encoding_exists == 1) 
 		{   
-            // std::cout << "CHUNKED TRANSFER - buffer size: " << buffer.length() << std::endl;
-            // std::cout << "CHUNKED TRANSFER - last processed size: " << chunked_last_processed_size << std::endl;
-            // std::cout << "CHUNKED TRANSFER - current accumulated size: " << chunked_accumulated_data.length() << std::endl;
-            
             // Check if we have new data since last call
             if (buffer.length() <= chunked_last_processed_size) {
-                // std::cout << "CHUNKED - No new data, checking completion status" << std::endl;
                 std::string dummy;
                 bool is_complete = refactor_data(dummy, NULL, (size_t)-1);
                 if (is_complete) {
-                    std::cout << "CHUNKED - Transfer complete! Final accumulated size: " << chunked_accumulated_data.length() << std::endl;
+                    std::cout << GREEN "CHUNKED - Transfer complete! Final accumulated size: " RESET << chunked_accumulated_data.length() << std::endl;
                     body_content = chunked_accumulated_data;
                     buffer_pos = buffer.length();
-                    chunked_last_processed_size = 0; // Reset for next request
-                    chunked_accumulated_data.clear(); // Reset for next request
+                    chunked_last_processed_size = 0;
+                    chunked_accumulated_data.clear();
                     return true;
                 }                
-                // std::cout << "CHUNKED - Still waiting for more data" << std::endl;
                 return false;
             }
-            
-            // Process only the new data since last call
             size_t new_data_start = chunked_last_processed_size;
             size_t new_data_size = buffer.length() - new_data_start;
-
-            // std::cout << "CHUNKED - Processing new data from position " << new_data_start << std::endl;
-            // std::cout << "CHUNKED - New data size: " << new_data_size << std::endl;
-
             const char* new_data = buffer.c_str() + new_data_start;
-            
-            // Use the persistent accumulation buffer
             if (refactor_data(chunked_accumulated_data, new_data, new_data_size)) {
-                // Transfer complete - chunked_accumulated_data now contains ALL processed chunks
                 body_content = chunked_accumulated_data;
                 std::cout << "CHUNKED - Transfer completed! Final body size: " << body_content.length() << std::endl;
                 buffer_pos = buffer.length();
@@ -819,8 +794,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
-			std::cout << "> " << getHeaders()["content-length"] << std::endl;
-			// For POST requests, always try to parse body regardless of expected_body_length
 			{
 				std::string method = start_line.at("method");
 				if (method == "POST" || expected_body_length > 0)

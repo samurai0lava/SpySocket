@@ -5,7 +5,7 @@ void handle_sigint(int sig)
 {
     (void)sig; // Unused parameter
     std::cout << "\n╔════════════════════════════════════╗" << std::endl;
-    std::cout << "║   🌐 Webserv is shutting down...   ║" << std::endl;
+    std::cout << "║   🌐 SpySocket is shutting down... ║" << std::endl;
     std::cout << "╚════════════════════════════════════╝" << std::endl;
     std::cout << "   ↳ Active sessions closed" << std::endl;
     std::cout << "   ↳ Resources freed" << std::endl;
