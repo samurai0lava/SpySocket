@@ -222,9 +222,9 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
 
 bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
 {
-    char cwd[1024];
+    char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;  // Keep this if getcwd() is forbidden
+    std::string full_script_path = std::string(cwd) + "/www" + script_path;
     std::cout << RED << full_script_path << RESET << std::endl;
 
     if (access(full_script_path.c_str(), F_OK) != 0) {
@@ -239,7 +239,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         error_code = 403;
         error_message = "CGI script not executable: " + full_script_path;
         access_error(error_code, error_message);
-        std::cerr << "CGI script not executable: " + full_script_path << std::endl;
+        std::cerr << "CGI script not executable: " << full_script_path << std::endl;
         return false;
     }
 
@@ -276,6 +276,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 
     if (cgi_pid == 0) {
         // Child process
+        std::cerr.flush();
         close(pipe_in[1]);
         close(pipe_out[0]);
 
@@ -284,17 +285,19 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
             perror("dup2 failed in child");
             exit(EXIT_FAILURE);
         }
+        std::cerr.flush();
 
         close(pipe_in[0]);
         close(pipe_out[1]);
         std::string script_dir = full_script_path.substr(0, full_script_path.find_last_of('/'));
+        std::cerr.flush();
         if (chdir(script_dir.c_str()) != 0) {
-            access_error(500, "Internal Server Error: chdir failed");
             perror("chdir failed");
         }
 
         std::vector<char*> argv;
         std::string interpreter = get_interpreter(full_script_path);
+        std::cerr.flush();
 
         if (!interpreter.empty()) {
             argv.push_back(const_cast<char*>(interpreter.c_str()));
@@ -305,12 +308,24 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         }
         argv.push_back(NULL);
 
+        for (size_t i = 0; i < argv.size() - 1; ++i) {
+            std::cerr << "'" << argv[i] << "' ";
+        }
+        std::cerr << std::endl;
+        std::cerr.flush();
+
+        std::cerr.flush();
+
         if (!interpreter.empty()) {
+            std::cerr.flush();
             execve(interpreter.c_str(), &argv[0], &envp[0]);
         }
         else {
+            std::cerr.flush();
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
+
+        std::cerr.flush();
         access_error(500, "Internal Server Error: execve failed");
         perror("execve failed");
         exit(EXIT_FAILURE);
@@ -327,8 +342,8 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         if (flags != -1) {
             fcntl(cgi_fd, F_SETFL, flags | O_NONBLOCK);
         }
-
-        if (!body_data.empty()) {
+        if (!body_data.empty())
+        {
             if (!send_post_data(input_fd, body_data)) {
                 close(input_fd);
                 close(cgi_fd);
@@ -338,8 +353,9 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
             }
         }
         close(input_fd);
-    }
 
+        // Add a small delay to let the server main loop handle the CGI fd
+    }
     return true;
 }
 
@@ -363,14 +379,19 @@ void CGI::close_cgi()
 
 std::string CGI::get_interpreter(const std::string& script_path)
 {
-    if (script_path.find(".py") != std::string::npos)
+
+    if (script_path.find(".py") != std::string::npos) {
         return "/usr/bin/python3";
-    else if (script_path.find(".pl") != std::string::npos)
+    }
+    else if (script_path.find(".pl") != std::string::npos) {
         return "/usr/bin/perl";
-    else if (script_path.find(".php") != std::string::npos)
+    }
+    else if (script_path.find(".php") != std::string::npos) {
         return "/usr/bin/php";
-    else if (script_path.find(".sh") != std::string::npos)
+    }
+    else if (script_path.find(".sh") != std::string::npos) {
         return "/bin/bash";
+    }
 
     //if the file ends with a .cgi or its a binary
     // we need to check shebang eg : #!/bin/bash
@@ -397,11 +418,13 @@ std::string CGI::get_interpreter(const std::string& script_path)
 
 bool CGI::send_post_data(int fd, const std::string& body_data)
 {
-    if (body_data.empty())
+    if (body_data.empty()) {
         return true;
+    }
 
     size_t total_sent = 0;
     size_t data_size = body_data.length();
+
 
     while (total_sent < data_size)
     {
@@ -427,8 +450,9 @@ bool CGI::is_cgi_timeout(int timeout_seconds)
 }
 bool CGI::read_output()
 {
-    if (cgi_fd < 0)
+    if (cgi_fd < 0) {
         return false;
+    }
 
     char buffer[8192];
     ssize_t bytes_read = read(cgi_fd, buffer, sizeof(buffer) - 1);
@@ -437,7 +461,6 @@ bool CGI::read_output()
     {
         buffer[bytes_read] = '\0';
         output_buffer.append(buffer, bytes_read);
-        std::cout << "CGI Output (" << bytes_read << " bytes): [" << std::string(buffer, bytes_read) << "]" << std::endl;
         return true;
     }
     else if (bytes_read == 0)
