@@ -234,3 +234,11 @@
 [2025-10-03 15:01:49] Error: 500 - Internal Server Error: epoll_wait failed!
 [2025-10-03 15:04:56] [INFO] Server started on port 1080
 [2025-10-03 15:23:41] [INFO] Server started on port 1080
+[2025-10-05 18:09:13] [INFO] Server started on port 1080
+[2025-10-05 18:09:13] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-05 18:16:37] [INFO] Server started on port 1080
+[2025-10-05 18:20:27] [INFO] Server started on port 1080
+[2025-10-05 18:20:27] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-10-05 18:20:27] Error: 500 - Internal Server Error: Memory allocation failed while appending data to buffer
+[2025-10-05 20:17:54] [INFO] Server started on port 1080
+[2025-10-05 20:17:54] Error: 500 - Internal Server Error: epoll_wait failed!

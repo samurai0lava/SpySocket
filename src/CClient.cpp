@@ -55,28 +55,21 @@ void CClient::printInfo() const {
 
 std::string CClient::HandleAllMethod()
 {
-    std::cout << "[CGI DEBUG] HandleAllMethod called for URI: " << uri << std::endl;
 
     if (is_cgi_request && cgi_handler) {
-        std::cout << "[CGI DEBUG] Continuing existing CGI request" << std::endl;
         return HandleCGIMethod();
     }
 
     if (!cgi_handler) {
-        std::cout << "[CGI DEBUG] Creating new CGI handler" << std::endl;
         cgi_handler = new CGI();
     }
 
-    std::cout << "[CGI DEBUG] Checking if request is CGI..." << std::endl;
     if (!is_cgi_request && cgi_handler->check_is_cgi(*parser))
     {
-        std::cout << "[CGI DEBUG] Request identified as CGI!" << std::endl;
         is_cgi_request = true;
 
         std::map<std::string, std::string> env_vars;
-        std::cout << "[CGI DEBUG] Setting environment variables..." << std::endl;
         if (!cgi_handler->set_env_var(env_vars, *parser)) {
-            std::cout << "[CGI DEBUG] Failed to set environment variables" << std::endl;
             cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
@@ -85,46 +78,33 @@ std::string CClient::HandleAllMethod()
         }
 
         bool success = false;
-        std::cout << "[CGI DEBUG] Executing CGI with method: " << this->NameMethod << std::endl;
         if (this->NameMethod == "POST") {
-            std::cout << "[CGI DEBUG] Executing CGI with POST body (length: " << parser->getBody().length() << ")" << std::endl;
             success = cgi_handler->execute_with_body(env_vars, parser->getBody());
         }
         else {
-            std::cout << "[CGI DEBUG] Executing CGI without body" << std::endl;
             success = cgi_handler->execute(env_vars);
         }
 
         if (!success) {
             int error_code = cgi_handler->get_error_code();
-            std::cout << "[CGI DEBUG] CGI execution failed with error code: " << error_code << std::endl;
             cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
             return GenerateResErr(error_code > 0 ? error_code : 500);
         }
-
-        std::cout << "[CGI DEBUG] CGI execution started successfully, returning empty string to continue" << std::endl;
-        //CGI is running, will be handled in subsequent calls
         return "";
     }
     else if (!is_cgi_request)
     {
-        std::cout << "[CGI DEBUG] Not a CGI request, cleaning up handler" << std::endl;
-        // Not a CGI request, clean up the handler we created
         if (cgi_handler) {
             cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
         }
     }
-
-    std::cout << "[CGI DEBUG] Handling non-CGI request with method: " << this->NameMethod << std::endl;
-    // Handle non-CGI requests as before
     if (this->NameMethod == "GET")
     {
-
         Get _MGet(*this);
         try {
             return (_MGet.MethodGet());
@@ -159,15 +139,12 @@ std::string CClient::HandleAllMethod()
 std::string CClient::HandleCGIMethod()
 {
     if (!cgi_handler) {
-        std::cout << "[CGI DEBUG] No cgi_handler found" << std::endl;
         return GenerateResErr(500);
     }
 
-    std::cout << "[CGI DEBUG] HandleCGIMethod called for client " << FdClient << std::endl;
 
     // Check for CGI timeout
     if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
-        std::cout << "[CGI DEBUG] CGI timeout detected" << std::endl;
         cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
@@ -177,20 +154,12 @@ std::string CClient::HandleCGIMethod()
 
     int status;
     pid_t cgi_pid = cgi_handler->get_cgi_pid();
-    std::cout << "[CGI DEBUG] CGI PID: " << cgi_pid << std::endl;
 
     pid_t result = waitpid(cgi_pid, &status, WNOHANG);
-    std::cout << "[CGI DEBUG] waitpid result: " << result << " (expected: " << cgi_pid << " for completion)" << std::endl;
 
     std::string current_output = cgi_handler->get_output_buffer();
-    std::cout << "[CGI DEBUG] Current output length: " << current_output.length() << std::endl;
-    if (!current_output.empty()) {
-        std::cout << "[CGI DEBUG] Output preview (first 100 chars): "
-            << current_output.substr(0, std::min((size_t)100, current_output.length())) << std::endl;
-    }
 
     if (result == -1) {
-        std::cout << "[CGI DEBUG] waitpid failed (result == -1)" << std::endl;
         cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
@@ -198,117 +167,67 @@ std::string CClient::HandleCGIMethod()
         return GenerateResErr(500);
     }
     else if (result == cgi_pid) {
-        std::cout << "[CGI DEBUG] CGI process finished!" << std::endl;
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
-            std::cout << "[CGI DEBUG] CGI process exited with error. WIFEXITED: "
-                << WIFEXITED(status) << ", WEXITSTATUS: " << WEXITSTATUS(status) << std::endl;
             cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
             return GenerateResErr(500);
         }
-
-        std::cout << "[CGI DEBUG] CGI process exited successfully, reading remaining output..." << std::endl;
-        // Read any remaining output
         int read_attempts = 0;
         while (cgi_handler->read_output() && read_attempts < 10) {
             read_attempts++;
-            std::cout << "[CGI DEBUG] Read attempt " << read_attempts << std::endl;
         }
-
         std::string cgi_output = cgi_handler->get_output_buffer();
-        std::cout << "[CGI DEBUG] Final CGI output length: " << cgi_output.length() << std::endl;
-
-        if (cgi_output.empty()) {
-            std::cout << "[CGI DEBUG] ERROR: CGI output is empty!" << std::endl;
-        }
-        else {
-            std::cout << "[CGI DEBUG] CGI output first 200 chars: "
-                << cgi_output.substr(0, std::min((size_t)200, cgi_output.length())) << std::endl;
-        }
         cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;
-
-        std::cout << "[CGI DEBUG] Formatting CGI response..." << std::endl;
-        // Parse CGI output and build HTTP response
         return formatCGIResponse(cgi_output);
     }
     else {
-        std::cout << "[CGI DEBUG] CGI process still running (result=0), continuing to read..." << std::endl;
-        // Process is still running, continue reading output
-        bool read_success = cgi_handler->read_output();
-        std::cout << "[CGI DEBUG] Read attempt success: " << read_success << std::endl;
-
-        // Check if we have complete output even though process is still running
+        cgi_handler->read_output();
         if (!current_output.empty() && current_output.find("Content-Type:") != std::string::npos) {
-            // Look for end of headers
             size_t header_end = current_output.find("\r\n\r\n");
             if (header_end == std::string::npos) {
                 header_end = current_output.find("\n\n");
             }
-
             if (header_end != std::string::npos) {
-                // We have headers, check if this looks like complete HTML
                 if (current_output.find("</html>") != std::string::npos ||
                     current_output.find("<!DOCTYPE html>") != std::string::npos) {
-                    std::cout << "[CGI DEBUG] Detected complete HTML output, terminating CGI early" << std::endl;
-
-                    // Force terminate the CGI process since it seems complete
                     cgi_handler->close_cgi();
-
                     std::string cgi_output = current_output;
                     delete cgi_handler;
                     cgi_handler = NULL;
                     is_cgi_request = false;
-
                     return formatCGIResponse(cgi_output);
                 }
             }
         }
-
         return ""; // Process still running, continue reading
     }
 }
 
 std::string CClient::formatCGIResponse(const std::string& cgi_output)
 {
-    std::cout << "[CGI DEBUG] formatCGIResponse called with output length: " << cgi_output.length() << std::endl;
-
     if (cgi_output.empty()) {
-        std::cout << "[CGI DEBUG] ERROR: CGI output is empty in formatCGIResponse!" << std::endl;
         return GenerateResErr(500);
     }
-
-    // Find the end of headers (double CRLF)
     size_t headers_end = cgi_output.find("\r\n\r\n");
     if (headers_end == std::string::npos) {
         headers_end = cgi_output.find("\n\n");
         if (headers_end == std::string::npos) {
-            std::cout << "[CGI DEBUG] ERROR: Could not find header separator in CGI output!" << std::endl;
             return GenerateResErr(500);
         }
         headers_end += 2;
-        std::cout << "[CGI DEBUG] Found header separator (\\n\\n) at position: " << headers_end << std::endl;
     }
     else {
         headers_end += 4;
-        std::cout << "[CGI DEBUG] Found header separator (\\r\\n\\r\\n) at position: " << headers_end << std::endl;
     }
 
     std::string cgi_headers = cgi_output.substr(0, headers_end);
     std::string cgi_body = cgi_output.substr(headers_end);
-
-    std::cout << "[CGI DEBUG] Parsed headers length: " << cgi_headers.length() << std::endl;
-    std::cout << "[CGI DEBUG] Parsed body length: " << cgi_body.length() << std::endl;
-    std::cout << "[CGI DEBUG] Headers content: " << cgi_headers << std::endl;
-
-    // Build HTTP response
     std::string response = "HTTP/1.1 200 OK\r\n";
-
-    // Parse and add CGI headers
     std::istringstream header_stream(cgi_headers);
     std::string line;
     bool has_content_type = false;
@@ -327,13 +246,9 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
 
         response += line + "\r\n";
     }
-
-    // Add default content-type if not present
     if (!has_content_type) {
         response += "Content-Type: text/html\r\n";
     }
-
-    // Add content-length
     std::ostringstream content_length_ss;
     content_length_ss << cgi_body.length();
     response += "Content-Length: " + content_length_ss.str() + "\r\n";
@@ -343,9 +258,6 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
     response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n\r\n";
     response += cgi_body;
-
-    std::cout << "[CGI DEBUG] Final response length: " << response.length() << std::endl;
-    std::cout << "[CGI DEBUG] Returning formatted CGI response" << std::endl;
     return response;
 }
 
