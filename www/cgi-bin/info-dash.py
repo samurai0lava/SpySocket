@@ -187,12 +187,6 @@ print("""<!DOCTYPE html>
 
 # Current time
 print("<div class='info-section'>Current Time: <span style='color: #40E0D0;'>{}</span></div>".format(time.ctime()))
-try:
-    hostname = socket.gethostname()
-    username = os.getenv("USER") or os.getenv("LOGNAME") or "unknown"
-    print("<div class='info-section'>Hostname: <span style='color: #40E0D0;'>{}</span> | User: <span style='color: #40E0D0;'>{}</span></div>".format(hostname, username))
-except Exception:
-    print("<div class='info-section'>Host/User: <span style='color: #FF6B6B;'>(unavailable)</span></div>")
 
 
 
@@ -263,24 +257,6 @@ try:
     print("</div>")
 except Exception:
     print("<div class='info-section'>Memory: <span style='color: #FF6B6B;'>(unavailable)</span></div>")
-# Disk usage
-try:
-    df_output = subprocess.check_output(["df", "-h", "/"]).decode().splitlines()[1]
-    size, used, avail, percent = df_output.split()[1:5]
-    print("<div class='info-section'>Disk Usage (/): <span style='color: #40E0D0;'>{} used / {} total ({}) free</span></div>".format(used, size, avail))
-except Exception:
-    print("<div class='info-section'>Disk Usage: <span style='color: #FF6B6B;'>(unavailable)</span></div>")
-
-# Top 5 processes by CPU usage
-try:
-    ps_output = subprocess.check_output(["ps", "-eo", "pid,comm,%cpu,%mem", "--sort=-%cpu"]).decode().splitlines()[1:6]
-    print("<div class='info-section'>Top Processes:</div><pre style='margin-left:120px; color:#40E0D0;'>")
-    print(" PID   CMD          CPU%   MEM%")
-    for line in ps_output:
-        print(" " + line)
-    print("</pre>")
-except Exception:
-    print("<div class='info-section'>Top Processes: <span style='color: #FF6B6B;'>(unavailable)</span></div>")  
 
 print("""
     </div> <!-- Close centered container -->

@@ -211,7 +211,6 @@ void Servers::epollFds(Servers& serv)
                         CClient& client_data = client_data_map[client_fd];
                         if (client_data.cgi_handler && events[i].events & EPOLLIN) {
                             client_data.cgi_handler->read_output();
-
                             // Check if CGI process finished
                             std::string cgi_response = client_data.HandleCGIMethod();
                             if (!cgi_response.empty()) {
@@ -230,12 +229,13 @@ void Servers::epollFds(Servers& serv)
                                 ev.data.fd = client_fd;
                                 epoll_ctl(epollFd, EPOLL_CTL_MOD, client_fd, &ev);
                             }
+                            else {
+                                // CGI still running, waiting for more output
+                            }
                         }
                     }
                     continue;
                 }
-
-                std::cout << "Client fd " << fd << " no longer exists, skipping event" << std::endl;
                 continue;
             }
 
@@ -250,10 +250,11 @@ void Servers::epollFds(Servers& serv)
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 if (serv.bufferLength <= 0)
                 {
-                    if (serv.bufferLength == 0)
-                        std::cout << "Client disconnected.";
-                    else
-                        std::cerr << "Error occured while reading sent data!";
+                    if (serv.bufferLength == 0) {
+                        std::cout << "Client disconnected on fd " << fd << std::endl;
+                    } else {
+                        std::cerr << "Error occurred while reading from fd " << fd << ": " << strerror(errno) << std::endl;
+                    }
 
                     // Clean up CGI resources if any
                     if (client_data_map.find(fd) != client_data_map.end()) {
@@ -300,7 +301,7 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    printRequestInfo(*parser, fd);
+                    // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     access_log(*parser);
                     handleMethod(fd, parser, config, client_data_map[fd]);
@@ -314,7 +315,6 @@ void Servers::epollFds(Servers& serv)
                             cgi_ev.data.fd = cgi_fd;
                             if (epoll_ctl(epollFd, EPOLL_CTL_ADD, cgi_fd, &cgi_ev) != -1) {
                                 cgi_fd_to_client_fd[cgi_fd] = fd;
-                                std::cout << "Added CGI fd " << cgi_fd << " to epoll for client " << fd << std::endl;
                             }
                             else {
                                 std::cerr << "Failed to add CGI fd to epoll" << std::endl;
@@ -358,7 +358,6 @@ void Servers::epollFds(Servers& serv)
                 //timeout for the response?
                 if (client_data_map.find(fd) == client_data_map.end() ||
                     clients.find(fd) == clients.end()) {
-                    std::cout << "Client fd " << fd << " no longer exists, skipping EPOLLOUT" << std::endl;
                     continue;
                 }
 
@@ -427,21 +426,21 @@ void Servers::epollFds(Servers& serv)
                             }
                             epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
                         }
-                        // else
-                        // {
-                        //     // For non-chunked responses, also reset for keep-alive
-                        //     epoll_event ev;
-                        //     ft_memset(&ev, 0, sizeof(ev));
-                        //     ev.events = EPOLLIN;
-                        //     ev.data.fd = fd;
-                        //     client_data_map[fd] = CClient();
-                        //     client_data_map[fd].FdClient = fd;
-                        //     // Reset parser for next request on keep-alive connection
-                        //     if (clientParsers.find(fd) != clientParsers.end()) {
-                        //         clientParsers[fd]->reset();
-                        //     }
-                        //     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
-                        // }
+                        else
+                        {
+                            // For non-chunked responses, also reset for keep-alive
+                            epoll_event ev;
+                            ft_memset(&ev, 0, sizeof(ev));
+                            ev.events = EPOLLIN;
+                            ev.data.fd = fd;
+                            client_data_map[fd] = CClient();
+                            client_data_map[fd].FdClient = fd;
+                            // Reset parser for next request on keep-alive connection
+                            if (clientParsers.find(fd) != clientParsers.end()) {
+                                clientParsers[fd]->reset();
+                            }
+                            epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                        }
 
                     }
                 }

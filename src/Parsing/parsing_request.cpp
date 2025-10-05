@@ -263,6 +263,18 @@ bool ParsingRequest::parse_headers()
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 	{
+		// Check if we've accumulated too much data without finding header end
+		const size_t MAX_HEADER_SIZE = 8192; // 8KB for headers
+		if (buffer.length() > MAX_HEADER_SIZE)
+		{
+			connection_status = 0;
+			error_code = 431;
+			error_message = "Request Header Fields Too Large: Headers exceed 8KB limit";
+			current_state = PARSE_ERROR;
+			access_error(error_code, error_message);
+			buffer.clear(); // Clear buffer to prevent memory leak
+			return false;
+		}
 		return false;
 	}
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
@@ -759,10 +771,19 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
+	const size_t MAX_BUFFER_SIZE = 10 * 1024 * 1024;
+	if (buffer.length() + len > MAX_BUFFER_SIZE)
+	{
+		error_code = 413;
+		error_message = "Payload Too Large: Request exceeds maximum allowed size";
+		current_state = PARSE_ERROR;
+		access_error(error_code, error_message);
+		buffer.clear();
+		return PARSE_ERROR_RESULT;
+	}
 
 	try{
 		buffer.append(data, len );
-		
 	}
 	catch(std::exception& e)
 	{
@@ -770,6 +791,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
 		current_state = PARSE_ERROR;
 		access_error(error_code, error_message);
+		buffer.clear(); // Clear buffer to prevent memory leak
 		return PARSE_ERROR_RESULT;
 	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)

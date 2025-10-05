@@ -1,4 +1,5 @@
 #include "../../inc/Get.hpp"
+#include <cstdlib> // for std::strtoul
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -186,29 +187,79 @@ std::string Get::pathIsFile(std::string matchLocation)
         return GenerateResErr(500);
     }
 
-   // Check if file is larger than 1MB, use chunked sending
-    if (fileStat.st_size > 1024 * 1024)
-    {
-        
-        if (client.intialized == false)
-        {
-            client.intialized = true;
-            client.chunkSize = 1024;
-            client.bytesSent = 0;
-            client.fileSize = fileStat.st_size;
-            client.chunkedSending = false;
-            client.SendHeader = false;
-            client.Chunked = true;
-            client.fileFd = open(client.filePath.c_str(), O_RDONLY);
-            if (client.fileFd == -1) {
-                std::cerr << "Error opening file for chunked sending!" << std::endl;
-                return GenerateResErr(500);
-            }
-            else
-                return (setupChunkedSending(client.filePath));
+    // Check for Range header for partial content requests
+    std::map<std::string, std::string> headers = client.parser->getHeaders();
+    bool hasRangeHeader = headers.find("range") != headers.end();
+    size_t rangeStart = 0;
+    size_t rangeEnd = fileStat.st_size - 1;
+    bool isPartialContent = false;
 
+    if (hasRangeHeader) {
+        std::string rangeHeader = headers["range"];
+        if (rangeHeader.find("bytes=") == 0) {
+            std::string rangeSpec = rangeHeader.substr(6); // Remove "bytes="
+            size_t dashPos = rangeSpec.find('-');
+            if (dashPos != std::string::npos) {
+                std::string startStr = rangeSpec.substr(0, dashPos);
+                std::string endStr = rangeSpec.substr(dashPos + 1);
+
+                if (!startStr.empty()) {
+                    rangeStart = std::strtoul(startStr.c_str(), NULL, 10);
+                }
+                if (!endStr.empty()) {
+                    rangeEnd = std::strtoul(endStr.c_str(), NULL, 10);
+                }
+
+                // Validate range
+                if (rangeStart < (size_t)fileStat.st_size && rangeEnd < (size_t)fileStat.st_size && rangeStart <= rangeEnd) {
+                    isPartialContent = true;
+                }
+            }
         }
-        return (setupChunkedSending(client.filePath));
+    }
+
+    // For large files or range requests, use different handling
+    if (fileStat.st_size > 1024 * 1024 || isPartialContent)
+    {
+        std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
+        if (!file.is_open()) {
+            return GenerateResErr(500);
+        }
+
+        // Calculate content length for range
+        size_t contentLength = rangeEnd - rangeStart + 1;
+
+        // Seek to start position
+        file.seekg(rangeStart);
+
+        // Read the requested range
+        std::vector<char> buffer(contentLength);
+        file.read(&buffer[0], contentLength);
+        size_t bytesRead = file.gcount();
+        file.close();
+
+        std::ostringstream response;
+        if (isPartialContent) {
+            response << "HTTP/1.1 206 Partial Content\r\n";
+            response << "Content-Range: bytes " << rangeStart << "-" << (rangeStart + bytesRead - 1) << "/" << fileStat.st_size << "\r\n";
+        }
+        else {
+            response << "HTTP/1.1 200 OK\r\n";
+        }
+
+        response << "Date: " << ft_time_format() << "\r\n";
+        response << "Server: SpySocket/1.0\r\n";
+        response << "Content-Type: " << this->getMimeType(matchLocation) << "\r\n";
+        response << "Content-Length: " << bytesRead << "\r\n";
+        response << "Accept-Ranges: bytes\r\n";
+        response << "Connection: close\r\n\r\n";
+
+        // Add binary data
+        std::string responseStr = response.str();
+        responseStr.append(&buffer[0], bytesRead);
+
+        this->client.chunkedSending = true;
+        return responseStr;
     }
 
     std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
@@ -323,7 +374,7 @@ std::string Get::setupChunkedSending(const std::string& filePath)
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();
-        this->client.SendHeader = true; 
+        this->client.SendHeader = true;
     }
     else
     {

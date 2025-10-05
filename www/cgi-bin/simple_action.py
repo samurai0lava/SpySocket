@@ -3,6 +3,7 @@
 import sys
 import os
 import urllib.parse
+from datetime import datetime
 
 print("Content-Type: text/html")
 print("")
@@ -38,6 +39,8 @@ try:
         
         # Write feedback
         with open(feedback_file, "a", encoding="utf-8") as f:
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            f.write(f"Time: {timestamp}\n")
             f.write(f"Feedback: {feedback}\n---\n")
         
         print("""<!DOCTYPE html>

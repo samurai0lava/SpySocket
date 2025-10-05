@@ -55,15 +55,12 @@ void CClient::printInfo() const {
 
 std::string CClient::HandleAllMethod()
 {
-
     if (is_cgi_request && cgi_handler) {
         return HandleCGIMethod();
     }
-
     if (!cgi_handler) {
         cgi_handler = new CGI();
     }
-
     if (!is_cgi_request && cgi_handler->check_is_cgi(*parser))
     {
         is_cgi_request = true;
@@ -93,18 +90,24 @@ std::string CClient::HandleAllMethod()
             is_cgi_request = false;
             return GenerateResErr(error_code > 0 ? error_code : 500);
         }
+
+        //CGI is running, will be handled in subsequent calls
         return "";
     }
     else if (!is_cgi_request)
     {
+        // Not a CGI request, clean up the handler we created
         if (cgi_handler) {
             cgi_handler->close_cgi();
             delete cgi_handler;
             cgi_handler = NULL;
         }
     }
+
+    // Handle non-CGI requests as before
     if (this->NameMethod == "GET")
     {
+
         Get _MGet(*this);
         try {
             return (_MGet.MethodGet());
@@ -142,7 +145,6 @@ std::string CClient::HandleCGIMethod()
         return GenerateResErr(500);
     }
 
-
     // Check for CGI timeout
     if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
         cgi_handler->close_cgi();
@@ -151,13 +153,10 @@ std::string CClient::HandleCGIMethod()
         is_cgi_request = false;
         return GenerateResErr(504); // Gateway Timeout
     }
-
     int status;
-    pid_t cgi_pid = cgi_handler->get_cgi_pid();
-
-    pid_t result = waitpid(cgi_pid, &status, WNOHANG);
-
+    pid_t result = waitpid(cgi_handler->get_cgi_pid(), &status, WNOHANG);
     std::string current_output = cgi_handler->get_output_buffer();
+    bool has_output = !current_output.empty();
 
     if (result == -1) {
         cgi_handler->close_cgi();
@@ -166,7 +165,7 @@ std::string CClient::HandleCGIMethod()
         is_cgi_request = false;
         return GenerateResErr(500);
     }
-    else if (result == cgi_pid) {
+    else if (result == cgi_handler->get_cgi_pid()) {
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
             cgi_handler->close_cgi();
             delete cgi_handler;
@@ -174,37 +173,38 @@ std::string CClient::HandleCGIMethod()
             is_cgi_request = false;
             return GenerateResErr(500);
         }
-        int read_attempts = 0;
-        while (cgi_handler->read_output() && read_attempts < 10) {
-            read_attempts++;
+
+        // Read any remaining output
+        while (cgi_handler->read_output()) {
+            // Keep reading until no more data
         }
+
         std::string cgi_output = cgi_handler->get_output_buffer();
         cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;
+
+        // Parse CGI output and build HTTP response
         return formatCGIResponse(cgi_output);
     }
     else {
+        // Process is still running, check if we have sufficient output to send response
         cgi_handler->read_output();
-        if (!current_output.empty() && current_output.find("Content-Type:") != std::string::npos) {
-            size_t header_end = current_output.find("\r\n\r\n");
-            if (header_end == std::string::npos) {
-                header_end = current_output.find("\n\n");
+
+        // Only return early if we have complete output (process finished or complete HTML)
+        if (has_output && current_output.find("Content-Type:") != std::string::npos) {
+            // Check if we have a complete response by looking for proper HTML ending or sufficient content
+            size_t double_newline = current_output.find("\n\n");
+            
+            // For large files, don't terminate early based on </html> tag
+            // Only terminate if we have double newline indicating headers are complete
+            // and the process has actually finished
+            if (double_newline != std::string::npos) {
+                // Wait a bit more to ensure we get all the content
+                return ""; // Continue reading
             }
-            if (header_end != std::string::npos) {
-                if (current_output.find("</html>") != std::string::npos ||
-                    current_output.find("<!DOCTYPE html>") != std::string::npos) {
-                    cgi_handler->close_cgi();
-                    std::string cgi_output = current_output;
-                    delete cgi_handler;
-                    cgi_handler = NULL;
-                    is_cgi_request = false;
-                    return formatCGIResponse(cgi_output);
-                }
-            }
-        }
-        return ""; // Process still running, continue reading
+        }        return ""; // Process still running, continue reading
     }
 }
 
@@ -213,6 +213,8 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
     if (cgi_output.empty()) {
         return GenerateResErr(500);
     }
+
+    // Find the end of headers (double CRLF)
     size_t headers_end = cgi_output.find("\r\n\r\n");
     if (headers_end == std::string::npos) {
         headers_end = cgi_output.find("\n\n");
@@ -227,7 +229,11 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
 
     std::string cgi_headers = cgi_output.substr(0, headers_end);
     std::string cgi_body = cgi_output.substr(headers_end);
+
+    // Build HTTP response
     std::string response = "HTTP/1.1 200 OK\r\n";
+
+    // Parse and add CGI headers
     std::istringstream header_stream(cgi_headers);
     std::string line;
     bool has_content_type = false;
@@ -246,9 +252,13 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
 
         response += line + "\r\n";
     }
+
+    // Add default content-type if not present
     if (!has_content_type) {
         response += "Content-Type: text/html\r\n";
     }
+
+    // Add content-length
     std::ostringstream content_length_ss;
     content_length_ss << cgi_body.length();
     response += "Content-Length: " + content_length_ss.str() + "\r\n";
@@ -258,6 +268,7 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
     response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n\r\n";
     response += cgi_body;
+
     return response;
 }
 
