@@ -23,7 +23,7 @@ enum
 };
 
 enum
-{
+{	
 	location_root,
 	location_auto_index,
     method,

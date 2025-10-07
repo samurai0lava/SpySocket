@@ -1,8 +1,10 @@
 CC = c++
 
-FLAGS = -Wall -Wextra -Werror -std=c++98
+FLAGS = -Wall -Wextra -Werror -std=c++98 -g
 
 SRCS = src/main.cpp \
+	src/utils/ft_memset.cpp\
+	src/utils/handleSignals.cpp\
 	src/Parsing/parsing_request.cpp\
 	src/Config.cpp\
 	src/server.cpp\
@@ -16,7 +18,9 @@ SRCS = src/main.cpp \
 	src/POST/pwist.cpp src/POST/match_location.cpp src/POST/unchunk.cpp\
 	src/CClient.cpp src/POST/messages.cpp\
 	src/utils/log_gen.cpp\
-	src/CGI/cgi.cpp src/CGI/cgi_utils.cpp
+	src/utils/CookieManager.cpp\
+	src/CGI/cgi.cpp src/CGI/cgi_utils.cpp\
+
 
 
 

@@ -1,7 +1,7 @@
 #include "../../inc/Get.hpp"
 #include "../../inc/POST.hpp"
 
-string	handle_redirect(std::pair<std::string, LocationStruct> location)
+std::string	handle_redirect(std::pair<std::string, LocationStruct> location)
 {
 	std::string status = (*location.second._return.begin()).first;
 	// Not sure why there is a vector i'll work with the first one for now
@@ -17,7 +17,7 @@ string	handle_redirect(std::pair<std::string, LocationStruct> location)
 		statusMsg = "Permanent Redirect";
 	else
 		statusMsg = "Redirect"; // fallback
-	string response = "HTTP/1.1 " + status + " " + statusMsg +
+	std::string response = "HTTP/1.1 " + status + " " + statusMsg +
 		"\r\n"
 		"Location: " +
 		newLoc +
@@ -27,8 +27,8 @@ string	handle_redirect(std::pair<std::string, LocationStruct> location)
 	return response;
 }
 
-string	handle_notAllowed(std::pair<std::string,
-		LocationStruct> location)
+std::string	handle_notAllowed(std::pair<std::string,
+	LocationStruct> location)
 {
 	std::string res = "HTTP/1.1 405 Method Not Allowed\r\nAllow: ";
 	for (std::set<std::string>::iterator it = location.second.allowedMethods.begin(); it != location.second.allowedMethods.end(); ++it)
@@ -50,81 +50,85 @@ string	handle_notAllowed(std::pair<std::string,
 	return res;
 }
 
-string	notFound()
+std::string notFound()
 {
-	string response = "HTTP/1.1 404 Not Found\r\n"
-						"Content-Type: text/html\r\n"
-						"Content-Length: 48\r\n"
-						"\r\n"
-						"<html><body><h1>404 Not Found</h1></body></html>";
+	std::string response = "HTTP/1.1 404 Not Found\r\n"
+		"Content-Type: text/html\r\n"
+		"Content-Length: 48\r\n"
+		"\r\n"
+		"<html><body><h1>404 Not Found</h1></body></html>";
 	return response;
 }
-string bad_request()
+std::string bad_request()
 {
-    return "HTTP/1.1 400 Bad Request\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 113\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>400 Bad Request</title></head>\n"
-    "<body><h1>400 Bad Request</h1><p>Your request is invalid.</p></body>\n"
-    "</html>\n";
+	return "HTTP/1.1 400 Bad Request\r\n"
+		"Content-Type: text/html; charset=UTF-8\r\n"
+		"Content-Length: 113\r\n"
+		"Connection: close\r\n"
+		"\r\n"
+		"<!DOCTYPE html>\n"
+		"<html>\n"
+		"<head><title>400 Bad Request</title></head>\n"
+		"<body><h1>400 Bad Request</h1><p>Your request is invalid.</p></body>\n"
+		"</html>\n";
 }
 
-string forbidden_403()
+std::string forbidden_403()
 {
-   return "HTTP/1.1 403 Forbidden\r\n"
-						"Content-Type: text/html\r\n"
-						"Content-Length: 112\r\n"
-						"Connection: close\r\n"
-						"\r\n"
-						"<html>"
-						"<head><title>403 Forbidden</title></head>"
-						"<body>"
-						"<h1>Forbidden</h1>"
-						"<p>You don't have permission to access this resource.</p>"
-						"</body>"
-						"</html>";
+	return "HTTP/1.1 403 Forbidden\r\n"
+		"Content-Type: text/html\r\n"
+		"Content-Length: 112\r\n"
+		"Connection: close\r\n"
+		"\r\n"
+		"<html>"
+		"<head><title>403 Forbidden</title></head>"
+		"<body>"
+		"<h1>Forbidden</h1>"
+		"<p>You don't have permission to access this resource.</p>"
+		"</body>"
+		"</html>";
 }
 
-string internal_error()
+std::string internal_error()
 {
-    return "HTTP/1.1 500 Internal Server Error\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 164\r\n"
-    "Connection: close\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>500 Internal Server Error</title></head>\n"
-    "<body><h1>500 Internal Server Error</h1><p>Unexpected server error.</p></body>\n"
-    "</html>\n";
+	return "HTTP/1.1 500 Internal Server Error\r\n"
+		"Content-Type: text/html; charset=UTF-8\r\n"
+		"Content-Length: 164\r\n"
+		"Connection: close\r\n"
+		"\r\n"
+		"<!DOCTYPE html>\n"
+		"<html>\n"
+		"<head><title>500 Internal Server Error</title></head>\n"
+		"<body><h1>500 Internal Server Error</h1><p>Unexpected server error.</p></body>\n"
+		"</html>\n";
 }
 
-string created_success()
+std::string created_success()
 {
-    return "HTTP/1.1 201 Created\r\n"
-    "Content-Type: text/html; charset=UTF-8\r\n"
-    "Content-Length: 142\r\n"
-    "Connection: keep-alive\r\n"
-    "\r\n"
-    "<!DOCTYPE html>\n"
-    "<html>\n"
-    "<head><title>201 Created</title></head>\n"
-    "<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
-    "</html>\n";
+	return "HTTP/1.1 201 Created\r\n"
+		"Content-Type: text/html; charset=UTF-8\r\n"
+		"Content-Length: 142\r\n"
+		"Connection: keep-alive\r\n"
+		"\r\n"
+		"<!DOCTYPE html>\n"
+		"<html>\n"
+		"<head><title>201 Created</title></head>\n"
+		"<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
+		"</html>\n";
 }
 
-std::string OK_200(std::string &body)
+std::string OK_200(std::string& body)
 {
-    std::stringstream ss;
-    ss << "HTTP/1.1 200 OK\r\n"
-       << "Content-Type: text/html; charset=UTF-8\r\n"
-       << "Content-Length: " << body.size() << "\r\n"
-       << "Connection: close\r\n"
-       << "\r\n"
-       << body;
-    return ss.str();
+	std::stringstream ss;
+	ss << "HTTP/1.1 200 OK\r\n"
+		<< "Date: "
+		<< ft_time_format()
+		<< "\r\n"
+		<< "Server: SpySocket/1.0\r\n"
+		<< "Content-Type: text/html; charset=UTF-8\r\n"
+		<< "Content-Length: " << body.size() << "\r\n"
+		<< "Connection: close\r\n"
+		<< "\r\n"
+		<< body;
+	return ss.str();
 }

@@ -1,4 +1,5 @@
 #include "../../inc/Get.hpp"
+#include <cstdlib> // for std::strtoul
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -75,7 +76,7 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
 
                 if (server.location[i].second.allowedMethods.find("GET") == server.location[i].second.allowedMethods.end())
                 {
-                    throw runtime_error("Error 405 Method Not Allowed");
+                    throw std::runtime_error("Error 405 Method Not Allowed");
                 }
                 this->client._name_location = server.location[i].first;
                 // printLocationStruct(server.location[i].second);
@@ -175,94 +176,161 @@ std::string Get::buildHttpHeaders(const std::string& path, size_t fileSize)
     oss << "Content-Length: " << fileSize << "\r\n\r\n";
     return oss.str();
 }
-string Get::pathIsFile(string matchLocation)
+std::string Get::pathIsFile(std::string matchLocation)
 {
     this->client.filePath = matchLocation;
 
     // Get file size using stat
     struct stat fileStat;
     if (stat(matchLocation.c_str(), &fileStat) == -1) {
-        cerr << "Error getting file stats!" << endl;
-        return getErrorPageFromConfig(500);
+        std::cerr << "Error getting file stats!" << std::endl;
+        return GenerateResErr(500);
     }
 
-   // Check if file is larger than 1MB, use chunked sending
-    if (fileStat.st_size > 1024 * 1024)
+    // Check for Range header for partial content requests
+    std::map<std::string, std::string> headers = client.parser->getHeaders();
+    bool hasRangeHeader = headers.find("range") != headers.end();
+    size_t rangeStart = 0;
+    size_t rangeEnd = fileStat.st_size - 1;
+    bool isPartialContent = false;
+
+    if (hasRangeHeader) {
+        std::string rangeHeader = headers["range"];
+        if (rangeHeader.find("bytes=") == 0) {
+            std::string rangeSpec = rangeHeader.substr(6); // Remove "bytes="
+            size_t dashPos = rangeSpec.find('-');
+            if (dashPos != std::string::npos) {
+                std::string startStr = rangeSpec.substr(0, dashPos);
+                std::string endStr = rangeSpec.substr(dashPos + 1);
+
+                if (!startStr.empty()) {
+                    rangeStart = std::strtoul(startStr.c_str(), NULL, 10);
+                }
+                if (!endStr.empty()) {
+                    rangeEnd = std::strtoul(endStr.c_str(), NULL, 10);
+                }
+
+                // Validate range
+                if (rangeStart < (size_t)fileStat.st_size && rangeEnd < (size_t)fileStat.st_size && rangeStart <= rangeEnd) {
+                    isPartialContent = true;
+                }
+            }
+        }
+    }
+
+    // For large files or range requests, use different handling
+    if (fileStat.st_size > 1024 * 1024 || isPartialContent)
     {
         
-        if (client.intialized == false)
-        {
-            client.intialized = true;
-            client.chunkSize = 1024;
-            client.bytesSent = 0;
-            client.fileSize = fileStat.st_size;
-            client.chunkedSending = false;
-            client.SendHeader = false;
-            client.Chunked = true;
-            client.fileFd = open(client.filePath.c_str(), O_RDONLY);
-            if (client.fileFd == -1) {
-                cerr << "Error opening file for chunked sending!" << endl;
-                return getErrorPageFromConfig(500);
-            }
-            else
-                return (setupChunkedSending(client.filePath));
-
+        std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
+        if (!file.is_open()) {
+            return GenerateResErr(500);
         }
-        return (setupChunkedSending(client.filePath));
+
+        // Calculate content length for range
+        size_t contentLength = rangeEnd - rangeStart + 1;
+
+        // Seek to start position
+        file.seekg(rangeStart);
+
+        // Read the requested range
+        std::vector<char> buffer(contentLength);
+        file.read(&buffer[0], contentLength);
+        size_t bytesRead = file.gcount();
+        file.close();
+
+        std::ostringstream response;
+        if (isPartialContent) {
+            response << "HTTP/1.1 206 Partial Content\r\n";
+            response << "Content-Range: bytes " << rangeStart << "-" << (rangeStart + bytesRead - 1) << "/" << fileStat.st_size << "\r\n";
+        }
+        else {
+            response << "HTTP/1.1 200 OK\r\n";
+        }
+        std::cout<<"hello im here \n";
+        response << "Date: " << ft_time_format() << "\r\n";
+        response << "Server: SpySocket/1.0\r\n";
+        
+        //  add id cookie if not present
+        std::string new_id = CookieManager::generateSimpleId();
+        response << CookieManager::generateSetCookieHeader("id", new_id);
+        response << "Content-Type: " << this->getMimeType(matchLocation) << "\r\n";
+        response << "Content-Length: " << bytesRead << "\r\n";
+        response << "Accept-Ranges: bytes\r\n";
+        response << "Connection: close\r\n\r\n";
+
+        // Add binary data
+        std::string responseStr = response.str();
+        responseStr.append(&buffer[0], bytesRead);
+
+        this->client.chunkedSending = true;
+        return responseStr;
     }
 
-    ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
+    std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
     {
-        string finalResponse = getErrorPageFromConfig(500);
+        std::string finalResponse = GenerateResErr(500);
         return (finalResponse);
     }
-    stringstream buffer;
+    std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
-    ostringstream response;
+    std::ostringstream response;
     response << "HTTP/1.1 200 OK \r\n";
+    response << "Date: ";
+    response << ft_time_format();
+    response << "\r\n";
+    response << "Server: SpySocket/1.0\r\n";    
+    // std::string current_id = this->client.parser->getId();
+    // if (current_id.empty()) {
+    std::string new_id = CookieManager::generateSimpleId();
+    response << CookieManager::generateSetCookieHeader("id", new_id);
+    // }
     response << "Content-type: " << this->getMimeType(matchLocation) << "\r\n";
-    // std::cout << RED "Mime TYPPPE" RESET << getMimeType(matchLocation) << std::endl;
     response << "Content-length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
     this->client.chunkedSending = true;
     return (response.str());
 }
 
-string Get::handleDirectoryWithIndex(string indexPath)
+std::string Get::handleDirectoryWithIndex(std::string indexPath)
 {
-    ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
+    std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
-        return (getErrorPageFromConfig(500));
-    stringstream buffer;
+        return (GenerateResErr(500));
+    std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
 
-    ostringstream response;
+    std::ostringstream response;
     response << "HTTP/1.1 200 OK\r\n";
+    std::string new_id = CookieManager::generateSimpleId();
+    response << CookieManager::generateSetCookieHeader("id", new_id);
     response << "Content-Type: " << this->getMimeType(indexPath) << "\r\n";
     response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
     response << buffer.str();
     return (response.str());
 }
-string Get::handleDirectoryWithAutoIndex(string matchLocation)
+std::string Get::handleDirectoryWithAutoIndex(std::string matchLocation)
 {
-    string listing = this->generateAutoIndex(matchLocation);
-    ostringstream response;
+    std::string listing = this->generateAutoIndex(matchLocation);
+    std::ostringstream response;
     response << "HTTP/1.1 200 OK\r\n";
+    std::string new_id = CookieManager::generateSimpleId();
+    response << CookieManager::generateSetCookieHeader("id", new_id);
     response << "Content-Type: " << "text/html" << "\r\n";
     response << "Content-Length: " << listing.size() << "\r\n\r\n";
     response << listing;
     return (response.str());
 }
-string Get::MethodGet()
+std::string Get::MethodGet()
 {
     if (this->client.uri.empty()) {
         std::cerr << "Empty URI in GET method" << std::endl;
-        return (getErrorPageFromConfig(400));
+        return (GenerateResErr(400));
     }
-    string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
+    std::string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->client.mutableConfig.location.size(); i++)
@@ -287,103 +355,31 @@ string Get::MethodGet()
     }
     if (!this->pathExists(matchedLocation))
     {
-        string finalResponce = getErrorPageFromConfig(404);
-        return (finalResponce);
+        std::string finalResponse = GenerateResErr(404);
+        return (finalResponse);
     }
     if (this->isFile(matchedLocation)) {
-        // this->client.parser;
-        
-        // Check if this is a CGI request
-        CGI cgi;
-        bool is_cgi = cgi.check_is_cgi(*this->client.parser);
-        if (is_cgi)
-        {
-            std::map<std::string, std::string> env_vars;
-            if (cgi.set_env_var(env_vars, *this->client.parser))
-            {
-                if (cgi.execute(env_vars))
-                {
-                    if (cgi.read_output())
-                    {
-                        std::string cgi_output = cgi.get_output();
-                        
-                        // Parse CGI output to separate headers and body
-                        size_t header_end = cgi_output.find("\r\n\r\n");
-                        if (header_end == std::string::npos)
-                            header_end = cgi_output.find("\n\n");
-                        
-                        if (header_end != std::string::npos)
-                        {
-                            std::string cgi_headers = cgi_output.substr(0, header_end);
-                            std::string cgi_body = cgi_output.substr(header_end + (cgi_output.find("\r\n\r\n") != std::string::npos ? 4 : 2));
-                            
-                            std::ostringstream response;
-                            response << "HTTP/1.1 200 OK\r\n";
-                            
-                            if (cgi_headers.find("Content-Type:") == std::string::npos)
-                            {
-                                response << "Content-Type: text/html\r\n";
-                            }
-                            
-                            response << cgi_headers << "\r\n";
-                            
-                            if (cgi_headers.find("Content-Length:") == std::string::npos)
-                            {
-                                response << "Content-Length: " << cgi_body.size() << "\r\n";
-                            }
-                            
-                            response << "\r\n" << cgi_body;
-                            
-                            return response.str();
-                        }
-                        else
-                        {
-                            // No proper headers from CGI, treat as plain output
-                            std::ostringstream response;
-                            response << "HTTP/1.1 200 OK\r\n";
-                            response << "Content-Type: text/html\r\n";
-                            response << "Content-Length: " << cgi_output.size() << "\r\n\r\n";
-                            response << cgi_output;
-                            return response.str();
-                        }
-                    }
-                    else
-                    {
-                        return getErrorPageFromConfig(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
-                    }
-                }
-                else
-                {
-                    return getErrorPageFromConfig(cgi.get_error_code() != 0 ? cgi.get_error_code() : 500);
-                }
-            }
-            else
-            {
-                return getErrorPageFromConfig(500);
-            }
-        }
-        
         return(pathIsFile(matchedLocation));
     }
     else if (this->isDirectory(matchedLocation))
     {
-        string indexPath = matchedLocation + "/" + locationMatched.indexPage;
+        std::string indexPath = matchedLocation + "/" + locationMatched.indexPage;
         if (this->pathExists(indexPath) && this->isFile(indexPath))
             return(pathIsFile(indexPath));
         else if (locationMatched.autoIndex == true)
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
     }
-    return (getErrorPageFromConfig(403));
+    return (GenerateResErr(403));
 }
 
 
-string Get::setupChunkedSending(const std::string& filePath)
+std::string Get::setupChunkedSending(const std::string& filePath)
 {
     if (this->client.SendHeader == false)
     {
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
-            return getErrorPageFromConfig(500);
+            return GenerateResErr(500);
         }
         this->client.fileSize = s.st_size;
         std::ostringstream oss;
@@ -392,16 +388,16 @@ string Get::setupChunkedSending(const std::string& filePath)
         oss << "Transfer-Encoding: chunked\r\n";
         oss << "\r\n";
         this->client.response = oss.str();
-        this->client.SendHeader = true; 
+        this->client.SendHeader = true;
     }
     else
     {
         char buffer[this->client.chunkSize + 1];
-        memset(buffer, 0, this->client.chunkSize + 1);
+        ft_memset(buffer, 0, this->client.chunkSize + 1);
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
-            return getErrorPageFromConfig(500);
+            return GenerateResErr(500);
         }
         else if (bytesRead == 0) {
             this->client.response = "0\r\n\r\n";
@@ -442,7 +438,7 @@ void Get::printLocationStruct(const LocationStruct& loc)
     std::cout << "  }" << std::endl;
 }
 
-string Get::buildRedirectResponse(int statusCode, const std::string& target)
+std::string Get::buildRedirectResponse(int statusCode, const std::string& target)
 {
     std::ostringstream oss;
     std::string statusMessage = (statusCode == 301) ? "Moved Permanently" :
@@ -455,42 +451,4 @@ string Get::buildRedirectResponse(int statusCode, const std::string& target)
     oss << "Connection: close\r\n\r\n";
 
     return oss.str();
-}
-std::string Get::getErrorPageFromConfig(int statusCode)
-{
-    for (size_t i = 0; i < this->client.mutableConfig.errorPage.size(); ++i)
-    {
-        if (std::atoi(this->client.mutableConfig.errorPage[i].first.c_str()) == statusCode)
-        {
-            std::string errorPagePath = this->client.mutableConfig.root + this->client.mutableConfig.errorPage[i].second;
-            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
-            if (file.is_open())
-            {
-                std::stringstream buffer;
-                buffer << file.rdbuf();
-                file.close();
-                std::ostringstream response;
-                response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
-                response << "Content-Type: text/html\r\n";
-                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
-                response << buffer.str();
-                this->client.chunkedSending = true;
-                return response.str();
-            }
-        }
-    }
-    this->client.chunkedSending = true;
-    return GenerateResErr(statusCode);
-}
-std::string Get::getStatusMessage(int statusCode)
-{
-    switch(statusCode)
-    {
-        case 400: return "Bad Request";
-        case 403: return "Forbidden";
-        case 404: return "Not Found";
-        case 405: return "Method Not Allowed";
-        case 500: return "Internal Server Error";
-        default: return "Error";
-    }
 }

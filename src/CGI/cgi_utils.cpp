@@ -9,10 +9,8 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
         is_cgi = 0;
         return false;
     }
-    
     std::string uri = startLine.at("uri");
-
-    if (uri.find("/cgi_bin/") != 0)
+    if (uri.find("/cgi-bin/") != 0)
     {
         is_cgi = 0;
         return false;
@@ -33,10 +31,10 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
         uri_without_query = uri;
     }
 
-    std::string cgi_prefix = "/cgi_bin/";
+    std::string cgi_prefix = "/cgi-bin/";
     std::string script_part = uri_without_query.substr(cgi_prefix.length());
 
-    // Treat any file in cgi_bin as executable, regardless of extension
+    // Treat any file in cgi-bin as executable, regardless of extension
     // Find the first slash to separate script name from path_info
     size_t slash_pos = script_part.find('/');
     if (slash_pos != std::string::npos)
@@ -49,6 +47,7 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
         script_path = cgi_prefix + script_part;
         path_info = "";
     }
+
     return true;
 }
 

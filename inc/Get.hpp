@@ -15,7 +15,6 @@ public:
     void setupFromClient(const CClient& client) {
         this->client.uri = client.uri;
         this->client.mutableConfig = client.mutableConfig;
-        //  anything else you need
     }
     std::string getMimeType(const std::string& path);
     std::string matchLocation(const std::string& requestPath, const ConfigStruct& server);
@@ -28,9 +27,9 @@ public:
     std::string handleDirectoryWithIndex(std::string indexPath);
     std::string handleDirectoryWithAutoIndex(std::string matchLocation);
     std::string MethodGet();
-    string setupChunkedSending(const std::string& filePath);
+    std::string setupChunkedSending(const std::string& filePath);
     void printLocationStruct(const LocationStruct& loc);
-    string buildRedirectResponse(int statusCode, const std::string& target);
+    std::string buildRedirectResponse(int statusCode, const std::string& target);
     std::string getErrorPageFromConfig(int statusCode);
     std::string getStatusMessage(int statusCode);
 

@@ -53,6 +53,37 @@ std::string generate_error_line(int error_code, const std::string& error_message
     return error_line;
 }
 
+void access_start_server(int port)
+{
+    std::string message;
+    std::ofstream access_log_file("log/access.log", std::ios::app);
+    if (!access_log_file)
+    {
+        std::cerr << "Failed to open access log file" << std::endl;
+        return;
+    }
+    std::ofstream error_log_file("log/error.log", std::ios::app);
+    if (!error_log_file)
+    {
+        std::cerr << "Failed to open error log file" << std::endl;
+        return;
+    }
+    message = "[";
+    message += ft_time_format();
+    message += "] ";
+    message += "[INFO] ";
+    message += "Server started on port ";
+    std::ostringstream oss;
+    oss << port;
+    message += oss.str();
+    message += "\n";
+
+    access_log_file << message;
+    access_log_file.close();
+    error_log_file << message;
+    error_log_file.close();
+}
+
 void access_log(ParsingRequest& request)
 {
     std::string access_message;

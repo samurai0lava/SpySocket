@@ -24,5 +24,5 @@ std::pair<std::string, LocationStruct> get_location(const std::string &requestPa
 	{
 		return (std::make_pair(bestMatch, bestLocation));
 	}
-	return (make_pair("", bestLocation));
+	return (std::make_pair("", bestLocation));
 }

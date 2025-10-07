@@ -263,6 +263,18 @@ bool ParsingRequest::parse_headers()
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 	{
+		// Check if we've accumulated too much data without finding header end
+		const size_t MAX_HEADER_SIZE = 8192; // 8KB for headers
+		if (buffer.length() > MAX_HEADER_SIZE)
+		{
+			connection_status = 0;
+			error_code = 431;
+			error_message = "Request Header Fields Too Large: Headers exceed 8KB limit";
+			current_state = PARSE_ERROR;
+			access_error(error_code, error_message);
+			buffer.clear(); // Clear buffer to prevent memory leak
+			return false;
+		}
 		return false;
 	}
 	headers_str = buffer.substr(buffer_pos, double_crlf - buffer_pos);
@@ -344,14 +356,14 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie")
 			header_map[key] = value;
 	}
 
 	headers = header_map;
 
 
-	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers))
+	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers) || !checkCookie(headers))
 	{
 		current_state = PARSE_ERROR;
 		return false;
@@ -364,19 +376,14 @@ bool ParsingRequest::parse_headers()
 		current_state = PARSE_ERROR;
 		return false;
 	}
-
-	// Check content length for body parsing
 	if (content_lenght_exists == 1)
 	{
-		//wtf is this (transfer encoding you'll never know the size of the body you getting)
-		// std::cout << RED "Aaaaaaaaaaaaaaaaaaaaaaaaaa" RESET << std::endl;
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
 	}
 	else
 		expected_body_length = 0;
-	// printMap(headers);
 	return true;
 }
 
@@ -703,42 +710,55 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 	return true;
 }
 
-//parsing body if available // Cases aaaaaaaaaaaaaaa
 bool ParsingRequest::parse_body()
 {
-
-	// std::cout << RED "TESSSSSSSSSSSSSSSST" RESET << std::endl;
     std::string method = start_line.at("method");
 
-    
-    // GET, HEAD, DELETE typically don't have request bodies
     if (method == "GET" || method == "HEAD" || method == "DELETE") {
         return true;
     }
 
     if (method == "POST") 
 	{
-		// cout << RED "POST" RESET << endl;
         if (transfer_encoding_exists == 1) 
-		{
-            std::string temp_buffer = buffer.substr(buffer_pos);
-			cout << "***********\n";
-			write(1, temp_buffer.data(), temp_buffer.length());
-			cout << "***BUFFER_END***\n";
-            std::string processed_data;
-        
-            if (refactor_data(processed_data, temp_buffer.c_str(), temp_buffer.length())) {
-                body_content = processed_data;
+		{   
+            // Check if we have new data since last call
+            if (buffer.length() <= chunked_last_processed_size) {
+                std::string dummy;
+                bool is_complete = refactor_data(dummy, NULL, (size_t)-1);
+                if (is_complete) {
+                    std::cout << GREEN "CHUNKED - Transfer complete! Final accumulated size: " RESET << chunked_accumulated_data.length() << std::endl;
+                    body_content = chunked_accumulated_data;
+                    buffer_pos = buffer.length();
+                    chunked_last_processed_size = 0;
+                    chunked_accumulated_data.clear();
+                    return true;
+                }                
+                return false;
+            }
+            size_t new_data_start = chunked_last_processed_size;
+            size_t new_data_size = buffer.length() - new_data_start;
+            const char* new_data = buffer.c_str() + new_data_start;
+            if (refactor_data(chunked_accumulated_data, new_data, new_data_size)) {
+                body_content = chunked_accumulated_data;
+                std::cout << "CHUNKED - Transfer completed! Final body size: " << body_content.length() << std::endl;
                 buffer_pos = buffer.length();
+                chunked_last_processed_size = 0; // Reset for next request
+                chunked_accumulated_data.clear(); // Reset for next request
                 return true;
             }
-            return false;
+            else {
+                chunked_last_processed_size = buffer.length();
+                return false;
+            }
         }
 		else if (content_lenght_exists == 1) 
 		{
             size_t available = buffer.length() - buffer_pos;
-            if (available < expected_body_length)
+            if (available < expected_body_length) {
                 return false;
+            }
+            
             body_content = buffer.substr(buffer_pos, expected_body_length);
             buffer_pos += expected_body_length;
             return true;
@@ -751,10 +771,19 @@ bool ParsingRequest::parse_body()
 // Feed data to the parser 
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
+	const size_t MAX_BUFFER_SIZE = 10 * 1024 * 1024;
+	if (buffer.length() + len > MAX_BUFFER_SIZE)
+	{
+		error_code = 413;
+		error_message = "Payload Too Large: Request exceeds maximum allowed size";
+		current_state = PARSE_ERROR;
+		access_error(error_code, error_message);
+		buffer.clear();
+		return PARSE_ERROR_RESULT;
+	}
 
 	try{
 		buffer.append(data, len );
-		
 	}
 	catch(std::exception& e)
 	{
@@ -762,6 +791,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
 		current_state = PARSE_ERROR;
 		access_error(error_code, error_message);
+		buffer.clear(); // Clear buffer to prevent memory leak
 		return PARSE_ERROR_RESULT;
 	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
@@ -774,7 +804,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			{
 				if (current_state == PARSE_ERROR)
 					break;
-				cout << "STAAAAAAAAAAAAAAART\n";
 				return PARSE_AGAIN;
 			}
 			current_state = PARSE_HEADERS;
@@ -787,8 +816,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 					break;
 				return PARSE_AGAIN;
 			}
-			// cout << "---------------> " << getHeaders()["content-length"] << endl;
-			// For POST requests, always try to parse body regardless of expected_body_length
 			{
 				std::string method = start_line.at("method");
 				if (method == "POST" || expected_body_length > 0)
@@ -799,7 +826,6 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 			break;
 
 		case PARSE_BODY:
-			cout << "PARSE BODY CASE ***************\n";
 			if (!parse_body())
 			{
 				if (current_state == PARSE_ERROR)
@@ -862,6 +888,8 @@ void ParsingRequest::reset()
     buffer.clear();
     buffer_pos = 0;
     expected_body_length = 0;
+    chunked_last_processed_size = 0;
+    chunked_accumulated_data.clear();
     current_state = PARSE_START_LINE;
     connection_status = 1;
     content_lenght_exists = 0;
@@ -880,4 +908,46 @@ void ParsingRequest::reset()
     // Reset the static state in refactor_data function
     reset_refactor_data_state();
 }
+
+bool ParsingRequest::checkCookie(const std::map<std::string, std::string>& headers)
+{
+	if (headers.find("cookie") != headers.end())
+	{
+		std::string cookie_string = headers.at("cookie");
+		// std::cout<<"Cookie string: " << cookie_string << std::endl;
+		if (cookie_string.empty())
+			return true;
+		this->headers["cookie"] = cookie_string;
+	}
+	return true;
+}
+
+std::string ParsingRequest::getId() const
+{
+	std::string cookies = getCookies();
+	if (cookies.empty())
+		return "";
 	
+	size_t pos = cookies.find("id=");
+	if (pos == std::string::npos)
+		return "";
+	pos += 3; 
+	size_t end_pos = cookies.find(';', pos);
+	if (end_pos == std::string::npos)
+		end_pos = cookies.length();
+	
+	return cookies.substr(pos, end_pos - pos);
+}
+
+std::string ParsingRequest::generateSetCookieHeader(const std::string& name, const std::string& value) const
+{
+	return "Set-Cookie: " + name + "=" + value + "; Path=/; HttpOnly\r\n";
+}
+
+std::string ParsingRequest::getCookies() const
+{
+	if (headers.find("cookie") != headers.end()) {
+		return headers.at("cookie");
+	}
+	return "";
+}

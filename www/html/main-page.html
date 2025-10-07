@@ -40,9 +40,15 @@
     </header>
     
     <main class="hero-section explore-page">
-        <div class="hero-content">
+        <div class="hero-content-main">
             <div class="hero-center">
-                <img src="img/terminal.gif" alt="Terminal" class="terminal-gif" />
+                <h1 class="hero-title explore-title" >Welcome to SpySocket</h1>
+                <div class="hero-text">
+                    <p class="hero-main-description">
+    This Project is a simple HTTP server written in C++98, designed to help you understand the basics of web servers and HTTP protocols.
+                    </p>
+                    <img src="img/terminal.gif" alt="Terminal" class="terminal-gif" />
+                </div>
                 <p class="hero-description explore-description">
                     Explore the capabilities of SpySocket
                 </p>
@@ -53,7 +59,7 @@
                             <img src="img/recherche.png" alt="CGI" />
                         </div>
                         <h3>System Information</h3>
-                        <p>Test Common Gateway Interface functionality with the system monitoring script.</p>
+                        <p>System monitoring script.</p>
                     </div>
                     
 
@@ -72,14 +78,14 @@
                         <h3>File Upload</h3>
                         <p>Test file upload functionality</p>
                     </div>
-                    <div class="explore-card" onclick="window.location.href='test-delete-page.html'">
-                        <div class="card-icon">
-                            <img src="img/file.png" alt="CGI" />
-                        </div>
-                        <h3 style="color: #FA5F55;">DELETE Endpoint</h3>
-                        <p>Curious about DELETE requests? Try it here (not the best idea though).</p>
+                </div>
+                <div class="explore-card-delete" onclick="window.location.href='feedback-page.html'">
+                    <div class="card-icon">
+                        <img src="img/rate.png" alt="CGI" />
                     </div>
-                    </div>
+                    <h3>Feedback & Suggestions</h3>
+                    <p>Have suggestions or ideas? Let us know!</p>
+                </div>
                 </div>
             </div>
         </div>
@@ -92,12 +98,13 @@
             <div class="decoration-dot dot-5"></div>
         </div>
     </main>
-    
-    <div class="mountain-background">
-        <img src="img/Vector-2.png" alt="Mountain 2" class="mountain mountain-2" />
-        <img src="img/Vector-1.png" alt="Mountain 1" class="mountain mountain-1" />
+    <div id="footer">
+        <div class="mountain-background">
+            <img src="img/Vector-2.png" alt="Mountain 2" class="mountain mountain-2" />
+            <img src="img/Vector-1.png" alt="Mountain 1" class="mountain mountain-1" />
+        </div>
+        <div class="bottom-blue-bar"></div>
     </div>
-    <div class="bottom-blue-bar"></div>
     <script src="script.js"></script>
 </body>
 
