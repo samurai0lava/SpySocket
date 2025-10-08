@@ -18,6 +18,7 @@ SRCS = src/main.cpp \
 	src/POST/pwist.cpp src/POST/match_location.cpp src/POST/unchunk.cpp\
 	src/CClient.cpp src/POST/messages.cpp\
 	src/utils/log_gen.cpp\
+	src/utils/CookieManager.cpp\
 	src/CGI/cgi.cpp src/CGI/cgi_utils.cpp\
 
 
