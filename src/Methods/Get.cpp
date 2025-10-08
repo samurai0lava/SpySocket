@@ -229,7 +229,6 @@ std::string Get::pathIsFile(std::string matchLocation)
 
         // Calculate content length for range
         size_t contentLength = rangeEnd - rangeStart + 1;
-
         // Seek to start position
         file.seekg(rangeStart);
 
@@ -247,11 +246,11 @@ std::string Get::pathIsFile(std::string matchLocation)
         else {
             response << "HTTP/1.1 200 OK\r\n";
         }
-        std::cout<<"hello im here \n";
+     
         response << "Date: " << ft_time_format() << "\r\n";
         response << "Server: SpySocket/1.0\r\n";
         
-        //  add id cookie if not present
+        //  add id cookie 
         std::string new_id = CookieManager::generateSimpleId();
         response << CookieManager::generateSetCookieHeader("id", new_id);
         response << "Content-Type: " << this->getMimeType(matchLocation) << "\r\n";

@@ -110,6 +110,8 @@ std::string DeleteMethode::generate_success_resp()
     response += "\r\n";
     response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n";
+    std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
     response += "\r\n";
     return response;
 }
