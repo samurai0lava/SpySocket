@@ -293,3 +293,9 @@
 [2025-10-08 18:51:42] [INFO] Server started on port 1080
 [2025-10-08 18:51:42] Error: 413 - Payload Too Large: Request exceeds maximum allowed size
 [2025-10-08 18:51:42] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-10 14:50:50] [INFO] Server started on port 1080
+[2025-10-10 14:50:50] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-10 14:52:10] [INFO] Server started on port 1080
+[2025-10-10 14:52:10] Error: 500 - Internal Server Error: epoll_wait failed!
+[2025-10-10 14:55:02] [INFO] Server started on port 1080
+[2025-10-10 14:55:02] Error: 500 - Internal Server Error: epoll_wait failed!
