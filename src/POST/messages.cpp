@@ -17,10 +17,12 @@ std::string	handle_redirect(std::pair<std::string, LocationStruct> location)
 		statusMsg = "Permanent Redirect";
 	else
 		statusMsg = "Redirect"; // fallback
+	std::string new_id = CookieManager::generateSimpleId();
 	std::string response = "HTTP/1.1 " + status + " " + statusMsg +
 		"\r\n"
 		"Location: " +
 		newLoc +
+		CookieManager::generateSetCookieHeader("id", new_id)+
 		"\r\n"
 		"Content-Length: 0\r\n"
 		"\r\n";
@@ -45,6 +47,8 @@ std::string	handle_notAllowed(std::pair<std::string,
 	std::stringstream ss;
 	ss << body.size();
 	res += "Content-Length: " + ss.str() + "\r\n";
+	std::string new_id = CookieManager::generateSimpleId();
+    res += CookieManager::generateSetCookieHeader("id", new_id);
 	res += "\r\n";
 	res += body;
 	return res;
@@ -54,32 +58,39 @@ std::string notFound()
 {
 	std::string response = "HTTP/1.1 404 Not Found\r\n"
 		"Content-Type: text/html\r\n"
-		"Content-Length: 48\r\n"
-		"\r\n"
+		"Content-Length: 48\r\n";
+	std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
+	response +=	"\r\n"
 		"<html><body><h1>404 Not Found</h1></body></html>";
 	return response;
 }
 std::string bad_request()
 {
-	return "HTTP/1.1 400 Bad Request\r\n"
+	std::string response = "HTTP/1.1 400 Bad Request\r\n"
 		"Content-Type: text/html; charset=UTF-8\r\n"
 		"Content-Length: 113\r\n"
-		"Connection: close\r\n"
-		"\r\n"
+		"Connection: close\r\n";
+	std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
+	response +=	"\r\n"
 		"<!DOCTYPE html>\n"
 		"<html>\n"
 		"<head><title>400 Bad Request</title></head>\n"
 		"<body><h1>400 Bad Request</h1><p>Your request is invalid.</p></body>\n"
 		"</html>\n";
+	return response;
 }
 
 std::string forbidden_403()
 {
-	return "HTTP/1.1 403 Forbidden\r\n"
+	std::string response = "HTTP/1.1 403 Forbidden\r\n"
 		"Content-Type: text/html\r\n"
 		"Content-Length: 112\r\n"
-		"Connection: close\r\n"
-		"\r\n"
+		"Connection: close\r\n";
+	std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
+	response +=	"\r\n"
 		"<html>"
 		"<head><title>403 Forbidden</title></head>"
 		"<body>"
@@ -87,38 +98,47 @@ std::string forbidden_403()
 		"<p>You don't have permission to access this resource.</p>"
 		"</body>"
 		"</html>";
+	return response;
 }
 
 std::string internal_error()
 {
-	return "HTTP/1.1 500 Internal Server Error\r\n"
+	std::string response = "HTTP/1.1 500 Internal Server Error\r\n"
 		"Content-Type: text/html; charset=UTF-8\r\n"
 		"Content-Length: 164\r\n"
-		"Connection: close\r\n"
-		"\r\n"
+		"Connection: close\r\n";
+	std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
+	response +=	"\r\n"
 		"<!DOCTYPE html>\n"
 		"<html>\n"
 		"<head><title>500 Internal Server Error</title></head>\n"
 		"<body><h1>500 Internal Server Error</h1><p>Unexpected server error.</p></body>\n"
 		"</html>\n";
+	return response;
 }
 
 std::string created_success()
 {
-	return "HTTP/1.1 201 Created\r\n"
-		"Content-Type: text/html; charset=UTF-8\r\n"
-		"Content-Length: 142\r\n"
-		"Connection: keep-alive\r\n"
-		"\r\n"
-		"<!DOCTYPE html>\n"
-		"<html>\n"
-		"<head><title>201 Created</title></head>\n"
-		"<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n"
-		"</html>\n";
+	std::string response = "HTTP/1.1 201 Created\r\n";
+	response +=	"Content-Type: text/html; charset=UTF-8\r\n";
+	response +=	"Content-Length: 142\r\n";
+	response +=	"Connection: keep-alive\r\n";
+	std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
+	response += "\r\n";
+	response +=	"<!DOCTYPE html>\n";
+	response +=	"<html>\n";
+	response +=	"<head><title>201 Created</title></head>\n";
+	response +=	"<body><h1>201 Created</h1><p>Resource created successfully.</p></body>\n";
+	response +=	"</html>\n";
+	return response;
 }
 
 std::string OK_200(std::string& body)
 {
+	std::string new_id = CookieManager::generateSimpleId();
+
 	std::stringstream ss;
 	ss << "HTTP/1.1 200 OK\r\n"
 		<< "Date: "
@@ -128,6 +148,7 @@ std::string OK_200(std::string& body)
 		<< "Content-Type: text/html; charset=UTF-8\r\n"
 		<< "Content-Length: " << body.size() << "\r\n"
 		<< "Connection: close\r\n"
+		<< CookieManager::generateSetCookieHeader("id", new_id)
 		<< "\r\n"
 		<< body;
 	return ss.str();
