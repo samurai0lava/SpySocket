@@ -15,7 +15,7 @@ private:
     std::string script_path;
     std::string path_info;
     std::string query_string;
-    int cgi_fd; // File descriptor for the CGI process
+    int cgi_fd; // File descriptor for the CGI process  
     pid_t cgi_pid; // Process ID of the CGI process
     time_t cgi_start_time; // Time when CGI process started
     std::string output_buffer; // Buffer to store CGI output
@@ -29,7 +29,7 @@ private:
 
 public:
     CGI();
-    ~CGI();
+    ~CGI(); 
 
     bool set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request);
     bool execute(std::map<std::string, std::string>& env_vars);

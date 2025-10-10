@@ -104,8 +104,16 @@ void Servers::epollFds(Servers& serv)
         int ready_fds = epoll_wait(epollFd, events, 10, EPOLL_TIMEOUT);
         if (ready_fds == -1)
         {
-            access_error(500, "Internal Server Error: epoll_wait failed!");
-            break;
+            if (errno == EINTR)
+            {
+                continue;
+            }
+            else
+            {
+                access_error(500, "Internal Server Error: epoll_wait failed.");
+                perror("epoll_wait");
+                break;
+            }
         }
         std::vector<int> timed_out_clients;
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
