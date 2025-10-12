@@ -3,7 +3,7 @@
 
 void handle_sigint(int sig)
 {
-    (void)sig; // Unused parameter
+    (void)sig;
     std::cout << "\n╔════════════════════════════════════╗" << std::endl;
     std::cout << "║   🌐 SpySocket is shutting down... ║" << std::endl;
     std::cout << "╚════════════════════════════════════╝" << std::endl;
