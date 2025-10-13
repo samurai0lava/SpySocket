@@ -45,7 +45,8 @@ void Servers::getServersFds(Config* configFile, Servers& serv)
             continue;
         }
         std::cout << BLUE "Listening on " RESET << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
-        access_start_server(port);
+        if(DEBUG_MODE == 1)
+            access_start_server(port);
         serv.serversFd.push_back(serverFd);
     }
 }
@@ -311,7 +312,8 @@ void Servers::epollFds(Servers& serv)
                 {
                     // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
-                    access_log(*parser);
+                    if(DEBUG_MODE == 1)
+                        access_log(*parser);
                     handleMethod(fd, parser, config, client_data_map[fd]);
                     // If it's a CGI request, set up the CGI fd in epoll
                     if (client_data_map[fd].is_cgi_request && client_data_map[fd].cgi_handler) {
