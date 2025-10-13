@@ -2513,3 +2513,220 @@ button:focus-visible {
     font-size: 0.9rem;
   }
 }
+
+/* ============================================
+   DARK MODE STYLES
+   ============================================ */
+
+/* Dark Mode Toggle Button */
+.dark-mode-toggle {
+  background: transparent;
+  border: 2px solid #333;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  margin-right: 15px;
+  position: relative;
+}
+
+.dark-mode-toggle:hover {
+  background: rgba(0, 0, 0, 0.05);
+  transform: scale(1.05);
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
+}
+
+.dark-mode-toggle .sun-icon,
+.dark-mode-toggle .moon-icon {
+  position: absolute;
+  transition: all 0.3s ease;
+}
+
+.dark-mode-toggle .sun-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.dark-mode-toggle .moon-icon {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+/* Dark Mode Active State Icons */
+body.dark-mode .dark-mode-toggle .sun-icon {
+  opacity: 0;
+  transform: rotate(180deg);
+}
+
+body.dark-mode .dark-mode-toggle .moon-icon {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+body.dark-mode .dark-mode-toggle {
+  border-color: #fff;
+  color: #fff;
+}
+
+body.dark-mode .dark-mode-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Dark Mode Body & Background */
+body.dark-mode {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+  color: #e4e4e4;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* Dark Mode Header */
+body.dark-mode .main-header {
+  background: rgba(30, 30, 46, 0.95);
+}
+
+body.dark-mode .nav-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e4e4e4;
+}
+
+body.dark-mode .nav-button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+body.dark-mode .nav-text {
+  color: #e4e4e4;
+}
+
+/* Dark Mode Hero Section */
+body.dark-mode .hero-section{
+  background-color: rgba(30, 30, 46, 0.95);
+}
+body.dark-mode .hero-title,
+body.dark-mode .spy-socket-title,
+body.dark-mode .spy,
+body.dark-mode .socket {
+  color: #ffffff;
+  background: #667eea ;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+body.dark-mode .hero-description,
+body.dark-mode .hero-main-description {
+  color: #b8b8b8;
+}
+
+body.dark-mode .explore-title {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Dark Mode Cards */
+body.dark-mode .explore-card,
+body.dark-mode .explore-card-delete {
+  background: rgba(40, 40, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+body.dark-mode .explore-card:hover,
+body.dark-mode .explore-card-delete:hover {
+  background: rgba(50, 50, 70, 0.9);
+  border-color: rgba(102, 126, 234, 0.5);
+  box-shadow: 0 12px 40px rgba(102, 126, 234, 0.3);
+  transform: translateY(-8px);
+}
+
+body.dark-mode .explore-card h3,
+body.dark-mode .explore-card-delete h3 {
+  color: #ffffff;
+}
+
+body.dark-mode .explore-card p,
+body.dark-mode .explore-card-delete p {
+  color: #b8b8b8;
+}
+
+/* Dark Mode Hero Text Box */
+body.dark-mode .hero-text {
+  background: rgba(40, 40, 60, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* Dark Mode Decoration Dots */
+body.dark-mode .decoration-dot {
+  background: rgba(102, 126, 234, 0.3);
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.4);
+}
+
+/* Dark Mode Footer */
+body.dark-mode .bottom-blue-bar {
+  background: linear-gradient(to right, #667eea, #764ba2);
+}
+
+body.dark-mode #footer {
+  background: transparent;
+}
+
+/* Dark Mode Success Container */
+body.dark-mode .success-container {
+  background: rgba(40, 40, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 50px rgba(102, 234, 1, 0.3);
+}
+
+body.dark-mode .success-message {
+  color: #e4e4e4;
+}
+
+/* Dark Mode Forms and Inputs (if any) */
+body.dark-mode input,
+body.dark-mode textarea,
+body.dark-mode select {
+  background: rgba(40, 40, 60, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #e4e4e4;
+}
+
+body.dark-mode input:focus,
+body.dark-mode textarea:focus,
+body.dark-mode select:focus {
+  border-color: rgba(102, 126, 234, 0.6);
+  outline: none;
+}
+
+/* Dark Mode Buttons */
+body.dark-mode button:not(.dark-mode-toggle) {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #ffffff;
+  border: none;
+}
+
+body.dark-mode button:not(.dark-mode-toggle):hover {
+  background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+  transform: translateY(-2px);
+}
+
+/* Dark Mode Card Icons */
+body.dark-mode .card-icon {
+  filter: brightness(1.2);
+}
+
+/* Smooth transitions for dark mode */
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
