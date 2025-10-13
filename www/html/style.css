@@ -2514,14 +2514,14 @@ button:focus-visible {
   }
 }
 
-/* ============================================
-   DARK MODE STYLES
-   ============================================ */
+/* DARK MODE STYLES */
 
 /* Dark Mode Toggle Button */
 .dark-mode-toggle {
-  background: transparent;
-  border: 2px solid #333;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  /* border: 1px solid rgba(255, 255, 255, 0.2); */
   border-radius: 50%;
   width: 45px;
   height: 45px;
@@ -2532,6 +2532,17 @@ button:focus-visible {
   transition: all 0.3s ease;
   margin-right: 15px;
   position: relative;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+}
+
+.dark-mode-toggle:active {
+  transform: scale(0.95);
 }
 
 .dark-mode-toggle:hover {
@@ -2563,6 +2574,7 @@ button:focus-visible {
 body.dark-mode .dark-mode-toggle .sun-icon {
   opacity: 0;
   transform: rotate(180deg);
+  color: #fff;
 }
 
 body.dark-mode .dark-mode-toggle .moon-icon {
@@ -2616,7 +2628,7 @@ body.dark-mode .spy-socket-title,
 body.dark-mode .spy,
 body.dark-mode .socket {
   color: #ffffff;
-  background: #667eea ;
+  background: #ffffff ;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -2628,7 +2640,7 @@ body.dark-mode .hero-main-description {
 }
 
 body.dark-mode .explore-title {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: white;
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
