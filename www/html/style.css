@@ -524,8 +524,8 @@ body.upload-page-body {
 }
 
 .nav-icon {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
 }
 
 .nav-button span {
@@ -2627,7 +2627,6 @@ body.dark-mode .hero-title,
 body.dark-mode .spy-socket-title,
 body.dark-mode .spy,
 body.dark-mode .socket {
-  color: #ffffff;
   background: #ffffff ;
   -webkit-background-clip: text;
   background-clip: text;
@@ -2686,9 +2685,9 @@ body.dark-mode .decoration-dot {
 }
 
 /* Dark Mode Footer */
-body.dark-mode .bottom-blue-bar {
+/* body.dark-mode .bottom-blue-bar {
   background: linear-gradient(to right, #667eea, #764ba2);
-}
+} */
 
 body.dark-mode #footer {
   background: transparent;
