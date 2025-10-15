@@ -311,3 +311,4 @@
 [2025-10-12 14:27:47] [INFO] Server started on port 1080
 [2025-10-12 14:30:33] [INFO] Server started on port 1080
 [2025-10-12 14:31:05] [INFO] Server started on port 1080
+[2025-10-15 10:15:07] Error: 413 - Payload Too Large: Request exceeds maximum allowed size
