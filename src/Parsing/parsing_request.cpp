@@ -2,6 +2,8 @@
 
 
 // NGINX-style incremental parsing implementation
+
+
 int parse_hex(const std::string& s)
 {
 	std::istringstream iss(s);

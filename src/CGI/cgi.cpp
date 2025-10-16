@@ -20,6 +20,11 @@ CGI::~CGI()
     close_cgi();
 }
 
+void CGI::set_location(const LocationStruct& location)
+{
+    this->current_location = location;
+}
+
 bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request)
 {
     this->env_vars.clear();

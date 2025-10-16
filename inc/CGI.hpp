@@ -23,6 +23,7 @@ private:
     int is_cgi; // Flag to indicate if the request is a CGI request
     int error_code; // Error code for CGI errors
     std::string error_message; // Error message for CGI errors
+    LocationStruct current_location; // Current location configuration for extension validation
 
     std::string get_interpreter(const std::string& script_path);
     bool send_post_data(int fd, const std::string& body_data);
@@ -50,6 +51,9 @@ public:
     int get_error_code() const { return error_code; }
     std::string get_error_message() const { return error_message; }
     bool is_cgi_timeout(int timeout_seconds);
+    bool isExtensionAllowed(const std::string& scriptPath, const LocationStruct& location) const;
+    void set_location(const LocationStruct& location);
+
 };
 
 #endif
