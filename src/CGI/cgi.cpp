@@ -382,55 +382,17 @@ void CGI::close_cgi()
     cgi_start_time = 0;  // Reset start time
 }
 
-bool CGI::IsPathAllowed(const std::string& script_path, const LocationStruct& location)
-{
-    // Check if CGI is configured for this location
-    if (location.cgi_path.empty()) {
-        error_code = 403;
-        error_message = "CGI not configured for this location";
-        return false;
-    }
-
-    // Check if the script has an allowed extension
-    if (!location.cgi_ext.empty()) {
-        bool ext_found = false;
-        for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
-            if (script_path.find(location.cgi_ext[i]) != std::string::npos) {
-                ext_found = true;
-                break;
-            }
-        }
-        if (!ext_found) {
-            error_code = 403;
-            error_message = "CGI extension not allowed";
-            return false;
-        }
-    }
-
-    return true;
-}
 
 std::string CGI::get_interpreter(const std::string& script_path, const LocationStruct& location)
 {
-    // First check if CGI is allowed for this path
-    if (location.cgi_path.empty()) {
-        error_code = 403;
-        error_message = "CGI not configured for this location";
-        return "";
-    }
-
-    // Use configured interpreter if available
     if (!location.cgi_path.empty() && !location.cgi_ext.empty()) {
-        // Check if the script extension matches configured extensions
         for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
             if (script_path.find(location.cgi_ext[i]) != std::string::npos) {
-                // Try each configured interpreter path
                 for (size_t j = 0; j < location.cgi_path.size(); ++j) {
                     if (access(location.cgi_path[j].c_str(), X_OK) == 0) {
                         return location.cgi_path[j];
                     }
                 }
-                // If none are executable, return error
                 error_code = 500;
                 error_message = "Configured CGI interpreter not executable";
                 return "";

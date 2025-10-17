@@ -67,13 +67,11 @@ std::string CClient::HandleAllMethod()
 
     if (!is_cgi_request)
     {
-        // Get the matching location for CGI extension validation
-        std::pair<std::string, LocationStruct> location = get_location(uri, mutableConfig);
-        cgi_handler->set_location(location.second);
-        
         if (cgi_handler->check_is_cgi(*parser))
         {
             is_cgi_request = true;
+            std::pair<std::string, LocationStruct> loc_pair = get_location(uri, mutableConfig);
+            LocationStruct location = loc_pair.second;
 
             std::map<std::string, std::string> env_vars;
             if (!cgi_handler->set_env_var(env_vars, *parser)) {
@@ -86,10 +84,10 @@ std::string CClient::HandleAllMethod()
 
             bool success = false;
             if (this->NameMethod == "POST") {
-                success = cgi_handler->execute_with_body(env_vars, parser->getBody());
+                success = cgi_handler->execute_with_body(env_vars, parser->getBody(), location);
             }
             else {
-                success = cgi_handler->execute(env_vars);
+                success = cgi_handler->execute(env_vars, location);
             }
 
             if (!success) {
@@ -103,7 +101,7 @@ std::string CClient::HandleAllMethod()
             return "";
         }
     }
-    
+
     if (!is_cgi_request)
     {
         if (cgi_handler) {
@@ -150,7 +148,7 @@ std::string CClient::HandleCGIMethod()
     if (!cgi_handler) {
         return GenerateResErr(500);
     }
-    
+
     if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
         cgi_handler->close_cgi();
         delete cgi_handler;
