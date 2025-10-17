@@ -1,5 +1,6 @@
 #include "../inc/CClient.hpp"
 #include "../inc/Get.hpp"
+#include "../inc/POST.hpp"
 #include "../inc/webserv.hpp"
 #include <sstream>
 #include <sys/wait.h>
@@ -64,42 +65,46 @@ std::string CClient::HandleAllMethod()
         cgi_handler = new CGI();
     }
 
-    if (!is_cgi_request && cgi_handler->check_is_cgi(*parser))
+    if (!is_cgi_request)
     {
-        is_cgi_request = true;
+        // Get the matching location for CGI extension validation
+        std::pair<std::string, LocationStruct> location = get_location(uri, mutableConfig);
+        cgi_handler->set_location(location.second);
+        
+        if (cgi_handler->check_is_cgi(*parser))
+        {
+            is_cgi_request = true;
 
-        // Get the location configuration for this request
-        std::pair<std::string, LocationStruct> loc_pair = get_location(uri, mutableConfig);
-        LocationStruct location = loc_pair.second;
+            std::map<std::string, std::string> env_vars;
+            if (!cgi_handler->set_env_var(env_vars, *parser)) {
+                cgi_handler->close_cgi();
+                delete cgi_handler;
+                cgi_handler = NULL;
+                is_cgi_request = false;
+                return GenerateResErr(500);
+            }
 
-        std::map<std::string, std::string> env_vars;
-        if (!cgi_handler->set_env_var(env_vars, *parser)) {
-            cgi_handler->close_cgi();
-            delete cgi_handler;
-            cgi_handler = NULL;
-            is_cgi_request = false;
-            return GenerateResErr(500);
-        }
+            bool success = false;
+            if (this->NameMethod == "POST") {
+                success = cgi_handler->execute_with_body(env_vars, parser->getBody());
+            }
+            else {
+                success = cgi_handler->execute(env_vars);
+            }
 
-        bool success = false;
-        if (this->NameMethod == "POST") {
-            success = cgi_handler->execute_with_body(env_vars, parser->getBody(), location);
+            if (!success) {
+                int error_code = cgi_handler->get_error_code();
+                cgi_handler->close_cgi();
+                delete cgi_handler;
+                cgi_handler = NULL;
+                is_cgi_request = false;
+                return GenerateResErr(error_code > 0 ? error_code : 500);
+            }
+            return "";
         }
-        else {
-            success = cgi_handler->execute(env_vars, location);
-        }
-
-        if (!success) {
-            int error_code = cgi_handler->get_error_code();
-            cgi_handler->close_cgi();
-            delete cgi_handler;
-            cgi_handler = NULL;
-            is_cgi_request = false;
-            return GenerateResErr(error_code > 0 ? error_code : 500);
-        }
-        return "";
     }
-    else if (!is_cgi_request)
+    
+    if (!is_cgi_request)
     {
         if (cgi_handler) {
             cgi_handler->close_cgi();
@@ -145,9 +150,7 @@ std::string CClient::HandleCGIMethod()
     if (!cgi_handler) {
         return GenerateResErr(500);
     }
-
-
-    // Check for CGI timeout
+    
     if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
         cgi_handler->close_cgi();
         delete cgi_handler;
@@ -155,14 +158,10 @@ std::string CClient::HandleCGIMethod()
         is_cgi_request = false;
         return GenerateResErr(504); // Gateway Timeout
     }
-
     int status;
     pid_t cgi_pid = cgi_handler->get_cgi_pid();
-
     pid_t result = waitpid(cgi_pid, &status, WNOHANG);
-
     std::string current_output = cgi_handler->get_output_buffer();
-
     if (result == -1) {
         cgi_handler->close_cgi();
         delete cgi_handler;
@@ -208,7 +207,7 @@ std::string CClient::HandleCGIMethod()
                 }
             }
         }
-        return ""; // Process still running, continue reading
+        return ""; //continue reading
     }
 }
 
@@ -238,8 +237,6 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
 
     while (std::getline(header_stream, line)) {
         if (line.empty() || line == "\r") continue;
-
-        // Remove trailing \r if present
         if (!line.empty() && line[line.length() - 1] == '\r') {
             line.erase(line.length() - 1);
         }
