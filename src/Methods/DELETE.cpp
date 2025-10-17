@@ -50,22 +50,29 @@ bool DeleteMethode::CheckAccess(const std::string& uri)
 
 std::string DeleteMethode::PerformDelete(const std::string& uri, const ConfigStruct& config)
 {
+    std::pair<std::string, LocationStruct> location = get_location(uri,
+            config);
+    if (location.first.empty()) {
+        std::string errorResponse = GenerateResErr(404);
+        return errorResponse;
+    }
+    if(!location.second._return.empty())
+    {
+        return handle_redirect(location);
+    }
     if (!checkIfAllowed("DELETE", config, uri)) {
         std::string errorResponse = GenerateResErr(405);
         return errorResponse;
     }
-
     std::string actualPath = mapUriToPath(uri, config);
     if (actualPath.empty()) {
         std::string errorResponse = GenerateResErr(404);
         return errorResponse;
     }
-
     if (!CheckFile(actualPath)) {
         std::string errorResponse = GenerateResErr(404);
         return errorResponse;
     }
-
     if (!CheckisDir(actualPath))
     {
         if (!CheckAccess(actualPath)) {
@@ -110,6 +117,8 @@ std::string DeleteMethode::generate_success_resp()
     response += "\r\n";
     response += "Server: SpySocket/1.0\r\n";
     response += "Connection: close\r\n";
+    std::string new_id = CookieManager::generateSimpleId();
+    response += CookieManager::generateSetCookieHeader("id", new_id);
     response += "\r\n";
     return response;
 }

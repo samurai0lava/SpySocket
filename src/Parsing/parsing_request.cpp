@@ -2,6 +2,8 @@
 
 
 // NGINX-style incremental parsing implementation
+
+
 int parse_hex(const std::string& s)
 {
 	std::istringstream iss(s);
@@ -356,14 +358,14 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type")
+		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie")
 			header_map[key] = value;
 	}
 
 	headers = header_map;
 
 
-	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers))
+	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers) || !checkCookie(headers))
 	{
 		current_state = PARSE_ERROR;
 		return false;
@@ -908,4 +910,46 @@ void ParsingRequest::reset()
     // Reset the static state in refactor_data function
     reset_refactor_data_state();
 }
+
+bool ParsingRequest::checkCookie(const std::map<std::string, std::string>& headers)
+{
+	if (headers.find("cookie") != headers.end())
+	{
+		std::string cookie_string = headers.at("cookie");
+		// std::cout<<"Cookie string: " << cookie_string << std::endl;
+		if (cookie_string.empty())
+			return true;
+		this->headers["cookie"] = cookie_string;
+	}
+	return true;
+}
+
+std::string ParsingRequest::getId() const
+{
+	std::string cookies = getCookies();
+	if (cookies.empty())
+		return "";
 	
+	size_t pos = cookies.find("id=");
+	if (pos == std::string::npos)
+		return "";
+	pos += 3; 
+	size_t end_pos = cookies.find(';', pos);
+	if (end_pos == std::string::npos)
+		end_pos = cookies.length();
+	
+	return cookies.substr(pos, end_pos - pos);
+}
+
+std::string ParsingRequest::generateSetCookieHeader(const std::string& name, const std::string& value) const
+{
+	return "Set-Cookie: " + name + "=" + value + "; Path=/; HttpOnly\r\n";
+}
+
+std::string ParsingRequest::getCookies() const
+{
+	if (headers.find("cookie") != headers.end()) {
+		return headers.at("cookie");
+	}
+	return "";
+}

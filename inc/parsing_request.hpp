@@ -92,6 +92,9 @@ public:
     int getStatusCode() const { return status_code; }
     std::string getStatusPhrase() const { return status_phrase; }
     std::string getQueryString() const { return query_string; }
+    std::string getCookies() const;
+    std::string getId() const;
+    std::string generateSetCookieHeader(const std::string& name, const std::string& value) const;
     bool checkTransferEncoding(const std::map<std::string, std::string>& headers);
     bool checkURI(std::string& uri);
     bool checkVersion(const std::string& verion);

@@ -20,6 +20,11 @@ CGI::~CGI()
     close_cgi();
 }
 
+void CGI::set_location(const LocationStruct& location)
+{
+    this->current_location = location;
+}
+
 bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request)
 {
     this->env_vars.clear();
@@ -93,7 +98,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     return true;
 }
 
-bool CGI::execute(std::map<std::string, std::string>& env_vars)
+bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationStruct& location)
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
@@ -168,7 +173,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         close(pipe_out[1]);
 
         std::vector<char*> argv;
-        std::string interpreter = get_interpreter(full_script_path);
+        std::string interpreter = get_interpreter(full_script_path, location);
 
         if (!interpreter.empty())
         {
@@ -220,7 +225,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     return true;
 }
 
-bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
+bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data, const LocationStruct& location)
 {
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
@@ -296,7 +301,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         }
 
         std::vector<char*> argv;
-        std::string interpreter = get_interpreter(full_script_path);
+        std::string interpreter = get_interpreter(full_script_path, location);
         std::cerr.flush();
 
         if (!interpreter.empty()) {
@@ -377,9 +382,25 @@ void CGI::close_cgi()
     cgi_start_time = 0;  // Reset start time
 }
 
-std::string CGI::get_interpreter(const std::string& script_path)
-{
 
+std::string CGI::get_interpreter(const std::string& script_path, const LocationStruct& location)
+{
+    if (!location.cgi_path.empty() && !location.cgi_ext.empty()) {
+        for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
+            if (script_path.find(location.cgi_ext[i]) != std::string::npos) {
+                for (size_t j = 0; j < location.cgi_path.size(); ++j) {
+                    if (access(location.cgi_path[j].c_str(), X_OK) == 0) {
+                        return location.cgi_path[j];
+                    }
+                }
+                error_code = 500;
+                error_message = "Configured CGI interpreter not executable";
+                return "";
+            }
+        }
+    }
+
+    // Fallback to extension-based detection
     if (script_path.find(".py") != std::string::npos) {
         return "/usr/bin/python3";
     }
@@ -393,8 +414,7 @@ std::string CGI::get_interpreter(const std::string& script_path)
         return "/bin/bash";
     }
 
-    //if the file ends with a .cgi or its a binary
-    // we need to check shebang eg : #!/bin/bash
+    // Check shebang for .cgi or binary files
     std::ifstream file(script_path.c_str());
     if (file.is_open())
     {

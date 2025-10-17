@@ -55,5 +55,5 @@ public:
 };
 
 
-
+// curl -v http://localhost:8080 2>&1 | grep -E "(Set-Cookie|Cookie)"
 #endif

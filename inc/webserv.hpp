@@ -1,6 +1,9 @@
 #ifndef WEBSERV_HPP
 # define WEBSERV_HPP
 
+
+# define DEBUG_MODE 0
+
 #include <unistd.h>
 #include <iostream>
 #include <string>
@@ -36,6 +39,7 @@
 #include "logs.hpp"
 #include "POST.hpp"
 #include "CClient.hpp"
+#include "CookieManager.hpp"
 
 #define RED "\033[31m"
 #define GREEN "\033[32m"

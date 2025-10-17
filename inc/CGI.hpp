@@ -15,7 +15,7 @@ private:
     std::string script_path;
     std::string path_info;
     std::string query_string;
-    int cgi_fd; // File descriptor for the CGI process
+    int cgi_fd; // File descriptor for the CGI process  
     pid_t cgi_pid; // Process ID of the CGI process
     time_t cgi_start_time; // Time when CGI process started
     std::string output_buffer; // Buffer to store CGI output
@@ -23,8 +23,9 @@ private:
     int is_cgi; // Flag to indicate if the request is a CGI request
     int error_code; // Error code for CGI errors
     std::string error_message; // Error message for CGI errors
+    LocationStruct current_location; // Current location configuration for extension validation
 
-    std::string get_interpreter(const std::string& script_path);
+    std::string get_interpreter(const std::string& script_path, const LocationStruct& location);
     bool send_post_data(int fd, const std::string& body_data);
 
 public:
@@ -32,8 +33,8 @@ public:
     ~CGI();
 
     bool set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request);
-    bool execute(std::map<std::string, std::string>& env_vars);
-    bool execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data);
+    bool execute(std::map<std::string, std::string>& env_vars, const LocationStruct& location);
+    bool execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data, const LocationStruct& location);
     bool read_output(); // Read output from CGI process
     std::string get_output() const { return output_buffer; }
     int get_cgi_fd() const { return cgi_fd; }
@@ -50,6 +51,9 @@ public:
     int get_error_code() const { return error_code; }
     std::string get_error_message() const { return error_message; }
     bool is_cgi_timeout(int timeout_seconds);
+    bool isExtensionAllowed(const std::string& scriptPath, const LocationStruct& location) const;
+    void set_location(const LocationStruct& location);
+
 };
 
 #endif
