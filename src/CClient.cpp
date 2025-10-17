@@ -68,6 +68,10 @@ std::string CClient::HandleAllMethod()
     {
         is_cgi_request = true;
 
+        // Get the location configuration for this request
+        std::pair<std::string, LocationStruct> loc_pair = get_location(uri, mutableConfig);
+        LocationStruct location = loc_pair.second;
+
         std::map<std::string, std::string> env_vars;
         if (!cgi_handler->set_env_var(env_vars, *parser)) {
             cgi_handler->close_cgi();
@@ -79,10 +83,10 @@ std::string CClient::HandleAllMethod()
 
         bool success = false;
         if (this->NameMethod == "POST") {
-            success = cgi_handler->execute_with_body(env_vars, parser->getBody());
+            success = cgi_handler->execute_with_body(env_vars, parser->getBody(), location);
         }
         else {
-            success = cgi_handler->execute(env_vars);
+            success = cgi_handler->execute(env_vars, location);
         }
 
         if (!success) {

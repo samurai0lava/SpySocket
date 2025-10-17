@@ -24,16 +24,16 @@ private:
     int error_code; // Error code for CGI errors
     std::string error_message; // Error message for CGI errors
 
-    std::string get_interpreter(const std::string& script_path);
+    std::string get_interpreter(const std::string& script_path, const LocationStruct& location);
     bool send_post_data(int fd, const std::string& body_data);
 
 public:
     CGI();
-    ~CGI(); 
+    ~CGI();
 
     bool set_env_var(std::map<std::string, std::string>& env_vars, const ParsingRequest& request);
-    bool execute(std::map<std::string, std::string>& env_vars);
-    bool execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data);
+    bool execute(std::map<std::string, std::string>& env_vars, const LocationStruct& location);
+    bool execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data, const LocationStruct& location);
     bool read_output(); // Read output from CGI process
     std::string get_output() const { return output_buffer; }
     int get_cgi_fd() const { return cgi_fd; }
@@ -50,6 +50,7 @@ public:
     int get_error_code() const { return error_code; }
     std::string get_error_message() const { return error_message; }
     bool is_cgi_timeout(int timeout_seconds);
+    bool IsPathAllowed(const std::string& script_path, const LocationStruct& location);
 };
 
 #endif

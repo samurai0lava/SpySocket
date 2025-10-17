@@ -93,7 +93,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     return true;
 }
 
-bool CGI::execute(std::map<std::string, std::string>& env_vars)
+bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationStruct& location)
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
@@ -168,7 +168,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
         close(pipe_out[1]);
 
         std::vector<char*> argv;
-        std::string interpreter = get_interpreter(full_script_path);
+        std::string interpreter = get_interpreter(full_script_path, location);
 
         if (!interpreter.empty())
         {
@@ -220,7 +220,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars)
     return true;
 }
 
-bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data)
+bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const std::string& body_data, const LocationStruct& location)
 {
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
@@ -296,7 +296,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         }
 
         std::vector<char*> argv;
-        std::string interpreter = get_interpreter(full_script_path);
+        std::string interpreter = get_interpreter(full_script_path, location);
         std::cerr.flush();
 
         if (!interpreter.empty()) {
@@ -377,9 +377,63 @@ void CGI::close_cgi()
     cgi_start_time = 0;  // Reset start time
 }
 
-std::string CGI::get_interpreter(const std::string& script_path)
+bool CGI::IsPathAllowed(const std::string& script_path, const LocationStruct& location)
 {
+    // Check if CGI is configured for this location
+    if (location.cgi_path.empty()) {
+        error_code = 403;
+        error_message = "CGI not configured for this location";
+        return false;
+    }
 
+    // Check if the script has an allowed extension
+    if (!location.cgi_ext.empty()) {
+        bool ext_found = false;
+        for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
+            if (script_path.find(location.cgi_ext[i]) != std::string::npos) {
+                ext_found = true;
+                break;
+            }
+        }
+        if (!ext_found) {
+            error_code = 403;
+            error_message = "CGI extension not allowed";
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::string CGI::get_interpreter(const std::string& script_path, const LocationStruct& location)
+{
+    // First check if CGI is allowed for this path
+    if (location.cgi_path.empty()) {
+        error_code = 403;
+        error_message = "CGI not configured for this location";
+        return "";
+    }
+
+    // Use configured interpreter if available
+    if (!location.cgi_path.empty() && !location.cgi_ext.empty()) {
+        // Check if the script extension matches configured extensions
+        for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
+            if (script_path.find(location.cgi_ext[i]) != std::string::npos) {
+                // Try each configured interpreter path
+                for (size_t j = 0; j < location.cgi_path.size(); ++j) {
+                    if (access(location.cgi_path[j].c_str(), X_OK) == 0) {
+                        return location.cgi_path[j];
+                    }
+                }
+                // If none are executable, return error
+                error_code = 500;
+                error_message = "Configured CGI interpreter not executable";
+                return "";
+            }
+        }
+    }
+
+    // Fallback to extension-based detection
     if (script_path.find(".py") != std::string::npos) {
         return "/usr/bin/python3";
     }
@@ -393,8 +447,7 @@ std::string CGI::get_interpreter(const std::string& script_path)
         return "/bin/bash";
     }
 
-    //if the file ends with a .cgi or its a binary
-    // we need to check shebang eg : #!/bin/bash
+    // Check shebang for .cgi or binary files
     std::ifstream file(script_path.c_str());
     if (file.is_open())
     {
