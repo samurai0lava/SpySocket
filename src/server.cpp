@@ -1,5 +1,6 @@
 #include "../include/server.hpp"
 #include "../inc/webserv.hpp"
+#include <sys/wait.h>
 
 Servers* Servers::instance = NULL;
 
@@ -117,24 +118,37 @@ void Servers::epollFds(Servers& serv)
             }
         }
         std::vector<int> timed_out_clients;
+        std::vector<int> failed_cgi_clients;
+        
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
             int client_fd = it->first;
             CClient& client_data = it->second;
-            if (client_data.cgi_handler && client_data.cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
-                timed_out_clients.push_back(client_fd);
+            
+            if (client_data.cgi_handler) {
+                pid_t cgi_pid = client_data.cgi_handler->get_cgi_pid();
+                if (cgi_pid > 0) {
+                    int status;
+                    pid_t result = waitpid(cgi_pid, &status, WNOHANG);
+                    
+                    if (result == cgi_pid && (!WIFEXITED(status) || WEXITSTATUS(status) != 0)) {
+                        failed_cgi_clients.push_back(client_fd);
+                        continue;
+                    }
+                }
+                if (client_data.cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
+                    timed_out_clients.push_back(client_fd);
+                }
             }
         }
 
-        for (size_t i = 0; i < timed_out_clients.size(); i++) {
-            int client_fd = timed_out_clients[i];
+        // Handle CGI scripts that failed (syntax errors, etc.)
+        for (size_t i = 0; i < failed_cgi_clients.size(); i++) {
+            int client_fd = failed_cgi_clients[i];
             if (clients.find(client_fd) == clients.end()) {
-                // Client already disconnected, skip
                 continue;
             }
             CClient& client_data = client_data_map[client_fd];
-            std::cerr << "CGI timeout for client fd " << client_fd << std::endl;
 
-            // Get the CGI fd BEFORE deleting the handler
             int cgi_fd = -1;
             if (client_data.cgi_handler) {
                 cgi_fd = client_data.cgi_handler->get_cgi_fd();
@@ -143,18 +157,45 @@ void Servers::epollFds(Servers& serv)
                 client_data.cgi_handler = NULL;
             }
 
-            // Remove the CGI fd from epoll if it exists
             if (cgi_fd >= 0) {
                 epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
                 cgi_fd_to_client_fd.erase(cgi_fd);
             }
 
-            // Set the response to 504
+            client_data.is_cgi_request = false;
+            clients[client_fd].response = GenerateResErr(502); // Bad Gateway
+            clients[client_fd].ready_to_respond = true;
+
+            epoll_event ev;
+            ft_memset(&ev, 0, sizeof(ev));
+            ev.events = EPOLLOUT;
+            ev.data.fd = client_fd;
+            epoll_ctl(epollFd, EPOLL_CTL_MOD, client_fd, &ev);
+        }
+
+        for (size_t i = 0; i < timed_out_clients.size(); i++) {
+            int client_fd = timed_out_clients[i];
+            if (clients.find(client_fd) == clients.end()) {
+                continue;
+            }
+            CClient& client_data = client_data_map[client_fd];
+            std::cerr << "CGI timeout for client fd " << client_fd << std::endl;
+            int cgi_fd = -1;
+            if (client_data.cgi_handler) {
+                cgi_fd = client_data.cgi_handler->get_cgi_fd();
+                client_data.cgi_handler->close_cgi();
+                delete client_data.cgi_handler;
+                client_data.cgi_handler = NULL;
+            }
+            if (cgi_fd >= 0) {
+                epoll_ctl(epollFd, EPOLL_CTL_DEL, cgi_fd, NULL);
+                cgi_fd_to_client_fd.erase(cgi_fd);
+            }
+
             client_data.is_cgi_request = false;
             clients[client_fd].response = GenerateResErr(504);
             clients[client_fd].ready_to_respond = true;
 
-            // Modify the client fd to EPOLLOUT to send the response
             epoll_event ev;
             ft_memset(&ev, 0, sizeof(ev));
             ev.events = EPOLLOUT;
@@ -165,7 +206,6 @@ void Servers::epollFds(Servers& serv)
         {
             int fd = events[i].data.fd;
 
-            // Check if fd is a listening socket (*it) is a server socket fd
             std::vector<int>::iterator it = std::find(serv.serversFd.begin(), serv.serversFd.end(), fd);
             if (it != serv.serversFd.end())
             {

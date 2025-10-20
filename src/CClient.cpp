@@ -149,13 +149,6 @@ std::string CClient::HandleCGIMethod()
         return GenerateResErr(500);
     }
 
-    if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
-        cgi_handler->close_cgi();
-        delete cgi_handler;
-        cgi_handler = NULL;
-        is_cgi_request = false;
-        return GenerateResErr(504); // Gateway Timeout
-    }
     int status;
     pid_t cgi_pid = cgi_handler->get_cgi_pid();
     pid_t result = waitpid(cgi_pid, &status, WNOHANG);
@@ -173,7 +166,7 @@ std::string CClient::HandleCGIMethod()
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
-            return GenerateResErr(500);
+            return GenerateResErr(502); // Bad Gateway
         }
         int read_attempts = 0;
         while (cgi_handler->read_output() && read_attempts < 10) {
@@ -187,6 +180,14 @@ std::string CClient::HandleCGIMethod()
         return formatCGIResponse(cgi_output);
     }
     else {
+        if (cgi_handler->is_cgi_timeout(CGI_TIMEOUT)) {
+            cgi_handler->close_cgi();
+            delete cgi_handler;
+            cgi_handler = NULL;
+            is_cgi_request = false;
+            return GenerateResErr(504);
+        }
+        // Continue reading output
         cgi_handler->read_output();
         if (!current_output.empty() && current_output.find("Content-Type:") != std::string::npos) {
             size_t header_end = current_output.find("\r\n\r\n");
