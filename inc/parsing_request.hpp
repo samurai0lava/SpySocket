@@ -35,7 +35,7 @@ public:
         PARSE_ERROR_501,  // Not implemented
         PARSE_ERROR_502,  // Bad Gateway
         PARSE_ERROR_503,  // Service Unavailable
-        PARSE_ERROR_504,  // Gateway Timeout
+    PARSE_ERROR_504,  // Gateway Timeout
         PARSE_ERROR_505, // HTTP Version Not Supported
     };
 protected:

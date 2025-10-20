@@ -312,3 +312,20 @@
 [2025-10-12 14:30:33] [INFO] Server started on port 1080
 [2025-10-12 14:31:05] [INFO] Server started on port 1080
 [2025-10-15 10:15:07] Error: 413 - Payload Too Large: Request exceeds maximum allowed size
+[2025-10-17 21:06:08] Error: 400 - Bad Request: Host header is missing
+[2025-10-17 21:06:08] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/1/1'
+[2025-10-17 21:06:08] Error: 400 - Bad Request: Invalid Transfer-Encoding header value
+[2025-10-17 21:06:08] Error: 400 - Bad Request: Invalid HTTP method: '[AJDJDJD'
+[2025-10-17 21:11:13] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-10-17 21:11:13] Error: 413 - Payload Too Large: Request exceeds maximum allowed size
+[2025-10-17 21:11:13] Error: 400 - Bad Request: Invalid HTTP method: '0'
+[2025-10-17 21:11:13] Error: 400 - Bad Request: Invalid HTTP method: '5'
+[2025-10-17 21:11:13] Error: 400 - Bad Request: Invalid HTTP method: '000;dude=best'
+[2025-10-17 21:11:13] Error: 400 - Bad Request: Invalid HTTP method: '000;Foo=Bar;dude="The'
+[2025-10-17 21:11:13] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-10-17 21:11:13] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-10-17 21:11:13] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-10-17 21:11:13] Error: 501 - Not Implemented: HTTP method 'PUT' is not implemented
+[2025-10-17 21:11:13] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/0.1'
+[2025-10-17 21:11:13] Error: 400 - Bad Request: URI cannot be empty
+[2025-10-17 21:11:13] Error: 413 - Payload Too Large: Request exceeds maximum allowed size

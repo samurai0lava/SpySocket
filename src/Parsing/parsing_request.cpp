@@ -389,51 +389,6 @@ bool ParsingRequest::parse_headers()
 	return true;
 }
 
-
-// bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
-// {
-// 	if (headers.find("content-type") != headers.end())
-// 	{
-// 		std::string content_type = headers.at("content-type");
-// 		// cout << "-----> " << content_type << endl;
-// 		if (content_type.empty())
-// 		{
-// 			connection_status = 0;
-// 			current_state = PARSE_ERROR;
-// 			error_code = 400;
-// 			error_message = "Bad Request: Content-Type header cannot be empty";
-// 			logError(error_code, error_message);
-// 			return false;
-// 		}
-// 		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0 || content_type.find("multipart/") == 0)
-// 		{
-// 			if(content_type.find("multipart/") == 0)
-// 			{
-// 				boundary = content_type.substr(content_type.find(';') + 1);
-// 				if(boundary.empty())
-// 				{
-// 					logError(400, "Bad Request: No boundary found.");
-// 					return false;
-// 				}
-// 				cout << "----> " << boundary << endl;
-// 			}
-// 			return true;
-// 		}
-// 		else
-// 		{
-// 			connection_status = 0;
-// 			error_code = 415;
-// 			error_message = "Unsupported Media Type: Content-Type '" + content_type + "' is not supported";
-// 			current_state = PARSE_ERROR;
-// 			logError(error_code, error_message);
-// 			return false;
-// 		}
-// 	}
-// 	return true;
-// }
-
-
-
 bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("content-type") != headers.end())
@@ -531,7 +486,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter cannot be empty for multipart content types";
 				current_state = PARSE_ERROR;
-				// access_error(error_code, error_message);
+					// access_error(error_code, error_message);
 				return false;
 			}
 		}
