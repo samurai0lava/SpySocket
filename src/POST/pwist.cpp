@@ -94,7 +94,7 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser)
     else
     {
         std::cout << location.upload_path << std::endl;
-        std::cout << RED "111111111111111\n" RESET ;
+        // std::cout << RED "111111111111111\n" RESET ;
         return internal_error();
     }
     std::fstream file(filename.c_str(), std::ios::out);
@@ -211,6 +211,11 @@ std::string main_response(LocationStruct &location, ParsingRequest &parser)
     return created_success();
 }
 
+// int check_body_size(ConfigStruct config, ParsingRequest& parser, LocationStruct &location)
+// {
+    
+// }
+
 std::string postMethod(std::string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
@@ -234,7 +239,10 @@ std::string postMethod(std::string uri, ConfigStruct config,
             return handle_notAllowed(location);
         }
         
-
+        // if(check_body_size(config, parser, location.second))
+        // {
+        //     return large_payload();
+        // }
         if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
         {
             response = handle_upload(location.second, parser);

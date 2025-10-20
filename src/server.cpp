@@ -103,6 +103,7 @@ void Servers::epollFds(Servers& serv)
     {
         i++;
         int ready_fds = epoll_wait(epollFd, events, 10, EPOLL_TIMEOUT);
+        // std::cout << RED "Ready FDs : " << ready_fds << RESET << std::endl;
         if (ready_fds == -1)
         {
             if (errno == EINTR)
@@ -187,6 +188,9 @@ void Servers::epollFds(Servers& serv)
                 ft_memset(&client_ev, 0, sizeof(client_ev));
                 client_ev.events = EPOLLIN;
                 client_ev.data.fd = client_fd;
+
+                std::cout << RED "--> " << client_ev.data.fd << RESET << std::endl;
+                
                 if (epoll_ctl(epollFd, EPOLL_CTL_ADD, client_fd, &client_ev) == -1)
                 {
                     std::cerr << "Error adding client to epoll!" << std::endl;
@@ -297,6 +301,10 @@ void Servers::epollFds(Servers& serv)
                 {
                     // printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
+                    //SHOULDN't BE HERE NEEDS TO BE INSIDE PARSING BEFORE PARSE OK
+                    //I MISCONFIGURED THE MESSAGES GO BACK TO THEM (MALFORMED RESPONSE)
+                    // if(parser->getContentLengthExists() == 1 && atoi((parser->getHeaders().at("content-length")).c_str()) > config.clientMaxBodySize)
+                    //     return large_payload()                    
                     if(DEBUG_MODE == 1)
                         access_log(*parser);
                     handleMethod(fd, parser, config, client_data_map[fd]);
@@ -410,16 +418,25 @@ void Servers::epollFds(Servers& serv)
                         if (client_data_map[fd].chunkedSending == true)
                         {
                             // std::cout << GREEN "Finished sending response to fd : " << fd << RESET << std::endl;
+                            //IF CONNECTION = CLOSE remove the FD
                             epoll_event ev;
                             ft_memset(&ev, 0, sizeof(ev));
-                            ev.events = EPOLLIN; // Reset to listen for new requests
-                            ev.data.fd = fd;
-                            client_data_map[fd] = CClient();
-                            client_data_map[fd].FdClient = fd;
-                            if (clientParsers.find(fd) != clientParsers.end()) {
-                                clientParsers[fd]->reset();
-                            }
-                            epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                            // TODO:
+                            // if(parser->get_connection_status() == 0) //close
+                            // {
+                            //     epoll_ctl(epollFd, EPOLL_CTL_DEL, fd, &ev);
+                            // }
+                            // else
+                            // {
+                                ev.events = EPOLLIN; // Reset to listen for new requests
+                                ev.data.fd = fd;
+                                client_data_map[fd] = CClient();
+                                client_data_map[fd].FdClient = fd;
+                                if (clientParsers.find(fd) != clientParsers.end()) {
+                                    clientParsers[fd]->reset();
+                                }
+                                epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                            // }
                         }
                         else
                         {
