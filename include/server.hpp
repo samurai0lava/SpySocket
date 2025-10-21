@@ -18,7 +18,7 @@
 #include <sys/stat.h>
 #include <map>
 #include <signal.h>
-#define READ_SIZE 65536  // Increased from 8000 to 64KB for large file uploads
+#define READ_SIZE 65536  // 64kb
 
 void ft_memset(void* b, int c, size_t len);
 

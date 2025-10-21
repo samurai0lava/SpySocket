@@ -1,6 +1,9 @@
 #ifndef WEBSERV_HPP
 # define WEBSERV_HPP
 
+
+# define DEBUG_MODE 0
+
 #include <unistd.h>
 #include <iostream>
 #include <string>

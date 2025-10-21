@@ -1,5 +1,27 @@
 #include "../../inc/webserv.hpp"
 
+bool CGI::isExtensionAllowed(const std::string& scriptPath, const LocationStruct& location) const {
+    if (location.cgi_ext.empty()) {
+        return true; // No restrictions if cgi_ext is empty
+    }
+    
+    // Extract file extension from script path
+    size_t dotPos = scriptPath.find_last_of('.');
+    if (dotPos == std::string::npos) {
+        return false; // No extension found
+    }
+    
+    std::string extension = scriptPath.substr(dotPos);
+    
+    // Check if extension is in allowed list
+    for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
+        if (location.cgi_ext[i] == extension) {
+            return true;
+        }
+    }
+    
+    return false;
+}
 
 bool CGI::check_is_cgi(const ParsingRequest& request)
 {
@@ -46,6 +68,15 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
     {
         script_path = cgi_prefix + script_part;
         path_info = "";
+    }
+
+    // Validate CGI extension if cgi_ext is configured
+    if (!isExtensionAllowed(script_path, current_location))
+    {
+        is_cgi = 0;
+        error_code = 403;
+        error_message = "CGI script extension not allowed";
+        return false;
     }
 
     return true;

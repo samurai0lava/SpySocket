@@ -71,6 +71,33 @@ void Config::_createConfigStruct(std::string server)
 	serverName = serverName.substr(0, serverName.find_first_of("\n"));
 	ConfigStruct confStruct = tmp;
 	SingleServerConfig temp(server, &confStruct);
+	for (std::map<std::string, ConfigStruct>::const_iterator it = this->_cluster.begin(); it != this->_cluster.end(); ++it)
+	{
+		const ConfigStruct &existing = it->second;
+		if (existing.host == confStruct.host)
+		{
+			for (size_t i = 0; i < confStruct.listen.size(); ++i)
+			{
+				unsigned short newPort = confStruct.listen[i];
+				for (size_t j = 0; j < existing.listen.size(); ++j)
+				{
+					if (existing.listen[j] == newPort)
+					{
+						std::cerr << "Duplicate listen address found while inserting server '" << serverName << "': "
+								  << confStruct.host << ":" << newPort ;
+						throw std::runtime_error("");
+					}
+					else if(existing.serverName == confStruct.serverName)
+					{
+						std::cerr << "Duplicate server_name found while inserting server '" << serverName << "': "
+								  << confStruct.host << ":" << newPort ;
+						throw std::runtime_error("");
+					}
+				}
+			}
+		}
+	}
+
 	this->_cluster.insert(std::make_pair(serverName, confStruct));
 
 }
