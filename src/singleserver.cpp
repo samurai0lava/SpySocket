@@ -7,17 +7,11 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         "listen",
         "root",
         "server_name",
-        "index_page",
         "location",
         "error_page",
-        "autoindex",
         "host",
         "client_max_body_size",
     };
-    if (keyValue.find_first_of("\n\r\t\f\v ") == std::string::npos)
-	{
-         throw SingleServerConfig::NoListenException();
-	}
     std::string key = keyValue.substr(0, keyValue.find_first_of("\n\r\t\f\v "));
 	std::string value = "";
 	int nKey = 0;
@@ -33,8 +27,9 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         {
             
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
-            if (value.find_first_not_of(DECIMAL) != std::string::npos)
-                throw SingleServerConfig::NoListenException();
+            if (value.find_first_not_of(DECIMAL) != std::string::npos){
+                std::cout<<"hello2"<<std::endl;
+                throw SingleServerConfig::NoListenException();}
             int iport = atoi(value.c_str());
             if (iport <= 0 || iport > 65535) 
                 throw std::runtime_error("Invalid listen port: must be between 1 and 65535");
@@ -83,30 +78,6 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             this->_conf->serverName = value;
             break;
-        }
-        case(index_page):
-        {
-            if (this->_conf->indexPage.length() != 0)
-                throw std::runtime_error("Duplicate 'index_page' directive.");
-            value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
-            this->_conf->indexPage = value;
-            break;
-        }
-        case(autoindex):
-        {
-            // if (this->_conf->autoIndex == true)
-            //     throw std::runtime_error("Duplicate autoindex directive found.");
-            value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-		    value.erase(0, value.find_first_not_of(WHITESPACE));
-            value.erase(value.find_last_not_of(WHITESPACE) + 1);
-            if (value != "true" && value != "false")
-                throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
-            if (value == "true") 
-                this->_conf->autoIndex = true;
-            else 
-                this->_conf->autoIndex = false;
-		    break ;
-
         }
         case(location):
         {
@@ -531,46 +502,34 @@ size_t SingleServerConfig::_parseBodySize(const std::string& sizeStr) const
 {
     if (sizeStr.empty())
         throw std::runtime_error("Empty client_max_body_size value");
-    std::string numberPart;
-    char suffix = '\0';
     
-    for (size_t i = 0; i < sizeStr.length(); ++i)
+    std::string numberPart;
+    std::string suffix;
+    size_t i = 0;
+    while (i < sizeStr.length() && std::isdigit(sizeStr[i])){
+        numberPart += sizeStr[i];
+        i++;}
+    while (i < sizeStr.length())
     {
-        if (std::isdigit(sizeStr[i]))
-        {
-            numberPart += sizeStr[i];
-        }
-        else if (i == sizeStr.length() - 1) 
-        {
-            suffix = std::tolower(sizeStr[i]);
-            if (suffix != 'k' && suffix != 'm' && suffix != 'g')
-                throw std::runtime_error("Invalid size suffix in client_max_body_size: " + sizeStr);
-        }
-        else
-        {
-            throw std::runtime_error("Invalid format in client_max_body_size: " + sizeStr);
-        }
+        suffix += std::toupper(sizeStr[i]);
+        i++;
     }
     if (numberPart.empty())
         throw std::runtime_error("No numeric value in client_max_body_size: " + sizeStr);
+    if (!suffix.empty() &&  suffix != "KB" &&  suffix != "MB"  && suffix != "GB")
+        throw std::runtime_error("Invalid size suffix in client_max_body_size: " + sizeStr);
+    
     long long number = std::atoll(numberPart.c_str());
     if (number < 0)
         throw std::runtime_error("Negative value not allowed in client_max_body_size");
     size_t result = number;
-    switch (suffix)
-    {
-        case 'k':
-            result *= 1024;
-            break;
-        case 'm':
-            result *= 1024 * 1024;
-            break;
-        case 'g':
-            result *= 1024 * 1024 * 1024;
-            break;
-        case '\0':
-            break;
-    }
+ 
+    if ( suffix == "KB")
+        result *= 1024;
+    else if ( suffix == "MB")
+        result *= 1024 * 1024;
+    else if ( suffix == "GB")
+        result *= 1024 * 1024 * 1024;
     if (result > 2147483648UL) 
         throw std::runtime_error("client_max_body_size too large (max 2GB)");
     return result;
