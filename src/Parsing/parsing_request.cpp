@@ -127,7 +127,7 @@ bool ParsingRequest::checkVersion(const std::string& version)
 		current_state = PARSE_ERROR;
 		return false;
 	}
-	if (version != "HTTP/1.0" && version != "HTTP/1.1")
+	if (version != "HTTP/1.1")
 	{
 		connection_status = 0;
 		error_code = 400;
@@ -143,6 +143,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 {
 	if (method.empty())
 	{
+		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: HTTP method cannot be empty";
 		current_state = PARSE_ERROR;
@@ -150,8 +151,9 @@ bool ParsingRequest::checkMethod(const std::string& method)
 		return false;
 	}
 
-	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
+	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT" || method == "HEAD")
 	{
+		connection_status = 0;
 		error_code = 501;
 		error_message = "Not Implemented: HTTP method '" + method + "' is not implemented";
 		current_state = PARSE_ERROR;
@@ -160,7 +162,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 		access_error(error_code, error_message);
 		return false;
 	}
-	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
+	else if (method != "GET" && method != "POST" && method != "DELETE")
 	{
  		connection_status = 0;
 		error_code = 400;
@@ -265,7 +267,6 @@ bool ParsingRequest::parse_headers()
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 	{
-		// Check if we've accumulated too much data without finding header end
 		const size_t MAX_HEADER_SIZE = 8192; // 8KB for headers
 		if (buffer.length() > MAX_HEADER_SIZE)
 		{
@@ -274,7 +275,7 @@ bool ParsingRequest::parse_headers()
 			error_message = "Request Header Fields Too Large: Headers exceed 8KB limit";
 			current_state = PARSE_ERROR;
 			access_error(error_code, error_message);
-			buffer.clear(); // Clear buffer to prevent memory leak
+			buffer.clear();
 			return false;
 		}
 		return false;
@@ -358,7 +359,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie")
+		if(key == "host" || key == "port" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie" || key == "location" || key == "accept" || key == "accept-encoding" || key == "accept-language")
 			header_map[key] = value;
 	}
 
@@ -619,6 +620,61 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 {
 	if (headers.find("host") != headers.end())
 	{
+		//we need to parse host value to check if its valid
+		std::string host_value = headers.at("host");
+		if (host_value.empty())
+		{
+			connection_status = 0;
+			error_code = 400;
+			error_message = "Bad Request: Host header cannot be empty";
+			current_state = PARSE_ERROR;
+			access_error(error_code, error_message);
+			return false;
+		}
+		size_t colon_pos = host_value.find(':');
+		std::string hostname;
+		std::string port_str;
+		if (colon_pos != std::string::npos)
+		{
+			hostname = host_value.substr(0, colon_pos);
+			port_str = host_value.substr(colon_pos + 1);
+			if (port_str.empty())
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Port in Host header cannot be empty";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
+			for (size_t i = 0; i < port_str.length(); ++i)
+			{
+				if (!isdigit(port_str[i]))
+				{
+					connection_status = 0;
+					error_code = 400;
+					error_message = "Bad Request: Port in Host header must be a valid integer - got: '" + port_str + "'";
+					current_state = PARSE_ERROR;
+					access_error(error_code, error_message);
+					return false;
+				}
+			}
+			int port;
+			std::istringstream iss(port_str);
+			iss >> port;
+			if (iss.fail() || !iss.eof() || port < 1 || port > 65535)
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Invalid Port '" + port_str + "'";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
+		}
+		//add port number to headers map with key name "port"
+		this->headers["host_name"] = hostname;
+		this->headers["port"] = port_str;
 		host_exists = 1;
 		return true;
 	}
@@ -635,9 +691,6 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 {
 	if (headers.find("transfer-encoding") != headers.end())
 	{
-		// cout << "***********\n";
-		// write(1, buffer.data(), buffer.length());
-		// cout << "***BUFFER_END***\n";
 		std::string transfer_encoding_value = headers.at("transfer-encoding");
 		transfer_encoding_exists = 1;
 		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")

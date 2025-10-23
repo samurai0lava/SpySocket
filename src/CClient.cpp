@@ -10,7 +10,8 @@ CClient::CClient() :
     SendHeader(false), readyToSendAllResponse(false), chunkedSending(false),
     chunkSize(0), bytesSent(0), response(""), filePath(""), fileSize(0),
     offset(0), fileFd(-1), intialized(false), Chunked(false),
-    cgi_handler(NULL), is_cgi_request(false), cgi_headers_sent(false), cgi_body_buffer("")
+    cgi_handler(NULL), is_cgi_request(false), cgi_headers_sent(false), cgi_body_buffer(""),
+    should_close_connection(false)
 {
 
 }
@@ -19,7 +20,8 @@ CClient::CClient(std::string NameMethod, std::string uri, int FdClient, ConfigSt
     _name_location(""), NameMethod(NameMethod), uri(uri), FdClient(FdClient), mutableConfig(MConfig), serv(serv), parser(parser),
     SendHeader(false), readyToSendAllResponse(false), chunkedSending(false), chunkSize(0), bytesSent(0),
     response(""), filePath(""), fileSize(0), offset(0), fileFd(-1), intialized(false), Chunked(false),
-    cgi_handler(NULL), is_cgi_request(false), cgi_headers_sent(false), cgi_body_buffer("")
+    cgi_handler(NULL), is_cgi_request(false), cgi_headers_sent(false), cgi_body_buffer(""),
+    should_close_connection(false)
 
 {
 

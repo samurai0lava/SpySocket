@@ -1,0 +1,192 @@
+[2025-10-23 09:07:28] [INFO] Server started on port 1080
+[2025-10-23 09:07:28] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:07:28] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:11:42] [INFO] Server started on port 1080
+[2025-10-23 09:57:07] [INFO] Server started on port 1080
+[2025-10-23 09:57:07] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:07] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] [INFO] Server started on port 1080
+[2025-10-23 09:57:53] GET /index.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 09:57:53] GET / HTTP/1.1 localhost:1080 
+[2025-10-23 09:57:53] GET / HTTP/1.1 loajd 
+[2025-10-23 09:57:53] GET / HTTP/1.1 localhost:1080 
+[2025-10-23 10:16:01] [INFO] Server started on port 1080
+[2025-10-23 10:16:01] GET / HTTP/1.1 192.128.10.1:1080 
+[2025-10-23 10:19:35] [INFO] Server started on port 1080
+[2025-10-23 10:19:35] GET / HTTP/1.1 localhost:1080 keep-alive 
+[2025-10-23 10:19:35] GET / HTTP/1.1 localhost:1080 close 
+[2025-10-23 10:24:43] [INFO] Server started on port 1080
+[2025-10-23 10:24:43] GET / HTTP/1.1 localhost:1080 close 
+[2025-10-23 10:28:13] [INFO] Server started on port 1080
+[2025-10-23 10:40:43] [INFO] Server started on port 1080
+[2025-10-23 10:40:43] GET / HTTP/1.1 localhost:1080 
+[2025-10-23 12:54:39] [INFO] Server started on port 1080
+[2025-10-23 12:54:39] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 12:54:39] GET /HADHD HTTP/1.1 localhost:1080 
+[2025-10-23 13:21:17] [INFO] Server started on port 1080
+[2025-10-23 13:21:17] GET / HTTP/1.1 localhost:1080 
+[2025-10-23 13:21:17] GET / HTTP/1.1 localhost:1080 
+[2025-10-23 13:30:39] [INFO] Server started on port 1080
+[2025-10-23 13:30:39] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:30:39] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 13:34:54] [INFO] Server started on port 1080
+[2025-10-23 13:34:54] [INFO] Server started on port 8080
+[2025-10-23 13:34:54] GET / HTTP/1.1 localhost:8080 
+[2025-10-23 17:06:54] [INFO] Server started on port 1080
+[2025-10-23 17:06:54] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/rate.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /test_cgi_form.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/retro.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/rate.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /test_cgi_form.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/retro.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /cgi-bin/info-dash.py HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/rate.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 
+[2025-10-23 17:06:54] GET /img/light-home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/141.0.0.0 safari/537.36 keep-alive 

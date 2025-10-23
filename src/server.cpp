@@ -335,7 +335,7 @@ void Servers::epollFds(Servers& serv)
 
                 if (result == ParsingRequest::PARSE_OK)
                 {
-                    // printRequestInfo(*parser, fd);
+                    printRequestInfo(*parser, fd);
                     ConfigStruct& config = serv.configStruct.begin()->second;
                     if(DEBUG_MODE == 1)
                         access_log(*parser);
@@ -376,6 +376,8 @@ void Servers::epollFds(Servers& serv)
                     std::string errorResponse = GenerateResErr(parser->getErrorCode());
                     c.response = errorResponse;
                     c.ready_to_respond = true;
+                    // Mark that connection should be closed after sending error response
+                    client_data_map[fd].should_close_connection = true;
                     epoll_event ev;
                     ft_memset(&ev, 0, sizeof(ev));
                     ev.events = EPOLLOUT;
@@ -447,7 +449,29 @@ void Servers::epollFds(Servers& serv)
                     if (c.response.empty())
                     {
                         c.ready_to_respond = false;
-                        if (client_data_map[fd].chunkedSending == true)
+                        
+                        // Check if connection should be closed
+                        bool should_close = false;
+                        if (client_data_map[fd].should_close_connection) {
+                            should_close = true;
+                        } else if (clientParsers.find(fd) != clientParsers.end() && 
+                                   clientParsers[fd]->getConnectionStatus() == 0) {
+                            should_close = true;
+                        }
+                        
+                        if (should_close) {
+                            // Close the connection
+                            std::cout << "Closing connection for fd " << fd << " (connection: close or error)" << std::endl;
+                            if (clientParsers.find(fd) != clientParsers.end()) {
+                                delete clientParsers[fd];
+                                clientParsers.erase(fd);
+                            }
+                            clients.erase(fd);
+                            client_data_map.erase(fd);
+                            epoll_ctl(epollFd, EPOLL_CTL_DEL, fd, NULL);
+                            close(fd);
+                        }
+                        else if (client_data_map[fd].chunkedSending == true)
                         {
                             // std::cout << GREEN "Finished sending response to fd : " << fd << RESET << std::endl;
                             epoll_event ev;
@@ -532,18 +556,42 @@ void Servers::epollFds(Servers& serv)
                     {
                         c.ready_to_respond = false;
                         // std::cout << "Finished sending response to fd : " << fd << std::endl;
-                        epoll_event ev;
-                        ft_memset(&ev, 0, sizeof(ev));
-                        ev.events = EPOLLIN; // Reset to listen for new requests
-                        ev.data.fd = fd;
-                        // Reset client data for keep-alive instead of erasing
-                        client_data_map[fd] = CClient();
-                        client_data_map[fd].FdClient = fd;
-                        // Reset parser for next request on keep-alive connection
-                        if (clientParsers.find(fd) != clientParsers.end()) {
-                            clientParsers[fd]->reset();
+                        
+                        // Check if connection should be closed
+                        bool should_close = false;
+                        if (client_data_map[fd].should_close_connection) {
+                            should_close = true;
+                        } else if (clientParsers.find(fd) != clientParsers.end() && 
+                                   clientParsers[fd]->getConnectionStatus() == 0) {
+                            should_close = true;
                         }
-                        epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                        
+                        if (should_close) {
+                            // Close the connection
+                            std::cout << "Closing connection for fd " << fd << " (connection: close or error)" << std::endl;
+                            if (clientParsers.find(fd) != clientParsers.end()) {
+                                delete clientParsers[fd];
+                                clientParsers.erase(fd);
+                            }
+                            clients.erase(fd);
+                            client_data_map.erase(fd);
+                            epoll_ctl(epollFd, EPOLL_CTL_DEL, fd, NULL);
+                            close(fd);
+                        }
+                        else {
+                            epoll_event ev;
+                            ft_memset(&ev, 0, sizeof(ev));
+                            ev.events = EPOLLIN; // Reset to listen for new requests
+                            ev.data.fd = fd;
+                            // Reset client data for keep-alive instead of erasing
+                            client_data_map[fd] = CClient();
+                            client_data_map[fd].FdClient = fd;
+                            // Reset parser for next request on keep-alive connection
+                            if (clientParsers.find(fd) != clientParsers.end()) {
+                                clientParsers[fd]->reset();
+                            }
+                            epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
+                        }
                     }
                 }
             }
