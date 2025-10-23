@@ -4,8 +4,6 @@ int main(int argc, char** argv)
 {
     Config* config = new Config();
     
-    std::cout << GREEN "--------Webserv started with config file: " RESET << parseArgv(argc, argv) << std::endl;
-
     try
     {
         config->StartToSet(parseArgv(argc, argv));
