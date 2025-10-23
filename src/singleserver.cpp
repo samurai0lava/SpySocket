@@ -7,10 +7,8 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         "listen",
         "root",
         "server_name",
-        "index_page",
         "location",
         "error_page",
-        "autoindex",
         "host",
         "client_max_body_size",
     };
@@ -21,7 +19,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
     std::string key = keyValue.substr(0, keyValue.find_first_of("\n\r\t\f\v "));
 	std::string value = "";
 	int nKey = 0;
-    for (;nKey < 11; ++nKey)
+    for (;nKey < 8; ++nKey)
 	{
 		if (configVariables[nKey] == key){
 			break ;
@@ -83,30 +81,6 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
             this->_conf->serverName = value;
             break;
-        }
-        case(index_page):
-        {
-            if (this->_conf->indexPage.length() != 0)
-                throw std::runtime_error("Duplicate 'index_page' directive.");
-            value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
-            this->_conf->indexPage = value;
-            break;
-        }
-        case(autoindex):
-        {
-            // if (this->_conf->autoIndex == true)
-            //     throw std::runtime_error("Duplicate autoindex directive found.");
-            value = keyValue.substr(keyValue.find_first_of(WHITESPACE) + 1);
-		    value.erase(0, value.find_first_not_of(WHITESPACE));
-            value.erase(value.find_last_not_of(WHITESPACE) + 1);
-            if (value != "true" && value != "false")
-                throw std::runtime_error("Invalid value for 'autoindex': expected 'true' or 'false'.");
-            if (value == "true") 
-                this->_conf->autoIndex = true;
-            else 
-                this->_conf->autoIndex = false;
-		    break ;
-
         }
         case(location):
         {
