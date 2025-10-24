@@ -505,46 +505,34 @@ size_t SingleServerConfig::_parseBodySize(const std::string& sizeStr) const
 {
     if (sizeStr.empty())
         throw std::runtime_error("Empty client_max_body_size value");
-    std::string numberPart;
-    char suffix = '\0';
     
-    for (size_t i = 0; i < sizeStr.length(); ++i)
+    std::string numberPart;
+    std::string suffix;
+    size_t i = 0;
+    while (i < sizeStr.length() && std::isdigit(sizeStr[i])){
+        numberPart += sizeStr[i];
+        i++;}
+    while (i < sizeStr.length())
     {
-        if (std::isdigit(sizeStr[i]))
-        {
-            numberPart += sizeStr[i];
-        }
-        else if (i == sizeStr.length() - 1) 
-        {
-            suffix = std::tolower(sizeStr[i]);
-            if (suffix != 'k' && suffix != 'm' && suffix != 'g')
-                throw std::runtime_error("Invalid size suffix in client_max_body_size: " + sizeStr);
-        }
-        else
-        {
-            throw std::runtime_error("Invalid format in client_max_body_size: " + sizeStr);
-        }
+        suffix += std::toupper(sizeStr[i]);
+        i++;
     }
     if (numberPart.empty())
         throw std::runtime_error("No numeric value in client_max_body_size: " + sizeStr);
+    if (!suffix.empty() &&  suffix != "KB" &&  suffix != "MB"  && suffix != "GB")
+        throw std::runtime_error("Invalid size suffix in client_max_body_size: " + sizeStr);
+    
     long long number = std::atoll(numberPart.c_str());
     if (number < 0)
         throw std::runtime_error("Negative value not allowed in client_max_body_size");
     size_t result = number;
-    switch (suffix)
-    {
-        case 'k':
-            result *= 1024;
-            break;
-        case 'm':
-            result *= 1024 * 1024;
-            break;
-        case 'g':
-            result *= 1024 * 1024 * 1024;
-            break;
-        case '\0':
-            break;
-    }
+ 
+    if ( suffix == "KB")
+        result *= 1024;
+    else if ( suffix == "MB")
+        result *= 1024 * 1024;
+    else if ( suffix == "GB")
+        result *= 1024 * 1024 * 1024;
     if (result > 2147483648UL) 
         throw std::runtime_error("client_max_body_size too large (max 2GB)");
     return result;

@@ -188,9 +188,6 @@ void Servers::epollFds(Servers& serv)
                 ft_memset(&client_ev, 0, sizeof(client_ev));
                 client_ev.events = EPOLLIN;
                 client_ev.data.fd = client_fd;
-
-                std::cout << RED "--> " << client_ev.data.fd << RESET << std::endl;
-                
                 if (epoll_ctl(epollFd, EPOLL_CTL_ADD, client_fd, &client_ev) == -1)
                 {
                     std::cerr << "Error adding client to epoll!" << std::endl;

@@ -1,5 +1,7 @@
 #include "../../inc/Get.hpp"
 #include <cstdlib> // for std::strtoul
+#include <errno.h> // for errno
+#include <cstring> // for strerror
 
 
 Get::Get(CClient& c) : client(c) {}
@@ -184,7 +186,7 @@ std::string Get::pathIsFile(std::string matchLocation)
     struct stat fileStat;
     if (stat(matchLocation.c_str(), &fileStat) == -1) {
         std::cerr << "Error getting file stats!" << std::endl;
-        return GenerateResErr(500);
+         return getErrorPageFromConfig(500);
     }
 
     // Check for Range header for partial content requests
@@ -224,7 +226,7 @@ std::string Get::pathIsFile(std::string matchLocation)
         
         std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
         if (!file.is_open()) {
-            return GenerateResErr(500);
+            return getErrorPageFromConfig(500);
         }
 
         // Calculate content length for range
@@ -269,7 +271,7 @@ std::string Get::pathIsFile(std::string matchLocation)
     std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
     {
-        std::string finalResponse = GenerateResErr(500);
+        std::string finalResponse = getErrorPageFromConfig(500);
         return (finalResponse);
     }
     std::stringstream buffer;
@@ -297,7 +299,7 @@ std::string Get::handleDirectoryWithIndex(std::string indexPath)
 {
     std::ifstream file(indexPath.c_str(), std::ios::in | std::ios::binary);
     if (!file.is_open())
-        return (GenerateResErr(500));
+        return (getErrorPageFromConfig(500));
     std::stringstream buffer;
     buffer << file.rdbuf();
     file.close();
@@ -327,7 +329,7 @@ std::string Get::MethodGet()
 {
     if (this->client.uri.empty()) {
         std::cerr << "Empty URI in GET method" << std::endl;
-        return (GenerateResErr(400));
+        return (getErrorPageFromConfig(400));
     }
     std::string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
     bool found = false;
@@ -354,7 +356,7 @@ std::string Get::MethodGet()
     }
     if (!this->pathExists(matchedLocation))
     {
-        std::string finalResponse = GenerateResErr(404);
+        std::string finalResponse = getErrorPageFromConfig(404);
         return (finalResponse);
     }
     if (this->isFile(matchedLocation)) {
@@ -368,7 +370,7 @@ std::string Get::MethodGet()
         else if (locationMatched.autoIndex == true)
             return (this->handleDirectoryWithAutoIndex(matchedLocation));
     }
-    return (GenerateResErr(403));
+    return (getErrorPageFromConfig(403));
 }
 
 
@@ -378,7 +380,7 @@ std::string Get::setupChunkedSending(const std::string& filePath)
     {
         struct stat s;
         if (stat(filePath.c_str(), &s) == -1) {
-            return GenerateResErr(500);
+            return getErrorPageFromConfig(500);
         }
         this->client.fileSize = s.st_size;
         std::ostringstream oss;
@@ -396,7 +398,7 @@ std::string Get::setupChunkedSending(const std::string& filePath)
         ssize_t bytesRead = read(this->client.fileFd, buffer, this->client.chunkSize);
         if (bytesRead == -1) {
             close(this->client.fileFd);
-            return GenerateResErr(500);
+            return getErrorPageFromConfig(500);
         }
         else if (bytesRead == 0) {
             this->client.response = "0\r\n\r\n";
@@ -450,4 +452,74 @@ std::string Get::buildRedirectResponse(int statusCode, const std::string& target
     oss << "Connection: close\r\n\r\n";
 
     return oss.str();
+}
+
+std::string Get::getErrorPageFromConfig(int statusCode)
+{
+    for (size_t i = 0; i < this->client.mutableConfig.errorPage.size(); ++i)
+    {
+        if (std::atoi(this->client.mutableConfig.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string root = this->client.mutableConfig.root;
+            std::string errorPage = this->client.mutableConfig.errorPage[i].second;
+            
+            if (!root.empty() && root[root.length() - 1] != '/') {
+                root += "/";
+            }
+            if (!errorPage.empty() && errorPage[0] == '/') {
+                errorPage = errorPage.substr(1); 
+            }
+            std::string errorPagePath = root + errorPage;
+            struct stat fileStat;
+            if (stat(errorPagePath.c_str(), &fileStat) != 0) {
+                continue; 
+            }
+            if (!S_ISREG(fileStat.st_mode)) {
+                continue;
+            }
+            
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                std::ostringstream response;
+                response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                this->client.chunkedSending = true;
+                return response.str();
+            }
+        }
+    }
+    this->client.chunkedSending = true;
+    return GenerateResErr(statusCode);
+}
+
+std::string Get::getStatusMessage(int statusCode)
+{
+    switch(statusCode)
+    {
+        case 200: return "OK";
+        case 201: return "Created";
+        case 204: return "No Content";
+        case 400: return "Bad Request";
+        case 401: return "Unauthorized";
+        case 403: return "Forbidden";
+        case 404: return "Not Found";
+        case 405: return "Method Not Allowed";
+        case 413: return "Content Too Large";
+        case 414: return "URI Too Long";
+        case 415: return "Unsupported Media Type";
+        case 429: return "Too Many Requests";
+        case 500: return "Internal Server Error";
+        case 501: return "Not Implemented";
+        case 502: return "Bad Gateway";
+        case 503: return "Service Unavailable";
+        case 504: return "Gateway Timeout";
+        case 505: return "HTTP Version Not Supported";
+        default: return "Unknown Error";
+    }
 }
