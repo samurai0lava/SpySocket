@@ -1,8 +1,6 @@
 #include "../../inc/webserv.hpp"
 
-
 // NGINX-style incremental parsing implementation
-
 
 int parse_hex(const std::string& s)
 {
@@ -186,11 +184,11 @@ bool ParsingRequest::parse_start_line()
 
 	std::istringstream ss(start_line_str);
 	std::string method, uri, version;
-	
+
 	std::getline(ss, method, ' ');
 	std::getline(ss, uri, ' ');
 	std::getline(ss, version, ' ');
-	
+
 	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
 		return false;
 
@@ -404,22 +402,22 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			access_error(error_code, error_message);
 			return false;
 		}
-		
+
 		size_t semicolon_pos = content_type.find(';');
 		std::string content_type_value;
 		std::map<std::string, std::string> content_type_directives;
-		
+
 		if (semicolon_pos != std::string::npos)
 		{
 			content_type_value = content_type.substr(0, semicolon_pos);
 			std::string directives_part = content_type.substr(semicolon_pos + 1);
 			size_t start = 0;
 			size_t next_semicolon;
-			
+
 			do {
 				next_semicolon = directives_part.find(';', start);
 				std::string directive;
-				
+
 				if (next_semicolon != std::string::npos)
 				{
 					directive = directives_part.substr(start, next_semicolon - start);
@@ -491,18 +489,18 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				return false;
 			}
 		}
-		if (content_type_value != "text/html" && 
-			content_type_value != "text/plain" && 
+		if (content_type_value != "text/html" &&
+			content_type_value != "text/plain" &&
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
-			content_type_value != "image/png" && 
+			content_type_value != "image/png" &&
 			content_type_value != "video/mp4" &&
 			content_type_value != "image/jpeg" &&
 			content_type_value != "image/gif" &&
 			content_type_value != "application/xml" &&
 			content_type_value != "application/pdf" &&
-			content_type_value != "application/octet-stream"	
+			content_type_value != "application/octet-stream"
 		)
 		{
 			connection_status = 0;
@@ -608,7 +606,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		// 	}
 		// }
 		// return true;
-		// cout << RED "Content length val : " << 
+		// cout << RED "Content length val : " <<
 	}
 	// content_lenght_exists = 0;
 	return true;
@@ -728,10 +726,10 @@ bool ParsingRequest::parse_body()
         return true;
     }
 
-    if (method == "POST") 
+    if (method == "POST")
 	{
-        if (transfer_encoding_exists == 1) 
-		{   
+        if (transfer_encoding_exists == 1)
+		{
             // Check if we have new data since last call
             if (buffer.length() <= chunked_last_processed_size) {
                 std::string dummy;
@@ -743,7 +741,7 @@ bool ParsingRequest::parse_body()
                     chunked_last_processed_size = 0;
                     chunked_accumulated_data.clear();
                     return true;
-                }                
+                }
                 return false;
             }
             size_t new_data_start = chunked_last_processed_size;
@@ -762,13 +760,13 @@ bool ParsingRequest::parse_body()
                 return false;
             }
         }
-		else if (content_lenght_exists == 1) 
+		else if (content_lenght_exists == 1)
 		{
             size_t available = buffer.length() - buffer_pos;
             if (available < expected_body_length) {
                 return false;
             }
-            
+
             body_content = buffer.substr(buffer_pos, expected_body_length);
             buffer_pos += expected_body_length;
             return true;
@@ -778,7 +776,7 @@ bool ParsingRequest::parse_body()
 }
 
 
-// Feed data to the parser 
+// Feed data to the parser
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
 	const size_t MAX_BUFFER_SIZE = 10 * 1024 * 1024;
@@ -806,7 +804,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
-		
+
 		switch (current_state)
 		{
 		case PARSE_START_LINE:
@@ -861,7 +859,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 //Host
 //Content Length
-//Tranfer encoding 
+//Tranfer encoding
 // Connection
 //Content Type // respond
 // expect
@@ -890,7 +888,7 @@ void ParsingRequest::reset()
     if (buffer_pos < buffer.length()) {
         leftover_data = buffer.substr(buffer_pos);
     }
-    
+
     // Reset all state variables for a new request
     start_line.clear();
     headers.clear();
@@ -909,12 +907,12 @@ void ParsingRequest::reset()
     error_message.clear();
     status_code = 200;
     status_phrase.clear();
-    
+
     // Restore any leftover data that might belong to the next request
     if (!leftover_data.empty()) {
         buffer = leftover_data;
     }
-    
+
     // Reset the static state in refactor_data function
     reset_refactor_data_state();
 }
@@ -937,15 +935,15 @@ std::string ParsingRequest::getId() const
 	std::string cookies = getCookies();
 	if (cookies.empty())
 		return "";
-	
+
 	size_t pos = cookies.find("id=");
 	if (pos == std::string::npos)
 		return "";
-	pos += 3; 
+	pos += 3;
 	size_t end_pos = cookies.find(';', pos);
 	if (end_pos == std::string::npos)
 		end_pos = cookies.length();
-	
+
 	return cookies.substr(pos, end_pos - pos);
 }
 

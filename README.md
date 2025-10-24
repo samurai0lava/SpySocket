@@ -29,7 +29,7 @@ CGI has its limitations since creates a new process for each request , today ser
 **FastCGI, How its works ?**
 
 For traditional CGI its create every time a new process , FastCGI solves this problem by keeping processes alive and reusing them, when it receive a request it looks at its pool of existing FastCGI processes.
-The process manager it can dynamically adjust the number of processes based on the load 
+The process manager it can dynamically adjust the number of processes based on the load
 FastCGI dont have to run at the same machine as the webserver , because FastCGI communicate through its network protocol.
 
 
@@ -47,21 +47,21 @@ http://example.com/cgi-bin/search.cgi/category/books?query=python&author=smith
 ``/cgi-bin/search.cgi``  ---> tells the server what program to execute.
 ``/category/books``      ---> provides additional context that the program can use.
 ``?query=python&author=smith`` ---> carries variable data.
-    
+
 
 
 **How i can implement it in my WEBSERV ?**
 
 The CGI implementation follows a standard Unix process model with pipe-based communication.
 1. Setting up CGI environment variables from the HTTP request (method, headers, paths, etc.).
-	-- By encoding the URI , because we need the script path ,the query value and 
+	-- By encoding the URI , because we need the script path ,the query value and
 	the data need for the script to run.
 	--But we have a small issue , when we know its a CGI script, well there is a solution treats any file that inside the  ```cgi-bin``` folder a script.
 	--we check for the interpreter for that script extension. or if has no extension or ```.cgi``` , we get it from the shebang in the script.
 2. Creates two pipes - one for input to the CGI script and one for output from it. It forks a child process where the child redirects its STDIN/STDOUT to the pipes,
-3. Executes the CGI script using `execve()` with the appropriate interpreter 
+3. Executes the CGI script using `execve()` with the appropriate interpreter
 4. The parent process manages the pipes, handles timeout scenarios using `select()` with interval-based counting.
-5. Reads the CGI output in a non-blocking manner. 
+5. Reads the CGI output in a non-blocking manner.
 
 
 
@@ -104,6 +104,39 @@ Notes:
 - Browsers typically limit each cookie to about 4096 bytes; total cookie limits vary by browser.
 
 
+# Path Traversal Security Implementation
+
+## Summary
+
+Your webserver **now has comprehensive protection** against path traversal attacks including:
+- ✅ `../` normalization in URI parsing
+- ✅ Symlink attack prevention
+- ✅ Root directory boundary enforcement
+
+## 🔍 Where to Add Security Checks
+
+You need to add `validateFilePath()` calls in these locations:
+
+### **Priority 1: File Serving (GET)**
+**File:** `src/Methods/Get.cpp`
+- [ ] In `pathIsFile()` before opening files
+- [ ] In `generateAutoindex()` before listing directories
+- [ ] In `serveFile()` before reading file contents
+
+### **Priority 2: File Upload (POST)**
+**File:** `src/POST/POST.cpp` or upload handling code
+- [ ] Before saving uploaded files
+- [ ] When creating upload directories
+
+### **Priority 3: File Deletion (DELETE)**
+**File:** `src/Methods/DELETE.cpp`
+- [ ] In `DeleteMethode` before calling `unlink()`
+- [ ] Before checking file existence
+
+### **Priority 4: CGI Execution**
+**File:** `src/CGI/cgi.cpp`
+- [ ] Before executing CGI scripts
+- [ ] When passing file paths to CGI environment
 
 
 
