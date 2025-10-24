@@ -12,10 +12,14 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         "host",
         "client_max_body_size",
     };
+    if (keyValue.find_first_of("\n\r\t\f\v ") == std::string::npos)
+	{
+         throw SingleServerConfig::NoListenException();
+	}
     std::string key = keyValue.substr(0, keyValue.find_first_of("\n\r\t\f\v "));
 	std::string value = "";
 	int nKey = 0;
-    for (;nKey < 11; ++nKey)
+    for (;nKey < 8; ++nKey)
 	{
 		if (configVariables[nKey] == key){
 			break ;
@@ -25,13 +29,12 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
 	{
         case (listen_):
         {
-            
+
             value = keyValue.substr(keyValue.find_first_of("\n\r\t\f\v ") + 1);
-            if (value.find_first_not_of(DECIMAL) != std::string::npos){
-                std::cout<<"hello2"<<std::endl;
-                throw SingleServerConfig::NoListenException();}
+            if (value.find_first_not_of(DECIMAL) != std::string::npos)
+                throw SingleServerConfig::NoListenException();
             int iport = atoi(value.c_str());
-            if (iport <= 0 || iport > 65535) 
+            if (iport <= 0 || iport > 65535)
                 throw std::runtime_error("Invalid listen port: must be between 1 and 65535");
             std::stringstream ss(value);
             unsigned short port;
@@ -46,7 +49,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
                 this->_conf->listen.push_back(port);
             break;
 
-            
+
         }
         case(host):
         {
@@ -81,7 +84,7 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         }
         case(location):
         {
-            
+
             this->_handleLocation(keyValue);
             break;
         }
@@ -121,12 +124,12 @@ void SingleServerConfig::_parseKeyValue(std::string keyValue)
         }
     }
 
-    
+
 }
 
 void SingleServerConfig::_setVariables(std::string config)
 {
-  
+
 	std::stringstream configStream(config);
 
 	std::string buffer = "";
@@ -194,7 +197,7 @@ void SingleServerConfig::_handleErrorPage(std::string line)
     iss >> extra;
     if (statusCode.empty() || path.empty() || !extra.empty())
         throw std::runtime_error("Error: 'error_page' must have exactly 2 arguments: status_code and file_path.");
-    
+
     int code = std::atoi(statusCode.c_str());
     if (code < 400 || code > 599)
         throw std::runtime_error("Invalid error status code: " + statusCode);
@@ -225,23 +228,23 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
     _initializeLocationStruct(loc);
     std::istringstream iss(block);
     std::string line;
-    
+
     while (std::getline(iss, line))
     {
-      
+
         size_t start = line.find_first_not_of(" \t\n\r\f\v");
         if (start == std::string::npos)
             continue;
         size_t end = line.find_last_not_of(" \t\n\r\f\v");
         line = line.substr(start, end - start + 1);
-        
+
         if (line.empty() || line[0] == '#')
-            continue; 
+            continue;
         if (!line.empty() && line[line.length() - 1] == ';')
             line = line.substr(0, line.length() - 1);
         _parseLocationDirective(loc, line);
     }
-    
+
     return loc;
 }
 
@@ -249,17 +252,17 @@ LocationStruct SingleServerConfig::_fillLocationStruct(std::string block)
 void SingleServerConfig::_parseLocationDirective(LocationStruct& loc, const std::string& directive)
 {
     std::string locationDirectives[] = {
-        "root",           
-        "autoindex",      
-        "method",         
-        "index_page",     
-        "_return",        
-        "cgi_path",       
-        "cgi_ext",        
-        "upload_enabled", 
-        "upload_path"     
+        "root",
+        "autoindex",
+        "method",
+        "index_page",
+        "_return",
+        "cgi_path",
+        "cgi_ext",
+        "upload_enabled",
+        "upload_path"
     };
-    
+
     if (directive.find_first_of(" \t") == std::string::npos)
     {
         throw std::runtime_error("Invalid location directive format: " + directive);
@@ -277,7 +280,7 @@ void SingleServerConfig::_parseLocationDirective(LocationStruct& loc, const std:
         if (locationDirectives[nKey] == key)
             break;
     }
-    
+
     switch (nKey)
     {
         case 0: // root
@@ -317,10 +320,10 @@ void SingleServerConfig::_parseLocationRoot(LocationStruct& loc, const std::stri
 {
     if (!loc.root.empty())
         throw std::runtime_error("Duplicate root directive in location");
-    
+
     if (value.empty())
         throw std::runtime_error("Empty root value in location");
-    
+
     loc.root = value;
 }
 
@@ -338,7 +341,7 @@ void SingleServerConfig::_parseLocationMethod(LocationStruct& loc, const std::st
 {
     std::istringstream iss(value);
     std::string method;
-    
+
     while (iss >> method)
     {
         if (method != "GET" && method != "POST" && method != "DELETE" )
@@ -353,10 +356,10 @@ void SingleServerConfig::_parseLocationIndexPage(LocationStruct& loc, const std:
 {
     if (!loc.indexPage.empty())
         throw std::runtime_error("Duplicate index_page directive in location");
-    
+
     if (value.empty())
         throw std::runtime_error("Empty index_page value in location");
-    
+
     loc.indexPage = value;
 }
 
@@ -364,7 +367,7 @@ void SingleServerConfig::_parseLocationReturn(LocationStruct& loc, const std::st
 {
     std::istringstream iss(value);
     std::string code, url;
-    
+
     if (!(iss >> code >> url))
         throw std::runtime_error("Invalid _return format: expected 'code url'");
     int statusCode = std::atoi(code.c_str());
@@ -376,7 +379,7 @@ void SingleServerConfig::_parseLocationCgiPath(LocationStruct& loc, const std::s
 {
     std::istringstream iss(value);
     std::string path;
-    
+
     while (iss >> path)
     {
         loc.cgi_path.push_back(path);
@@ -390,7 +393,7 @@ void SingleServerConfig::_parseLocationCgiExt(LocationStruct& loc, const std::st
     while (iss >> ext)
     {
         if (ext[0] != '.')
-            ext = "." + ext; 
+            ext = "." + ext;
         loc.cgi_ext.push_back(ext);
     }
 }
@@ -409,14 +412,14 @@ void SingleServerConfig::_parseLocationUploadPath(LocationStruct& loc, const std
 {
     if (!loc.upload_path.empty())
         throw std::runtime_error("Duplicate upload_path directive in location");
-    
+
     loc.upload_path = value;
 }
 bool SingleServerConfig::_isValidHost(const std::string& host) const
 {
     if (host.empty() || host.length() > 253)
         return false;
-        
+
     std::string hostToCheck = host;
     if (host[0] == '*')
     {
@@ -444,16 +447,16 @@ bool SingleServerConfig::_isValidIPv4(const std::string& ip) const
     std::istringstream iss(ip);
     std::string octet;
     int count = 0;
-    
+
     while (std::getline(iss, octet, '.'))
     {
         count++;
         if (count > 4)
             return false;
-        
+
         if (octet.empty() || octet.length() > 3)
             return false;
-        
+
         for (size_t i = 0; i < octet.length(); ++i)
         {
             if (!std::isdigit(octet[i]))
@@ -461,7 +464,7 @@ bool SingleServerConfig::_isValidIPv4(const std::string& ip) const
         }
         if (octet.length() > 1 && octet[0] == '0')
             return false;
-        
+
         int num = std::atoi(octet.c_str());
         if (num < 0 || num > 255){
             return false;}
@@ -473,13 +476,13 @@ bool SingleServerConfig::_isValidDomain(const std::string& domain) const
 {
       if (domain.empty() || domain.length() > 253)
         return false;
-    if (domain[0] == '.' || domain[0] == '-' || 
+    if (domain[0] == '.' || domain[0] == '-' ||
         domain[domain.length() - 1] == '.' || domain[domain.length() - 1] == '-')
         return false;
-    
+
     std::istringstream iss(domain);
     std::string label;
-    
+
     while (std::getline(iss, label, '.'))
     {
         if (label.empty() || label.length() > 63)
@@ -493,7 +496,7 @@ bool SingleServerConfig::_isValidDomain(const std::string& domain) const
                 return false;
         }
     }
-    
+
     return true;
 }
 
@@ -502,7 +505,7 @@ size_t SingleServerConfig::_parseBodySize(const std::string& sizeStr) const
 {
     if (sizeStr.empty())
         throw std::runtime_error("Empty client_max_body_size value");
-    
+
     std::string numberPart;
     std::string suffix;
     size_t i = 0;
@@ -518,19 +521,19 @@ size_t SingleServerConfig::_parseBodySize(const std::string& sizeStr) const
         throw std::runtime_error("No numeric value in client_max_body_size: " + sizeStr);
     if (!suffix.empty() &&  suffix != "KB" &&  suffix != "MB"  && suffix != "GB")
         throw std::runtime_error("Invalid size suffix in client_max_body_size: " + sizeStr);
-    
+
     long long number = std::atoll(numberPart.c_str());
     if (number < 0)
         throw std::runtime_error("Negative value not allowed in client_max_body_size");
     size_t result = number;
- 
+
     if ( suffix == "KB")
         result *= 1024;
     else if ( suffix == "MB")
         result *= 1024 * 1024;
     else if ( suffix == "GB")
         result *= 1024 * 1024 * 1024;
-    if (result > 2147483648UL) 
+    if (result > 2147483648UL)
         throw std::runtime_error("client_max_body_size too large (max 2GB)");
     return result;
 }
@@ -540,10 +543,10 @@ bool SingleServerConfig::_isValidLocationPath(const std::string& path) const
 {
     if (path.empty())
     return false;
-    
+
     if (path[0] != '/')
         return false;
-    
+
     if (path.find('\0') != std::string::npos)
         return false;
     if (path.find("../") != std::string::npos || path.find("/..") != std::string::npos)
@@ -574,7 +577,7 @@ SingleServerConfig::SingleServerConfig(std::string server, ConfigStruct *conf) :
 {
 	this->cbbsSet = false;
     this->_setVariables(server);
- 
+
 }
 const char* SingleServerConfig::NoListenException::what(void) const throw()
 {
