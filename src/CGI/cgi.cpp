@@ -199,7 +199,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
         {
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
-
         perror("execve failed");
         exit(EXIT_FAILURE);
     }
@@ -358,8 +357,6 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
             }
         }
         close(input_fd);
-
-        // Add a small delay to let the server main loop handle the CGI fd
     }
     return true;
 }

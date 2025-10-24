@@ -5,6 +5,7 @@ FLAGS = -Wall -Wextra -Werror -std=c++98 -g
 SRCS = src/main.cpp \
 	src/utils/ft_memset.cpp\
 	src/utils/handleSignals.cpp\
+	src/utils/path_security.cpp\
 	src/Parsing/parsing_request.cpp\
 	src/Config.cpp\
 	src/server.cpp\
@@ -95,7 +96,7 @@ fclean: clean
 run: all clean
 	@./$(NAME)
 
-re: fclean all	
+re: fclean all
 
 .PHONY: all clean fclean re run
 .SECONDARY: $(OBJS)

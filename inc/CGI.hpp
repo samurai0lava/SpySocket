@@ -51,6 +51,7 @@ public:
     int get_error_code() const { return error_code; }
     std::string get_error_message() const { return error_message; }
     bool is_cgi_timeout(int timeout_seconds);
+    
     bool isExtensionAllowed(const std::string& scriptPath, const LocationStruct& location) const;
     void set_location(const LocationStruct& location);
 

@@ -38,6 +38,9 @@ public:
     bool cgi_headers_sent;
     std::string cgi_body_buffer;
     
+    // Connection control
+    bool should_close_connection;
+    
     // bool               
     CClient();
     CClient(std::string NameMethod, std::string uri, int FdClient, ConfigStruct MConfig,

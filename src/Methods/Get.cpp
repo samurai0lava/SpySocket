@@ -347,7 +347,7 @@ std::string Get::MethodGet()
         throw std::runtime_error("");
     }
     if (!locationMatched._return.empty()) {
-        int statusCode = atoi(locationMatched._return[0].first.c_str());
+        int statusCode = std::atoi(locationMatched._return[0].first.c_str());
         std::string target = locationMatched._return[0].second;
         this->client.chunkedSending = true;
         return buildRedirectResponse(statusCode, target);

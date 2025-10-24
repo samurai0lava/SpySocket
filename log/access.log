@@ -1,2 +1,2 @@
 [2025-10-10 19:23:22] [INFO] Server started on port 1080
-[2025-10-10 19:23:22] POST /uploads HTTP/1.1 127.0.0.1:1080 postmanruntime/7.46.0 keep-alive 
+[2025-10-10 19:23:22] POST /uploads HTTP/1.1 127.0.0.1:1080 postmanruntime/7.46.0 keep-alive

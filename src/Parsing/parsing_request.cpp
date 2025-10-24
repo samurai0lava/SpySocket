@@ -1,8 +1,6 @@
 #include "../../inc/webserv.hpp"
 
-
 // NGINX-style incremental parsing implementation
-
 
 int parse_hex(const std::string& s)
 {
@@ -127,7 +125,7 @@ bool ParsingRequest::checkVersion(const std::string& version)
 		current_state = PARSE_ERROR;
 		return false;
 	}
-	if (version != "HTTP/1.0" && version != "HTTP/1.1")
+	if (version != "HTTP/1.1")
 	{
 		connection_status = 0;
 		error_code = 400;
@@ -143,6 +141,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 {
 	if (method.empty())
 	{
+		connection_status = 0;
 		error_code = 400;
 		error_message = "Bad Request: HTTP method cannot be empty";
 		current_state = PARSE_ERROR;
@@ -150,8 +149,9 @@ bool ParsingRequest::checkMethod(const std::string& method)
 		return false;
 	}
 
-	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT")
+	if (method == "PUT" || method == "PATCH" || method == "OPTIONS" || method == "TRACE" || method == "CONNECT" || method == "HEAD")
 	{
+		connection_status = 0;
 		error_code = 501;
 		error_message = "Not Implemented: HTTP method '" + method + "' is not implemented";
 		current_state = PARSE_ERROR;
@@ -160,7 +160,7 @@ bool ParsingRequest::checkMethod(const std::string& method)
 		access_error(error_code, error_message);
 		return false;
 	}
-	else if (method != "GET" && method != "POST" && method != "DELETE" && method != "HEAD")
+	else if (method != "GET" && method != "POST" && method != "DELETE")
 	{
  		connection_status = 0;
 		error_code = 400;
@@ -184,11 +184,11 @@ bool ParsingRequest::parse_start_line()
 
 	std::istringstream ss(start_line_str);
 	std::string method, uri, version;
-	
+
 	std::getline(ss, method, ' ');
 	std::getline(ss, uri, ' ');
 	std::getline(ss, version, ' ');
-	
+
 	if (!checkMethod(method) || !checkURI(uri) || !checkVersion(version))
 		return false;
 
@@ -265,7 +265,6 @@ bool ParsingRequest::parse_headers()
 	size_t double_crlf = buffer.find("\r\n\r\n", buffer_pos);
 	if (double_crlf == std::string::npos)
 	{
-		// Check if we've accumulated too much data without finding header end
 		const size_t MAX_HEADER_SIZE = 8192; // 8KB for headers
 		if (buffer.length() > MAX_HEADER_SIZE)
 		{
@@ -274,7 +273,7 @@ bool ParsingRequest::parse_headers()
 			error_message = "Request Header Fields Too Large: Headers exceed 8KB limit";
 			current_state = PARSE_ERROR;
 			access_error(error_code, error_message);
-			buffer.clear(); // Clear buffer to prevent memory leak
+			buffer.clear();
 			return false;
 		}
 		return false;
@@ -358,7 +357,7 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie")
+		if(key == "host" || key == "port" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie" || key == "location" || key == "accept" || key == "accept-encoding" || key == "accept-language")
 			header_map[key] = value;
 	}
 
@@ -390,51 +389,6 @@ bool ParsingRequest::parse_headers()
 	return true;
 }
 
-
-// bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
-// {
-// 	if (headers.find("content-type") != headers.end())
-// 	{
-// 		std::string content_type = headers.at("content-type");
-// 		// cout << "-----> " << content_type << endl;
-// 		if (content_type.empty())
-// 		{
-// 			connection_status = 0;
-// 			current_state = PARSE_ERROR;
-// 			error_code = 400;
-// 			error_message = "Bad Request: Content-Type header cannot be empty";
-// 			logError(error_code, error_message);
-// 			return false;
-// 		}
-// 		if (content_type.find("text/") == 0 || content_type.find("application/") == 0 || content_type.find("image/") == 0 || content_type.find("multipart/") == 0)
-// 		{
-// 			if(content_type.find("multipart/") == 0)
-// 			{
-// 				boundary = content_type.substr(content_type.find(';') + 1);
-// 				if(boundary.empty())
-// 				{
-// 					logError(400, "Bad Request: No boundary found.");
-// 					return false;
-// 				}
-// 				cout << "----> " << boundary << endl;
-// 			}
-// 			return true;
-// 		}
-// 		else
-// 		{
-// 			connection_status = 0;
-// 			error_code = 415;
-// 			error_message = "Unsupported Media Type: Content-Type '" + content_type + "' is not supported";
-// 			current_state = PARSE_ERROR;
-// 			logError(error_code, error_message);
-// 			return false;
-// 		}
-// 	}
-// 	return true;
-// }
-
-
-
 bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("content-type") != headers.end())
@@ -449,22 +403,22 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			access_error(error_code, error_message);
 			return false;
 		}
-		
+
 		size_t semicolon_pos = content_type.find(';');
 		std::string content_type_value;
 		std::map<std::string, std::string> content_type_directives;
-		
+
 		if (semicolon_pos != std::string::npos)
 		{
 			content_type_value = content_type.substr(0, semicolon_pos);
 			std::string directives_part = content_type.substr(semicolon_pos + 1);
 			size_t start = 0;
 			size_t next_semicolon;
-			
+
 			do {
 				next_semicolon = directives_part.find(';', start);
 				std::string directive;
-				
+
 				if (next_semicolon != std::string::npos)
 				{
 					directive = directives_part.substr(start, next_semicolon - start);
@@ -532,22 +486,22 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter cannot be empty for multipart content types";
 				current_state = PARSE_ERROR;
-				// access_error(error_code, error_message);
+					// access_error(error_code, error_message);
 				return false;
 			}
 		}
-		if (content_type_value != "text/html" && 
-			content_type_value != "text/plain" && 
+		if (content_type_value != "text/html" &&
+			content_type_value != "text/plain" &&
 			content_type_value != "application/x-www-form-urlencoded" &&
 			content_type_value != "multipart/form-data" &&
 			content_type_value != "application/json" &&
-			content_type_value != "image/png" && 
+			content_type_value != "image/png" &&
 			content_type_value != "video/mp4" &&
 			content_type_value != "image/jpeg" &&
 			content_type_value != "image/gif" &&
 			content_type_value != "application/xml" &&
 			content_type_value != "application/pdf" &&
-			content_type_value != "application/octet-stream"	
+			content_type_value != "application/octet-stream"
 		)
 		{
 			connection_status = 0;
@@ -653,7 +607,7 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		// 	}
 		// }
 		// return true;
-		// cout << RED "Content length val : " << 
+		// cout << RED "Content length val : " <<
 	}
 	// content_lenght_exists = 0;
 	return true;
@@ -665,6 +619,61 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 {
 	if (headers.find("host") != headers.end())
 	{
+		//we need to parse host value to check if its valid
+		std::string host_value = headers.at("host");
+		if (host_value.empty())
+		{
+			connection_status = 0;
+			error_code = 400;
+			error_message = "Bad Request: Host header cannot be empty";
+			current_state = PARSE_ERROR;
+			access_error(error_code, error_message);
+			return false;
+		}
+		size_t colon_pos = host_value.find(':');
+		std::string hostname;
+		std::string port_str;
+		if (colon_pos != std::string::npos)
+		{
+			hostname = host_value.substr(0, colon_pos);
+			port_str = host_value.substr(colon_pos + 1);
+			if (port_str.empty())
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Port in Host header cannot be empty";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
+			for (size_t i = 0; i < port_str.length(); ++i)
+			{
+				if (!isdigit(port_str[i]))
+				{
+					connection_status = 0;
+					error_code = 400;
+					error_message = "Bad Request: Port in Host header must be a valid integer - got: '" + port_str + "'";
+					current_state = PARSE_ERROR;
+					access_error(error_code, error_message);
+					return false;
+				}
+			}
+			int port;
+			std::istringstream iss(port_str);
+			iss >> port;
+			if (iss.fail() || !iss.eof() || port < 1 || port > 65535)
+			{
+				connection_status = 0;
+				error_code = 400;
+				error_message = "Bad Request: Invalid Port '" + port_str + "'";
+				current_state = PARSE_ERROR;
+				access_error(error_code, error_message);
+				return false;
+			}
+		}
+		//add port number to headers map with key name "port"
+		this->headers["host_name"] = hostname;
+		this->headers["port"] = port_str;
 		host_exists = 1;
 		return true;
 	}
@@ -681,9 +690,6 @@ bool ParsingRequest::checkTransferEncoding(const std::map<std::string, std::stri
 {
 	if (headers.find("transfer-encoding") != headers.end())
 	{
-		// cout << "***********\n";
-		// write(1, buffer.data(), buffer.length());
-		// cout << "***BUFFER_END***\n";
 		std::string transfer_encoding_value = headers.at("transfer-encoding");
 		transfer_encoding_exists = 1;
 		if (transfer_encoding_value == "gzip" || transfer_encoding_value == "compress" || transfer_encoding_value == "deflate" || transfer_encoding_value == "identity")
@@ -721,10 +727,10 @@ bool ParsingRequest::parse_body()
         return true;
     }
 
-    if (method == "POST") 
+    if (method == "POST")
 	{
-        if (transfer_encoding_exists == 1) 
-		{   
+        if (transfer_encoding_exists == 1)
+		{
             // Check if we have new data since last call
             if (buffer.length() <= chunked_last_processed_size) {
                 std::string dummy;
@@ -736,7 +742,7 @@ bool ParsingRequest::parse_body()
                     chunked_last_processed_size = 0;
                     chunked_accumulated_data.clear();
                     return true;
-                }                
+                }
                 return false;
             }
             size_t new_data_start = chunked_last_processed_size;
@@ -755,13 +761,13 @@ bool ParsingRequest::parse_body()
                 return false;
             }
         }
-		else if (content_lenght_exists == 1) 
+		else if (content_lenght_exists == 1)
 		{
             size_t available = buffer.length() - buffer_pos;
             if (available < expected_body_length) {
                 return false;
             }
-            
+
             body_content = buffer.substr(buffer_pos, expected_body_length);
             buffer_pos += expected_body_length;
             return true;
@@ -771,7 +777,7 @@ bool ParsingRequest::parse_body()
 }
 
 
-// Feed data to the parser 
+// Feed data to the parser
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
 {
 	const size_t MAX_BUFFER_SIZE = 10 * 1024 * 1024;
@@ -799,7 +805,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)
 	{
-		
+
 		switch (current_state)
 		{
 		case PARSE_START_LINE:
@@ -854,7 +860,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 
 //Host
 //Content Length
-//Tranfer encoding 
+//Tranfer encoding
 // Connection
 //Content Type // respond
 // expect
@@ -883,7 +889,7 @@ void ParsingRequest::reset()
     if (buffer_pos < buffer.length()) {
         leftover_data = buffer.substr(buffer_pos);
     }
-    
+
     // Reset all state variables for a new request
     start_line.clear();
     headers.clear();
@@ -902,12 +908,12 @@ void ParsingRequest::reset()
     error_message.clear();
     status_code = 200;
     status_phrase.clear();
-    
+
     // Restore any leftover data that might belong to the next request
     if (!leftover_data.empty()) {
         buffer = leftover_data;
     }
-    
+
     // Reset the static state in refactor_data function
     reset_refactor_data_state();
 }
@@ -930,15 +936,15 @@ std::string ParsingRequest::getId() const
 	std::string cookies = getCookies();
 	if (cookies.empty())
 		return "";
-	
+
 	size_t pos = cookies.find("id=");
 	if (pos == std::string::npos)
 		return "";
-	pos += 3; 
+	pos += 3;
 	size_t end_pos = cookies.find(';', pos);
 	if (end_pos == std::string::npos)
 		end_pos = cookies.length();
-	
+
 	return cookies.substr(pos, end_pos - pos);
 }
 

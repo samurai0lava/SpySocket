@@ -2,7 +2,7 @@
 # define WEBSERV_HPP
 
 
-# define DEBUG_MODE 0
+# define DEBUG_MODE 1
 
 #include <unistd.h>
 #include <iostream>
@@ -47,6 +47,9 @@
 #define YELLOW "\033[33m"
 #define RESET "\033[0m"
 
+// Security functions
+bool isPathSafe(const std::string& path, const std::string& root);
+bool validateFilePath(const std::string& path, const std::string& root);
 
 
 #endif
