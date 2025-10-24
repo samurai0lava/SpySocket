@@ -469,6 +469,7 @@ std::string Get::getErrorPageFromConfig(int statusCode)
             if (!errorPage.empty() && errorPage[0] == '/') {
                 errorPage = errorPage.substr(1); 
             }
+
             std::string errorPagePath = root + errorPage;
             struct stat fileStat;
             if (stat(errorPagePath.c_str(), &fileStat) != 0) {

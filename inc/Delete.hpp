@@ -30,13 +30,13 @@ class DeleteMethode : public ParsingRequest
         bool checkReqForDelete(ParsingRequest& request);
         std::string PerformDelete(const std::string& uri, const ConfigStruct& config);
         std::string generate_success_resp(void);
+        std::string getErrorPageFromConfig(int statusCode, const ConfigStruct& config);
+        std::string getStatusMessage(int statusCode);
         int getStatusCode() const { return status_code; }
         std::string getStatusPhrase() const { return status_phrase; }
         bool checkIfAllowed(const std::string& method, const ConfigStruct& config, const std::string& uri) const;
         std::string mapUriToPath(const std::string& uri, const ConfigStruct& config) const;
 };
-
-
 
 
 
