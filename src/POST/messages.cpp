@@ -18,13 +18,13 @@ std::string	handle_redirect(std::pair<std::string, LocationStruct> location)
 	else
 		statusMsg = "Redirect"; // fallback
 	std::string new_id = CookieManager::generateSimpleId();
-	std::string response = "HTTP/1.1 " + status + " " + statusMsg +
-		"\r\n"
-		"Location: " +
-		newLoc + "\r\n" + "Date: " + ft_time_format() + "\r\nServer: SpySocket/1.0\r\n" + CookieManager::generateSetCookieHeader("id", new_id) + "\r\n" +
-		"\r\n"
+	std::string response = "HTTP/1.1 " + status + " " + statusMsg + "\r\n"
+		"Location: " + newLoc + "\r\n"
 		"Content-Length: 0\r\n"
-		"\r\n";
+		"Date: " + ft_time_format() + "\r\n"
+		"Server: SpySocket/1.0\r\n"
+		+ CookieManager::generateSetCookieHeader("id", new_id)
+		+ "\r\n";
 	return response;
 }
 
@@ -32,28 +32,34 @@ std::string	handle_notAllowed(std::pair<std::string,
 	LocationStruct> location)
 {
 	std::string new_id = CookieManager::generateSimpleId();
-	std::string res = "HTTP/1.1 405 Method Not Allowed\r\nAllow: ";
-	for (std::set<std::string>::iterator it = location.second.allowedMethods.begin(); it != location.second.allowedMethods.end(); ++it)
+	std::string res = "HTTP/1.1 405 Method Not Allowed\r\n";
+	res += "Allow: ";
+
+	for(std::set<std::string>::iterator it = location.second.allowedMethods.begin(); it != location.second.allowedMethods.end();)
 	{
 		res += *it;
-		if (it++ != location.second.allowedMethods.end())
-		{
+		it++;
+		if (it != location.second.allowedMethods.end())
 			res += ", ";
-		}
-		it--;
 	}
+	res += "\r\n";
+
 	std::string body = "<html><body><h1>405 Method Not Allowed</h1></body></html>";
-	res += "\r\nContent-Type: text/html\r\n";
 	std::stringstream ss;
 	ss << body.size();
+
+	res += "Content-Type: text/html\r\n";
 	res += "Content-Length: " + ss.str() + "\r\n";
     res += "Date: ";
 	res += ft_time_format();
-	res += "\r\nServer: SpySocket/1.0\r\n";
+	res += "\r\n";
+	res += "Server: SpySocket/1.0\r\n";
 	res += CookieManager::generateSetCookieHeader("id", new_id);
 	res += "\r\n";
-	res += "\r\n";
+
+
 	res += body;
+	std::cout << RED << res << RESET << std::endl;
 	return res;
 }
 
@@ -67,7 +73,6 @@ std::string notFound()
 	response += ft_time_format();
 	response += "\r\nServer: SpySocket/1.0\r\n";
 	response += CookieManager::generateSetCookieHeader("id", new_id);
-	response += "\r\n";
 	response +=	"\r\n"
 		"<html><body><h1>404 Not Found</h1></body></html>";
 	return response;
@@ -84,7 +89,6 @@ std::string bad_request()
 	response += ft_time_format();
 	response += "\r\nServer: SpySocket/1.0\r\n";
 	response += CookieManager::generateSetCookieHeader("id", new_id);
-	response += "\r\n";
 	response +=	"\r\n"
 		"<!DOCTYPE html>\n"
 		"<html>\n"
@@ -106,7 +110,6 @@ std::string forbidden_403()
 	response += ft_time_format();
 	response += "\r\nServer: SpySocket/1.0\r\n";
 	response += CookieManager::generateSetCookieHeader("id", new_id);
-	response += "\r\n";
 	response +=	"\r\n"
 		"<html>"
 		"<head><title>403 Forbidden</title></head>"
@@ -121,7 +124,7 @@ std::string forbidden_403()
 std::string internal_error()
 {
 	std::string new_id = CookieManager::generateSimpleId();
-	
+
 	std::string response = "HTTP/1.1 500 Internal Server Error\r\n"
 		"Content-Type: text/html; charset=UTF-8\r\n"
 		"Content-Length: 164\r\n"
@@ -130,7 +133,6 @@ std::string internal_error()
 	response += ft_time_format();
 	response += "\r\nServer: SpySocket/1.0\r\n";
 	response += CookieManager::generateSetCookieHeader("id", new_id);
-	response += "\r\n";
 	response +=	"\r\n"
 		"<!DOCTYPE html>\n"
 		"<html>\n"
@@ -150,9 +152,8 @@ std::string created_success()
 	response +=	"Connection: keep-alive\r\n";
 	response += "Date: ";
 	response += ft_time_format();
-	response += "\r\nServer: SpySocket/1.0\r\n";
+	response += "Server: SpySocket/1.0\r\n";
 	response += CookieManager::generateSetCookieHeader("id", new_id);
-	response += "\r\n";
 	response += "\r\n";
 	response +=	"<!DOCTYPE html>\n";
 	response +=	"<html>\n";
@@ -178,24 +179,24 @@ std::string OK_200(std::string& body)
 		<< CookieManager::generateSetCookieHeader("id", new_id)
 		<< "\r\n"
 		<< body;
+
 	return ss.str();
 }
 
-std::string large_payload()
-{
-	std::string new_id = CookieManager::generateSimpleId();
+// std::string large_payload()
+// {
+// 	std::string new_id = CookieManager::generateSimpleId();
 
-	std::string response =
-    "HTTP/1.1 413 Payload Too Large\r\n"
-    "Content-Type: text/html\r\n"
-    "Connection: close\r\n"
-    "Content-Length: 94\r\n";
-	response += "Date: ";
-	response += ft_time_format();
-	response += "\r\nServer: SpySocket/1.0\r\n";
-	response += CookieManager::generateSetCookieHeader("id", new_id);
-	response += "\r\n";
-    response += "\r\n";
-    response +="<html><body><h1>413 Payload Too Large</h1><p>The request body is too large.</p></body></html>";
-	return response;
-}
+// 	std::string response =
+//     "HTTP/1.1 413 Payload Too Large\r\n"
+//     "Content-Type: text/html\r\n"
+//     "Connection: close\r\n"
+//     "Content-Length: 94\r\n";
+// 	response += "Date: ";
+// 	response += ft_time_format();
+// 	response += "\r\nServer: SpySocket/1.0\r\n";
+// 	response += CookieManager::generateSetCookieHeader("id", new_id);
+//     response += "\r\n";
+//     response +="<html><body><h1>413 Payload Too Large</h1><p>The request body is too large.</p></body></html>";
+// 	return response;
+// }

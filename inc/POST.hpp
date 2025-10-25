@@ -30,3 +30,5 @@ std::string	internal_error(void);
 std::string	created_success(void);
 std::string OK_200(std::string &body);
 std::string large_payload();
+
+std::string ft_random_time();

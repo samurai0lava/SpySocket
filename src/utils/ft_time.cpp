@@ -1,6 +1,7 @@
 #include <iostream>
-#include <sys/stat.h> 
+#include <sys/stat.h>
 #include <sstream>
+#include "../../inc/webserv.hpp"
 
 bool isLeapYear(int year)
 {
@@ -74,7 +75,7 @@ std::string ft_time_format()
     int year, month, day, hour, minute, second;
     std::string formatted_time;
     std::ostringstream oss;
-
+	;
     if (stat("/proc/self", &file_stat) == -1)
     {
         std::cerr << "Stat Failed" << std::endl;
@@ -87,5 +88,33 @@ std::string ft_time_format()
     oss << year << "-" << (month < 10 ? "0" : "") << month << "-" << (day < 10 ? "0" : "") << day << " "
         << (hour < 10 ? "0" : "") << hour << ":" << (minute < 10 ? "0" : "") << minute << ":" << (second < 10 ? "0" : "") << second;
     formatted_time = oss.str();
+    return formatted_time;
+}
+
+
+std::string ft_random_time()
+{
+    struct stat file_stat;
+    long long epoch_time;
+    int year, month, day, hour, minute, second;
+    std::string formatted_time;
+	std::ostringstream test
+	;
+    if (stat("/proc/self", &file_stat) == -1)
+    {
+        std::cerr << "Stat Failed" << std::endl;
+        return "";
+    }
+
+    epoch_time = file_stat.st_mtime;
+
+    epochToUTC(epoch_time, year, month, day, hour, minute, second);
+
+	test << year << (month < 10 ? "0" : "") << month << (day < 10 ? "0" : "") << day
+        << (hour < 10 ? "0" : "") << hour << (minute < 10 ? "0" : "") << minute;
+
+	// std::cout << RED << test.str() << RESET << std::endl;
+
+    formatted_time = test.str();
     return formatted_time;
 }

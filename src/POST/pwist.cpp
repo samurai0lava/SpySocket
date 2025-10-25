@@ -6,10 +6,10 @@ std::string generate_filename(std::string type, std::string termination)
     std::string result;
     static int counter = 0;
     result = type;
-    result += (char)(counter + '0');
+    result += ft_random_time();
     if(termination.empty())
         result += ".txt";
-    else    
+    else
         result += termination;
     counter++;
     return result;
@@ -80,12 +80,12 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser)
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
         // it's a directory
-        if (S_ISDIR(st.st_mode)) 
+        if (S_ISDIR(st.st_mode))
         {
             //pay ATTENTION to the slash "/"
             filename = location.upload_path + "/" + filename;
         }
-        else 
+        else
         {
             filename = location.upload_path;
         }
@@ -181,12 +181,12 @@ std::string main_response(LocationStruct &location, ParsingRequest &parser)
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
         // it's a directory
-        if (S_ISDIR(st.st_mode)) 
+        if (S_ISDIR(st.st_mode))
         {
             //pay ATTENTION to the slash "/"
             filename = location.upload_path + "/" + filename;
         }
-        else 
+        else
         {
             filename = location.upload_path;
         }
@@ -211,61 +211,35 @@ std::string main_response(LocationStruct &location, ParsingRequest &parser)
     return created_success();
 }
 
-// int check_body_size(ConfigStruct config, ParsingRequest& parser, LocationStruct &location)
-// {
-    
-// }
-
 std::string postMethod(std::string uri, ConfigStruct config,
     ParsingRequest& parser)
 {
     std::string response = "";
 
-    // cout << "BODY :::::: " << parser.getBody() << "BODY ENDDDDDD\n";
-    try
-    {
-        std::pair<std::string, LocationStruct> location = get_location(uri,
-            config);
-        if(location.first.empty())
-            return notFound();
-        //check if method allowed and check for redirection
-        if(!location.second._return.empty())
-        {
-            return handle_redirect(location);
-        }
+	std::pair<std::string, LocationStruct> location = get_location(uri,
+		config);
+	if(location.first.empty())
+		return notFound();
+	//check if method allowed and check for redirection
+	if(!location.second._return.empty())
+	{
+		return handle_redirect(location);
+	}
 
-        if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
-        {
-            return handle_notAllowed(location);
-        }
-        
-        // if(check_body_size(config, parser, location.second))
-        // {
-        //     return large_payload();
-        // }
-        if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
-        {
-            response = handle_upload(location.second, parser);
-        }
-        else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
-        {
-            response = handle_url_encoded(location.second, parser);
-        }
-        else
-            response = main_response(location.second, parser);
+	if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
+	{
+		return handle_notAllowed(location);
+	}
 
-    }
-    catch (std::exception& e)
-    {
-        std::string error_msg = e.what();
-        if (error_msg.find("Method not allowed") != std::string::npos)
-            response = GenerateResErr(405);
-        else if (error_msg.find("Location not found") != std::string::npos)
-            response = GenerateResErr(404);
-        else if (error_msg.find("Redirection") != std::string::npos)
-            response = GenerateResErr(302);
-        else
-            response = internal_error(); // 500 Internal Server Error
-    }
+	if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
+	{
+		response = handle_upload(location.second, parser);
+	}
+	else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
+	{
+		response = handle_url_encoded(location.second, parser);
+	}
+	else
+		response = main_response(location.second, parser);
     return response;
 }

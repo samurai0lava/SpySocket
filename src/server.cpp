@@ -4,52 +4,58 @@
 
 Servers* Servers::instance = NULL;
 
-void Servers::getServersFds(Config* configFile, Servers& serv)
+
+void Servers::getServersFds(Config *configFile, Servers &serv)
 {
-    // Servers serv;
-    serv.configStruct = configFile->_cluster;
-    // int serversCount = serv.configStruct.size();
+	int				serverFd;
+	int				opt;
+	sockaddr_in sockStruct;
 
-    int serverFd;
+	serv.configStruct = configFile->_cluster;
 
-    for (std::map<std::string, ConfigStruct>::iterator it = serv.configStruct.begin(); it != serv.configStruct.end(); it++)
-    {
-        serverFd = socket(AF_INET, SOCK_STREAM, 0);
-        if (serverFd == -1) {
-            perror("socket creation failed");
-            continue;
-        }
-
-        // Set SO_REUSEADDR to avoid "Address already in use" errors
-        int opt = 1;
-        if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt, sizeof(opt)) < 0) {
-            perror("setsockopt SO_REUSEADDR failed");
-            close(serverFd);
-            continue;
-        }
-
-        sockaddr_in sockStruct;
-        sockStruct.sin_family = AF_INET;
-        sockStruct.sin_addr.s_addr = inet_addr((*it).second.host.c_str()); // localhost e.g
-        unsigned short port = *((*it).second.listen.begin());
-        sockStruct.sin_port = htons(port); // check if the port is valid
-
-        if (bind(serverFd, (sockaddr*)&sockStruct, sizeof(sockStruct)) < 0) {
-            perror("bind failed");
-            close(serverFd);
-            continue;
-        }
-
-        if (listen(serverFd, SOMAXCONN) < 0) {
-            perror("listen failed");
-            close(serverFd);
-            continue;
-        }
-        std::cout << BLUE "Listening on " RESET << it->second.host << ":" << port << " (fd=" << serverFd << ")\n";
-        if(DEBUG_MODE == 1)
-            access_start_server(port);
-        serv.serversFd.push_back(serverFd);
-    }
+	for (std::map<std::string,
+		ConfigStruct>::iterator it = serv.configStruct.begin(); it != serv.configStruct.end(); it++)
+	{
+			for (std::vector<unsigned short>::iterator i = (*it).second.listen.begin(); i != (*it).second.listen.end(); i++)
+			{
+				//AF_INET for IPv4 and SOCK_STREAM for TCP connection
+				serverFd = socket(AF_INET, SOCK_STREAM, 0);
+				if (serverFd == -1)
+				{
+					perror("socket creation failed");
+					continue ;
+				}
+				// Set SO_REUSEADDR to avoid "Address already in use" errors
+				opt = 1;
+				if (setsockopt(serverFd, SOL_SOCKET, SO_REUSEADDR, &opt,
+						sizeof(opt)) < 0)
+				{
+					perror("setsockopt SO_REUSEADDR failed");
+					close(serverFd);
+					continue ;
+				}
+				sockStruct.sin_family = AF_INET;
+				sockStruct.sin_addr.s_addr = inet_addr((*it).second.host.c_str()); // localhost e.g
+				sockStruct.sin_port = htons((*i)); // check if the port is valid
+				if (bind(serverFd, (sockaddr *)&sockStruct,
+						sizeof(sockStruct)) < 0)
+				{
+					perror("bind failed");
+					close(serverFd);
+					continue ;
+				}
+				if (listen(serverFd, SOMAXCONN) < 0)
+				{
+					perror("listen failed");
+					close(serverFd);
+					continue ;
+				}
+				// std::cout << BLUE "Listening on " RESET << it->second.host << ":" << (*i) << " (fd=" << serverFd << ")\n";
+				serv.serversFd.push_back(serverFd);
+				if(DEBUG_MODE == 1)
+					access_start_server(*i);
+			}
+	}
 }
 
 int set_non_blocking(int fd) {
@@ -67,6 +73,7 @@ int set_non_blocking(int fd) {
 void Servers::epollFds(Servers& serv)
 {
     int epollFd = epoll_create1(0);
+	//The main should catch this exception tho
     if (epollFd == -1)
         throw std::runtime_error("Error creating epoll!");
     struct epoll_event event;
@@ -120,17 +127,17 @@ void Servers::epollFds(Servers& serv)
         }
         std::vector<int> timed_out_clients;
         std::vector<int> failed_cgi_clients;
-        
+
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
             int client_fd = it->first;
             CClient& client_data = it->second;
-            
+
             if (client_data.cgi_handler) {
                 pid_t cgi_pid = client_data.cgi_handler->get_cgi_pid();
                 if (cgi_pid > 0) {
                     int status;
                     pid_t result = waitpid(cgi_pid, &status, WNOHANG);
-                    
+
                     if (result == cgi_pid && (!WIFEXITED(status) || WEXITSTATUS(status) != 0)) {
                         failed_cgi_clients.push_back(client_fd);
                         continue;
@@ -230,7 +237,7 @@ void Servers::epollFds(Servers& serv)
                 client_ev.data.fd = client_fd;
 
                 std::cout << RED "--> " << client_ev.data.fd << RESET << std::endl;
-                
+
                 if (epoll_ctl(epollFd, EPOLL_CTL_ADD, client_fd, &client_ev) == -1)
                 {
                     std::cerr << "Error adding client to epoll!" << std::endl;
@@ -344,7 +351,7 @@ void Servers::epollFds(Servers& serv)
                     //SHOULDN't BE HERE NEEDS TO BE INSIDE PARSING BEFORE PARSE OK
                     //I MISCONFIGURED THE MESSAGES GO BACK TO THEM (MALFORMED RESPONSE)
                     // if(parser->getContentLengthExists() == 1 && atoi((parser->getHeaders().at("content-length")).c_str()) > config.clientMaxBodySize)
-                    //     return large_payload()                    
+                    //     return large_payload()
                     if(DEBUG_MODE == 1)
                         access_log(*parser);
                     handleMethod(fd, parser, config, client_data_map[fd]);
@@ -457,16 +464,16 @@ void Servers::epollFds(Servers& serv)
                     if (c.response.empty())
                     {
                         c.ready_to_respond = false;
-                        
+
                         // Check if connection should be closed
                         bool should_close = false;
                         if (client_data_map[fd].should_close_connection) {
                             should_close = true;
-                        } else if (clientParsers.find(fd) != clientParsers.end() && 
+                        } else if (clientParsers.find(fd) != clientParsers.end() &&
                                    clientParsers[fd]->getConnectionStatus() == 0) {
                             should_close = true;
                         }
-                        
+
                         if (should_close) {
                             // Close the connection
                             std::cout << "Closing connection for fd " << fd << " (connection: close or error)" << std::endl;
@@ -573,16 +580,16 @@ void Servers::epollFds(Servers& serv)
                     {
                         c.ready_to_respond = false;
                         // std::cout << "Finished sending response to fd : " << fd << std::endl;
-                        
+
                         // Check if connection should be closed
                         bool should_close = false;
                         if (client_data_map[fd].should_close_connection) {
                             should_close = true;
-                        } else if (clientParsers.find(fd) != clientParsers.end() && 
+                        } else if (clientParsers.find(fd) != clientParsers.end() &&
                                    clientParsers[fd]->getConnectionStatus() == 0) {
                             should_close = true;
                         }
-                        
+
                         if (should_close) {
                             // Close the connection
                             std::cout << "Closing connection for fd " << fd << " (connection: close or error)" << std::endl;
