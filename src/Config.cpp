@@ -8,14 +8,14 @@ std::string parseArgv(int argc, char** argv)
 	if (argc > 2 || argc < 2)
 	{
 		std::cout << RED "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>"   RESET<< std::endl;
-		exit(1);
+		throw std::runtime_error("Invalid number of arguments");
 	}
 	std::string sArgv = argv[1];
 	std::string ending = ".conf";
 	if ((argv[1] + sArgv.find_last_of(".")) != ending)
 	{
 		std::cout << "Please use webserv with config file only as follows:" << std::endl << "./webserv <config_filename.conf>" << std::endl;
-		exit(1);
+		throw std::runtime_error("Invalid config file format");
 	}
 	return (sArgv);
 }
