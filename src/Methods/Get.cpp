@@ -67,7 +67,23 @@ std::string Get::getMimeType(const std::string& path)
 }
 std::string Get::matchLocation(const std::string& requestPath, const ConfigStruct& server)
 {
+    // Strip query string and fragment from the path before processing
+    // Only the path component should be used for location matching
     std::string path = requestPath;
+    size_t query_pos = path.find('?');
+    size_t fragment_pos = path.find('#');
+    size_t separator_pos = std::string::npos;
+
+    if (query_pos != std::string::npos && fragment_pos != std::string::npos)
+        separator_pos = (query_pos < fragment_pos) ? query_pos : fragment_pos;
+    else if (query_pos != std::string::npos)
+        separator_pos = query_pos;
+    else if (fragment_pos != std::string::npos)
+        separator_pos = fragment_pos;
+
+    if (separator_pos != std::string::npos)
+        path = path.substr(0, separator_pos);
+
     std::string removedSegment;
     std::string removedPath;
     while (true) {
@@ -79,8 +95,15 @@ std::string Get::matchLocation(const std::string& requestPath, const ConfigStruc
                     throw std::runtime_error("Error 405 Method Not Allowed");
                 }
                 this->client._name_location = server.location[i].first;
-                // printLocationStruct(server.location[i].second);
-                return server.location[i].second.root + removedPath;
+
+                // Security check: validate the constructed path
+                std::string fullPath = server.location[i].second.root + removedPath;
+                // Extract the relative path part after root for security validation
+                if (!is_path_secure(removedPath.empty() ? "" : removedPath.substr(1)))
+                {
+                    throw std::runtime_error("Error 403 Forbidden: Path traversal detected");
+                }
+                return fullPath;
             }
         }
         if (path == "/")

@@ -408,3 +408,97 @@
 [2025-10-26 14:18:30] [INFO] Server started on port 1080
 [2025-10-26 14:18:30] Error: 403 - Forbidden: Path traversal attempt detected
 [2025-10-26 14:18:30] Error: 400 - Bad Request: URI contains unencoded spaces
+[Sun, 26 Oct 2025 16:03:42 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:03:42 GMT] Error: 400 - Bad Request: URI contains unencoded spaces
+[Sun, 26 Oct 2025 16:03:42 GMT] Error: 400 - Bad Request: URI contains unencoded spaces
+[Sun, 26 Oct 2025 16:05:09 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:09:20 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:09:20 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../ADJDD'
+[Sun, 26 Oct 2025 16:09:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected
+[Sun, 26 Oct 2025 16:15:37 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:16:59 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:16:59 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:24:20 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:27:47 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:30:02 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:31:38 GMT] Error: 403 - Forbidden: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] [INFO] Server started on port 1080
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: URI must start with '/' - got: '../../../etc/passwd'
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI
+[Sun, 26 Oct 2025 16:39:57 GMT] Error: 400 - Bad Request: Path traversal attempt detected in URI

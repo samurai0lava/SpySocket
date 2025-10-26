@@ -1,5 +1,5 @@
 #include <iostream>
-#include <sys/stat.h> 
+#include <sys/stat.h>
 #include <sstream>
 
 bool isLeapYear(int year)
@@ -72,7 +72,6 @@ std::string ft_time_format()
     struct stat file_stat;
     long long epoch_time;
     int year, month, day, hour, minute, second;
-    std::string formatted_time;
     std::ostringstream oss;
 
     if (stat("/proc/self", &file_stat) == -1)
@@ -83,9 +82,22 @@ std::string ft_time_format()
 
     epoch_time = file_stat.st_mtime;
 
+    // Calculate day of week (0 = Thursday, Jan 1, 1970)
+    int dayOfWeek = (epoch_time / 86400 + 4) % 7;
+    const char* days[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    const char* months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun",
+                            "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+
     epochToUTC(epoch_time, year, month, day, hour, minute, second);
-    oss << year << "-" << (month < 10 ? "0" : "") << month << "-" << (day < 10 ? "0" : "") << day << " "
-        << (hour < 10 ? "0" : "") << hour << ":" << (minute < 10 ? "0" : "") << minute << ":" << (second < 10 ? "0" : "") << second;
-    formatted_time = oss.str();
-    return formatted_time;
+
+    // HTTP/1.1 IMF-fixdate format: Sun, 06 Nov 1994 08:49:37 GMT
+    oss << days[dayOfWeek] << ", "
+        << (day < 10 ? "0" : "") << day << " "
+        << months[month - 1] << " "
+        << year << " "
+        << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second << " GMT";
+
+    return oss.str();
 }
