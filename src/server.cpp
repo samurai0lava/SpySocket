@@ -36,7 +36,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
 				}
 				sockStruct.sin_family = AF_INET;
 				sockStruct.sin_addr.s_addr = inet_addr((*it).second.host.c_str()); // localhost e.g
-				sockStruct.sin_port = htons((*i)); // check if the port is valid
+				sockStruct.sin_port = htons((*i));
 				if (bind(serverFd, (sockaddr *)&sockStruct,
 						sizeof(sockStruct)) < 0)
 				{
@@ -44,6 +44,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
 					close(serverFd);
 					continue ;
 				}
+				//SOMAXCONN is the system's max number of connections allowed on the waiting queue
 				if (listen(serverFd, SOMAXCONN) < 0)
 				{
 					perror("listen failed");
@@ -59,10 +60,11 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
 }
 
 int set_non_blocking(int fd) {
+	//we get the flags first
     int flags = fcntl(fd, F_GETFL, 0);
     if (flags == -1)
         return -1;
-
+	//then we add to them the non blocking flag (without removing the others)
     if (fcntl(fd, F_SETFL, flags | O_NONBLOCK) == -1)
         return -1;
 
@@ -73,7 +75,6 @@ int set_non_blocking(int fd) {
 void Servers::epollFds(Servers& serv)
 {
     int epollFd = epoll_create1(0);
-	//The main should catch this exception tho
     if (epollFd == -1)
         throw std::runtime_error("Error creating epoll!");
     struct epoll_event event;
@@ -127,7 +128,7 @@ void Servers::epollFds(Servers& serv)
         }
         std::vector<int> timed_out_clients;
         std::vector<int> failed_cgi_clients;
-
+		//???????????????
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
             int client_fd = it->first;
             CClient& client_data = it->second;
@@ -236,7 +237,7 @@ void Servers::epollFds(Servers& serv)
                 client_ev.events = EPOLLIN;
                 client_ev.data.fd = client_fd;
 
-                std::cout << RED "--> " << client_ev.data.fd << RESET << std::endl;
+                // std::cout << RED "--> " << client_ev.data.fd << RESET << std::endl;
 
                 if (epoll_ctl(epollFd, EPOLL_CTL_ADD, client_fd, &client_ev) == -1)
                 {
@@ -288,7 +289,7 @@ void Servers::epollFds(Servers& serv)
             if (events[i].events & EPOLLIN)
             {
                 //Timeout for the request
-                // ft_memset(serv.buffer, 0, READ_SIZE);
+                // ft_memset(serv.buffer, 0, READ_SIZE);  //why commented?
                 serv.bufferLength = recv(fd, serv.buffer, READ_SIZE, 0);
                 // cout << "xxxxxxxxxxxxxxxxxxxxxxxxx\n";
                 // cout << serv.buffer;
@@ -298,6 +299,7 @@ void Servers::epollFds(Servers& serv)
                     if (serv.bufferLength == 0) {
                         std::cout << "Client disconnected on fd " << fd << std::endl;
                     } else {
+						//DO NOT USE ERRNO AFTER READ/WRIRTE/SEND/RECV
                         std::cerr << "Error occurred while reading from fd " << fd << ": " << strerror(errno) << std::endl;
                     }
 
@@ -395,6 +397,7 @@ void Servers::epollFds(Servers& serv)
                     client_data_map[fd].should_close_connection = true;
                     epoll_event ev;
                     ft_memset(&ev, 0, sizeof(ev));
+					//why epollout here since we are closing the connection?
                     ev.events = EPOLLOUT;
                     ev.data.fd = fd;
                     epoll_ctl(epollFd, EPOLL_CTL_MOD, fd, &ev);
