@@ -27,7 +27,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 	std::stringstream serverStream;
 	serverStream << serverBlock;
 	while(serverStream.good())
-	{
+	{ 
 		buffer.clear();
 		std::getline(serverStream, buffer);
 		if (buffer.length() == 0)
@@ -52,7 +52,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 		{
 			server.append(buffer, 0, buffer.length());
 			server.append("\n", 0, 1);
-			
+
 		}
 	}
 	this->_createConfigStruct(server);
@@ -62,7 +62,7 @@ void Config::_createConfigStruct(std::string server)
 {
 	ConfigStruct tmp;
 	tmp.serverName = "";
-	tmp.root = "";  
+	tmp.root = "";
 	// tmp.autoIndex = false;
 	if (server.find("server_name") == std::string::npos)
 		throw std::runtime_error("Missing server_name in server configuration");
@@ -100,7 +100,7 @@ void Config::StartToSet(std::string configPath)
 	this->_checkRedirectionLoops();
 	this->_checkDuplicateListenAddresses();
 	std::cout <<"Configuration file parsed successfully!"  << std::endl;
-	
+
 }
 
 
@@ -185,7 +185,7 @@ void Config::setConfigPath(std::string configPath)
     this->_configPath = configPath;
 }
 
-void Config::printCluster() const 
+void Config::printCluster() const
 {
     for (std::map<std::string, ConfigStruct>::const_iterator it = _cluster.begin(); it != _cluster.end(); ++it) {
         const std::string &serverName = it->first;
@@ -219,13 +219,13 @@ void Config::printCluster() const
                 const LocationStruct &loc = conf.location[i].second;
                 if (!loc.root.empty())
                     std::cout << "\t\t\tRoot: " << loc.root << std::endl;
-                
+
                 if (!loc.indexPage.empty())
                     std::cout << "\t\t\tIndex Page: " << loc.indexPage << std::endl;
-                
+
                 if (loc.autoIndex)
                     std::cout << "\t\t\tAutoIndex: on" << std::endl;
-                
+
                 if (!loc._return.empty()) {
                     std::cout << "\t\t\tReturn: ";
                     for (size_t j = 0; j < loc._return.size(); ++j) {
@@ -235,7 +235,7 @@ void Config::printCluster() const
                     }
                     std::cout << std::endl;
                 }
-                
+
                 if (!loc.allowedMethods.empty()) {
                     std::cout << "\t\t\tAllowed Methods: ";
                     for (std::set<std::string>::iterator mit = loc.allowedMethods.begin(); mit != loc.allowedMethods.end(); ++mit)
@@ -256,10 +256,10 @@ void Config::printCluster() const
                         std::cout << loc.cgi_ext[j] << " ";
                     std::cout << std::endl;
                 }
-                
+
                 if (loc.upload_enabled)
                     std::cout << "\t\t\tUpload_enabled: on" << std::endl;
-                
+
                 if (!loc.upload_path.empty())
                     std::cout << "\t\t\tUpload_path: " << loc.upload_path << std::endl;
             }
@@ -276,10 +276,10 @@ int Config::getAutoindex()
 
 void Config::_checkRedirectionLoops()
 {
-	for (std::map<std::string, ConfigStruct>::iterator it = _cluster.begin(); it != _cluster.end(); ++it) 
+	for (std::map<std::string, ConfigStruct>::iterator it = _cluster.begin(); it != _cluster.end(); ++it)
 	{
 		ConfigStruct &conf = it->second;
-		for (size_t i = 0; i < conf.location.size(); ++i) 
+		for (size_t i = 0; i < conf.location.size(); ++i)
 		{
 			LocationStruct &loc = conf.location[i].second;
 			for (size_t j = 0; j < loc._return.size(); ++j)
@@ -300,12 +300,12 @@ void Config::_checkRedirectionLoops()
 					}
 					if (found) break;
 				}
-				if (!found) 
+				if (!found)
 					throw std::runtime_error("Redirection loop detected for target: " + target);
 			}
 		}
 	}
-	
+
 }
 const char* Config::FileOpenException::what(void) const throw()
 {

@@ -70,13 +70,6 @@ std::string DeleteMethode::PerformDelete(const std::string& uri, const ConfigStr
         return errorResponse;
     }
 
-    // Security: Validate deletion path before checking file
-    if (!validateFilePath(actualPath, location.second.root)) {
-        std::cerr << RED << "Security: Path traversal blocked in DELETE: " << actualPath << RESET << std::endl;
-        std::string errorResponse = GenerateResErr(403);
-        return errorResponse;
-    }
-
     if (!CheckFile(actualPath)) {
         std::string errorResponse = GenerateResErr(404);
         return errorResponse;

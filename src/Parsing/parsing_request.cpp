@@ -70,6 +70,21 @@ bool ParsingRequest::checkURI(std::string& uri)
 		current_state = PARSE_ERROR;
 		return false;
 	}
+	std::string decoded_uri = url_Decode(uri);
+
+	// Check for path traversal BEFORE normalization
+	if (is_path_secure(decoded_uri) == false)
+	{
+		// Don't modify connection_status - preserve HTTP/1.1 keep-alive
+		// 403 is a valid HTTP response, not a protocol error
+		error_code = 403;
+		error_message = "Forbidden: Path traversal attempt detected";
+		access_error(error_code, error_message);
+		current_state = PARSE_ERROR;
+		return false;
+	}
+
+	uri = normalizePath(decoded_uri);
 	if (uri[0] != '/')
 	{
 		connection_status = 0;
@@ -110,8 +125,7 @@ bool ParsingRequest::checkURI(std::string& uri)
 			return false;
 		}
 	}
-	std::string decoded_uri = url_Decode(uri);
-	uri = normalizePath(decoded_uri);
+
 	return true;
 }
 bool ParsingRequest::checkVersion(const std::string& version)

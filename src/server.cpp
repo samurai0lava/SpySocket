@@ -119,17 +119,17 @@ void Servers::epollFds(Servers& serv)
         }
         std::vector<int> timed_out_clients;
         std::vector<int> failed_cgi_clients;
-        
+
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
             int client_fd = it->first;
             CClient& client_data = it->second;
-            
+
             if (client_data.cgi_handler) {
                 pid_t cgi_pid = client_data.cgi_handler->get_cgi_pid();
                 if (cgi_pid > 0) {
                     int status;
                     pid_t result = waitpid(cgi_pid, &status, WNOHANG);
-                    
+
                     if (result == cgi_pid && (!WIFEXITED(status) || WEXITSTATUS(status) != 0)) {
                         failed_cgi_clients.push_back(client_fd);
                         continue;
@@ -449,16 +449,16 @@ void Servers::epollFds(Servers& serv)
                     if (c.response.empty())
                     {
                         c.ready_to_respond = false;
-                        
+
                         // Check if connection should be closed
                         bool should_close = false;
                         if (client_data_map[fd].should_close_connection) {
                             should_close = true;
-                        } else if (clientParsers.find(fd) != clientParsers.end() && 
+                        } else if (clientParsers.find(fd) != clientParsers.end() &&
                                    clientParsers[fd]->getConnectionStatus() == 0) {
                             should_close = true;
                         }
-                        
+
                         if (should_close) {
                             // Close the connection
                             std::cout << "Closing connection for fd " << fd << " (connection: close or error)" << std::endl;
@@ -556,16 +556,16 @@ void Servers::epollFds(Servers& serv)
                     {
                         c.ready_to_respond = false;
                         // std::cout << "Finished sending response to fd : " << fd << std::endl;
-                        
+
                         // Check if connection should be closed
                         bool should_close = false;
                         if (client_data_map[fd].should_close_connection) {
                             should_close = true;
-                        } else if (clientParsers.find(fd) != clientParsers.end() && 
+                        } else if (clientParsers.find(fd) != clientParsers.end() &&
                                    clientParsers[fd]->getConnectionStatus() == 0) {
                             should_close = true;
                         }
-                        
+
                         if (should_close) {
                             // Close the connection
                             std::cout << "Closing connection for fd " << fd << " (connection: close or error)" << std::endl;

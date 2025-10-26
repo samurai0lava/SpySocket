@@ -221,7 +221,7 @@ std::string Get::pathIsFile(std::string matchLocation)
     // For large files or range requests, use different handling
     if (fileStat.st_size > 1024 * 1024 || isPartialContent)
     {
-        
+
         std::ifstream file(matchLocation.c_str(), std::ios::in | std::ios::binary);
         if (!file.is_open()) {
             return GenerateResErr(500);
@@ -246,11 +246,11 @@ std::string Get::pathIsFile(std::string matchLocation)
         else {
             response << "HTTP/1.1 200 OK\r\n";
         }
-     
+
         response << "Date: " << ft_time_format() << "\r\n";
         response << "Server: SpySocket/1.0\r\n";
-        
-        //  add id cookie 
+
+        //  add id cookie
         std::string new_id = CookieManager::generateSimpleId();
         response << CookieManager::generateSetCookieHeader("id", new_id);
         response << "Content-Type: " << this->getMimeType(matchLocation) << "\r\n";
@@ -280,7 +280,7 @@ std::string Get::pathIsFile(std::string matchLocation)
     response << "Date: ";
     response << ft_time_format();
     response << "\r\n";
-    response << "Server: SpySocket/1.0\r\n";    
+    response << "Server: SpySocket/1.0\r\n";
     // std::string current_id = this->client.parser->getId();
     // if (current_id.empty()) {
     std::string new_id = CookieManager::generateSimpleId();
@@ -330,6 +330,7 @@ std::string Get::MethodGet()
         return (GenerateResErr(400));
     }
     std::string matchedLocation = matchLocation(this->client.uri, this->client.mutableConfig);
+
     bool found = false;
     LocationStruct locationMatched;
     for (size_t i = 0; i < this->client.mutableConfig.location.size(); i++)

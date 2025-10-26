@@ -50,6 +50,7 @@
 // Security functions
 bool isPathSafe(const std::string& path, const std::string& root);
 bool validateFilePath(const std::string& path, const std::string& root);
+char* ft_realpath(const char* path, char* resolved_path);
 
 
 #endif

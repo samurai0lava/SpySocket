@@ -53,7 +53,7 @@ protected:
     std::string status_phrase; // Status phrase for the successful request
 
     std::string boundary; //mandatory in upload POST
-    // State machine 
+    // State machine
     ParseState current_state;
     ParseResult result_p;
     std::string buffer; // Accumulates incoming data
@@ -111,6 +111,6 @@ void printMap(const std::map<std::string, std::string>& m);
 void logError(int status, const std::string& error_message);
 void printRequestInfo(const ParsingRequest& request, int fd);
 void handle_signal(void);
-
+bool is_path_secure(const std::string &fullPath);
 
 #endif
