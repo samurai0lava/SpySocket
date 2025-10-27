@@ -24,7 +24,6 @@
 #include <errno.h>
 #include <sys/select.h>
 #include <sys/time.h>
-#include "Methods.hpp"
 #include "parsing_request.hpp"
 #include "../inc/Config.hpp"
 #include "../inc/server.hpp"

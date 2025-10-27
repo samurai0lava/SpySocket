@@ -18,16 +18,15 @@ public:
         PARSE_ERROR
     };
 
-    // bitch ass NGINX-style incremental parsing
     enum ParseResult {
-        PARSE_OK,        // Parsing successful
-        PARSE_AGAIN,     // Need more data
+        PARSE_OK,         // Parsing successful
+        PARSE_AGAIN,      // Need more data
         PARSE_ERROR_RESULT,
-        PARSE_ERROR_400, // Bad request
-        PARSE_ERROR_403, // Forbidden
-        PARSE_ERROR_404, // Not found
-        PARSE_ERROR_405, // Method not allowed
-        PARSE_ERROR_413, // Content Too Large
+        PARSE_ERROR_400,  // Bad request
+        PARSE_ERROR_403,  // Forbidden
+        PARSE_ERROR_404,  // Not found
+        PARSE_ERROR_405,  // Method not allowed
+        PARSE_ERROR_413,  // Content Too Large
         PARSE_ERROR_414,  // Request-URI too long
         PARSE_ERROR_415,  // Unsupported Media Type
         PARSE_ERROR_429,  // Too Many Requests
@@ -35,39 +34,35 @@ public:
         PARSE_ERROR_501,  // Not implemented
         PARSE_ERROR_502,  // Bad Gateway
         PARSE_ERROR_503,  // Service Unavailable
-    PARSE_ERROR_504,  // Gateway Timeout
-        PARSE_ERROR_505, // HTTP Version Not Supported
+        PARSE_ERROR_504,  // Gateway Timeout
+        PARSE_ERROR_505,  // HTTP Version Not Supported
     };
 protected:
     std::map<std::string, std::string> start_line;
     std::map<std::string, std::string> headers;
 
-    int connection_status; // 0 for closed, 1 for keep-alive
-    int content_lenght_exists; // 0 for no content length, 1 for exists
-    int transfer_encoding_exists; // 0 for no transfer encoding, 1 for exists
-    int host_exists; // 0 for no host, 1 for exists
-
-    int error_code; // Error code for the request
-    std::string error_message; // Error message for the request
-    int status_code; // Status code for the successful request
-    std::string status_phrase; // Status phrase for the successful request
-
-    std::string boundary; //mandatory in upload POST
-    // State machine
+    int connection_status;
+    int content_lenght_exists;
+    int transfer_encoding_exists;
+    int host_exists;
+    int error_code;
+    std::string error_message;
+    int status_code;
+    std::string status_phrase;
+    std::string boundary;
     ParseState current_state;
     ParseResult result_p;
-    std::string buffer; // Accumulates incoming data
-    size_t buffer_pos; // Current position in buffer
-    size_t expected_body_length; // From the Content-Length header value
-    std::string body_content; // Parsed body content if available
-    std::string query_string; // Parsed query string if available
-    size_t chunked_last_processed_size; // Track processed data for chunked transfers
-    std::string chunked_accumulated_data; // Accumulate chunked data across calls
+    std::string buffer;
+    size_t buffer_pos;
+    size_t expected_body_length;
+    std::string body_content;
+    std::string query_string;
+    size_t chunked_last_processed_size;
+    std::string chunked_accumulated_data;
     bool parse_start_line();
     bool parse_headers();
     bool parse_body();
     bool find_crlf(size_t& pos);
-    // bool has_complete_line();
 
 public:
     ParsingRequest() : connection_status(1), content_lenght_exists(0),
@@ -78,7 +73,7 @@ public:
     ParseResult feed_data(const char* data, size_t len);
     ParseResult get_parse_status() const;
     bool is_complete() const { return current_state == PARSE_COMPLETE; }
-    void reset(); // Reset parser state for new request
+    void reset();
 
     std::map<std::string, std::string> getStartLine() const { return start_line; }
     std::map<std::string, std::string> getHeaders() const { return headers; }
