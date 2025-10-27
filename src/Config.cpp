@@ -27,7 +27,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 	std::stringstream serverStream;
 	serverStream << serverBlock;
 	while(serverStream.good())
-	{
+	{ 
 		buffer.clear();
 		std::getline(serverStream, buffer);
 		if (buffer.length() == 0)

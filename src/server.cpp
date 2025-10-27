@@ -128,7 +128,6 @@ void Servers::epollFds(Servers& serv)
         }
         std::vector<int> timed_out_clients;
         std::vector<int> failed_cgi_clients;
-		//???????????????
         for (std::map<int, CClient>::iterator it = client_data_map.begin(); it != client_data_map.end(); ++it) {
             int client_fd = it->first;
             CClient& client_data = it->second;

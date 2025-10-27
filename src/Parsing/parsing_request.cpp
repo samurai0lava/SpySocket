@@ -58,7 +58,6 @@ std::string normalizePath(const std::string& path)
 }
 
 
-
 bool ParsingRequest::checkURI(std::string& uri)
 {
 	if (uri.empty())
@@ -70,11 +69,12 @@ bool ParsingRequest::checkURI(std::string& uri)
 		current_state = PARSE_ERROR;
 		return false;
 	}
+
 	if (uri[0] != '/')
-	{
-		connection_status = 0;
-		error_code = 400;
-		error_message = "Bad Request: URI must start with '/' - got: '" + uri + "'";
+		{
+			connection_status = 0;
+			error_code = 400;
+			error_message = "Bad Request: URI must start with '/' - got: '" + uri + "'";
 		access_error(error_code, error_message);
 		current_state = PARSE_ERROR;
 		return false;
@@ -110,10 +110,45 @@ bool ParsingRequest::checkURI(std::string& uri)
 			return false;
 		}
 	}
-	std::string decoded_uri = url_Decode(uri);
-	uri = normalizePath(decoded_uri);
+	std::string path_part = uri;
+	std::string query_fragment_part;
+	size_t query_pos = uri.find('?');
+	size_t fragment_pos = uri.find('#');
+	size_t separator_pos = std::string::npos;
+	if (query_pos != std::string::npos && fragment_pos != std::string::npos)
+		separator_pos = (query_pos < fragment_pos) ? query_pos : fragment_pos;
+	else if (query_pos != std::string::npos)
+		separator_pos = query_pos;
+	else if (fragment_pos != std::string::npos)
+		separator_pos = fragment_pos;
+	if (separator_pos != std::string::npos)
+	{
+		path_part = uri.substr(0, separator_pos);
+		query_fragment_part = uri.substr(separator_pos);
+	}
+	std::string decoded_path = url_Decode(path_part);
+
+	if (decoded_path.find("..") != std::string::npos)
+	{
+		error_code = 400;
+		error_message = "Bad Request: Path traversal attempt detected in URI";
+		access_error(error_code, error_message);
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	std::string normalized_path = normalizePath(decoded_path);
+	if (normalized_path.find("..") != std::string::npos)
+	{
+		error_code = 400;
+		error_message = "Bad Request: Invalid path resolution in URI";
+		access_error(error_code, error_message);
+		current_state = PARSE_ERROR;
+		return false;
+	}
+	uri = normalized_path + query_fragment_part;
 	return true;
 }
+
 bool ParsingRequest::checkVersion(const std::string& version)
 {
 	if (version.empty())
@@ -357,19 +392,34 @@ bool ParsingRequest::parse_headers()
 		value.erase(value.find_last_not_of(" \t") + 1);
 		std::transform(key.begin(), key.end(), key.begin(), ::tolower);
 		std::transform(value.begin(), value.end(), value.begin(), ::tolower);
-		if(key == "host" || key == "port" || key == "transfer-encoding" || key == "content-length" || key == "connection" || key == "user-agent" || key == "content-type" || key == "cookie" || key == "location" || key == "accept" || key == "accept-encoding" || key == "accept-language")
+		if(key == "host" ||
+			key == "port" ||
+			key == "transfer-encoding" ||
+			key == "content-length" ||
+			key == "connection" ||
+			key == "user-agent" ||
+			key == "content-type" ||
+			key == "cookie" ||
+			key == "location" ||
+			key == "accept" ||
+			key == "accept-encoding" ||
+			key == "accept-language")
 			header_map[key] = value;
 	}
-
 	headers = header_map;
 
-
-	if (!checkHost(headers) || !checkConnection(headers) || !checkTransferEncoding(headers) || !checkContentLength(headers) || !checkLocation(headers) || !checkContentType(headers) || !checkCookie(headers))
+	if (!checkHost(headers) ||
+		!checkConnection(headers) ||
+		!checkTransferEncoding(headers) ||
+		!checkContentLength(headers) ||
+		!checkLocation(headers) ||
+		!checkContentType(headers) ||
+		!checkCookie(headers))
 	{
 		current_state = PARSE_ERROR;
 		return false;
 	}
-	if(content_lenght_exists == 1 && transfer_encoding_exists == 1)
+	if (content_lenght_exists == 1 && transfer_encoding_exists == 1)
 	{
 		error_code = 400;
 		error_message = "Bad Request: Content-Length and Transfer-Encoding headers cannot be used together";
@@ -476,7 +526,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter is required for multipart content types";
 				current_state = PARSE_ERROR;
-				// access_error(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 			std::string boundary = content_type_directives["boundary"];
@@ -486,7 +536,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				error_code = 400;
 				error_message = "Bad Request: Boundary parameter cannot be empty for multipart content types";
 				current_state = PARSE_ERROR;
-					// access_error(error_code, error_message);
+				access_error(error_code, error_message);
 				return false;
 			}
 		}
@@ -501,14 +551,16 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 			content_type_value != "image/gif" &&
 			content_type_value != "application/xml" &&
 			content_type_value != "application/pdf" &&
-			content_type_value != "application/octet-stream"
+			content_type_value != "application/octet-stream" &&
+			content_type_value != "application/javascript" &&
+			content_type_value != "text/css"
 		)
 		{
 			connection_status = 0;
 			error_code = 415;
 			error_message = "Unsupported Media Type: Content-Type '" + content_type_value + "' is not supported";
 			current_state = PARSE_ERROR;
-			// access_error(error_code, error_message);
+			access_error(error_code, error_message);
 			return false;
 		}
 	}
@@ -607,19 +659,16 @@ bool ParsingRequest::checkContentLength(const std::map<std::string, std::string>
 		// 	}
 		// }
 		// return true;
-		// cout << RED "Content length val : " <<
+		// cout << RED "Content length val : " << content_length << RESET << endl;
 	}
 	// content_lenght_exists = 0;
 	return true;
 }
 
-// i guess its need mor edge cases to handle
-//too look after
 bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers)
 {
 	if (headers.find("host") != headers.end())
 	{
-		//we need to parse host value to check if its valid
 		std::string host_value = headers.at("host");
 		if (host_value.empty())
 		{
@@ -671,7 +720,6 @@ bool ParsingRequest::checkHost(const std::map<std::string, std::string>& headers
 				return false;
 			}
 		}
-		//add port number to headers map with key name "port"
 		this->headers["host_name"] = hostname;
 		this->headers["port"] = port_str;
 		host_exists = 1;
@@ -731,7 +779,6 @@ bool ParsingRequest::parse_body()
 	{
         if (transfer_encoding_exists == 1)
 		{
-            // Check if we have new data since last call
             if (buffer.length() <= chunked_last_processed_size) {
                 std::string dummy;
                 bool is_complete = refactor_data(dummy, NULL, (size_t)-1);
@@ -775,7 +822,6 @@ bool ParsingRequest::parse_body()
     }
     return true;
 }
-
 
 // Feed data to the parser
 ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t len)
@@ -855,42 +901,12 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 	return PARSE_OK;
 }
 
-
-
-
-//Host
-//Content Length
-//Tranfer encoding
-// Connection
-//Content Type // respond
-// expect
-//User agent
-// Authorization
-// cookies
-
-// | Header | Required | Purpose                            |
-// | ------------------ - | -------------------------- | ---------------------------------- |
-// | `Host` | ✅ Yes | Domain name of the request         |
-// | `Content-Length` | ✅ If body | Length of the request body         |
-// | `Transfer-Encoding` | ❌ Skip or reject `chunked` | Alternate body encoding            |
-// | `Connection` | Optional | Controls connection persistence    |
-// | `Content-Type` | ✅ If body | MIME type of the body              |
-// | `Expect` | Optional | Expect 100 - continue                |
-// | `User-Agent` | Optional | Client info                        |
-// | `Authorization` | Optional | Used for auth                      |
-// | `Location` | Optional | Redirect URL for 3xx responses     |
-// | `Cookies` | Optional | Client cookies for session state   |
-// | Others | ❌ Ignore | Not needed for basic functionality |
-
 void ParsingRequest::reset()
 {
-    // If there's leftover data in buffer after current request, preserve it
     std::string leftover_data;
     if (buffer_pos < buffer.length()) {
         leftover_data = buffer.substr(buffer_pos);
     }
-
-    // Reset all state variables for a new request
     start_line.clear();
     headers.clear();
     body_content.clear();
@@ -908,13 +924,9 @@ void ParsingRequest::reset()
     error_message.clear();
     status_code = 200;
     status_phrase.clear();
-
-    // Restore any leftover data that might belong to the next request
     if (!leftover_data.empty()) {
         buffer = leftover_data;
     }
-
-    // Reset the static state in refactor_data function
     reset_refactor_data_state();
 }
 
@@ -923,7 +935,6 @@ bool ParsingRequest::checkCookie(const std::map<std::string, std::string>& heade
 	if (headers.find("cookie") != headers.end())
 	{
 		std::string cookie_string = headers.at("cookie");
-		// std::cout<<"Cookie string: " << cookie_string << std::endl;
 		if (cookie_string.empty())
 			return true;
 		this->headers["cookie"] = cookie_string;

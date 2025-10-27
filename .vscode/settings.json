@@ -3,7 +3,6 @@
 		"*.hpp": "cpp",
 		"*.cpp": "cpp",
 		"*.conf": "nginx",
-		"stdexcept": "cpp",
 		"array": "cpp",
 		"atomic": "cpp",
 		"bit": "cpp",
@@ -54,6 +53,7 @@
 		"ostream": "cpp",
 		"span": "cpp",
 		"sstream": "cpp",
+<<<<<<< HEAD
 		"streambuf": "cpp",
 		"text_encoding": "cpp",
 		"typeinfo": "cpp",
@@ -62,6 +62,13 @@
 		"ratio": "cpp",
 		"iomanip": "cpp",
 		"cinttypes": "cpp"
+=======
+		"stdexcept": "cpp",
+		"streambuf": "cpp",
+		"text_encoding": "cpp",
+		"typeinfo": "cpp",
+		"variant": "cpp"
+>>>>>>> ilyass
 	},
 	"C_Cpp.default.cppStandard": "c++98",
 	"C_Cpp.default.compilerPath": "/usr/bin/c++",
