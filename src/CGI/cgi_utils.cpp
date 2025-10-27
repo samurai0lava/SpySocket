@@ -2,24 +2,20 @@
 
 bool CGI::isExtensionAllowed(const std::string& scriptPath, const LocationStruct& location) const {
     if (location.cgi_ext.empty()) {
-        return true; // No restrictions if cgi_ext is empty
+        return true;
     }
-    
-    // Extract file extension from script path
     size_t dotPos = scriptPath.find_last_of('.');
     if (dotPos == std::string::npos) {
-        return false; // No extension found
+        return false;
     }
-    
+
     std::string extension = scriptPath.substr(dotPos);
-    
-    // Check if extension is in allowed list
     for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
         if (location.cgi_ext[i] == extension) {
             return true;
         }
     }
-    
+
     return false;
 }
 
@@ -56,8 +52,6 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
     std::string cgi_prefix = "/cgi-bin/";
     std::string script_part = uri_without_query.substr(cgi_prefix.length());
 
-    // Treat any file in cgi-bin as executable, regardless of extension
-    // Find the first slash to separate script name from path_info
     size_t slash_pos = script_part.find('/');
     if (slash_pos != std::string::npos)
     {
@@ -70,7 +64,6 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
         path_info = "";
     }
 
-    // Validate CGI extension if cgi_ext is configured
     if (!isExtensionAllowed(script_path, current_location))
     {
         is_cgi = 0;
@@ -81,6 +74,3 @@ bool CGI::check_is_cgi(const ParsingRequest& request)
 
     return true;
 }
-
-
-

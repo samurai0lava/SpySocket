@@ -120,8 +120,8 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
         return false;
     }
 
-    int pipe_in[2];  // For sending data TO the CGI script
-    int pipe_out[2]; // For receiving data FROM the CGI script
+    int pipe_in[2];
+    int pipe_out[2];
 
     if (pipe(pipe_in) == -1 || pipe(pipe_out) == -1)
     {
@@ -208,17 +208,13 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
         close(pipe_out[1]);
         int input_fd = pipe_in[1];
         cgi_fd = pipe_out[0];
-        cgi_start_time = std::time(NULL);  // Record when CGI started
-
-        // Make the CGI output pipe non-blocking
+        cgi_start_time = std::time(NULL);
         int flags = fcntl(cgi_fd, F_GETFL, 0);
         if (flags != -1) {
             fcntl(cgi_fd, F_SETFL, flags | O_NONBLOCK);
         }
 
         close(input_fd);
-
-        // Don't wait for completion - let the epoll loop handle it
     }
 
     return true;
@@ -376,7 +372,7 @@ void CGI::close_cgi()
         cgi_pid = -1;
     }
 
-    cgi_start_time = 0;  // Reset start time
+    cgi_start_time = 0;
 }
 
 
@@ -482,21 +478,18 @@ bool CGI::read_output()
     }
     else if (bytes_read == 0)
     {
-        // End of file - CGI process finished
         close(cgi_fd);
         cgi_fd = -1;
-        return false;  // No more data available
+        return false;
     }
     else if (bytes_read == -1)
     {
         if (errno == EAGAIN || errno == EWOULDBLOCK)
         {
-            // No data available right now, try again later
             return true;
         }
         else
         {
-            // Real error occurred
             perror("Failed to read from CGI process");
             close(cgi_fd);
             cgi_fd = -1;

@@ -1,6 +1,4 @@
 #include "../../inc/webserv.hpp"
-#include <errno.h> // for errno
-#include <cstring> // for strerror
 
 bool DeleteMethode::CheckFile(const std::string& uri)
 {

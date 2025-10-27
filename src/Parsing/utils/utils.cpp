@@ -32,20 +32,6 @@ ParsingRequest::ParseResult ParsingRequest::get_parse_status() const
     }
 }
 
-// void ParsingRequest::reset()
-// {
-//     current_state = PARSE_START_LINE;
-//     buffer.clear();
-//     buffer_pos = 0;
-//     expected_body_length = 0;
-//     body_content.clear();
-//     start_line.clear();
-//     headers.clear();
-//     connection_status = 1;
-//     content_lenght_exists = 0;
-//     transfer_encoding_exists = 0;
-//     host_exists = 0;
-// }
 
 void printRequestInfo(const ParsingRequest& request, int fd)
 {
@@ -61,4 +47,4 @@ void printRequestInfo(const ParsingRequest& request, int fd)
     // std::cout << BLUE "Transfer-Encoding exists: " RESET << (request.getTransferEncodingExists() ? "Yes" : "No") << std::endl;
     // std::cout << BLUE "Connection status: " RESET << (request.getConnectionStatus() ? "Keep-Alive" : "Closed") << std::endl;
     // std::cout << "----------------------------------------------" << std::endl;
-} 
+}

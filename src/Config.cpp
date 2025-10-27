@@ -1,4 +1,4 @@
-#include "../include/Config.hpp"
+#include "../inc/Config.hpp"
 
 // #include "Config.hpp"
 
@@ -27,7 +27,7 @@ void Config::_parseServerBlock(std::string serverBlock)
 	std::stringstream serverStream;
 	serverStream << serverBlock;
 	while(serverStream.good())
-	{ 
+	{
 		buffer.clear();
 		std::getline(serverStream, buffer);
 		if (buffer.length() == 0)
@@ -100,6 +100,9 @@ void Config::StartToSet(std::string configPath)
 	this->_checkRedirectionLoops();
 	this->_checkDuplicateListenAddresses();
 	std::cout <<"Configuration file parsed successfully!"  << std::endl;
+	std::cout << GREEN "Starting server..." RESET << std::endl;
+	std::cout << "Server Started with config file: " << BLUE << configPath << RESET << std::endl;
+	std::cout << "Press Ctrl+C to stop the server." << std::endl;
 
 }
 

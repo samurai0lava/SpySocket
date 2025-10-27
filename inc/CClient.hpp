@@ -1,9 +1,9 @@
 #ifndef CCLIENT_HPP
 # define CCLIENT_HPP
 
-#include "../include/server.hpp"
+#include "../inc/server.hpp"
 #include "parsing_request.hpp"
-#include "../include/Config.hpp"
+#include "../inc/Config.hpp"
 #include "RespondError.hpp"
 #include "CGI.hpp"
 #include <string>
@@ -31,17 +31,17 @@ public:
     int fileFd;
     bool intialized;
     bool Chunked;
-    
+
     // CGI-related fields
     CGI* cgi_handler;
     bool is_cgi_request;
     bool cgi_headers_sent;
     std::string cgi_body_buffer;
-    
+
     // Connection control
     bool should_close_connection;
-    
-    // bool               
+
+    // bool
     CClient();
     CClient(std::string NameMethod, std::string uri, int FdClient, ConfigStruct MConfig,
         Servers *serv, ParsingRequest* parser);

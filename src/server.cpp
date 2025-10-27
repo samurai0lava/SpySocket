@@ -1,4 +1,4 @@
-#include "../include/server.hpp"
+#include "../inc/server.hpp"
 #include "../inc/webserv.hpp"
 #include <sys/wait.h>
 

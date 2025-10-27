@@ -432,7 +432,7 @@ bool ParsingRequest::parse_headers()
 		std::string content_length_str = headers.at("content-length");
 		std::istringstream iss(content_length_str);
 		iss >> expected_body_length;
-		// if expected_body_length > 
+		// if expected_body_length >
 	}
 	else
 		expected_body_length = 0;
@@ -846,7 +846,7 @@ ParsingRequest::ParseResult ParsingRequest::feed_data(const char* data, size_t l
 		error_message = "Internal Server Error: Memory allocation failed while appending data to buffer";
 		current_state = PARSE_ERROR;
 		access_error(error_code, error_message);
-		buffer.clear(); // Clear buffer to prevent memory leak
+		buffer.clear();
 		return PARSE_ERROR_RESULT;
 	}
 	while (current_state != PARSE_COMPLETE && current_state != PARSE_ERROR)

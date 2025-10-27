@@ -1,4 +1,4 @@
-#include "../include/singleserver.hpp"
+#include "../inc/singleserver.hpp"
 
 void SingleServerConfig::_parseKeyValue(std::string keyValue)
 {

@@ -3,8 +3,8 @@
 
 
 #include "parsing_request.hpp"
-#include "../include/Struct.hpp"
-#include "../include/Config.hpp"
+#include "../inc/Struct.hpp"
+#include "../inc/Config.hpp"
 
 //so what we need to make this Delete Work mmmm
 //202 Accepted

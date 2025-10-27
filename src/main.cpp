@@ -8,6 +8,7 @@ int main(int argc, char** argv)
     {
         std::string configPath = parseArgv(argc, argv);
         config->StartToSet(configPath);
+
         Servers* serv = Servers::getInstance();
         handle_signal();
         serv->getServersFds(config, *serv);

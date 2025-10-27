@@ -1,4 +1,4 @@
-#include "../../include/server.hpp"
+#include "../../inc/server.hpp"
 
 
 void handle_sigint(int sig)
