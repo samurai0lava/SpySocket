@@ -47,6 +47,7 @@ std::string generateErrorPageHTML(int errorCode, const std::string& errorMessage
     html += "    <p>" + errorMessage + "</p>\n";
     html += "    <hr>\n";
     html += "    <div>SpySocket</div>\n";
+	
     html += "</body>\n";
     html += "</html>\n";
 
