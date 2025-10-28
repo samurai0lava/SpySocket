@@ -52,6 +52,8 @@ public:
     std::string formatCGIResponse(const std::string& cgi_output);
     // std::string GenerateResErr(int errorCode);
     void printInfo() const;
+	 std::string getErrorPageFromConfig(int statusCode);
+    std::string getStatusMessage(int statusCode);
 
 
 

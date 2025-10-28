@@ -34,6 +34,7 @@ std::string getStatusPhrase(int errorCode) {
 
 //HTML error page generation
 std::string generateErrorPageHTML(int errorCode, const std::string& errorMessage) {
+	// std::cout<<"helllo"
     std::string statusPhrase = getStatusPhrase(errorCode);
 
     std::string html = "<!DOCTYPE html>\n";

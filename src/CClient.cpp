@@ -71,7 +71,7 @@ std::string CClient::HandleAllMethod()
                 delete cgi_handler;
                 cgi_handler = NULL;
                 is_cgi_request = false;
-                return GenerateResErr(500);
+                return getErrorPageFromConfig(500);
             }
 
             bool success = false;
@@ -88,7 +88,7 @@ std::string CClient::HandleAllMethod()
                 delete cgi_handler;
                 cgi_handler = NULL;
                 is_cgi_request = false;
-                return GenerateResErr(error_code > 0 ? error_code : 500);
+                return getErrorPageFromConfig(error_code > 0 ? error_code : 500);
             }
             return "";
         }
@@ -111,13 +111,13 @@ std::string CClient::HandleAllMethod()
         catch (const std::runtime_error& e) {
             std::string errMsg = e.what();
             if (errMsg.find("405") != std::string::npos) {
-                return GenerateResErr(405);
+                return getErrorPageFromConfig(405);
             }
             else if (errMsg.find("403") != std::string::npos) {
-                return GenerateResErr(403);
+                return getErrorPageFromConfig(403);
             }
             else {
-                return GenerateResErr(500);
+                return getErrorPageFromConfig(500);
             }
         }
     }
@@ -131,14 +131,14 @@ std::string CClient::HandleAllMethod()
         return postMethod(this->uri, this->mutableConfig, *this->parser);
     }
     else
-        return GenerateResErr(405);
+        return getErrorPageFromConfig(405);
     return std::string();
 }
 
 std::string CClient::HandleCGIMethod()
 {
     if (!cgi_handler) {
-        return GenerateResErr(500);
+        return getErrorPageFromConfig(500);
     }
 
     int status;
@@ -150,7 +150,7 @@ std::string CClient::HandleCGIMethod()
         delete cgi_handler;
         cgi_handler = NULL;
         is_cgi_request = false;
-        return GenerateResErr(500);
+        return getErrorPageFromConfig(500);
     }
     else if (result == cgi_pid) {
         if (!WIFEXITED(status) || WEXITSTATUS(status) != 0) {
@@ -158,7 +158,7 @@ std::string CClient::HandleCGIMethod()
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
-            return GenerateResErr(502); // Bad Gateway
+            return getErrorPageFromConfig(502); // Bad Gateway
         }
         int read_attempts = 0;
         while (cgi_handler->read_output() && read_attempts < 10) {
@@ -177,7 +177,7 @@ std::string CClient::HandleCGIMethod()
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
-            return GenerateResErr(504);
+            return getErrorPageFromConfig(504);
         }
         cgi_handler->read_output();
         if (!current_output.empty() && current_output.find("Content-Type:") != std::string::npos) {
@@ -204,13 +204,13 @@ std::string CClient::HandleCGIMethod()
 std::string CClient::formatCGIResponse(const std::string& cgi_output)
 {
     if (cgi_output.empty()) {
-        return GenerateResErr(500);
+        return getErrorPageFromConfig(500);
     }
     size_t headers_end = cgi_output.find("\r\n\r\n");
     if (headers_end == std::string::npos) {
         headers_end = cgi_output.find("\n\n");
         if (headers_end == std::string::npos) {
-            return GenerateResErr(500);
+            return getErrorPageFromConfig(500);
         }
         headers_end += 2;
     }
@@ -251,6 +251,75 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
     response += cgi_body;
     return response;
 }
+std::string CClient::getErrorPageFromConfig(int statusCode)
+{
+    for (size_t i = 0; i < this->mutableConfig.errorPage.size(); ++i)
+    {
+        if (std::atoi(this->mutableConfig.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string root = this->mutableConfig.root;
+            std::string errorPage = this->mutableConfig.errorPage[i].second;
 
+            if (!root.empty() && root[root.length() - 1] != '/') {
+                root += "/";
+            }
+            if (!errorPage.empty() && errorPage[0] == '/') {
+                errorPage = errorPage.substr(1);
+            }
+
+            std::string errorPagePath = root + errorPage;
+            struct stat fileStat;
+            if (stat(errorPagePath.c_str(), &fileStat) != 0) {
+                continue;
+            }
+            if (!S_ISREG(fileStat.st_mode)) {
+                continue;
+            }
+
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                std::ostringstream response;
+                response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                this->chunkedSending = true;
+                return response.str();
+            }
+        }
+    }
+    this->chunkedSending = true;
+    return GenerateResErr(statusCode);
+}
+
+std::string CClient::getStatusMessage(int statusCode)
+{
+    switch(statusCode)
+    {
+        case 200: return "OK";
+        case 201: return "Created";
+        case 204: return "No Content";
+        case 400: return "Bad Request";
+        case 401: return "Unauthorized";
+        case 403: return "Forbidden";
+        case 404: return "Not Found";
+        case 405: return "Method Not Allowed";
+        case 413: return "Content Too Large";
+        case 414: return "URI Too Long";
+        case 415: return "Unsupported Media Type";
+        case 429: return "Too Many Requests";
+        case 500: return "Internal Server Error";
+        case 501: return "Not Implemented";
+        case 502: return "Bad Gateway";
+        case 503: return "Service Unavailable";
+        case 504: return "Gateway Timeout";
+        case 505: return "HTTP Version Not Supported";
+        default: return "Unknown Error";
+    }
+}
 
 
