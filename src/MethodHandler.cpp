@@ -1,6 +1,4 @@
 #include "../inc/webserv.hpp"
-#include "../inc/POST.hpp"
-// #include "../inc/CClient.h"
 
 void handleMethod(int client_fd, ParsingRequest* parser, const ConfigStruct& config, CClient& client_data)
 {
@@ -15,15 +13,11 @@ void handleMethod(int client_fd, ParsingRequest* parser, const ConfigStruct& con
         if (!client_data.cgi_handler) {
             client_data.cgi_handler = new CGI();
         }
-        
-        // Get the matching location for CGI extension validation
         std::pair<std::string, LocationStruct> location = get_location(uri, mutableConfig);
         client_data.cgi_handler->set_location(location.second);
-        
+
         if (client_data.cgi_handler->check_is_cgi(*parser)) {
             client_data.is_cgi_request = true;
-
-            // Get the location configuration for this request
             std::pair<std::string, LocationStruct> loc_pair = get_location(uri, mutableConfig);
             LocationStruct location = loc_pair.second;
 

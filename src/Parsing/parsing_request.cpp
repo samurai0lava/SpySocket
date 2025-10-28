@@ -439,8 +439,61 @@ bool ParsingRequest::parse_headers()
 	return true;
 }
 
+std::set<std::string> ParsingRequest::initSupportedContentTypes()
+{
+	std::set<std::string> types;
+
+	types.insert("text/html");
+	types.insert("text/plain");
+	types.insert("text/css");
+	types.insert("text/javascript");
+	types.insert("text/csv");
+	types.insert("text/xml");
+	types.insert("application/json");
+	types.insert("application/xml");
+	types.insert("application/javascript");
+	types.insert("application/x-www-form-urlencoded");
+	types.insert("application/pdf");
+	types.insert("application/zip");
+	types.insert("application/gzip");
+	types.insert("application/octet-stream");
+	types.insert("application/x-tar");
+	types.insert("application/vnd.ms-excel");
+	types.insert("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+	types.insert("application/vnd.ms-powerpoint");
+	types.insert("application/vnd.openxmlformats-officedocument.presentationml.presentation");
+	types.insert("application/msword");
+	types.insert("application/vnd.openxmlformats-officedocument.wordprocessingml.document");
+	types.insert("application/x-httpd-php");
+	types.insert("multipart/form-data");
+	types.insert("multipart/byteranges");
+	types.insert("image/jpeg");
+	types.insert("image/png");
+	types.insert("image/gif");
+	types.insert("image/bmp");
+	types.insert("image/webp");
+	types.insert("image/svg+xml");
+	types.insert("image/x-icon");
+	types.insert("image/tiff");
+	types.insert("audio/mpeg");
+	types.insert("audio/wav");
+	types.insert("audio/ogg");
+	types.insert("audio/webm");
+	types.insert("audio/aac");
+	types.insert("audio/mp4");
+	types.insert("video/mp4");
+	types.insert("video/mpeg");
+	types.insert("video/webm");
+	types.insert("video/ogg");
+	types.insert("video/x-msvideo");
+	types.insert("video/quicktime");
+	return types;
+}
+
 bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& headers)
 {
+	static std::set<std::string> supported_types = initSupportedContentTypes();
+
 	if (headers.find("content-type") != headers.end())
 	{
 		std::string content_type = headers.at("content-type");
@@ -540,21 +593,7 @@ bool ParsingRequest::checkContentType(const std::map<std::string, std::string>& 
 				return false;
 			}
 		}
-		if (content_type_value != "text/html" &&
-			content_type_value != "text/plain" &&
-			content_type_value != "application/x-www-form-urlencoded" &&
-			content_type_value != "multipart/form-data" &&
-			content_type_value != "application/json" &&
-			content_type_value != "image/png" &&
-			content_type_value != "video/mp4" &&
-			content_type_value != "image/jpeg" &&
-			content_type_value != "image/gif" &&
-			content_type_value != "application/xml" &&
-			content_type_value != "application/pdf" &&
-			content_type_value != "application/octet-stream" &&
-			content_type_value != "application/javascript" &&
-			content_type_value != "text/css"
-		)
+		if (supported_types.find(content_type_value) == supported_types.end())
 		{
 			connection_status = 0;
 			error_code = 415;

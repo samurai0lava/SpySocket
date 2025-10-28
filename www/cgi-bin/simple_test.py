@@ -21,8 +21,7 @@ print("""
     <h2>Environment Variables:</h2>
 """)
 
-# Print environment variables
-env_vars = ['REQUEST_METHOD', 'SCRIPT_NAME', 'PATH_INFO', 'QUERY_STRING', 
+env_vars = ['REQUEST_METHOD', 'SCRIPT_NAME', 'PATH_INFO', 'QUERY_STRING',
            'CONTENT_TYPE', 'CONTENT_LENGTH', 'SERVER_NAME', 'SERVER_PORT',
            'HTTP_USER_AGENT', 'HTTP_HOST', 'GATEWAY_INTERFACE']
 

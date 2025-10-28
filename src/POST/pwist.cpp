@@ -29,7 +29,6 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser)
     std::string boundary = parser.getHeaders().at("boundary");
     std::string request = parser.getBody();
 
-    // cout << "BODY :::::: " << request << "BODY ENDDDDDD\n";
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
@@ -74,15 +73,13 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser)
     {
         return bad_request();
     }
-    content_start += 4; // Skip past the "\r\n\r\n"
+    content_start += 4;
 
     struct stat st;
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
-        // it's a directory
         if (S_ISDIR(st.st_mode))
         {
-            //pay ATTENTION to the slash "/"
             filename = location.upload_path + "/" + filename;
         }
         else
@@ -90,11 +87,9 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser)
             filename = location.upload_path;
         }
     }
-    // else some error occured with stat
     else
     {
         std::cout << location.upload_path << std::endl;
-        // std::cout << RED "111111111111111\n" RESET ;
         return internal_error();
     }
     std::fstream file(filename.c_str(), std::ios::out);
@@ -147,7 +142,6 @@ std::string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
     for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++)
     {
         pairs = split((*it), "=");
-        //check if there is a possiblity that we can assign to "" (e.g name="")
         location.url_encoded.insert(std::make_pair(pairs[0], pairs[1]));
     }
     std::string res_body = "";
@@ -180,10 +174,8 @@ std::string main_response(LocationStruct &location, ParsingRequest &parser)
     }
     if (stat(location.upload_path.c_str(), &st) == 0)
     {
-        // it's a directory
         if (S_ISDIR(st.st_mode))
         {
-            //pay ATTENTION to the slash "/"
             filename = location.upload_path + "/" + filename;
         }
         else
@@ -220,7 +212,6 @@ std::string postMethod(std::string uri, ConfigStruct config,
 		config);
 	if(location.first.empty())
 		return notFound();
-	//check if method allowed and check for redirection
 	if(!location.second._return.empty())
 	{
 		return handle_redirect(location);

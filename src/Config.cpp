@@ -1,8 +1,5 @@
 #include "../inc/Config.hpp"
 
-// #include "Config.hpp"
-
-
 std::string parseArgv(int argc, char** argv)
 {
 	if (argc > 2 || argc < 2)

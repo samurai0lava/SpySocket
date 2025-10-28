@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <map>
+#include <set>
 #include <exception>
 
 
@@ -100,6 +101,7 @@ public:
     bool checkHost(const std::map<std::string, std::string>& headers);
     bool checkLocation(const std::map<std::string, std::string>& headers);
     bool checkCookie(const std::map<std::string, std::string>& headers);
+    std::set<std::string> initSupportedContentTypes();
 };
 
 void printMap(const std::map<std::string, std::string>& m);

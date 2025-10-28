@@ -1,9 +1,4 @@
-#include "../inc/CClient.hpp"
-#include "../inc/Get.hpp"
-#include "../inc/POST.hpp"
 #include "../inc/webserv.hpp"
-#include <sstream>
-#include <sys/wait.h>
 
 CClient::CClient() :
     _name_location(""), NameMethod(""), uri(""), FdClient(-1), mutableConfig(), serv(), parser(NULL),
@@ -30,7 +25,6 @@ CClient::CClient(std::string NameMethod, std::string uri, int FdClient, ConfigSt
 CClient::~CClient()
 {
     if (cgi_handler) {
-        // Ensure CGI process is properly closed before deletion
         cgi_handler->close_cgi();
         delete cgi_handler;
         cgi_handler = NULL;
@@ -44,11 +38,7 @@ void CClient::printInfo() const {
     // std::cout << "Read Buffer: " << readbuf << std::endl;
     // std::cout << "Offset: " << offset << std::endl;
     // std::cout << "Size File: " << sizeFile << std::endl;
-
-    // Optional: print parser address
     std::cout << "Parser ptr: " << parser << std::endl;
-
-    // Config info (if you want details from mutableConfig)
     std::cout << "Config root: " << mutableConfig.root << std::endl;
     std::cout << "Config indexPage: " << mutableConfig.indexPage << std::endl;
 
@@ -127,7 +117,7 @@ std::string CClient::HandleAllMethod()
                 return GenerateResErr(403);
             }
             else {
-                return GenerateResErr(500); // Generic server error for other exceptions
+                return GenerateResErr(500);
             }
         }
     }
@@ -141,7 +131,7 @@ std::string CClient::HandleAllMethod()
         return postMethod(this->uri, this->mutableConfig, *this->parser);
     }
     else
-        return GenerateResErr(405); // Method Not Allowed
+        return GenerateResErr(405);
     return std::string();
 }
 
@@ -189,7 +179,6 @@ std::string CClient::HandleCGIMethod()
             is_cgi_request = false;
             return GenerateResErr(504);
         }
-        // Continue reading output
         cgi_handler->read_output();
         if (!current_output.empty() && current_output.find("Content-Type:") != std::string::npos) {
             size_t header_end = current_output.find("\r\n\r\n");
@@ -208,7 +197,7 @@ std::string CClient::HandleCGIMethod()
                 }
             }
         }
-        return ""; //continue reading
+        return "";
     }
 }
 
