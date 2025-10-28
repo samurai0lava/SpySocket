@@ -394,10 +394,10 @@ void Servers::epollFds(Servers& serv)
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
                     if (bytes_sent == -1)
                     {
-                        if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                            continue;
-                        }
-                        else if (bytes_sent == 0) {
+                        // if (errno == EAGAIN || errno == EWOULDBLOCK) {
+                        //     continue;
+                        // }
+                        if (bytes_sent == 0) {
                             std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
                             // Clean up CGI resources if any
                             if (client_data_map.find(fd) != client_data_map.end()) {

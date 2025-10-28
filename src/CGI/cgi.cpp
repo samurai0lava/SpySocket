@@ -87,7 +87,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
 
     if (!path_info.empty())
     {
-        this->env_vars["PATH_TRANSLATED"] = "www/html" + path_info;
+        this->env_vars["PATH_TRANSLATED"] = "www/html" + path_info; //from config
     }
     else
     {

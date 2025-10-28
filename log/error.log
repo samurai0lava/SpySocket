@@ -1,24 +1,5 @@
-[Tue, 28 Oct 2025 08:19:47 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 08:24:16 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 08:24:16 GMT] Error: 400 - Bad Request: Invalid HTTP method: 'akd'
-[Tue, 28 Oct 2025 08:27:10 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 08:27:10 GMT] Error: 400 - Bad Request: URI must start with '/' - got: 'KADD'
-[Tue, 28 Oct 2025 08:50:52 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 08:59:43 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 08:59:43 GMT] Error: 400 - Bad Request: Content-Length and Transfer-Encoding headers cannot be used together
-[Tue, 28 Oct 2025 08:59:43 GMT] Error: 415 - Unsupported Media Type: Content-Type 'application/gzip' is not supported
-[Tue, 28 Oct 2025 08:59:43 GMT] Error: 415 - Unsupported Media Type: Content-Type 'application/x-debian-package' is not supported
-[Tue, 28 Oct 2025 09:05:20 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 09:05:20 GMT] Error: 415 - Unsupported Media Type: Content-Type 'application/x-debian-package' is not supported
-[Tue, 28 Oct 2025 09:05:30 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 09:09:36 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 09:09:36 GMT] Error: 415 - Unsupported Media Type: Content-Type 'application/gzip' is not supported
-[Tue, 28 Oct 2025 09:17:57 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 09:17:57 GMT] Error: 413 - Payload Too Large: Request exceeds maximum allowed size
-[Tue, 28 Oct 2025 09:22:16 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 09:22:24 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 09:57:43 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 10:01:00 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 10:02:33 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 10:05:11 GMT] [INFO] Server started on port 1080
-[Tue, 28 Oct 2025 10:05:11 GMT] [INFO] Server started on port 2048
+[Tue, 28 Oct 2025 10:34:07 GMT] [INFO] Server started on port 1080
+[Tue, 28 Oct 2025 13:16:53 GMT] [INFO] Server started on port 1080
+[Tue, 28 Oct 2025 13:16:55 GMT] [INFO] Server started on port 1080
+[Tue, 28 Oct 2025 13:20:18 GMT] [INFO] Server started on port 1080
+[Tue, 28 Oct 2025 13:20:47 GMT] [INFO] Server started on port 1080
