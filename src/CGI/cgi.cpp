@@ -52,7 +52,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     }
 
     if (headers.find("host") != headers.end())
-        this->env_vars["SERVER_NAME"] = headers.at("host");
+        this->env_vars["SERVER_NAME"] = headers.at("host_name");
     else
         this->env_vars["SERVER_NAME"] = "localhost";
 
@@ -72,9 +72,9 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
         this->env_vars["HTTP_USER_AGENT"] = "";
 
     this->env_vars["GATEWAY_INTERFACE"] = "CGI/1.1";
-    this->env_vars["SERVER_SOFTWARE"] = "SpySocket";
-    this->env_vars["REMOTE_HOST"] = "localhost";
-    this->env_vars["SERVER_PORT"] = "1080";
+    this->env_vars["SERVER_SOFTWARE"] = "SpySocket/1.0";
+    this->env_vars["REMOTE_HOST"] = headers.at("host");
+    this->env_vars["SERVER_PORT"] = headers.at("port");
 
     if (headers.find("transfer-encoding") != headers.end())
     {
@@ -87,7 +87,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
 
     if (!path_info.empty())
     {
-        this->env_vars["PATH_TRANSLATED"] = "www/html" + path_info; //from config
+        this->env_vars["PATH_TRANSLATED"] = this->current_location.root + path_info;
     }
     else
     {
@@ -102,7 +102,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    std::string full_script_path = std::string(cwd) + "/" + this->current_location.root + script_path;
 
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
@@ -224,7 +224,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 {
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    std::string full_script_path = std::string(cwd) + "/" + this->current_location.root + script_path;
     std::cout << RED << full_script_path << RESET << std::endl;
 
     if (access(full_script_path.c_str(), F_OK) != 0) {

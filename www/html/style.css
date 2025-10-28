@@ -1,3 +1,14 @@
+.girl-502 {
+  position: absolute;
+  right: 50px;
+  bottom: 0;
+	width: 150px;
+	height: auto;
+	bottom: 0;
+	z-index: -5;
+}
+
+
 .cross-png{
   position: absolute;
   left: 1200px;
@@ -919,7 +930,7 @@ body.upload-page-body {
     opacity: 1;
     transform: translateY(0);
   }
-  
+
 }
 /* Mountain Background */
 .mountain-background {
@@ -1075,7 +1086,7 @@ body.upload-page-body {
   gap: 35px;
   justify-content: center;
   align-items: center;
-  
+
 }
 
 .login-title .spy {

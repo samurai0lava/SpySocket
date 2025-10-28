@@ -63,7 +63,7 @@ const std::string GenerateResErr(const int ErrorStat)
     std::string htmlBody;
     std::string statusPhrase = getStatusPhrase(ErrorStat);
     std::string errorMessage = getDefaultErrorMessage(ErrorStat);
-    std::string error_page_path = "www/html/" + intToString(ErrorStat) + ".html"; //from config
+    std::string error_page_path = "error/" + intToString(ErrorStat) + ".html"; //from config
 
     if (access(error_page_path.c_str(), F_OK) == -1)
     {
