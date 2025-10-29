@@ -1,5 +1,3 @@
-#!/usr/bin/perl
-
 print "Content-type: text/html\n\n";
 print "<html>\n";
 print "<head><title>Perl CGI Test</title></head>\n";
