@@ -169,6 +169,10 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
             error_message = "Internal server error";
             exit(EXIT_FAILURE);
         }
+
+        // Redirect stderr to stdout so all output goes through the pipe
+        dup2(STDOUT_FILENO, STDERR_FILENO);
+
         close(pipe_in[0]);
         close(pipe_out[1]);
 
@@ -276,7 +280,6 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 
     if (cgi_pid == 0) {
         // Child process
-        std::cerr.flush();
         close(pipe_in[1]);
         close(pipe_out[0]);
 
@@ -285,7 +288,9 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
             perror("dup2 failed in child");
             exit(EXIT_FAILURE);
         }
-        std::cerr.flush();
+
+        // Redirect stderr to stdout so all output goes through the pipe
+        dup2(STDOUT_FILENO, STDERR_FILENO);
 
         close(pipe_in[0]);
         close(pipe_out[1]);
@@ -308,24 +313,13 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         }
         argv.push_back(NULL);
 
-        for (size_t i = 0; i < argv.size() - 1; ++i) {
-            std::cerr << "'" << argv[i] << "' ";
-        }
-        std::cerr << std::endl;
-        std::cerr.flush();
-
-        std::cerr.flush();
-
         if (!interpreter.empty()) {
-            std::cerr.flush();
             execve(interpreter.c_str(), &argv[0], &envp[0]);
         }
         else {
-            std::cerr.flush();
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
 
-        std::cerr.flush();
         access_error(500, "Internal Server Error: execve failed");
         perror("execve failed");
         exit(EXIT_FAILURE);
@@ -407,7 +401,7 @@ std::string CGI::get_interpreter(const std::string& script_path, const LocationS
         return "/bin/bash";
     }
 
-    // Check shebang for .cgi or binary files
+    // Check shebang for .cgi
     std::ifstream file(script_path.c_str());
     if (file.is_open())
     {
@@ -470,6 +464,7 @@ bool CGI::read_output()
     char buffer[8192];
     ssize_t bytes_read = read(cgi_fd, buffer, sizeof(buffer) - 1);
 
+
     if (bytes_read > 0)
     {
         buffer[bytes_read] = '\0';
@@ -486,7 +481,7 @@ bool CGI::read_output()
     {
         if (errno == EAGAIN || errno == EWOULDBLOCK)
         {
-            return true;
+            return false;
         }
         else
         {

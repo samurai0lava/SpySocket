@@ -145,6 +145,7 @@ std::string CClient::HandleCGIMethod()
     pid_t cgi_pid = cgi_handler->get_cgi_pid();
     pid_t result = waitpid(cgi_pid, &status, WNOHANG);
     std::string current_output = cgi_handler->get_output_buffer();
+
     if (result == -1) {
         cgi_handler->close_cgi();
         delete cgi_handler;
@@ -158,7 +159,7 @@ std::string CClient::HandleCGIMethod()
             delete cgi_handler;
             cgi_handler = NULL;
             is_cgi_request = false;
-            return GenerateResErr(502); // Bad Gateway
+            return GenerateResErr(502);
         }
         int read_attempts = 0;
         while (cgi_handler->read_output() && read_attempts < 10) {
@@ -179,21 +180,60 @@ std::string CClient::HandleCGIMethod()
             is_cgi_request = false;
             return GenerateResErr(504);
         }
-        cgi_handler->read_output();
+
+        int read_count = 0;
+        while (cgi_handler->read_output() && read_count < 100) {
+            read_count++;
+        }
+
+        current_output = cgi_handler->get_output_buffer();
+        int cgi_fd = cgi_handler->get_cgi_fd();
+
+        usleep(1000);
+        result = waitpid(cgi_pid, &status, WNOHANG);
+        if (result == cgi_pid && cgi_fd >= 0) {
+            int drain_attempts = 0;
+            while (cgi_handler->read_output() && drain_attempts < 100) {
+                drain_attempts++;
+                usleep(100);
+            }
+            current_output = cgi_handler->get_output_buffer();
+            cgi_fd = cgi_handler->get_cgi_fd();
+        }
+        if (result == cgi_pid) {
+            cgi_handler->close_cgi();
+            std::string cgi_output = current_output;
+            delete cgi_handler;
+            cgi_handler = NULL;
+            is_cgi_request = false;
+            return formatCGIResponse(cgi_output);
+        }
+
+        if (cgi_fd < 0 && !current_output.empty()) {
+            cgi_handler->close_cgi();
+            std::string cgi_output = current_output;
+            delete cgi_handler;
+            cgi_handler = NULL;
+            is_cgi_request = false;
+            return formatCGIResponse(cgi_output);
+        }
         if (!current_output.empty() && current_output.find("Content-Type:") != std::string::npos) {
             size_t header_end = current_output.find("\r\n\r\n");
             if (header_end == std::string::npos) {
                 header_end = current_output.find("\n\n");
             }
             if (header_end != std::string::npos) {
-                if (current_output.find("</html>") != std::string::npos ||
-                    current_output.find("<!DOCTYPE html>") != std::string::npos) {
-                    cgi_handler->close_cgi();
-                    std::string cgi_output = current_output;
-                    delete cgi_handler;
-                    cgi_handler = NULL;
-                    is_cgi_request = false;
-                    return formatCGIResponse(cgi_output);
+                std::string content_type_line = current_output.substr(0, current_output.find("\n"));
+                if (content_type_line.find("text/html") != std::string::npos) {
+                    if (current_output.find("</html>") != std::string::npos ||
+                        current_output.find("<!DOCTYPE html>") != std::string::npos) {
+                        cgi_handler->close_cgi();
+                        std::string cgi_output = current_output;
+                        delete cgi_handler;
+                        cgi_handler = NULL;
+                        is_cgi_request = false;
+                        return formatCGIResponse(cgi_output);
+                    }
                 }
             }
         }
@@ -204,13 +244,15 @@ std::string CClient::HandleCGIMethod()
 std::string CClient::formatCGIResponse(const std::string& cgi_output)
 {
     if (cgi_output.empty()) {
-        return GenerateResErr(500);
+        return GenerateResErr(502);
     }
+
+
     size_t headers_end = cgi_output.find("\r\n\r\n");
     if (headers_end == std::string::npos) {
         headers_end = cgi_output.find("\n\n");
         if (headers_end == std::string::npos) {
-            return GenerateResErr(500);
+            return GenerateResErr(502);
         }
         headers_end += 2;
     }
@@ -220,6 +262,8 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
 
     std::string cgi_headers = cgi_output.substr(0, headers_end);
     std::string cgi_body = cgi_output.substr(headers_end);
+
+
     std::string response = "HTTP/1.1 200 OK\r\n";
     std::istringstream header_stream(cgi_headers);
     std::string line;
@@ -251,6 +295,3 @@ std::string CClient::formatCGIResponse(const std::string& cgi_output)
     response += cgi_body;
     return response;
 }
-
-
-
