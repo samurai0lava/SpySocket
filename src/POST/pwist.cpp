@@ -129,7 +129,8 @@ std::vector<std::string> split(std::string s, std::string delimiters)
 {
 	std::vector<std::string> tokens;
 	std::string token;
-	for (std::string::size_type i = 0; i < s.size(); ++i)
+	//"this is a much longer body than expected"
+	for (size_t i = 0; i < s.length(); i++)
 	{
 		if (delimiters.find(s[i]) != std::string::npos)
 		{
@@ -156,11 +157,12 @@ std::string handle_url_encoded(LocationStruct &location, ParsingRequest &parser,
     std::string body = parser.getBody();
 
     std::vector<std::string> tokens = split(body, "&");
-    std::vector<std::string> pairs;
+
+	std::vector<std::string> pairs;
     for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++)
     {
-        pairs = split((*it), "=");
-        location.url_encoded.insert(std::make_pair(pairs[0], pairs[1]));
+		pairs = split((*it), "=");
+        location.url_encoded.insert(std::make_pair(pairs.size() > 0 ? pairs[0] : "No key",  pairs.size() > 1 ? pairs[1] : "No val"));
     }
     std::string res_body = "";
     for (std::map<std::string, std::string>::iterator it = location.url_encoded.begin(); it != location.url_encoded.end(); it++)
