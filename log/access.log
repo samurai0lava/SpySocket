@@ -397,3 +397,7 @@
 [Tue, 28 Oct 2025 15:34:38 GMT] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/138.0.0.0 safari/537.36 keep-alive 
 [Tue, 28 Oct 2025 15:34:38 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/138.0.0.0 safari/537.36 keep-alive 
 [Tue, 28 Oct 2025 15:34:38 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/138.0.0.0 safari/537.36 keep-alive 
+[Wed, 29 Oct 2025 12:35:37 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 12:35:37 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; ubuntu; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 12:35:37 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; ubuntu; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 12:35:37 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; ubuntu; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 

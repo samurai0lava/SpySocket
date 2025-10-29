@@ -20,6 +20,9 @@ void	reset_refactor_data_state(void);
 bool	is_chunked_transfer_complete(void);
 bool	refactor_data(std::string &buffer, const char *data, size_t len);
 
+std::string getErrorPageFromConfig(int statusCode, ConfigStruct& config);
+
+
 // messages
 std::string	handle_redirect(std::pair<std::string, LocationStruct> location);
 std::string	handle_notAllowed(std::pair<std::string, LocationStruct> location);

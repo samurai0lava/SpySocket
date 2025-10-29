@@ -200,3 +200,73 @@ std::string OK_200(std::string& body)
 //     response +="<html><body><h1>413 Payload Too Large</h1><p>The request body is too large.</p></body></html>";
 // 	return response;
 // }
+
+
+std::string getStatusMessage(int statusCode)
+{
+    switch(statusCode)
+    {
+		//No redirection mentionned?
+        case 200: return "OK";
+        case 201: return "Created";
+        case 204: return "No Content";
+        case 400: return "Bad Request";
+        case 401: return "Unauthorized";
+        case 403: return "Forbidden";
+        case 404: return "Not Found";
+        case 405: return "Method Not Allowed";
+        case 413: return "Content Too Large";
+        case 414: return "URI Too Long";
+        case 415: return "Unsupported Media Type";
+        case 429: return "Too Many Requests";
+        case 500: return "Internal Server Error";
+        case 501: return "Not Implemented";
+        case 502: return "Bad Gateway";
+        case 503: return "Service Unavailable";
+        case 504: return "Gateway Timeout";
+        case 505: return "HTTP Version Not Supported";
+        default: return "Unknown Error";
+    }
+}
+
+
+std::string getErrorPageFromConfig(int statusCode, ConfigStruct& config)
+{
+    for (size_t i = 0; i < config.errorPage.size(); ++i)
+    {
+        if (std::atoi(config.errorPage[i].first.c_str()) == statusCode)
+        {
+            std::string root = config.root;
+            std::string errorPage = config.errorPage[i].second;
+            if (!root.empty() && root[root.length() - 1] != '/') {
+                root += "/";
+            }
+            if (!errorPage.empty() && errorPage[0] == '/') {
+                errorPage = errorPage.substr(1);
+            }
+            std::string errorPagePath = root + errorPage;
+            struct stat fileStat;
+            if (stat(errorPagePath.c_str(), &fileStat) != 0) {
+                continue;
+            }
+            if (!S_ISREG(fileStat.st_mode)) {
+                continue;
+            }
+
+            std::ifstream file(errorPagePath.c_str(), std::ios::in | std::ios::binary);
+            if (file.is_open())
+            {
+                std::stringstream buffer;
+                buffer << file.rdbuf();
+                file.close();
+                std::ostringstream response;
+                response << "HTTP/1.1 " << statusCode << " " << getStatusMessage(statusCode) << "\r\n";
+                response << "Content-Type: text/html\r\n";
+                response << "Content-Length: " << buffer.str().size() << "\r\n\r\n";
+                response << buffer.str();
+                return response.str();
+            }
+        }
+    }
+    return GenerateResErr(statusCode);
+}
