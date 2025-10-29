@@ -44,3 +44,45 @@
 [Wed, 29 Oct 2025 12:57:53 GMT] [INFO] Server started on port 1080
 [Wed, 29 Oct 2025 12:57:53 GMT] Error: 502 - The server received an invalid response from the upstream server.
 [Wed, 29 Oct 2025 12:57:53 GMT] Error: 504 - The server did not receive a timely response from the upstream server.
+[Wed, 29 Oct 2025 13:32:21 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:34:55 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:34:55 GMT] Error: 400 - Bad Request: Request body has 40 bytes available but Content-Length header specifies only 5 bytes
+[Wed, 29 Oct 2025 13:34:55 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:37:43 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:38:01 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:39:53 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:40:06 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:41:37 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:41:54 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:41:54 GMT] Error: 400 - Bad Request: Request body received 5 bytes but Content-Length specifies 2 bytes
+[Wed, 29 Oct 2025 13:41:54 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:42:55 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:45:37 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Request body received 5 bytes but Content-Length specifies 2 bytes
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Invalid HTTP method: 'INVALID'
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - Not Implemented: HTTP method 'HEAD' is not implemented
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - The server does not support the functionality required to fulfill the request.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - Not Implemented: HTTP method 'OPTIONS' is not implemented
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - The server does not support the functionality required to fulfill the request.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Invalid HTTP method: 'INVALID'
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - Not Implemented: HTTP method 'HEAD' is not implemented
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - The server does not support the functionality required to fulfill the request.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - Not Implemented: HTTP method 'OPTIONS' is not implemented
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - The server does not support the functionality required to fulfill the request.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Invalid HTTP method: 'INVALID'
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - Not Implemented: HTTP method 'HEAD' is not implemented
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - The server does not support the functionality required to fulfill the request.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - Not Implemented: HTTP method 'OPTIONS' is not implemented
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 501 - The server does not support the functionality required to fulfill the request.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Invalid HTTP version: 'HTTP/1.0'
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Request body received 5 bytes but Content-Length specifies 3 bytes
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - Bad Request: Content-Length and Transfer-Encoding headers cannot be used together
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 400 - The request could not be understood by the server due to malformed syntax.
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 414 - URI Too Long: URI exceeds 8000 characters
+[Wed, 29 Oct 2025 13:45:37 GMT] Error: 414 - The request URI is longer than the server can interpret.

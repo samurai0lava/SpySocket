@@ -142,7 +142,14 @@ std::string handle_url_encoded(LocationStruct &location, ParsingRequest &parser)
     for (std::vector<std::string>::iterator it = tokens.begin(); it != tokens.end(); it++)
     {
         pairs = split((*it), "=");
-        location.url_encoded.insert(std::make_pair(pairs[0], pairs[1]));
+        if (pairs.size() >= 2)
+        {
+            location.url_encoded.insert(std::make_pair(pairs[0], pairs[1]));
+        }
+        else if (pairs.size() == 1)
+        {
+            location.url_encoded.insert(std::make_pair(pairs[0], ""));
+        }
     }
     std::string res_body = "";
     for (std::map<std::string, std::string>::iterator it = location.url_encoded.begin(); it != location.url_encoded.end(); it++)
