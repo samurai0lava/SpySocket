@@ -166,9 +166,9 @@ std::string handle_url_encoded(LocationStruct &location, ParsingRequest &parser,
     }
     std::string res_body = "";
     for (std::map<std::string, std::string>::iterator it = location.url_encoded.begin(); it != location.url_encoded.end(); it++)
-        res_body += (*it).first + " : " + (*it).second + "\r\n";
-
-    // return OK_200(res_body);
+	{
+		res_body += (*it).first + " : " + (*it).second + "\r\n";
+	}
 	return getErrorPageFromConfig(200, config);
 }
 
