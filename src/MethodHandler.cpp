@@ -1,10 +1,12 @@
 #include "../inc/webserv.hpp"
 
-void handleMethod(int client_fd, ParsingRequest* parser, const ConfigStruct& config, CClient& client_data)
+void handleMethod(int client_fd, ParsingRequest* parser, std::map<std::string, ConfigStruct> config, CClient& client_data)
 {
     std::string method = parser->getStartLine()["method"];
     std::string uri = parser->getStartLine()["uri"];
-    ConfigStruct& mutableConfig = const_cast<ConfigStruct&>(config);
+    // ConfigStruct& mutableConfig = const_cast<ConfigStruct&>(config);
+	ConfigStruct& mutableConfig = config[parser->getHeaders().at("port")];
+
     Servers* serv = Servers::getInstance();
     if (!client_data.intialized) {
         client_data = CClient(method, uri, client_fd, mutableConfig, serv, parser);

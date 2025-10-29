@@ -9,7 +9,7 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
 	sockaddr_in sockStruct;
 
 	serv.configStruct = configFile->_cluster;
-
+	//THE SERVERS TAKE THE CONFIG FILE OF THE FIRST ONE ONLY
 	for (std::map<std::string,
 		ConfigStruct>::iterator it = serv.configStruct.begin(); it != serv.configStruct.end(); it++)
 	{
@@ -326,10 +326,15 @@ void Servers::epollFds(Servers& serv)
                 if (result == ParsingRequest::PARSE_OK)
                 {
                     printRequestInfo(*parser, fd);
-                    ConfigStruct& config = serv.configStruct.begin()->second;
+					//CHANGE THIS TO A MAP SO THAT MULTIPLE SERVERS CAN WORK
+                    // ConfigStruct& config = serv.configStruct.begin()->second;
+					// std::map<std::string, ConfigStruct> serversConfig =
+
                     if(DEBUG_MODE == 1)
                         access_log(*parser);
-                    handleMethod(fd, parser, config, client_data_map[fd]);
+                    // handleMethod(fd, parser, config, client_data_map[fd]);
+                    handleMethod(fd, parser, serv.configStruct, client_data_map[fd]);
+
                     if (client_data_map[fd].is_cgi_request && client_data_map[fd].cgi_handler) {
                         int cgi_fd = client_data_map[fd].cgi_handler->get_cgi_fd();
                         if (cgi_fd >= 0) {
@@ -394,9 +399,6 @@ void Servers::epollFds(Servers& serv)
                     ssize_t bytes_sent = send(fd, c.response.c_str(), c.response.size(), MSG_NOSIGNAL);
                     if (bytes_sent == -1)
                     {
-                        // if (errno == EAGAIN || errno == EWOULDBLOCK) {
-                        //     continue;
-                        // }
                         if (bytes_sent == 0) {
                             std::cout << "Send failed for fd " << fd << ", cleaning up1" << std::endl;
                             // Clean up CGI resources if any

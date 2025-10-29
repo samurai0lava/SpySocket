@@ -147,3 +147,496 @@
 [Wed, 29 Oct 2025 16:10:22 GMT] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
 [Wed, 29 Oct 2025 16:10:22 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
 [Wed, 29 Oct 2025 16:10:22 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 16:29:18 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 16:29:18 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/crime.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/crime.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:29:18 GMT] GET /img/crime.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 16:30:51 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 16:30:51 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:30:51 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 16:32:05 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/crime.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:32:05 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 16:40:10 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 16:40:10 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 16:48:12 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 16:50:16 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 17:10:38 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 17:10:38 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 17:11:33 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 18:49:47 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 18:50:02 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 18:50:02 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 18:50:02 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /main-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/home.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/group-chat.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/terminal.gif HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/recherche.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/index.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/upload.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/rate.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/light-1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/light-github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/light-group-chat.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/light-home.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /upload-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /upload-script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /img/upload.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 18:50:02 GMT] POST /uploads HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:00:51 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:00:51 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:00:51 GMT] GET /upload-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:00:51 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:00:51 GMT] GET /upload-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:00:51 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:01:40 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /upload-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /upload-script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /img/upload.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:01:40 GMT] POST /uploads HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:02:06 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:03:02 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:03:02 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:03:02 GMT] GET /upload-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:02 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:02 GMT] GET /upload-script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:02 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:02 GMT] GET /img/upload.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:02 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:02 GMT] POST /uploads HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:03:44 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:03:44 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/crime.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/rate.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/light-home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:03:44 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:04:47 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:04:47 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:04:47 GMT] POST /uploads HTTP/1.1 127.0.0.1:1080 postmanruntime/7.46.0 close 
+[Wed, 29 Oct 2025 19:04:47 GMT] POST /uploads HTTP/1.1 127.0.0.1:1080 postmanruntime/7.46.0 close 
+[Wed, 29 Oct 2025 19:04:47 GMT] POST /uploads HTTP/1.1 127.0.0.1:1080 postmanruntime/7.46.0 close 
+[Wed, 29 Oct 2025 19:04:47 GMT] POST /uploads HTTP/1.1 127.0.0.1:8080 postmanruntime/7.46.0 close 
+[Wed, 29 Oct 2025 19:04:47 GMT] POST /uploads HTTP/1.1 127.0.0.1:8080 postmanruntime/7.46.0 
+[Wed, 29 Oct 2025 19:04:47 GMT] POST /uploads HTTP/1.1 127.0.0.1:1080 postmanruntime/7.46.0 
+[Wed, 29 Oct 2025 19:07:31 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:07:31 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:07:31 GMT] GET / HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/image-8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/crime.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-server.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-image8.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/image-10-light.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-application.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /main-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/terminal.gif HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/home.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/group-chat.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/recherche.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/index.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/rate.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/upload.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-1337.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-github.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-group-chat.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/light-home.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /upload-page.html HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /style.css HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /upload-script.js HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/upload.png HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /favicon.ico HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] POST /uploads HTTP/1.1 localhost:8080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:07:31 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:11:13 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:11:13 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:12:10 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:12:10 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:10 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:12:35 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:12:35 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:13:17 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:13:17 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:13:17 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:14:14 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:14:14 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:15:42 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:15:42 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:15:42 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:27:39 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:27:39 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:28:49 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:28:49 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:28:49 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:30:51 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /media/3129671-uhd_3840_2160_30fps.mp4 HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:30:51 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:31:15 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:31:15 GMT] GET /upload-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] GET /upload-script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:31:15 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:33:29 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:33:29 GMT] [INFO] Server started on port 8080
+[Wed, 29 Oct 2025 19:33:29 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:33:29 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:33:29 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Wed, 29 Oct 2025 19:33:55 GMT] [INFO] Server started on port 1080
+[Wed, 29 Oct 2025 19:33:55 GMT] [INFO] Server started on port 8080

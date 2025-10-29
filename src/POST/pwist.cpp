@@ -56,25 +56,21 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
 	{
 		if(body[fn_pos + 9] == '"')
     	{
-        	quoted = 1;
+			quoted = 1;
     	}
-
     	fn_pos += 9 + quoted;
-		//just added check ittttt
-		body = body.substr(fn_pos);
     	size_t fn_end;
     	if(quoted)
     	{
-        	fn_end = body.find('"', fn_pos);
+			fn_end = body.find('"', fn_pos);
         	if (fn_end == std::string::npos)
         	{
-            	// return bad_request();
+				// return bad_request();
 				return getErrorPageFromConfig(400, config);
         	}
     	}
     	else
 		{
-		//body.find() ??? what if there was already a space before the filename??
 			fn_end = body.find(' ', fn_pos);
 		}
 		filename = body.substr(fn_pos, fn_end - fn_pos);
@@ -103,14 +99,15 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
     }
     else
     {
-        std::cout << location.upload_path << std::endl;
+        // std::cout << location.upload_path << std::endl;
         // return internal_error();
 		return getErrorPageFromConfig(500, config);
     }
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
-        // return internal_error();
+		// return internal_error();
+		// std::cout << GREEN "=============== " << filename << " ==================\n" RESET;
 		return getErrorPageFromConfig(500, config);
     }
 
@@ -252,6 +249,7 @@ std::string postMethod(std::string uri, ConfigStruct config,
 
 	if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
 	{
+		// std::cout << GREEN "MULTIPAAAAAAAAAAAAAAAAAAAAAAAAART\n" RESET;
 		response = handle_upload(location.second, parser, config);
 	}
 	else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
