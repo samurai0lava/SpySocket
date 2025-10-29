@@ -856,6 +856,33 @@ bool ParsingRequest::parse_body()
 
             body_content = buffer.substr(buffer_pos, expected_body_length);
             buffer_pos += expected_body_length;
+
+            // Validate: check if there's extra data that doesn't look like a new request
+            if (buffer_pos < buffer.length())
+            {
+                size_t remaining_bytes = buffer.length() - buffer_pos;
+                // Peek at next bytes to see if it looks like an HTTP request
+                char first_byte = buffer[buffer_pos];
+
+                // If next byte is not uppercase (typical of HTTP method names),
+                // and we have received data in this read, it's likely extra body data
+                // We'll be lenient: only error if it's clearly not an HTTP method
+                if (remaining_bytes > 0 && first_byte >= 'a' && first_byte <= 'z')
+                {
+                    // Lowercase letter suggests continuation of previous body, not a new request
+                    connection_status = 0;
+                    error_code = 400;
+                    std::ostringstream oss;
+                    oss << "Bad Request: Request body received " << available
+                        << " bytes but Content-Length specifies " << expected_body_length
+                        << " bytes";
+                    error_message = oss.str();
+                    current_state = PARSE_ERROR;
+                    access_error(error_code, error_message);
+                    return false;
+                }
+            }
+
             return true;
         }
     }

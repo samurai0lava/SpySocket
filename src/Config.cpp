@@ -87,7 +87,6 @@ void Config::_createConfigStruct(std::string server)
 			}
 		}
 	}
-	printCluster();
 	std::string uniqueKey;
 	if (!confStruct.listen.empty()) {
 		std::stringstream ss;

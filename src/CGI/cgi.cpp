@@ -52,7 +52,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
     }
 
     if (headers.find("host") != headers.end())
-        this->env_vars["SERVER_NAME"] = headers.at("host");
+        this->env_vars["SERVER_NAME"] = headers.at("host_name");
     else
         this->env_vars["SERVER_NAME"] = "localhost";
 
@@ -72,9 +72,9 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
         this->env_vars["HTTP_USER_AGENT"] = "";
 
     this->env_vars["GATEWAY_INTERFACE"] = "CGI/1.1";
-    this->env_vars["SERVER_SOFTWARE"] = "SpySocket";
-    this->env_vars["REMOTE_HOST"] = "localhost";
-    this->env_vars["SERVER_PORT"] = "1080";
+    this->env_vars["SERVER_SOFTWARE"] = "SpySocket/1.0";
+    this->env_vars["REMOTE_HOST"] = headers.at("host");
+    this->env_vars["SERVER_PORT"] = headers.at("port");
 
     if (headers.find("transfer-encoding") != headers.end())
     {
@@ -87,7 +87,7 @@ bool CGI::set_env_var(std::map<std::string, std::string>& env_vars, const Parsin
 
     if (!path_info.empty())
     {
-        this->env_vars["PATH_TRANSLATED"] = "www/html" + path_info; //from config
+        this->env_vars["PATH_TRANSLATED"] = this->current_location.root + path_info;
     }
     else
     {
@@ -102,7 +102,7 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
 {
     char cwd[1024];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    std::string full_script_path = std::string(cwd) + "/" + this->current_location.root + script_path;
 
     if (access(full_script_path.c_str(), F_OK) != 0)
     {
@@ -169,6 +169,10 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
             error_message = "Internal server error";
             exit(EXIT_FAILURE);
         }
+
+        // Redirect stderr to stdout so all output goes through the pipe
+        dup2(STDOUT_FILENO, STDERR_FILENO);
+
         close(pipe_in[0]);
         close(pipe_out[1]);
 
@@ -224,7 +228,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 {
     char cwd[PATH_MAX];
     getcwd(cwd, sizeof(cwd));
-    std::string full_script_path = std::string(cwd) + "/www" + script_path;
+    std::string full_script_path = std::string(cwd) + "/" + this->current_location.root + script_path;
     std::cout << RED << full_script_path << RESET << std::endl;
 
     if (access(full_script_path.c_str(), F_OK) != 0) {
@@ -276,7 +280,6 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
 
     if (cgi_pid == 0) {
         // Child process
-        std::cerr.flush();
         close(pipe_in[1]);
         close(pipe_out[0]);
 
@@ -285,7 +288,9 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
             perror("dup2 failed in child");
             exit(EXIT_FAILURE);
         }
-        std::cerr.flush();
+
+        // Redirect stderr to stdout so all output goes through the pipe
+        dup2(STDOUT_FILENO, STDERR_FILENO);
 
         close(pipe_in[0]);
         close(pipe_out[1]);
@@ -308,24 +313,13 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
         }
         argv.push_back(NULL);
 
-        for (size_t i = 0; i < argv.size() - 1; ++i) {
-            std::cerr << "'" << argv[i] << "' ";
-        }
-        std::cerr << std::endl;
-        std::cerr.flush();
-
-        std::cerr.flush();
-
         if (!interpreter.empty()) {
-            std::cerr.flush();
             execve(interpreter.c_str(), &argv[0], &envp[0]);
         }
         else {
-            std::cerr.flush();
             execve(full_script_path.c_str(), &argv[0], &envp[0]);
         }
 
-        std::cerr.flush();
         access_error(500, "Internal Server Error: execve failed");
         perror("execve failed");
         exit(EXIT_FAILURE);
@@ -378,36 +372,52 @@ void CGI::close_cgi()
 
 std::string CGI::get_interpreter(const std::string& script_path, const LocationStruct& location)
 {
+    std::string extension = "";
+    size_t dot_pos = script_path.find_last_of('.');
+    if (dot_pos != std::string::npos) {
+        extension = script_path.substr(dot_pos);
+    }
+
     if (!location.cgi_path.empty() && !location.cgi_ext.empty()) {
         for (size_t i = 0; i < location.cgi_ext.size(); ++i) {
-            if (script_path.find(location.cgi_ext[i]) != std::string::npos) {
-                for (size_t j = 0; j < location.cgi_path.size(); ++j) {
-                    if (access(location.cgi_path[j].c_str(), X_OK) == 0) {
-                        return location.cgi_path[j];
+            if (extension == location.cgi_ext[i]) {
+                if (i < location.cgi_path.size()) {
+                    if (access(location.cgi_path[i].c_str(), X_OK) == 0) {
+                        return location.cgi_path[i];
                     }
+                    error_code = 500;
+                    error_message = "Configured CGI interpreter not executable";
+					access_error(error_code, error_message);
+                    return "";
                 }
-                error_code = 500;
-                error_message = "Configured CGI interpreter not executable";
-                return "";
             }
         }
     }
 
-    // Fallback to extension-based detection
-    if (script_path.find(".py") != std::string::npos) {
-        return "/usr/bin/python3";
+    std::string interpreter = "";
+
+    if (extension == ".py") {
+        interpreter = "/usr/bin/python3";
     }
-    else if (script_path.find(".pl") != std::string::npos) {
-        return "/usr/bin/perl";
+    else if (extension == ".pl") {
+        interpreter = "/usr/bin/perl";
     }
-    else if (script_path.find(".php") != std::string::npos) {
-        return "/usr/bin/php";
+    else if (extension == ".php") {
+        interpreter = "/usr/bin/php";
     }
-    else if (script_path.find(".sh") != std::string::npos) {
-        return "/bin/bash";
+    else if (extension == ".sh") {
+        interpreter = "/bin/bash";
+    }
+    if (!interpreter.empty()) {
+        if (access(interpreter.c_str(), X_OK) == 0) {
+            return interpreter;
+        }
+        error_code = 500;
+        error_message = "Default CGI interpreter not found or not executable";
+		access_error(error_code, error_message);
+        return "";
     }
 
-    // Check shebang for .cgi or binary files
     std::ifstream file(script_path.c_str());
     if (file.is_open())
     {
@@ -418,13 +428,29 @@ std::string CGI::get_interpreter(const std::string& script_path, const LocationS
         if (first_line.length() > 2 && first_line.substr(0, 2) == "#!")
         {
             std::string shebang = first_line.substr(2);
+            size_t start = shebang.find_first_not_of(" \t");
+            if (start != std::string::npos) {
+                shebang = shebang.substr(start);
+            }
+
             size_t end = shebang.find_first_of(" \t\r\n");
-            if (end != std::string::npos)
+            if (end != std::string::npos) {
                 shebang = shebang.substr(0, end);
-            return shebang;
+            }
+            if (!shebang.empty() && access(shebang.c_str(), X_OK) == 0) {
+                return shebang;
+            }
+
+            error_code = 500;
+            error_message = "Shebang interpreter not found or not executable";
+			access_error(error_code, error_message);
+            return "";
         }
     }
 
+    error_code = 500;
+    error_message = "Could not determine CGI interpreter";
+	access_error(error_code, error_message);
     return "";
 }
 
@@ -470,6 +496,7 @@ bool CGI::read_output()
     char buffer[8192];
     ssize_t bytes_read = read(cgi_fd, buffer, sizeof(buffer) - 1);
 
+
     if (bytes_read > 0)
     {
         buffer[bytes_read] = '\0';
@@ -486,7 +513,7 @@ bool CGI::read_output()
     {
         if (errno == EAGAIN || errno == EWOULDBLOCK)
         {
-            return true;
+            return false;
         }
         else
         {
