@@ -10,9 +10,9 @@ std::pair<std::string, LocationStruct> get_location(const std::string &requestPa
 	for (size_t i = 0; i < server.location.size(); ++i)
 	{
 		const std::string &locPath = server.location[i].first;
-		if (requestPath.find(locPath) == 0) // prefix match
+		if (requestPath.find(locPath) == 0)
 		{
-			if (locPath.size() > bestLength) // longest match wins
+			if (locPath.size() > bestLength)
 			{
 				bestMatch = locPath;
 				bestLocation = server.location[i].second;

@@ -169,8 +169,6 @@ bool CGI::execute(std::map<std::string, std::string>& env_vars, const LocationSt
             error_message = "Internal server error";
             exit(EXIT_FAILURE);
         }
-
-        // Redirect stderr to stdout so all output goes through the pipe
         dup2(STDOUT_FILENO, STDERR_FILENO);
 
         close(pipe_in[0]);
@@ -279,7 +277,6 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
     }
 
     if (cgi_pid == 0) {
-        // Child process
         close(pipe_in[1]);
         close(pipe_out[0]);
 
@@ -288,10 +285,7 @@ bool CGI::execute_with_body(std::map<std::string, std::string>& env_vars, const 
             perror("dup2 failed in child");
             exit(EXIT_FAILURE);
         }
-
-        // Redirect stderr to stdout so all output goes through the pipe
         dup2(STDOUT_FILENO, STDERR_FILENO);
-
         close(pipe_in[0]);
         close(pipe_out[1]);
         std::string script_dir = full_script_path.substr(0, full_script_path.find_last_of('/'));

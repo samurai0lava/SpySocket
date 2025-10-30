@@ -4,7 +4,6 @@
 std::string	handle_redirect(std::pair<std::string, LocationStruct> location)
 {
 	std::string status = (*location.second._return.begin()).first;
-	// Not sure why there is a vector i'll work with the first one for now
 	std::string newLoc = (*location.second._return.begin()).second;
 	std::string statusMsg;
 	if (status == "301")

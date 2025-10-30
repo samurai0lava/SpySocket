@@ -9,7 +9,6 @@ void Servers::getServersFds(Config *configFile, Servers &serv)
 	sockaddr_in sockStruct;
 
 	serv.configStruct = configFile->_cluster;
-	//THE SERVERS TAKE THE CONFIG FILE OF THE FIRST ONE ONLY
 	for (std::map<std::string,
 		ConfigStruct>::iterator it = serv.configStruct.begin(); it != serv.configStruct.end(); it++)
 	{

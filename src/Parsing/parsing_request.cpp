@@ -1,7 +1,5 @@
 #include "../../inc/webserv.hpp"
 
-// NGINX-style incremental parsing implementation
-
 int parse_hex(const std::string& s)
 {
 	std::istringstream iss(s);
@@ -361,7 +359,6 @@ bool ParsingRequest::parse_headers()
 			return false;
 		}
 
-		// Validate header name characters (must be tokens per RFC 7230)
 		for (size_t i = 0; i < key.length(); ++i)
 		{
 			char c = key[i];
@@ -838,8 +835,8 @@ bool ParsingRequest::parse_body()
                 body_content = chunked_accumulated_data;
                 std::cout << "CHUNKED - Transfer completed! Final body size: " << body_content.length() << std::endl;
                 buffer_pos = buffer.length();
-                chunked_last_processed_size = 0; // Reset for next request
-                chunked_accumulated_data.clear(); // Reset for next request
+                chunked_last_processed_size = 0;
+                chunked_accumulated_data.clear();
                 return true;
             }
             else {
@@ -856,20 +853,12 @@ bool ParsingRequest::parse_body()
 
             body_content = buffer.substr(buffer_pos, expected_body_length);
             buffer_pos += expected_body_length;
-
-            // Validate: check if there's extra data that doesn't look like a new request
             if (buffer_pos < buffer.length())
             {
                 size_t remaining_bytes = buffer.length() - buffer_pos;
-                // Peek at next bytes to see if it looks like an HTTP request
                 char first_byte = buffer[buffer_pos];
-
-                // If next byte is not uppercase (typical of HTTP method names),
-                // and we have received data in this read, it's likely extra body data
-                // We'll be lenient: only error if it's clearly not an HTTP method
                 if (remaining_bytes > 0 && first_byte >= 'a' && first_byte <= 'z')
                 {
-                    // Lowercase letter suggests continuation of previous body, not a new request
                     connection_status = 0;
                     error_code = 400;
                     std::ostringstream oss;

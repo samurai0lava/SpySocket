@@ -20,7 +20,6 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
 {
     if (location.upload_enabled == false)
     {
-        // return forbidden_403();
 		return getErrorPageFromConfig(403, config);
     }
     if (location.upload_path.empty())
@@ -33,23 +32,19 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
     size_t body_start = request.find("--" + boundary);
     if (body_start == std::string::npos)
     {
-        // return bad_request();
 		return getErrorPageFromConfig(400, config);
     }
     size_t body_end = request.find("--" + boundary + "--", body_start);
     if (body_end == std::string::npos)
     {
-        // return bad_request();
 		return getErrorPageFromConfig(400, config);
     }
     std::string body = request.substr(body_start + boundary.length() + 4, body_end - body_start - boundary.length() - 4);
     size_t fn_pos = body.find("filename=");
     int quoted = 0;
 	std::string filename;
-    //check if no filename provided something sus will happen here
     if (fn_pos == std::string::npos)
     {
-        //no error maybe it's just a text not a file (username e.g)
         filename = generate_filename("upload_", "");
     }
 	else
@@ -65,7 +60,6 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
 			fn_end = body.find('"', fn_pos);
         	if (fn_end == std::string::npos)
         	{
-				// return bad_request();
 				return getErrorPageFromConfig(400, config);
         	}
     	}
@@ -80,7 +74,6 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
     size_t content_start = body.find("\r\n\r\n");
     if (content_start == std::string::npos)
     {
-        // return bad_request();
 		return getErrorPageFromConfig(400, config);
 	}
     content_start += 4;
@@ -99,26 +92,20 @@ std::string handle_upload(LocationStruct& location, ParsingRequest& parser, Conf
     }
     else
     {
-        // std::cout << location.upload_path << std::endl;
-        // return internal_error();
 		return getErrorPageFromConfig(500, config);
     }
     std::fstream file(filename.c_str(), std::ios::out);
     if (!file)
     {
-		// return internal_error();
-		// std::cout << GREEN "=============== " << filename << " ==================\n" RESET;
 		return getErrorPageFromConfig(500, config);
     }
 
     file.write(body.c_str() + content_start, body.size() - content_start);
     if (!file)
     {
-        // return internal_error();
 		return getErrorPageFromConfig(500, config);
     }
     file.close();
-    // return created_success();
 	return getErrorPageFromConfig(201, config);
 }
 
@@ -126,7 +113,6 @@ std::vector<std::string> split(std::string s, std::string delimiters)
 {
 	std::vector<std::string> tokens;
 	std::string token;
-	//"this is a much longer body than expected"
 	for (size_t i = 0; i < s.length(); i++)
 	{
 		if (delimiters.find(s[i]) != std::string::npos)
@@ -203,25 +189,21 @@ std::string main_response(LocationStruct &location, ParsingRequest &parser, Conf
     }
     else
     {
-        // return internal_error();
 		return getErrorPageFromConfig(500, config);
     }
 
     std::fstream file(filename.c_str(), std::ios::binary | std::ios::out);
     if (!file)
     {
-        // return internal_error();
 		return getErrorPageFromConfig(500, config);
     }
 
     file.write(body.c_str(), body.length());
     if (!file)
     {
-        // return internal_error();
 		return getErrorPageFromConfig(500, config);
     }
     file.close();
-    // return created_success();
 	return getErrorPageFromConfig(201, config);
 }
 
@@ -234,22 +216,18 @@ std::string postMethod(std::string uri, ConfigStruct config,
 		config);
 	if(location.first.empty())
 		return getErrorPageFromConfig(404, config);
-		// return notFound();
 	if(!location.second._return.empty())
 	{
 		return handle_redirect(location);
-		// return getErrorPageFromConfig(301, config); //But there is no redirection message in getErrorPageFromConfig
 	}
 
 	if(location.second.allowedMethods.find("POST") == location.second.allowedMethods.end())
 	{
-		// return handle_notAllowed(location);
 		return getErrorPageFromConfig(405, config);
 	}
 
 	if (parser.getHeaders()["content-type-value"] == "multipart/form-data")
 	{
-		// std::cout << GREEN "MULTIPAAAAAAAAAAAAAAAAAAAAAAAAART\n" RESET;
 		response = handle_upload(location.second, parser, config);
 	}
 	else if(parser.getHeaders()["content-type-value"] == "application/x-www-form-urlencoded")
