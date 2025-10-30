@@ -640,3 +640,561 @@
 [Wed, 29 Oct 2025 19:33:29 GMT] POST /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
 [Wed, 29 Oct 2025 19:33:55 GMT] [INFO] Server started on port 1080
 [Wed, 29 Oct 2025 19:33:55 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 09:35:36 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 09:35:46 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 09:47:04 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 10:03:37 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 10:03:48 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 10:03:59 GMT] [INFO] Server started on port 8080
+[Thu, 30 Oct 2025 11:36:22 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:36:22 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /img/403.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:36:22 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:37 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:37:51 GMT] GET /uploads HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64) applewebkit/537.36 (khtml, like gecko) chrome/139.0.0.0 safari/537.36 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:46:20 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Server-vector.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/image-8-1 .png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/image-8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/crime.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-server.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-image8.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/image-10-light.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-application.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/rate.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /team-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/arrow_back.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/hcharra.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/iouhssei.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/zel-harb.jpeg HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector 4.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector 3.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /main-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /style.css HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /script.js HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/terminal.gif HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/recherche.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/index.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/upload.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/rate.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-1337.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-github.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-group-chat.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:46:20 GMT] GET /img/light-home.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:49:07 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:49:07 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:50:24 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:52:38 GMT] GET /error/404.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:55:11 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:11 GMT] GET /ww/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:55:50 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:55:50 GMT] GET /www/html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:56:19 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:56:19 GMT] GET /feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:58:29 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:59:38 GMT] [INFO] Server started on port 1080
+[Thu, 30 Oct 2025 11:59:38 GMT] GET / HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /img/404.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /img/Vector-2.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /img/Vector-1.png HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /html/feedback-page.html HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 
+[Thu, 30 Oct 2025 11:59:38 GMT] GET /favicon.ico HTTP/1.1 localhost:1080 mozilla/5.0 (x11; linux x86_64; rv:144.0) gecko/20100101 firefox/144.0 keep-alive 

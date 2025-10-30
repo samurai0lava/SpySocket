@@ -8,6 +8,8 @@ int main(int argc, char** argv)
     {
         std::string configPath = parseArgv(argc, argv);
         config->StartToSet(configPath);
+		if(config->_cluster.empty())
+			throw std::runtime_error("No valid server configurations found.");
 		// config->printCluster();
         Servers* serv = Servers::getInstance();
         handle_signal();

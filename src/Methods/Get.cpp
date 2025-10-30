@@ -373,6 +373,7 @@ std::string Get::MethodGet()
         throw std::runtime_error("");
     }
     if (!locationMatched._return.empty()) {
+		std::cout<< "Redirecting to " << locationMatched._return[0].second << std::endl;
         int statusCode = atoi(locationMatched._return[0].first.c_str());
         std::string target = locationMatched._return[0].second;
         this->client.chunkedSending = true;

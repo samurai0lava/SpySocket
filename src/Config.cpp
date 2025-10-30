@@ -101,6 +101,10 @@ void Config::_createConfigStruct(std::string server)
 	{
 		throw std::runtime_error("Missing host directive in server configuration");
 	}
+	else if(confStruct.location.empty())
+	{
+		throw std::runtime_error("Missing location blocks in server configuration");
+	}
 	this->_cluster.insert(std::make_pair(uniqueKey, confStruct));
 
 }
@@ -123,6 +127,18 @@ void Config::StartToSet(std::string configPath)
 	{
 		throw Config::FileOpenException();
 	}
+
+	// Check if file is empty
+	this->_configFile.seekg(0, std::ios::end);
+	std::streampos fileSize = this->_configFile.tellg();
+	if (fileSize == 0) {
+		this->_configFile.close();
+		throw std::runtime_error("Configuration file is empty");
+	}
+	this->_configFile.seekg(0, std::ios::beg); // Reset to beginning
+
+
+
 	streamBuffer << this->_configFile.rdbuf();
 	this->_configFile.close();
 	std::string buffer = streamBuffer.str();
@@ -309,36 +325,72 @@ int Config::getAutoindex()
 
 void Config::_checkRedirectionLoops()
 {
-	for (std::map<std::string, ConfigStruct>::iterator it = _cluster.begin(); it != _cluster.end(); ++it)
-	{
-		ConfigStruct &conf = it->second;
-		for (size_t i = 0; i < conf.location.size(); ++i)
-		{
-			LocationStruct &loc = conf.location[i].second;
-			for (size_t j = 0; j < loc._return.size(); ++j)
-			{
-				const std::string &target = loc._return[j].second;
-				if (target.find("http://") == 0 || target.find("https://") == 0)
-					continue;
-				bool found = false;
-				for (std::map<std::string, ConfigStruct>::iterator it2 = _cluster.begin(); it2 != _cluster.end(); ++it2) {
-					ConfigStruct &conf2 = it2->second;
+    for (std::map<std::string, ConfigStruct>::iterator it = _cluster.begin(); it != _cluster.end(); ++it)
+    {
+        ConfigStruct &conf = it->second;
+        for (size_t i = 0; i < conf.location.size(); ++i)
+        {
+            LocationStruct &loc = conf.location[i].second;
+            std::string currentPath = conf.location[i].first;
+            for (size_t j = 0; j < loc._return.size(); ++j)
+            {
+                const std::string &target = loc._return[j].second;
 
-					for (size_t k = 0; k < conf2.location.size(); ++k) {
-						const std::string &locPath = conf2.location[k].first;
-						if (target == locPath) {
-							found = true;
-							break;
-						}
-					}
-					if (found) break;
-				}
-				if (!found)
-					throw std::runtime_error("Redirection loop detected for target: " + target);
-			}
-		}
-	}
+                if (target.find("http://") == 0 || target.find("https://") == 0)
+                    continue;
 
+                std::set<std::string> visited;
+                std::string currentTarget = target;
+                visited.insert(currentPath);
+
+                while (true)
+                {
+                    if (visited.find(currentTarget) != visited.end())
+                    {
+                        throw std::runtime_error("Redirection loop detected: " +
+                                                currentPath + " -> " + target);
+                    }
+
+                    visited.insert(currentTarget);
+
+                    bool targetFound = false;
+                    LocationStruct *nextLoc = NULL;
+                    std::string nextTarget;
+
+                    for (std::map<std::string, ConfigStruct>::iterator it2 = _cluster.begin();
+                         it2 != _cluster.end(); ++it2)
+                    {
+                        ConfigStruct &conf2 = it2->second;
+                        for (size_t k = 0; k < conf2.location.size(); ++k)
+                        {
+                            const std::string &locPath = conf2.location[k].first;
+                            if (currentTarget == locPath)
+                            {
+                                nextLoc = &conf2.location[k].second;
+                                targetFound = true;
+
+                                if (!nextLoc->_return.empty())
+                                {
+                                    nextTarget = nextLoc->_return[0].second;
+                                    if (nextTarget.find("http://") == 0 ||
+                                        nextTarget.find("https://") == 0)
+                                    {
+                                        targetFound = false;
+                                    }
+                                }
+                                break;
+                            }
+                        }
+                        if (targetFound) break;
+                    }
+                    if (!targetFound || nextTarget.empty())
+                        break;
+
+                    currentTarget = nextTarget;
+                }
+            }
+        }
+    }
 }
 const char* Config::FileOpenException::what(void) const throw()
 {
