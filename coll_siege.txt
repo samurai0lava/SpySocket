@@ -1,0 +1,119 @@
+~/42-Projects/Webserv-42 main* ❯ siege -c10  -t1M -f urls.txt > siege_c10.log
+** SIEGE 4.1.6
+** Preparing 10 concurrent users for battle.
+The server is now under siege...
+
+Lifting the server siege...
+Transactions:		       17561 hits
+Availability:		       99.90 %
+Elapsed time:		       60.70 secs
+Data transferred:	      618.61 MB
+Response time:		        0.03 secs
+Transaction rate:	      289.31 trans/sec
+Throughput:		       10.19 MB/sec
+Concurrency:		        9.96
+Successful transactions:       16574
+Failed transactions:	          18
+Longest transaction:	       29.86
+Shortest transaction:	        0.00
+
+
+
+~/42-Projects/Webserv-42 main* ❯ siege -c20  -t1M -f urls.txt > siege_c20.log                     1m 1s
+** SIEGE 4.1.6
+** Preparing 20 concurrent users for battle.
+The server is now under siege...
+
+Lifting the server siege...
+Transactions:		       36785 hits
+Availability:		       99.75 %
+Elapsed time:		       60.28 secs
+Data transferred:	     1301.72 MB
+Response time:		        0.03 secs
+Transaction rate:	      610.24 trans/sec
+Throughput:		       21.59 MB/sec
+Concurrency:		       19.92
+Successful transactions:       34724
+Failed transactions:	          92
+Longest transaction:	        0.69
+Shortest transaction:	        0.00
+
+
+~/42-Projects/Webserv-42 main* ❯ siege -c30  -t1M -f urls.txt > siege_c30.log                     1m 0s
+** SIEGE 4.1.6
+** Preparing 30 concurrent users for battle.
+The server is now under siege...
+
+Lifting the server siege...
+Transactions:		       50683 hits
+Availability:		       99.72 %
+Elapsed time:		       60.42 secs
+Data transferred:	     1791.68 MB
+Response time:		        0.03 secs
+Transaction rate:	      838.84 trans/sec
+Throughput:		       29.65 MB/sec
+Concurrency:		       29.30
+Successful transactions:       47841
+Failed transactions:	         143
+Longest transaction:	       29.74
+Shortest transaction:	        0.00
+
+~/42-Projects/Webserv-42 main* ❯ siege -c40  -t1M -f urls.txt > siege_c40.log                     1m 0s
+** SIEGE 4.1.6
+** Preparing 40 concurrent users for battle.
+The server is now under siege...
+
+Lifting the server siege...
+Transactions:		       67961 hits
+Availability:		       99.67 %
+Elapsed time:		       60.75 secs
+Data transferred:	     2405.73 MB
+Response time:		        0.03 secs
+Transaction rate:	     1118.70 trans/sec
+Throughput:		       39.60 MB/sec
+Concurrency:		       38.55
+Successful transactions:       64151
+Failed transactions:	         225
+Longest transaction:	       29.99
+Shortest transaction:	        0.00
+
+
+~/42-Projects/Webserv-42 main* ❯ siege -c50  -t1M -f urls.txt > siege_c50.log                     1m 1s
+** SIEGE 4.1.6
+** Preparing 50 concurrent users for battle.
+The server is now under siege...
+
+Lifting the server siege...
+Transactions:		       78566 hits
+Availability:		       99.55 %
+Elapsed time:		       60.76 secs
+Data transferred:	     2788.42 MB
+Response time:		        0.04 secs
+Transaction rate:	     1293.05 trans/sec
+Throughput:		       45.89 MB/sec
+Concurrency:		       46.86
+Successful transactions:       74181
+Failed transactions:	         356
+Longest transaction:	       29.73
+Shortest transaction:	        0.00
+
+~/42-Projects/Webserv-42 main* ❯ siege -c75  -t1M -f urls.txt > siege_c75.log                     1m 1s
+** SIEGE 4.1.6
+** Preparing 75 concurrent users for battle.
+The server is now under siege...
+
+Lifting the server siege...
+Transactions:		      100071 hits
+Availability:		       99.28 %
+Elapsed time:		       60.09 secs
+Data transferred:	     3566.39 MB
+Response time:		        0.04 secs
+Transaction rate:	     1665.35 trans/sec
+Throughput:		       59.35 MB/sec
+Concurrency:		       70.10
+Successful transactions:       94532
+Failed transactions:	         725
+Longest transaction:	       29.97
+Shortest transaction:	        0.00
+
+
