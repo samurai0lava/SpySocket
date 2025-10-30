@@ -1,6 +1,0 @@
-http://127.0.0.1:1080/
-http://127.0.0.1:1080/team-page.html
-http://127.0.0.1:1080/upload-page.html
-http://127.0.0.1:1080/main-page.html
-http://127.0.0.1:1080/cgi-bin/proper_env.sh
-http://127.0.0.1:1080/cgi-bin/info-dash.py
