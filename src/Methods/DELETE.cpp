@@ -37,6 +37,29 @@ bool DeleteMethode::CheckisDir(const std::string& uri)
     return false;
 }
 
+bool DeleteMethode::isDirEmpty(const std::string& path) const
+{
+    std::string dirPath = path;
+    if (!dirPath.empty() && dirPath[dirPath.length() - 1] == '/') {
+        dirPath = dirPath.substr(0, dirPath.length() - 1);
+    }
+
+    DIR* dir = opendir(dirPath.c_str());
+    if (!dir)
+        return false;
+
+    struct dirent* entry;
+    while ((entry = readdir(dir)) != NULL)
+	{
+        if (std::string(entry->d_name) != "." && std::string(entry->d_name) != "..") {
+            closedir(dir);
+            return false;
+        }
+    }
+    closedir(dir);
+    return true;
+}
+
 bool DeleteMethode::CheckAccess(const std::string& uri)
 {
     if (access(uri.c_str(), W_OK) != 0) {
@@ -89,13 +112,13 @@ std::string DeleteMethode::PerformDelete(const std::string& uri, const ConfigStr
     }
     else
     {
-        if (uri[uri.length() - 1] != '/') {
-            std::string errorResponse = getErrorPageFromConfig(409, config);
+        if (!CheckAccess(actualPath)) {
+            std::string errorResponse = getErrorPageFromConfig(403, config);
             return errorResponse;
         }
 
-        if (!CheckAccess(actualPath)) {
-            std::string errorResponse = getErrorPageFromConfig(403, config);
+        if (!isDirEmpty(actualPath)) {
+            std::string errorResponse = getErrorPageFromConfig(409, config);
             return errorResponse;
         }
 
@@ -150,7 +173,6 @@ bool DeleteMethode::checkIfAllowed(const std::string& method, const ConfigStruct
 
 std::string DeleteMethode::mapUriToPath(const std::string& uri, const ConfigStruct& config) const
 {
-    // Strip query string and fragment from the URI before processing
     std::string path = uri;
     size_t query_pos = path.find('?');
     size_t fragment_pos = path.find('#');
@@ -171,9 +193,7 @@ std::string DeleteMethode::mapUriToPath(const std::string& uri, const ConfigStru
     while (true) {
         for (size_t i = 0; i < config.location.size(); ++i) {
             if (path == config.location[i].first) {
-                // Security check: validate the constructed path
                 std::string fullPath = config.location[i].second.root + removedPath;
-                // Extract the relative path part for security validation
                 if (!is_path_secure(removedPath.empty() ? "" : removedPath.substr(1)))
                 {
 

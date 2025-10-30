@@ -26,6 +26,7 @@ class DeleteMethode : public ParsingRequest
         std::string getStatusPhrase() const { return status_phrase; }
         bool checkIfAllowed(const std::string& method, const ConfigStruct& config, const std::string& uri) const;
         std::string mapUriToPath(const std::string& uri, const ConfigStruct& config) const;
+        bool isDirEmpty(const std::string& path) const;
 };
 
 

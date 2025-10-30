@@ -18,6 +18,7 @@ std::string getStatusPhrase(int errorCode) {
     case 403: return "Forbidden";
     case 404: return "Not Found";
     case 405: return "Method Not Allowed";
+	case 409: return "Conflict";
     case 413: return "Content Too Large";
     case 414: return "URI Too Long";
     case 415: return "Unsupported Media Type";
@@ -47,7 +48,7 @@ std::string generateErrorPageHTML(int errorCode, const std::string& errorMessage
     html += "    <p>" + errorMessage + "</p>\n";
     html += "    <hr>\n";
     html += "    <div>SpySocket</div>\n";
-	
+
     html += "</body>\n";
     html += "</html>\n";
 
@@ -117,6 +118,8 @@ std::string getDefaultErrorMessage(int errorCode) {
         return "The requested resource could not be found on this server.";
     case 405:
         return "The method specified in the request is not allowed for the resource.";
+	case 409:
+		return "The request could not be completed due to a conflict with the current state of the resource.";
     case 413:
         return "The request entity is larger than limits defined by server.";
     case 414:

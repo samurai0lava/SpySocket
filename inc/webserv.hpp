@@ -2,7 +2,7 @@
 # define WEBSERV_HPP
 
 
-# define DEBUG_MODE 1
+# define DEBUG_MODE 0
 
 #include <unistd.h>
 #include <iostream>
