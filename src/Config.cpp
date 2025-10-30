@@ -93,7 +93,14 @@ void Config::_createConfigStruct(std::string server)
 		ss  << confStruct.listen[0];
 		uniqueKey +=  ss.str();
 	}
-
+	if(confStruct.listen.empty())
+	{
+		throw std::runtime_error("Missing listen directive in server configuration");
+	}
+	else if(confStruct.host.empty())
+	{
+		throw std::runtime_error("Missing host directive in server configuration");
+	}
 	this->_cluster.insert(std::make_pair(uniqueKey, confStruct));
 
 }
