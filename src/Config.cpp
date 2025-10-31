@@ -90,7 +90,8 @@ void Config::_createConfigStruct(std::string server)
 	std::string uniqueKey;
 	if (!confStruct.listen.empty()) {
 		std::stringstream ss;
-		ss  << confStruct.listen[0];
+		ss << confStruct.host << ":" << confStruct.listen[0];
+		// ss  << confStruct.listen[0];
 		uniqueKey +=  ss.str();
 	}
 	if(confStruct.listen.empty())

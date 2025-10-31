@@ -4,9 +4,15 @@ void handleMethod(int client_fd, ParsingRequest* parser, std::map<std::string, C
 {
     std::string method = parser->getStartLine()["method"];
     std::string uri = parser->getStartLine()["uri"];
-    // ConfigStruct& mutableConfig = const_cast<ConfigStruct&>(config);
-	ConfigStruct& mutableConfig = config[parser->getHeaders().at("port")];
-
+    std::string host_header = parser->getHeaders().at("host");
+    if (host_header.find("localhost") != std::string::npos) {
+        // Replace localhost with 127.0.0.1
+        size_t pos = host_header.find("localhost");
+        if (pos != std::string::npos) {
+            host_header.replace(pos, 9, "127.0.0.1");
+        }
+    }
+    ConfigStruct& mutableConfig = config[host_header];
     Servers* serv = Servers::getInstance();
     if (!client_data.intialized) {
         client_data = CClient(method, uri, client_fd, mutableConfig, serv, parser);
