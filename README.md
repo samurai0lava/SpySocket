@@ -10,17 +10,24 @@
 - Simple response generation
 - Support for static files
 
+## Overall of What you need to know.
+
+![0](www/html/img/image.png "Title")
 
 ## HTTP/1.1
 
 HTTP/1.1 is the foundation of data communication for the World Wide Web. It defines how messages are formatted and transmitted, and how web servers and browsers should respond to various commands.
- - This are the resume of what you need in the RFC7230 and RFC7231.
+- This are the resume of what you need in the RFC7230 and RFC7231.
 
 ![1](www/html/img/Untitled-2025-11-04-1909.png "Title")
 ![2](www/html/img/2.png "Title")
 ![3](www/html/img/3.png "Title")
 
+## Handling the graceful shutdown (SIGINT)
 
+The Server class leverages the Singleton design pattern to ensure a single global instance throughout the application’s lifecycle. Resource Acquisition Is Initialization (RAII) principles are applied to guarantee deterministic resource management, ensuring that resources such as sockets, file descriptors, and epoll instances are properly released when objects go out of scope.
+
+Signal handling is implemented through the signal() function, which registers a handler for termination signals (SIGINT). When a signal is caught, the handler sets a termination flag that instructs the epoll event loop to exit gracefully. This mechanism allows the server to stop event processing in a controlled manner and trigger RAII-based cleanup of all allocated resources, avoiding memory leaks and dangling file descriptors.
 
 ## CGI (Common Gateway Interface)
 
@@ -114,3 +121,11 @@ Notes:
 - Each `Set-Cookie` sets a single cookie. Multiple cookies require multiple headers.
 - Browsers typically limit each cookie to about 4096 bytes; total cookie limits vary by browser.
 
+## Ressources used in this project
+
+- [Beej’s Guide to Network Programming](https://beej.us/guide/bgnet/pdf/bgnet_a4_c_1.pdf)
+- [RFC 7230 - HTTP/1.1 Message Syntax and Routing](https://datatracker.ietf.org/doc/html/rfc7230)
+- [RFC 7231 - HTTP/1.1 Semantics and Content](https://datatracker.ietf.org/doc/html/rfc7231)
+- [CGI Specification](https://datatracker.ietf.org/doc/html/rfc3875)
+- [MDN Web Docs - HTTP Cookies](https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies)
+- [NGINX-TEST-ENV](https://github.com/samurai0lava/NGINX-TESTING-ENV)
