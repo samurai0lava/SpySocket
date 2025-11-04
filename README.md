@@ -11,6 +11,17 @@
 - Support for static files
 
 
+## HTTP/1.1
+
+HTTP/1.1 is the foundation of data communication for the World Wide Web. It defines how messages are formatted and transmitted, and how web servers and browsers should respond to various commands.
+ - This are the resume of what you need in the RFC7230 and RFC7231.
+
+![1](www/html/img/Untitled-2025-11-04-1909.png "Title")
+![2](www/html/img/2.png "Title")
+![3](www/html/img/3.png "Title")
+
+
+
 ## CGI (Common Gateway Interface)
 
 CGI stand for Common gateway interface, its solve a problem, back in the days servers can only serve static website (HTML , IMAGES and fixed content)
@@ -102,41 +113,4 @@ Notes:
 
 - Each `Set-Cookie` sets a single cookie. Multiple cookies require multiple headers.
 - Browsers typically limit each cookie to about 4096 bytes; total cookie limits vary by browser.
-
-
-# Path Traversal Security Implementation
-
-## Summary
-
-Your webserver **now has comprehensive protection** against path traversal attacks including:
-- ✅ `../` normalization in URI parsing
-- ✅ Symlink attack prevention
-- ✅ Root directory boundary enforcement
-
-## 🔍 Where to Add Security Checks
-
-You need to add `validateFilePath()` calls in these locations:
-
-### **Priority 1: File Serving (GET)**
-**File:** `src/Methods/Get.cpp`
-- [ ] In `pathIsFile()` before opening files
-- [ ] In `generateAutoindex()` before listing directories
-- [ ] In `serveFile()` before reading file contents
-
-### **Priority 2: File Upload (POST)**
-**File:** `src/POST/POST.cpp` or upload handling code
-- [ ] Before saving uploaded files
-- [ ] When creating upload directories
-
-### **Priority 3: File Deletion (DELETE)**
-**File:** `src/Methods/DELETE.cpp`
-- [ ] In `DeleteMethode` before calling `unlink()`
-- [ ] Before checking file existence
-
-### **Priority 4: CGI Execution**
-**File:** `src/CGI/cgi.cpp`
-- [ ] Before executing CGI scripts
-- [ ] When passing file paths to CGI environment
-
-
 
