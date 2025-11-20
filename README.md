@@ -1,3 +1,13 @@
+# Dashboard Preview
+
+![dashboard 0](www/html/img/1762202139405.jpeg)
+![dashboard 1](www/html/img/1762202140152.jpeg)
+![dashboard 2](www/html/img/1762202142425.jpeg)
+![dashboard 3](www/html/img/Screenshot from 2025-11-20 15-24-59.png)
+![dashboard 4](www/html/img/Screenshot from 2025-11-20 15-25-18.png)
+![dashboard 5](www/html/img/Screenshot from 2025-11-20 15-25-38.png)
+
+
 # And it's why URLs start with HTTP
 
 Webserv is a simple HTTP server written in C++98, designed to help you understand the basics of web servers and HTTP protocols.
